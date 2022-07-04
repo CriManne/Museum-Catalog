@@ -1,0 +1,134 @@
+RepertoGenerico(
+    IDReperto,
+    Note,
+    Url,
+    Tag
+)
+
+<!-- COMPUTER -->
+
+Computer(
+    IDReperto,
+    NomeModello,
+    Anno,
+    IDCpu,
+    IDRam,    
+    DimensioniHDD NULL,
+    IDOs NULL
+)
+
+Cpu{
+    IDCpu,
+    NomeCpu,
+    VelocitaCpu
+}
+Ram{
+    IDRam,
+    NomeRam,
+    VelocitaRam
+}
+
+Os{
+    IDOs,
+    NomeOs
+}
+
+<!-- /COMPUTER -->
+
+<!-- PERIFERICA -->
+
+Periferica(
+    IDReperto,
+    NomeModello,
+    IDTipologiaPeriferica
+)    
+
+TipologiaPeriferica(
+    IDTipologiaPeriferica,
+    NomeTipologia (monitor, plotter, stampante, scheda video, etc)
+)
+
+<!-- /PERIFERICA -->
+
+<!-- LIBRO -->
+
+Libro(
+    IDReperto,
+    Titolo,    
+    IDCasaEditriceLibro,
+    AnnoPubblicazione,
+    NumeroPagine NULL,
+    ISBN NULL
+)
+
+AutoreLibro{
+    IDAutore,
+    NomeAutore,
+    CognomeAutore,
+    DOB    
+}
+
+LibroAutori{
+    IDReperto,
+    IDAutore
+}
+
+CasaEditriceLibro(
+    IDCasaEditrice,
+    NomeCasaEditrice
+)
+
+<!-- /LIBRO -->
+
+<!-- RIVISTA -->
+
+<!-- RIVISTA SINGOLA FISICA -->
+RivistaCatalogo(
+    IDReperto,
+    IDRivistaSingola    
+)
+
+<!-- RIVISTA SINGOLA GENERICA -->
+RivistaSingola( 
+    IDRivistaSingola,
+    Titolo,
+    Anno,
+    IDCasaEditrice
+)
+
+CasaEditriceRivista(
+    IDCasaEditriceRivista,
+    NomeCasaEditrice
+)
+
+<!-- /RIVISTA -->
+
+<!-- SOFTWARE -->
+
+Software(
+    IDReperto,
+    Titolo,
+    IDOs,
+    IDTipologiaSoftware,
+    IDSupportoSoftware    
+)
+
+SupportoSoftware(
+    IDSupportoSoftware,
+    NomeSupporto (floppy disk, CD-ROM, DVD, etc)
+)
+
+TipologiaSoftware(
+    IDTipologiaSoftware,
+    NomeTipologia (gioco, ufficio, programmazione, driver, etc),
+)
+
+<!-- /SOFTWARE -->
+
+Users(
+    Email UNIQUE,
+    Password,
+    Nome,
+    Cognome,
+    Erased NULL,
+)
