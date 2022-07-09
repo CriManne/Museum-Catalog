@@ -6,7 +6,7 @@
 
     require('../vendor/autoload.php');
 
-    use App\Util\DBHandler;
+    use App\Util\UserRepository;
     use League\Plates\Engine;
 
     $template = new Engine("templates");
@@ -27,9 +27,9 @@
     $email = $_POST['username'];
     $psw = $_POST['password'];
 
-    $dbHandler = new DBHandler();
+    $userRepository = new UserRepository();
 
-    $user = $dbHandler->getUser($email,$psw);
+    $user = $userRepository->getUser($email,$psw);
 
     if($user==null){
         echo $template->render('login-page',['title'=>'Login','error'=>'Invalid credentials']);

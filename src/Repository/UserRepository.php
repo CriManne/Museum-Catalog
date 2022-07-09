@@ -2,12 +2,12 @@
 
     declare(strict_types=1);
 
-    namespace App\Util;
+    namespace App\Repository;
 
     use App\Models\User;
     use PDO;
 
-    class DBHandler{
+    class UserRepository{
 
         public PDO $pdo;
 
