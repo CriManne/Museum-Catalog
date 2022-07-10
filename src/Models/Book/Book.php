@@ -6,9 +6,8 @@
 
     use Models\GenericObject;
 
-    class Book{
+    class Book extends GenericObject{
 
-        public GenericObject $genericObject;
         public string $Title;
         public string $publisher;
         public int $Year;
@@ -17,7 +16,12 @@
         public Author $authors;
 
         public function __construct(
-            GenericObject $genericObject,
+            string $ObjectID,
+            string $Note = null,
+            string $Url = null,
+            string $Tag = null,
+            string $Active,
+            string $Erased = null,
             string $Title,
             string $publisher,
             int $Year,
@@ -25,7 +29,7 @@
             int $PageCount,
             Author $authors
         ){
-            $this->genericObject = $genericObject;
+            parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->Title = $Title;
             $this->publisher = $publisher;
             $this->Year = $Year;

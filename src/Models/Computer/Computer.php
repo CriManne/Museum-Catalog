@@ -5,9 +5,8 @@
 
     use Models\GenericObject;
     
-    class Computer{        
+    class Computer extends GenericObject{        
         
-        public GenericObject $genericObject;
         public string $ModelName;
         public int $Year;
         public Cpu $cpu;
@@ -16,7 +15,12 @@
         public string $os;
         
         public function __construct(
-            GenericObject $genericObject,
+            string $ObjectID,
+            string $Note = null,
+            string $Url = null,
+            string $Tag = null,
+            string $Active,
+            string $Erased = null,
             string $ModelName,
             int $Year,
             Cpu $cpu,
@@ -24,7 +28,7 @@
             string $HddSize,
             string $os
         ){
-            $this->genericObject = $genericObject;
+            parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->ModelName = $ModelName;
             $this->Year = $Year;
             $this->cpu = $cpu;

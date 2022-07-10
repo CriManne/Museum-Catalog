@@ -6,22 +6,26 @@
 
     use Models\GenericObject;
 
-    class Software{
+    class Software extends GenericObject{
 
-        public GenericObject $genericObject;
         public string $Title;
         public string $os;
         public string $SoftwareType;
         public string $SupportType;
 
         public function __construct(
-            GenericObject $genericObject,
+            string $ObjectID,
+            string $Note = null,
+            string $Url = null,
+            string $Tag = null,
+            string $Active,
+            string $Erased = null,
             string $Title,
             string $os,
             string $SoftwareType,
             string $SupportType
         ){
-            $this->genericObject = $genericObject;
+            parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->Title = $Title;
             $this->os = $os;
             $this->SoftwareType = $SoftwareType;

@@ -6,22 +6,26 @@
 
     use Models\GenericObject;
 
-    class Magazine{
+    class Magazine extends GenericObject{
 
-        public GenericObject $genericObject;
         public string $Title;
         public string $publisher;
         public int $Year;
         public int $MagazineNumber;
 
         public function __construct(
-            GenericObject $genericObject,
+            string $ObjectID,
+            string $Note = null,
+            string $Url = null,
+            string $Tag = null,
+            string $Active,
+            string $Erased = null,
             string $Title,
             string $publisher,
             int $Year,
             int $MagazineNumber
         ){
-            $this->genericObject = $genericObject;
+            parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->Title = $Title;
             $this->publisher = $publisher;
             $this->Year = $Year;

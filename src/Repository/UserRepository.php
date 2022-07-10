@@ -20,8 +20,9 @@
                 array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
         }
 
-        public function getUser(string $email,string $psw){
-            $stmt = $this->pdo->prepare("SELECT * FROM user WHERE Email = :email AND Password = :psw");            
+        public function getUser(string $email,string $psw,bool $isAdmin = false){
+            $query = "SELECT * FROM user WHERE Email = :email AND Password = :psw".($isAdmin ? " AND privilege = 1" : ""); 
+            $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("email",$email,PDO::PARAM_STR);
             $stmt->bindParam("psw",$psw,PDO::PARAM_STR);
             $stmt->execute();

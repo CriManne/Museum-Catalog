@@ -6,18 +6,22 @@
 
     use Models\GenericObject;
 
-    class Peripheral{
-
-        public GenericObject $genericObject;
+    class Peripheral extends GenericObject{
+        
         public string $ModelName;
         public string $pheripheralType;
 
         public function __construct(
-            GenericObject $genericObject,
+            string $ObjectID,
+            string $Note = null,
+            string $Url = null,
+            string $Tag = null,
+            string $Active,
+            string $Erased = null,
             string $ModelName,
             string $pheripheralType
         ){
-            $this->genericObject = $genericObject;
+            parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->ModelName = $ModelName;
             $this->pheripheralType = $pheripheralType;
         }

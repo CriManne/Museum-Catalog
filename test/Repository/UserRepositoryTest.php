@@ -30,6 +30,16 @@
             $this->assertNull($user);
         }
 
+        public function testGetGoodAdminUser(){
+            $user = $this->userRepository->getUser('admin@gmail.com','admin',true);
+            $this->assertNotNull($user);
+        }
+
+        public function testGetBadAdminUser(){
+            $user = $this->userRepository->getUser('notadmin@gmail.com','notadmin',true);
+            $this->assertNull($user);
+        }
+
         public function tearDown():void{
             unset($this->userRepository);
         }
