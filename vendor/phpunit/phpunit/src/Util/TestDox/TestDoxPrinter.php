@@ -13,11 +13,9 @@ use const PHP_EOL;
 use function array_map;
 use function get_class;
 use function implode;
-use function method_exists;
 use function preg_split;
 use function trim;
 use PHPUnit\Framework\AssertionFailedError;
-use PHPUnit\Framework\Reorderable;
 use PHPUnit\Framework\Test;
 use PHPUnit\Framework\TestCase;
 use PHPUnit\Framework\TestResult;
@@ -25,13 +23,14 @@ use PHPUnit\Framework\TestSuite;
 use PHPUnit\Framework\Warning;
 use PHPUnit\Runner\BaseTestRunner;
 use PHPUnit\Runner\PhptTestCase;
-use PHPUnit\TextUI\DefaultResultPrinter;
+use PHPUnit\Runner\TestSuiteSorter;
+use PHPUnit\TextUI\ResultPrinter;
 use Throwable;
 
 /**
  * @internal This class is not covered by the backward compatibility promise for PHPUnit
  */
-class TestDoxPrinter extends DefaultResultPrinter
+class TestDoxPrinter extends ResultPrinter
 {
     /**
      * @var NamePrettifier
@@ -80,7 +79,6 @@ class TestDoxPrinter extends DefaultResultPrinter
 
     /**
      * @param null|resource|string $out
-     * @param int|string           $numberOfColumns
      *
      * @throws \PHPUnit\Framework\Exception
      */
@@ -189,7 +187,7 @@ class TestDoxPrinter extends DefaultResultPrinter
      */
     protected function registerTestResult(Test $test, ?Throwable $t, int $status, float $time, bool $verbose): void
     {
-        $testName = $test instanceof Reorderable ? $test->sortId() : $test->getName();
+        $testName = TestSuiteSorter::getTestSorterUID($test);
 
         $result = [
             'className'  => $this->formatClassName($test),
@@ -211,7 +209,7 @@ class TestDoxPrinter extends DefaultResultPrinter
 
     protected function formatTestName(Test $test): string
     {
-        return method_exists($test, 'getName') ? $test->getName() : '';
+        return $test->getName();
     }
 
     protected function formatClassName(Test $test): string
@@ -239,8 +237,7 @@ class TestDoxPrinter extends DefaultResultPrinter
         }
 
         if ($this->testFlushIndex > 0) {
-            if ($this->enableOutputBuffer &&
-                isset($this->originalExecutionOrder[$this->testFlushIndex - 1])) {
+            if ($this->enableOutputBuffer) {
                 $prevResult = $this->getTestResultByName($this->originalExecutionOrder[$this->testFlushIndex - 1]);
             } else {
                 $prevResult = $this->testResults[$this->testFlushIndex - 1];

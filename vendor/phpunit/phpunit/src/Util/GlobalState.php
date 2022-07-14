@@ -10,8 +10,8 @@
 namespace PHPUnit\Util;
 
 use function array_keys;
-use function array_reverse;
 use function array_shift;
+use function count;
 use function defined;
 use function get_defined_constants;
 use function get_included_files;
@@ -62,9 +62,9 @@ final class GlobalState
      */
     public static function processIncludedFilesAsString(array $files): string
     {
-        $excludeList = new ExcludeList;
-        $prefix      = false;
-        $result      = '';
+        $blacklist = new Blacklist;
+        $prefix    = false;
+        $result    = '';
 
         if (defined('__PHPUNIT_PHAR__')) {
             $prefix = 'phar://' . __PHPUNIT_PHAR__ . '/';
@@ -78,9 +78,11 @@ final class GlobalState
             array_shift($files);
         }
 
-        foreach (array_reverse($files) as $file) {
-            if (!empty($GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST']) &&
-                in_array($file, $GLOBALS['__PHPUNIT_ISOLATION_EXCLUDE_LIST'], true)) {
+        for ($i = count($files) - 1; $i >= 0; $i--) {
+            $file = $files[$i];
+
+            if (!empty($GLOBALS['__PHPUNIT_ISOLATION_BLACKLIST']) &&
+                in_array($file, $GLOBALS['__PHPUNIT_ISOLATION_BLACKLIST'], true)) {
                 continue;
             }
 
@@ -93,7 +95,7 @@ final class GlobalState
                 continue;
             }
 
-            if (!$excludeList->isExcluded($file) && is_file($file)) {
+            if (!$blacklist->isBlacklisted($file) && is_file($file)) {
                 $result = 'require_once \'' . $file . "';\n" . $result;
             }
         }
@@ -156,11 +158,11 @@ final class GlobalState
             }
         }
 
-        $excludeList   = self::SUPER_GLOBAL_ARRAYS;
-        $excludeList[] = 'GLOBALS';
+        $blacklist   = self::SUPER_GLOBAL_ARRAYS;
+        $blacklist[] = 'GLOBALS';
 
         foreach (array_keys($GLOBALS) as $key) {
-            if (!$GLOBALS[$key] instanceof Closure && !in_array($key, $excludeList, true)) {
+            if (!$GLOBALS[$key] instanceof Closure && !in_array($key, $blacklist, true)) {
                 $result .= sprintf(
                     '$GLOBALS[\'%s\'] = %s;' . "\n",
                     $key,

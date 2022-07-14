@@ -1,49 +1,56 @@
 <?php
+declare(strict_types=1);
 
-    declare(strict_types=1);
+namespace Mupin\Test\Repository;
 
-    namespace App\Test;
+use PHPUnit\Framework\TestCase;
+use Mupin\Repository\UserRepository;
+use DI\ContainerBuilder;
 
-    use PHPUnit\Framework\TestCase;
+final class UserRepositoryTest extends TestCase
+{
+    public function setUp(): void
+    {
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions('config/container.php');
+        $container = $builder->build();
+        $pdo = $container->get('PDO');
 
-    use App\Repository\UserRepository;
-
-    class UserRepositoryTest extends TestCase{
-        public UserRepository $userRepository;
-
-        public function setUp():void{         
-            $this->userRepository = new UserRepository();
-        }       
-        
-        public function testGoodConnection(){
-            $userRepository = new UserRepository();      
-            $this->assertNotNull($userRepository->pdo);
-        }
-        
-        public function testGetGoodUser(){
-            $user = $this->userRepository->getUser('admin@gmail.com','admin');
-            $this->assertNotNull($user);
-        }
-        
-        public function testGetBadUser(){
-            $user = $this->userRepository->getUser('wrongemail@gmail.com','wrongpsw');
-            $this->assertNull($user);
-        }
-
-        public function testGetGoodAdminUser(){
-            $user = $this->userRepository->getUser('admin@gmail.com','admin',true);
-            $this->assertNotNull($user);
-        }
-
-        public function testGetBadAdminUser(){
-            $user = $this->userRepository->getUser('notadmin@gmail.com','notadmin',true);
-            $this->assertNull($user);
-        }
-
-        public function tearDown():void{
-            unset($this->userRepository);
-        }
+        $this->userRepository = new UserRepository($pdo);      
+        $this->userRepository->pdo->beginTransaction();  
     }
-    
-?>
 
+    public function testGoodSelectUserById(): void
+    {
+        $this->assertNotNull($this->userRepository->selectById("admin@gmail.com"));
+    }
+
+    public function testBadSelectUserById(): void
+    {
+        $this->assertNull($this->userRepository->selectById("wrong@gmail.com"));
+    }
+
+    public function testGoodSelectUserByCredentials(): void
+    {
+        $this->assertNotNull($this->userRepository->selectByCredentials("admin@gmail.com","admin"));
+    }
+
+    public function testBadSelectUserByCredentials(): void
+    {
+        $this->assertNull($this->userRepository->selectByCredentials("wrong@gmail.com","wrong"));
+    }
+
+    public function testGoodSelectUserByCredentialsOnlyAdmin(): void
+    {
+        $this->assertNotNull($this->userRepository->selectByCredentials("admin@gmail.com","admin",true));
+    }
+
+    public function testBadSelectUserByCredentialsOnlyAdmin(): void
+    {
+        $this->assertNull($this->userRepository->selectByCredentials("notadmin@gmail.com","notadmin",true));
+    }
+
+    public function tearDown():void{
+        $this->userRepository->pdo->rollBack();
+    }
+}

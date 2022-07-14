@@ -1,19 +1,36 @@
 {
-    "require-dev":{
-        "phpunit/phpunit":"^9.5"        
+    "name": "ezimuel/simple-mvc",
+    "type": "project",
+    "description": "Simple MVC micro framework",
+    "keywords": [
+        "framework",
+        "simple",
+        "mvc"
+    ],
+    "license": "Apache-2.0",
+    "require": {
+        "php": ">=7.3",
+        "league/plates": "^3.3",
+        "php-di/php-di": "^6.0",
+        "nikic/fast-route": "^1.3",
+        "nyholm/psr7": "^1.3",
+        "nyholm/psr7-server": "^1.0"
     },
-    "require":{
-        "monolog/monolog": "^2.6",
-        "league/plates": "^3.4"
+    "require-dev": {
+        "phpunit/phpunit": "^8.4"
     },
     "autoload": {
         "psr-4": {
-            "App\\": "src/"
+            "Mupin\\": "src/"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "App\\Test\\": "test/"
+            "Mupin\\Test\\": "test/"
         }
+    },
+    "scripts": {
+        "test": "phpunit --colors=always",
+        "test-coverage": "phpunit --colors=always --coverage-clover clover.xml"
     }
 }
