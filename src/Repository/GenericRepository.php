@@ -4,12 +4,9 @@
 
     namespace Mupin\Repository;
     
-    chdir(dirname(__DIR__));
-
     use PDO;
-    use DI\ContainerBuilder;
 
-    class MupinRepository{
+    class GenericRepository{
 
         public PDO $pdo;
 
