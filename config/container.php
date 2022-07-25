@@ -13,5 +13,6 @@ return [
     'PDO' => function(ContainerInterface $c){
         return new PDO($c->get('dns'),$c->get('username'),$c->get('psw'),
         array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-    }
+    }   
+
 ];

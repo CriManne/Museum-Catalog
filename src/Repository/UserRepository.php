@@ -11,11 +11,6 @@
 
     class UserRepository extends GenericRepository{
 
-        public function __construct(PDO $pdo)
-        {
-            parent::__construct($pdo);            
-        }
-
         //INSERT
         public function insertUser(User $u):void{
 

@@ -14,10 +14,9 @@ class UserController implements ControllerInterface
 {
     public UserService $userService;
 
-    public function __construct(PDO $pdo)
+    public function __construct(UserService $userService)
     {   
-        //IMPLICIT DEPENDENCY, MAYBE USE DIC?
-        $this->userService = new UserService($pdo);
+        $this->userService = $userService;
     }
 
 

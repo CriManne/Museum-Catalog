@@ -5,17 +5,15 @@
 
     use Mupin\Exceptions\ServiceException;
     use Mupin\Repository\UserRepository;
-    use PDO;
     use Mupin\Model\User;
 
     class UserService{
 
         public UserRepository $userRepository;
 
-        public function __construct(PDO $pdo)
+        public function __construct(UserRepository $userRepository)
         {
-            //IMPLICIT DEPENDENCY, MAYBE USE DIC?
-            $this->userRepository = new UserRepository($pdo);
+            $this->userRepository = $userRepository;
         }
 
         public function insertUser(User $u):void{
