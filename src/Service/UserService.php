@@ -14,6 +14,7 @@
 
         public function __construct(PDO $pdo)
         {
+            //IMPLICIT DEPENDENCY, MAYBE USE DIC?
             $this->userRepository = new UserRepository($pdo);
         }
 

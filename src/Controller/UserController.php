@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace Mupin\Controller;
 
+use Mupin\Exceptions\RepositoryException;
+use Mupin\Exceptions\ServiceException;
 use Psr\Http\Message\ServerRequestInterface;
 use Mupin\Model\User;
 use Mupin\Service\UserService;
@@ -14,6 +16,7 @@ class UserController implements ControllerInterface
 
     public function __construct(PDO $pdo)
     {   
+        //IMPLICIT DEPENDENCY, MAYBE USE DIC?
         $this->userService = new UserService($pdo);
     }
 
@@ -61,8 +64,22 @@ class UserController implements ControllerInterface
         echo json_encode($user);        
     }
 
-    public function postUser($request):void{
-        $user = new User($request["email"],$request["password"],$request["firstname"],$request["lastname"],intval($request["privilege"]),$request["erased"] ?? null);
+    public function postUser($request):void{        
+        $params = $request->getParsedBody();
+        $user = new User($params["email"],$params["password"],$params["firstname"],$params["lastname"],intval($params["privilege"]),$params["erased"] ?? null);
+        
+        //TO REVIEW
+        try{
+            $this->userService->insertUser($user);
+            http_response_code(200);
+            echo json_encode($user); 
+        }catch(ServiceException $e){
+            http_response_code(400);
+            echo $e->getMessage();
+        }catch(RepositoryException $e){
+            http_response_code(500);
+            echo $e->getMessage();
+        }        
     }
 
     public function putUser($request):void{
