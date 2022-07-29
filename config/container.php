@@ -1,4 +1,14 @@
 <?php
+/**
+ * Skeleton application for SimpleMVC
+ * 
+ * @link      http://github.com/simplemvc/skeleton
+ * @copyright Copyright (c) Enrico Zimuel (https://www.zimuel.it)
+ * @license   https://opensource.org/licenses/MIT MIT License
+ */
+declare(strict_types=1);
+
+use App\Controller\Secret;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
@@ -7,12 +17,18 @@ return [
     Engine::class => function(ContainerInterface $c) {
         return new Engine($c->get('view_path'));
     },
+    Secret::class => function(ContainerInterface $c) {
+        return new Secret($c->get(Engine::class), $c->get('authentication'));
+    },
+    'authentication' => [
+        'username' => 'test',
+        'password' => 'password'
+    ],
     'dns' => 'mysql:host=localhost;dbname=mupin',
     'username' => 'root',
     'psw' => '',
     'PDO' => function(ContainerInterface $c){
         return new PDO($c->get('dns'),$c->get('username'),$c->get('psw'),
         array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-    }   
-
+    } 
 ];

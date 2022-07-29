@@ -1,5 +1,13 @@
 <?php $this->layout('layout', ['title' => 'Home SimpleMVC']) ?>
 
-<h1>Home page</h1>
-<p>Welcome to <a href="">Simple MVC</a> mini framework.</p>
-<p><strong>Simple MVC</strong> is a tutorial project for introducing the usage of <a href="https://en.wikipedia.org/wiki/Model%E2%80%93view%E2%80%93controller">MVC</a> architectural pattern in modern PHP applications.</p>
+<div>
+    <p><img src="/img/logo.png" alt="Logo SimpleMVC"></p>
+    <p>Welcome to <a href="https://github.com/simplemvc">SimpleMVC</a> skeleton application for PHP.</p>
+    <p>This application contains 3 example controllers corrisponding to the following URLs (stored in <a href="https://github.com/simplemvc/skeleton/blob/main/config/route.php">config/route.php</a>):</p>
+    <ul>
+        <li><a href="/">/</a>, the home page (this page);</li>
+        <li><a href="/hello">/hello[/:name]</a>, a hello page with an optional name (e.g. <a href="/hello/alberto">/hello/alberto</a>)</li>
+        <li><a href="/secret">/secret</a>, a protected page with Basic HTTP authentication (with username <strong>test</strong> and password <strong>password</strong>, stored in <a href="https://github.com/simplemvc/skeleton/blob/config/container.php">config/container.php</a>)</li>
+    </ul>
+    <p>For more information you can read the <a href="https://github.com/simplemvc/skeleton/blob/main/README.md">official documentation</a></p>
+</div>

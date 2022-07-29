@@ -2,9 +2,9 @@
 
     declare(strict_types=1);
 
-    namespace Mupin\Model\Peripheral;
+    namespace App\Model\Peripheral;
 
-    use Mupin\Model\GenericObject;
+    use App\Model\GenericObject;
 
     class Peripheral extends GenericObject{
         

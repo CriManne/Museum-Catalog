@@ -2,11 +2,11 @@
 
     declare(strict_types=1);
 
-    namespace Mupin\Repository;
+    namespace App\Repository;
 
-    use Mupin\Exceptions\RepositoryException;
+    use App\Exception\RepositoryException;
     use PDO;
-    use Mupin\Model\User;
+    use App\Model\User;
     use PDOException;   
 
     class UserRepository extends GenericRepository{

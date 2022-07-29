@@ -1,13 +1,15 @@
 <?php
+
 declare(strict_types=1);
 
-namespace Mupin\Controller;
+namespace App\Controller;
 
-use Mupin\Exceptions\RepositoryException;
-use Mupin\Exceptions\ServiceException;
+use App\Exceptions\RepositoryException;
+use App\Exceptions\ServiceException;
 use Psr\Http\Message\ServerRequestInterface;
-use Mupin\Model\User;
-use Mupin\Service\UserService;
+use Psr\Http\Message\ResponseInterface;
+use App\Model\User;
+use App\Service\UserService;
 use PDO;
 
 class UserController implements ControllerInterface
@@ -89,3 +91,4 @@ class UserController implements ControllerInterface
 
     }
 }
+*/

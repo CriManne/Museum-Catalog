@@ -1,10 +1,10 @@
 <?php
 
-    namespace Mupin\Exceptions;
+    namespace App\Exception;
 
     use Exception;
 
-    class ServiceException extends Exception{
+    class RepositoryException extends Exception{
 
         public function __construct(string $msg)
         {

@@ -2,9 +2,9 @@
 
     declare(strict_types=1);
 
-    namespace Mupin\Model\Magazine;
+    namespace App\Model\Magazine;
 
-    use Mupin\Model\GenericObject;
+    use App\Model\GenericObject;
 
     class Magazine extends GenericObject{
 

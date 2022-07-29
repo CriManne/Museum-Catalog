@@ -2,7 +2,7 @@
 
     declare(strict_types=1);
 
-    namespace Mupin\Repository;
+    namespace App\Repository;
     
     use PDO;
 

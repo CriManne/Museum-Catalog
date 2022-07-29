@@ -2,19 +2,18 @@
 
     declare(strict_types=1);
 
-    namespace Mupin\Util;
+    namespace App\Util;
 
-    use PDO;
+    use DI\Container;
     use DI\ContainerBuilder;
 
     class DIC{
 
-        public static function getPDO(): PDO{
+        public static function getContainer(): Container{
             $builder = new ContainerBuilder();
             $builder->addDefinitions('config/container.php');
             $container = $builder->build();
-            $pdo = $container->get('PDO');
-            return $pdo;
+            return $container;
         }
 
     }

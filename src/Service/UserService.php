@@ -1,11 +1,11 @@
 <?php
     declare(strict_types=1);
 
-    namespace Mupin\Service;
+    namespace App\Service;
 
-    use Mupin\Exceptions\ServiceException;
-    use Mupin\Repository\UserRepository;
-    use Mupin\Model\User;
+    use App\Exception\ServiceException;
+    use App\Repository\UserRepository;
+    use App\Model\User;
 
     class UserService{
 

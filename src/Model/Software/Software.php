@@ -2,9 +2,9 @@
 
     declare(strict_types=1);
 
-    namespace Mupin\Model\Software;
+    namespace App\Model\Software;
 
-    use Mupin\Model\GenericObject;
+    use App\Model\GenericObject;
 
     class Software extends GenericObject{
 

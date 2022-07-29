@@ -1,13 +1,13 @@
 <?php
 declare(strict_types=1);
 
-namespace Mupin\Test\Repository;
+namespace App\Test\Repository;
 
 use PHPUnit\Framework\TestCase;
-use Mupin\Repository\UserRepository;
-use Mupin\Util\DIC;
-use Mupin\Exceptions\RepositoryException;
-use Mupin\Model\User;
+use App\Repository\UserRepository;
+use App\Util\DIC;
+use App\Exception\RepositoryException;
+use App\Model\User;
 
 final class UserRepositoryTest extends TestCase
 {
@@ -15,9 +15,7 @@ final class UserRepositoryTest extends TestCase
 
     public function setUp(): void
     {
-        $pdo = DIC::getPDO();
-
-        $this->userRepository = new UserRepository($pdo);      
+        $this->userRepository = DIC::getContainer()->get(UserRepository::class);
         $this->userRepository->pdo->beginTransaction();  
 
         $user = new User('testemail@gmail.com','admin','Bill','Gates',1,null);

@@ -2,7 +2,7 @@
 
     declare(strict_types=1);
 
-    namespace Mupin\Model\Book;
+    namespace App\Model\Book;
 
     class Author{
 

@@ -2,7 +2,7 @@
 
     declare(strict_types=1);
 
-    namespace Mupin\Model\Computer;
+    namespace App\Model\Computer;
 
     class Ram {
         public int $RamID;

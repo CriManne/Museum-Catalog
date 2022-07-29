@@ -2,9 +2,9 @@
 
     declare(strict_types=1);
 
-    namespace Mupin\Model\Book;
+    namespace App\Model\Book;
 
-    use Mupin\Model\GenericObject;
+    use App\Model\GenericObject;
 
     class Book extends GenericObject{
 

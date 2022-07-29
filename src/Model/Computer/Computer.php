@@ -1,9 +1,9 @@
 <?php
     declare(strict_types=1);
 
-    namespace Mupin\Model\Computer;
+    namespace App\Model\Computer;
 
-    use Mupin\Model\GenericObject;
+    use App\Model\GenericObject;
     
     class Computer extends GenericObject{        
         
