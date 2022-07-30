@@ -17,32 +17,32 @@
         }
 
         public function insertUser(User $u):void{
-            if($this->userRepository->selectById($u->email) != null)
+            if($this->userRepository->selectById($u->Email) != null)
                 throw new ServiceException("Email already used!");
 
             $this->userRepository->insertUser($u);
         }
 
-        public function selectById(string $email): ?User{
-            return $this->userRepository->selectById($email);
+        public function selectById(string $Email): ?User{
+            return $this->userRepository->selectById($Email);
         }
 
-        public function selectByCredentials(string $email,string $psw,bool $isAdmin = false){
-            return $this->userRepository->selectByCredentials($email,$psw,$isAdmin);
+        public function selectByCredentials(string $Email,string $psw,bool $isAdmin = false){
+            return $this->userRepository->selectByCredentials($Email,$psw,$isAdmin);
         }
 
         public function updateUser(User $u):void{
-            if($this->userRepository->selectById($u->email) == null)
+            if($this->userRepository->selectById($u->Email) == null)
                 throw new ServiceException("User not found!");
 
             $this->userRepository->updateUser($u);
         }
 
-        public function deleteUser(string $email): void{
-            if($this->userRepository->selectById($email) == null)
+        public function deleteUser(string $Email): void{
+            if($this->userRepository->selectById($Email) == null)
                 throw new ServiceException("User not found!");
 
-            $this->userRepository->deleteUser($email);
+            $this->userRepository->deleteUser($Email);
         }
     }
 

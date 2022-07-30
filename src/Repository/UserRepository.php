@@ -74,6 +74,15 @@
             return null;
         }
 
+        public function selectAll(): ?array{
+            $query = "SELECT * FROM author";
+            $stmt = $this->pdo->query($query);
+
+            $users = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);            
+
+            return $users;
+        }
+
         //UPDATE
         public function updateUser(User $u): void
         {            

@@ -8,27 +8,27 @@
 
     class User{
 
-        public string $email;
-        public string $psw;
+        public string $Email;
+        public string $Password;
         public string $firstname;
         public string $lastname;
-        public int $privilege;
-        public ?DateTime $erased;
+        public int $Privilege;
+        public ?DateTime $Erased;
 
         public function __construct(
-            string $email,
-            string $psw,
+            string $Email,
+            string $Password,
             string $firstname,
             string $lastname,
-            int $privilege,
-            ?DateTime $erased
+            int $Privilege,
+            ?DateTime $Erased
         ){
-            $this->email = $email;
-            $this->psw = $psw;
+            $this->Email = $Email;
+            $this->Password = $Password;
             $this->firstname = $firstname;
             $this->lastname = $lastname;
-            $this->privilege = $privilege;
-            $this->erased = $erased;
+            $this->Privilege = $Privilege;
+            $this->Erased = $Erased;
         }
 
     }

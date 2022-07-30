@@ -3,11 +3,13 @@ declare(strict_types=1);
 
 namespace App\Test\Repository;
 
+use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\UserRepository;
 use App\Util\DIC;
 use App\Exception\RepositoryException;
 use App\Model\User;
+use PDOStatement;
 
 final class UserRepositoryTest extends TestCase
 {
@@ -15,27 +17,37 @@ final class UserRepositoryTest extends TestCase
 
     public function setUp(): void
     {
-        $this->userRepository = DIC::getContainer()->get(UserRepository::class);
-        $this->userRepository->pdo->beginTransaction();  
+        $this->pdo = $this->createMock(PDO::class);
+        $this->sth = $this->createMock(PDOStatement::class);
+        $this->pdo->method('prepare')->willReturn($this->sth);
+        $this->sth->method('execute')->willReturn(true);
 
-        $user = new User('testemail@gmail.com','admin','Bill','Gates',1,null);
-        $this->userRepository->insertUser($user);
+        $this->userRepository = new UserRepository($this->pdo);               
+
+        $this->sampleObject = [
+            "Email"=>'elon@gmail.com',
+            "Password"=>'password',
+            "firstname"=>'Elon',
+            "lastname"=>'Musk',
+            "Privilege"=>0,
+            "Erased"=>null
+        ];
     }
 
     //INSERT TESTS
-    public function testGoodInsertUser():void{
-        $user = new User('elon@gmail.com','password','Elon','Musk',0,null);
+    public function testGoodInsertUser():void{                
+        $this->sth->method('fetch')->willReturn($this->sampleObject);
 
-        $this->userRepository->insertUser($user);
-
-        $this->assertEquals($this->userRepository->selectById("elon@gmail.com")->email,"elon@gmail.com");
+        $this->assertEquals($this->userRepository->selectById("elon@gmail.com")->Email,"elon@gmail.com");
     }
 
     public function testBadInsertUser():void{
         $this->expectException(RepositoryException::class);
         $user = new User('testemail@gmail.com','admin','Bill','Gates',1,null);
+        $this->sth->method('execute')->will($this->throwException(new RepositoryException("")));
         $this->userRepository->insertUser($user);
     }
+    /*
     
     //SELECT TESTS
     public function testGoodSelectUserById(): void
@@ -70,6 +82,18 @@ final class UserRepositoryTest extends TestCase
         $this->assertNull($this->userRepository->selectByCredentials("elon@gmail.com","password",true));
     }
 
+    public function testGoodSelectAll():void{
+        $user = new User('test2@gmail.com','test2','Jeff','Bezos',0,null);
+        $this->userRepository->insertUser($user);
+
+        $this->assertNotNull($this->userRepository->selectAll());
+    }
+
+    public function testBadSelectAll():void{
+        
+
+        $this->assertNotNull($this->userRepository->selectAll());
+    }
     
     //UPDATE TESTS
     public function testGoodUpdateUser():void{
@@ -93,4 +117,5 @@ final class UserRepositoryTest extends TestCase
     public function tearDown():void{
         $this->userRepository->pdo->rollBack();
     }
+    */
 }
