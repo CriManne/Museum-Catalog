@@ -6,7 +6,6 @@ namespace App\Test\Repository;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\UserRepository;
-use App\Util\DIC;
 use App\Exception\RepositoryException;
 use App\Model\User;
 use PDOStatement;
@@ -47,48 +46,48 @@ final class UserRepositoryTest extends TestCase
         $this->sth->method('execute')->will($this->throwException(new RepositoryException("")));
         $this->userRepository->insertUser($user);
     }
-    /*
     
     //SELECT TESTS
     public function testGoodSelectUserById(): void
     {
+        $this->sth->method('fetch')->willReturn($this->sampleObject);
         $this->assertNotNull($this->userRepository->selectById("testemail@gmail.com"));
     }
-
+    
     public function testBadSelectUserById(): void
     {
         $this->assertNull($this->userRepository->selectById("wrong@gmail.com"));
     }
-
+    
     public function testGoodSelectUserByCredentials(): void
     {
+        $this->sth->method('fetch')->willReturn($this->sampleObject);
         $this->assertNotNull($this->userRepository->selectByCredentials("testemail@gmail.com","admin"));
     }
-
+    
     public function testBadSelectUserByCredentials(): void
     {
         $this->assertNull($this->userRepository->selectByCredentials("wrong@gmail.com","wrong"));
     }
-
+    
     public function testGoodSelectUserByCredentialsOnlyAdmin(): void
     {
+        $this->sth->method('fetch')->willReturn($this->sampleObject);
         $this->assertNotNull($this->userRepository->selectByCredentials("testemail@gmail.com","admin",true));
     }
-
+    
     public function testBadSelectUserByCredentialsOnlyAdmin(): void
-    {        
-        $user = new User('elon@gmail.com','password','Elon','Musk',0,null);
-        $this->userRepository->insertUser($user);
+    {   
         $this->assertNull($this->userRepository->selectByCredentials("elon@gmail.com","password",true));
     }
-
+    
+    /*
     public function testGoodSelectAll():void{
-        $user = new User('test2@gmail.com','test2','Jeff','Bezos',0,null);
-        $this->userRepository->insertUser($user);
-
+        $this->pdo->method('query')->willReturn(true);
+        $this->sth->method('fetchAll')->willReturn($this->sampleObject);
         $this->assertNotNull($this->userRepository->selectAll());
     }
-
+    
     public function testBadSelectAll():void{
         
 
