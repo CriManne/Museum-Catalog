@@ -6,17 +6,17 @@
 
     class SoftwareType{
 
-        public int $SoftwareTypeID;
-        public string $SoftwareTypeName;
+        public ?int $ID;
+        public string $Name;
         public ?string $Erased;
 
         public function __construct(
-            int $SoftwareTypeID,
-            string $SoftwareTypeName,
-            string $Erased = null
+            ?int $ID,
+            string $Name,
+            ?string $Erased = null
         ){            
-            $this->SoftwareTypeID = $SoftwareTypeID;
-            $this->SoftwareTypeName = $SoftwareTypeName;
+            $this->ID = $ID;
+            $this->Name = $Name;
             $this->Erased = $Erased;
         }
 

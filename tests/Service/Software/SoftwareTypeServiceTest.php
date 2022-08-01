@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Test\Repository;
 
 use App\Exception\ServiceException;
-use App\Model\Software\SupportType;
-use App\Repository\Software\SupportTypeRepository;
-use App\Service\Software\SupportTypeService;
+use App\Model\Software\SoftwareType;
+use App\Repository\Software\SoftwareTypeRepository;
+use App\Service\Software\SoftwareTypeService;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class SupportTypeServiceTest extends TestCase
+final class SoftwareTypeServiceTest extends TestCase
 {
-    public SupportTypeService $supportTypeService;
+    public SoftwareTypeService $softwareTypeService;
     
     public function setUp(): void
     {        
@@ -22,26 +22,26 @@ final class SupportTypeServiceTest extends TestCase
         $this->sth = $this->createMock(PDOStatement::class);
         $this->pdo->method('prepare')->willReturn($this->sth);
         $this->sth->method('execute')->willReturn(true);
-        $this->supportTypeRepository = new SupportTypeRepository($this->pdo);    
-        $this->supportTypeService = new SupportTypeService($this->supportTypeRepository);        
+        $this->softwareTypeRepository = new SoftwareTypeRepository($this->pdo);    
+        $this->softwareTypeService = new SoftwareTypeService($this->softwareTypeRepository);        
 
         $this->sampleObject = [
-            "SupportTypeID"=>1,
-            "Name"=>'CD-ROM'
+            "SoftwareTypeID"=>1,
+            "Name"=>'Office'
         ];        
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->supportTypeService->selectById(1)->Name,"CD-ROM");        
+        $this->assertEquals($this->softwareTypeService->selectById(1)->Name,"Office");        
     }
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $supportType = new SupportType(null,'CD-ROM');
-        $this->supportTypeService->insert($supportType);
+        $softwareType = new SoftwareType(null,'Office');
+        $this->softwareTypeService->insert($softwareType);
     }
 
     
@@ -49,30 +49,30 @@ final class SupportTypeServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("CD-ROM",$this->supportTypeService->selectById(1)->Name);
+        $this->assertEquals("Office",$this->softwareTypeService->selectById(1)->Name);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->supportTypeService->selectById(2);
+        $this->softwareTypeService->selectById(2);
     }
     
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->supportTypeService->selectByName("CD-ROM");
+        $this->softwareTypeService->selectByName("WRONG");
     }
     
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $supportType = new SupportType(1,"FLOPPY");
+        $softwareType = new SoftwareType(1,"Office");
         
         $this->sth->method('fetch')->willReturn(null);
-        $this->supportTypeService->update($supportType);
+        $this->softwareTypeService->update($softwareType);
     }
     
     //DELETE TESTS
@@ -81,6 +81,6 @@ final class SupportTypeServiceTest extends TestCase
         
         $this->sth->method('fetch')->willReturn(null);
         
-        $this->supportTypeService->delete(5);
+        $this->softwareTypeService->delete(5);
     }   
 }
