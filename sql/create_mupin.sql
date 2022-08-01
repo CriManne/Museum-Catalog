@@ -1,8 +1,8 @@
-DROP DATABASE IF EXISTS mupin;
+--DROP DATABASE IF EXISTS mupin;
 
-CREATE DATABASE mupin;
+--CREATE DATABASE mupin;
 
-USE mupin;
+--USE mupin;
 
 CREATE TABLE GenericObject(
     ObjectID VARCHAR(20) NOT NULL,
