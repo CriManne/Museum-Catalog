@@ -1,4 +1,0 @@
-- I would use simplemvc just for the endpoints, and then I would create a separate website with html,jquery,ajax that calls them. 
-  It's the right approach to MVC isn't it?
-
-- Is testing the db queries considered unit test or integration test?

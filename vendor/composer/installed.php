@@ -1,9 +1,9 @@
 <?php return array(
     'root' => array(
         'name' => 'simplemvc/skeleton',
-        'pretty_version' => '1.0.0+no-version-set',
-        'version' => '1.0.0.0',
-        'reference' => NULL,
+        'pretty_version' => 'dev-main',
+        'version' => 'dev-main',
+        'reference' => '8068be704d4993029bb90c3e55deec9032c6a767',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -452,9 +452,9 @@
             'dev_requirement' => false,
         ),
         'simplemvc/skeleton' => array(
-            'pretty_version' => '1.0.0+no-version-set',
-            'version' => '1.0.0.0',
-            'reference' => NULL,
+            'pretty_version' => 'dev-main',
+            'version' => 'dev-main',
+            'reference' => '8068be704d4993029bb90c3e55deec9032c6a767',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
