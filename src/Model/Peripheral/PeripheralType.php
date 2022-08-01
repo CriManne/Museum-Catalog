@@ -9,13 +9,16 @@
         
         public int $PeripheralTypeID;
         public string $PeripheralTypeName;
+        public string $Erased;
 
         public function __construct(
             int $PeripheralTypeID,
-            string $PeripheralTypeName
+            string $PeripheralTypeName,
+            string $Erased = null
         ){            
             $this->PeripheralTypeID = $PeripheralTypeID;
             $this->PeripheralTypeName = $PeripheralTypeName;
+            $this->Erased = $Erased;
         }
     }
 ?>

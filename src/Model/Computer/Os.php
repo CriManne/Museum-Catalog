@@ -6,14 +6,17 @@
 
     class Os {
         public int $OsID;
-        public string $OsName;               
+        public string $OsName;    
+        public string $Erased;           
         
         public function __construct(
             int $OsID,
-            string $OsName          
+            string $OsName,
+            string $Erased = null      
         ){
             $this->OsID = $OsID;
             $this->OsName = $OsName;        
+            $this->Erased = $Erased;
         }
     }
 

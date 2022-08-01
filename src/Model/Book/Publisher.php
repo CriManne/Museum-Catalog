@@ -2,24 +2,23 @@
 
     declare(strict_types=1);
 
-    namespace App\Model\Software;
+    namespace App\Model\Book;
 
-    use App\Model\GenericObject;
+    class Publisher{
 
-    class SupportType{
-
-        public ?int $ID;
+        public int $PublisherID;
         public string $Name;
         public string $Erased;
 
         public function __construct(
-            ?int $ID,
+            int $PublisherID,
             string $Name,
             string $Erased = null
-        ){  
-            $this->ID = $ID;
+        )
+        {
+            $this->PublisherID = $PublisherID;
             $this->Name = $Name;
             $this->Erased = $Erased;
         }
-
     }
+?>
