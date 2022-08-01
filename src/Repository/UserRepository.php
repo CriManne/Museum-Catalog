@@ -36,7 +36,7 @@
         //SELECT
         public function selectById(string $email): ?User
         {            
-            $query = "SELECT * FROM user WHERE Email = :email AND Erased IS NOT NULL";
+            $query = "SELECT * FROM user WHERE Email = :email";
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("email",$email,PDO::PARAM_STR);
             $stmt->execute();
@@ -47,15 +47,14 @@
                     $user["Password"],
                     $user["firstname"],
                     $user["lastname"],
-                    $user["Privilege"],
-                    $user["Erased"]
+                    $user["Privilege"]
                 );
             }
             return null;
         }
 
         public function selectByCredentials(string $email,string $psw,bool $isAdmin = null): ?User{
-            $query = "SELECT * FROM user WHERE Email = :email AND Password = :psw AND Erased IS NOT NULL";
+            $query = "SELECT * FROM user WHERE Email = :email AND Password = :psw";
 
             if(isset($isAdmin)){
                 $query .= " AND Privilege = ".($isAdmin ? "1" : "0");
@@ -72,8 +71,7 @@
                     $user["Password"],
                     $user["firstname"],
                     $user["lastname"],
-                    $user["Privilege"],
-                    $user["Erased"]
+                    $user["Privilege"]
                 );
             }
             return null;
@@ -96,8 +94,7 @@
             SET Password = :password,
             firstname = :firstname,
             lastname = :lastname,
-            Privilege = :privilege,
-            Erased = :erased 
+            Privilege = :privilege
             WHERE Email = :email;";
 
             $stmt = $this->pdo->prepare($query);            
@@ -105,7 +102,6 @@
             $stmt->bindParam("firstname",$u->firstname,PDO::PARAM_STR);
             $stmt->bindParam("lastname",$u->lastname,PDO::PARAM_STR);
             $stmt->bindParam("privilege",$u->Privilege,PDO::PARAM_STR);
-            $stmt->bindParam("erased",$u->Erased);
             $stmt->bindParam("email",$u->Email,PDO::PARAM_STR);
             try{             
                 $stmt->execute();

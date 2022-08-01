@@ -13,22 +13,19 @@
         public string $firstname;
         public string $lastname;
         public int $Privilege;
-        public ?DateTime $Erased;
 
         public function __construct(
             string $Email,
             string $Password,
             string $firstname,
             string $lastname,
-            int $Privilege,
-            ?DateTime $Erased
+            int $Privilege
         ){
             $this->Email = $Email;
             $this->Password = $Password;
             $this->firstname = $firstname;
             $this->lastname = $lastname;
             $this->Privilege = $Privilege;
-            $this->Erased = $Erased;
         }
 
     }

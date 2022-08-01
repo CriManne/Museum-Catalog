@@ -158,6 +158,5 @@ CREATE TABLE User(
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
     Privilege SMALLINT NOT NULL, -- employee = 0, admin = 1
-    Erased DATE NULL,
     PRIMARY KEY (Email)
 );

@@ -30,8 +30,7 @@ final class UserServiceTest extends TestCase
             "Password"=>'password',
             "firstname"=>'Elon',
             "lastname"=>'Musk',
-            "Privilege"=>0,
-            "Erased"=>null
+            "Privilege"=>0
         ];        
     }
     
@@ -44,7 +43,7 @@ final class UserServiceTest extends TestCase
     public function testBadInsertUser():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $user = new User('testemail@gmail.com','admin','Bill','Gates',1,null);
+        $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
         $this->userService->insertUser($user);
     }
     
