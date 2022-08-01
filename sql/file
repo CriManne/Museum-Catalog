@@ -77,16 +77,11 @@ CasaEditrice(
     NomeCasaEditrice
 )
 
-<!-- RIVISTA FISICA -->
-RivistaCatalogo(
+<!-- RIVISTA-->
+Rivista( 
     IDReperto,
-    IDRivistaSingola    
-)
-
-<!-- RIVISTA GENERICA -->
-RivistaGenerica( 
-    IDRivistaSingola,
     Titolo,
+    NumeroRivista,
     Anno,
     IDCasaEditrice
 )

@@ -13,7 +13,7 @@
         public int $Year;
         public string $ISBN;
         public int $PageCount;
-        public Author $authors;
+        public array $authors;
 
         public function __construct(
             string $ObjectID,
@@ -27,7 +27,7 @@
             int $Year,
             string $ISBN,
             int $PageCount,
-            Author $authors
+            array $authors
         ){
             parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->Title = $Title;

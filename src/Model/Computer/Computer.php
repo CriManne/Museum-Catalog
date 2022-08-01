@@ -2,9 +2,9 @@
     declare(strict_types=1);
 
     namespace App\Model\Computer;
-
-    use App\Model\GenericObject;
     
+    use App\Model\GenericObject;
+
     class Computer extends GenericObject{        
         
         public string $ModelName;
@@ -12,7 +12,7 @@
         public Cpu $cpu;
         public Ram $ram;
         public string $HddSize;
-        public string $os;
+        public Os $os;
         
         public function __construct(
             string $ObjectID,
@@ -25,8 +25,8 @@
             int $Year,
             Cpu $cpu,
             Ram $ram,
-            string $HddSize,
-            string $os
+            ?string $HddSize,
+            ?Os $os
         ){
             parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->ModelName = $ModelName;

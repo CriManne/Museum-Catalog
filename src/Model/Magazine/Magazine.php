@@ -9,9 +9,9 @@
     class Magazine extends GenericObject{
 
         public string $Title;
+        public int $MagazineNumber;
         public string $publisher;
         public int $Year;
-        public int $MagazineNumber;
 
         public function __construct(
             string $ObjectID,

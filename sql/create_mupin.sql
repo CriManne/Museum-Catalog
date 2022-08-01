@@ -32,7 +32,7 @@ CREATE TABLE Ram(
 
 CREATE TABLE Os(
     OsID INTEGER NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(100) NOT NULL,
+    Name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (OsID)
 );
 
@@ -57,7 +57,7 @@ CREATE TABLE Computer(
 
 CREATE TABLE PeripheralType(
     PeripheralTypeID INTEGER NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(100) NOT NULL,
+    Name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (PeripheralTypeID)
 );
 
@@ -76,7 +76,7 @@ CREATE TABLE Peripheral(
 
 CREATE TABLE Publisher(
     PublisherID INTEGER NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(100) NOT NULL,
+    Name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (PublisherID)
 );
 
@@ -107,22 +107,15 @@ CREATE TABLE BookAuthor(
     FOREIGN KEY (AuthorID) REFERENCES Author(AuthorID)
 );
 
-CREATE TABLE GenericMagazine(
-    GenericMagazineID INTEGER NOT NULL AUTO_INCREMENT,
-    Title VARCHAR(100) NOT NULL,
-    PublisherID INTEGER NOT NULL,
-    Year INTEGER NOT NULL,  
-    PRIMARY KEY (GenericMagazineID),    
-    FOREIGN KEY (PublisherID) REFERENCES Publisher(PublisherID)
-);
-
-CREATE TABLE PhisicalMagazine(
+CREATE TABLE Magazine(
     ObjectID VARCHAR(20) NOT NULL,
-    GenericMagazineID INTEGER NOT NULL,
+    Title VARCHAR(100) NOT NULL,
     MagazineNumber INTEGER NOT NULL,
-    PRIMARY KEY (ObjectID, GenericMagazineID),
+    Year INTEGER NOT NULL,  
+    PublisherID INTEGER NOT NULL,
+    PRIMARY KEY (ObjectID),
     FOREIGN KEY (ObjectID) REFERENCES GenericObject(ObjectID),
-    FOREIGN KEY (GenericMagazineID) REFERENCES GenericMagazine(GenericMagazineID)        
+    FOREIGN KEY (PublisherID) REFERENCES Publisher(PublisherID)
 );
 
 -- / BOOK & MAGAZINE
@@ -131,13 +124,13 @@ CREATE TABLE PhisicalMagazine(
 
 CREATE TABLE SoftwareType(
     SoftwareTypeID INTEGER NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(100) NOT NULL,
+    Name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (SoftwareTypeID)
 );
 
 CREATE TABLE SupportType(
     SupportTypeID INTEGER NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(100) NOT NULL,
+    Name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (SupportTypeID)
 );
 

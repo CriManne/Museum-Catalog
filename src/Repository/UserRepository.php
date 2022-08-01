@@ -36,7 +36,7 @@
         //SELECT
         public function selectById(string $email): ?User
         {            
-            $query = "SELECT * FROM user WHERE Email = :email";
+            $query = "SELECT * FROM user WHERE Email = :email AND Erased IS NOT NULL";
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("email",$email,PDO::PARAM_STR);
             $stmt->execute();
@@ -55,7 +55,7 @@
         }
 
         public function selectByCredentials(string $email,string $psw,bool $isAdmin = null): ?User{
-            $query = "SELECT * FROM user WHERE Email = :email AND Password = :psw";
+            $query = "SELECT * FROM user WHERE Email = :email AND Password = :psw AND Erased IS NOT NULL";
 
             if(isset($isAdmin)){
                 $query .= " AND Privilege = ".($isAdmin ? "1" : "0");

@@ -8,7 +8,6 @@ use PHPUnit\Framework\TestCase;
 use App\Repository\UserRepository;
 use App\Exception\RepositoryException;
 use App\Model\User;
-use PDOStatement;
 
 final class UserRepositoryTest extends TestCase
 {
@@ -37,14 +36,14 @@ final class UserRepositoryTest extends TestCase
     }
 
     //INSERT TESTS
-    public function testGoodInsertUser():void{                
+    public function testGoodInsert():void{                
         $user = new User('elon@gmail.com','password','Elon','Musk',0,null);
 
         self::$userRepository->insertUser($user);
 
         $this->assertEquals(self::$userRepository->selectById("elon@gmail.com")->Email,"elon@gmail.com");
     }
-    public function testBadInsertUser():void{        
+    public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
 
         //User already inserted in the setUp() method
@@ -54,32 +53,32 @@ final class UserRepositoryTest extends TestCase
     }
     
     //SELECT TESTS
-    public function testGoodSelectUserById(): void
+    public function testGoodSelectById(): void
     {
         $this->assertNotNull(self::$userRepository->selectById("testemail@gmail.com"));
     }
     
-    public function testBadSelectUserById(): void
+    public function testBadSelectById(): void
     {
         $this->assertNull(self::$userRepository->selectById("wrong@gmail.com"));
     }
 
-    public function testGoodSelectUserByCredentials(): void
+    public function testGoodSelectByCredentials(): void
     {
         $this->assertNotNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin"));
     }
     
-    public function testBadSelectUserByCredentials(): void
+    public function testBadSelectByCredentials(): void
     {
         $this->assertNull(self::$userRepository->selectByCredentials("wrong@gmail.com","wrong"));
     }
     
-    public function testGoodSelectUserByCredentialsOnlyAdminIsAdminTrue(): void
+    public function testGoodSelectByCredentialsOnlyAdminIsAdminTrue(): void
     {
         $this->assertNotNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin",true));
     }
 
-    public function testGoodSelectUserByCredentialsOnlyAdminIsAdminFalse(): void
+    public function testGoodSelectByCredentialsOnlyAdminIsAdminFalse(): void
     {
         $user = new User('testemail2@gmail.com','pwd','Bob','Dylan',0,null);
         self::$userRepository->insertUser($user);
@@ -87,7 +86,7 @@ final class UserRepositoryTest extends TestCase
         $this->assertNotNull(self::$userRepository->selectByCredentials("testemail2@gmail.com","pwd",false));
     }
     
-    public function testBadSelectUserByCredentialsOnlyAdmin(): void
+    public function testBadSelectByCredentialsOnlyAdmin(): void
     {   
         $this->assertNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin",false));
     }
@@ -108,7 +107,7 @@ final class UserRepositoryTest extends TestCase
     }    
     
     //UPDATE TESTS
-    public function testGoodUpdateUser():void{
+    public function testGoodUpdate():void{
         $user = new User('testemail@gmail.com','admin','Steve','Jobs',0,null);
         
         self::$userRepository->updateUser($user);
@@ -117,7 +116,7 @@ final class UserRepositoryTest extends TestCase
     }
 
     //DELETE TESTS
-    public function testGoodDeleteUser():void{
+    public function testGoodDelete():void{
         $email = "testemail@gmail.com";
         
         self::$userRepository->deleteUser($email);
