@@ -9,6 +9,7 @@
 declare(strict_types=1);
 
 use App\Controller\Secret;
+use App\Exception\RepositoryException;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
@@ -30,7 +31,11 @@ return [
     'db_dump' => file_get_contents("./sql/create_mupin.sql"),
     'psw' => '',
     'PDO' => function(ContainerInterface $c){
-        return new PDO($c->get('dsn').$c->get('production_db'),$c->get('username'),$c->get('psw'),
-        array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        try{
+            return new PDO($c->get('dsn').$c->get('production_db'),$c->get('username'),$c->get('psw'),
+            array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+        }catch(PDOException){
+            throw new RepositoryException("Cannot connect to database!");
+        }
     } 
 ];

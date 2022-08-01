@@ -54,6 +54,20 @@ final class UserServiceTest extends TestCase
         $this->sth->method('fetch')->willReturn($this->sampleObject);
         $this->assertEquals("Elon",$this->userService->selectById("testemail@gmail.com")->firstname);
     }
+
+    public function testBadSelectUserById(): void
+    {
+        $this->expectException(ServiceException::class);
+        $this->sth->method('fetch')->willReturn(null);
+        $this->userService->selectById("testemail@gmail.com");
+    }
+
+    public function testBadSelectUserByCredentials(): void
+    {
+        $this->expectException(ServiceException::class);
+        $this->sth->method('fetch')->willReturn(null);
+        $this->userService->selectById("testemail@gmail.com");
+    }
     
     //UPDATE TESTS
     public function testBadUpdateUser():void{

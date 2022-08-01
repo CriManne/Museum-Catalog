@@ -2,10 +2,10 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\User\Public;
 
-use App\Exceptions\RepositoryException;
-use App\Exceptions\ServiceException;
+use App\Exception\RepositoryException;
+use App\Exception\ServiceException;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ServerRequestInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -14,7 +14,7 @@ use App\Service\UserService;
 use SimpleMVC\Controller\ControllerInterface;
 
 
-class GetUserPublicController implements ControllerInterface
+class GetUser implements ControllerInterface
 {
     public UserService $userService;
 
@@ -33,15 +33,20 @@ class GetUserPublicController implements ControllerInterface
             return new Response(400,[],null);
         }
 
-        $user = $this->userService->selectByCredentials(
-            $params["email"],
-            $params["password"],
-            boolval($params["isAdmin"]) ?? false
-        );
-
-        if($user == null) return new Response(403,[],null);
+        $user = null;
         
-        return new Response(200,[],$user);        
+        try{
+            $user = $this->userService->selectByCredentials(
+                $params["email"],
+                $params["password"],
+                isset($params["isAdmin"]) ? boolval($params["isAdmin"]) : null
+            );                
+            return new Response(200,[],json_encode($user));        
+        }catch(ServiceException $e){
+            return new Response(400,[],$e->getMessage());
+        }catch(RepositoryException $e){
+            return new Response(500,[],$e->getMessage());
+        }        
     }
 
 }

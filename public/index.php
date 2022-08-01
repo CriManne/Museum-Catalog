@@ -11,6 +11,7 @@ declare(strict_types=1);
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
+use App\Exception\RepositoryException;
 use DI\ContainerBuilder;
 use SimpleMVC\App;
 use SimpleMVC\Emitter\SapiEmitter;
@@ -25,6 +26,11 @@ $container->set('config', $config);
 
 $app = new App($container, $config);
 $app->bootstrap();
-$response = $app->dispatch(); // PSR-7 response
 
-SapiEmitter::emit($response);
+try{
+    $response = $app->dispatch(); // PSR-7 response
+    SapiEmitter::emit($response);
+}catch(RepositoryException $e){
+    http_response_code(500);
+    echo $e->getMessage();
+}
