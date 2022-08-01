@@ -7,11 +7,11 @@
     class GenericObject{
 
         public string $ObjectID;
-        public string $Note;
-        public string $Url;
-        public string $Tag;
+        public ?string $Note;
+        public ?string $Url;
+        public ?string $Tag;
         public string $Active;
-        public string $Erased;
+        public ?string $Erased;
 
         public function __construct(
             string $ObjectID,

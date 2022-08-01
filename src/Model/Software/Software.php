@@ -4,14 +4,15 @@
 
     namespace App\Model\Software;
 
+    use App\Model\Computer\Os;
     use App\Model\GenericObject;
 
     class Software extends GenericObject{
 
         public string $Title;
-        public string $os;
+        public Os $os;
         public SoftwareType $SoftwareType;
-        public string $SupportType;
+        public SupportType $SupportType;
 
         public function __construct(
             string $ObjectID,
@@ -21,7 +22,7 @@
             string $Active,
             string $Erased = null,
             string $Title,
-            string $os,
+            Os $os,
             SoftwareType $SoftwareType,
             SupportType $SupportType
         ){

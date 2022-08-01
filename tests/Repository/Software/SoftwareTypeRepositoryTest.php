@@ -68,7 +68,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
         $this->assertNotNull(self::$softwareTypeRepository->selectByName("Office"));
     }
     
-    public function testBadSelectByCredentials(): void
+    public function testBadSelectByName(): void
     {
         $this->assertNull(self::$softwareTypeRepository->selectByName("WRONG-SOFTWAERE-TYPE"));
     }

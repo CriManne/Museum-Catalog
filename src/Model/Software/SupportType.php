@@ -4,8 +4,6 @@
 
     namespace App\Model\Software;
 
-    use App\Model\GenericObject;
-
     class SupportType{
 
         public ?int $ID;

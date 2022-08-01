@@ -5,17 +5,17 @@
     namespace App\Model\Computer;
 
     class Os {
-        public int $OsID;
-        public string $OsName;    
-        public string $Erased;           
+        public ?int $ID;
+        public string $Name;    
+        public ?string $Erased;           
         
         public function __construct(
-            int $OsID,
-            string $OsName,
-            string $Erased = null      
+            ?int $ID,
+            string $Name,
+            ?string $Erased = null      
         ){
-            $this->OsID = $OsID;
-            $this->OsName = $OsName;        
+            $this->ID = $ID;
+            $this->Name = $Name;        
             $this->Erased = $Erased;
         }
     }

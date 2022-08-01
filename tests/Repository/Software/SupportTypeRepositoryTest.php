@@ -68,7 +68,7 @@ final class SupportTypeRepositoryTest extends TestCase
         $this->assertNotNull(self::$supportTypeRepository->selectByName("CD-ROM"));
     }
     
-    public function testBadSelectByCredentials(): void
+    public function testBadSelectByName(): void
     {
         $this->assertNull(self::$supportTypeRepository->selectByName("WRONG-SUPPORT"));
     }
