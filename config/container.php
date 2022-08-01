@@ -24,11 +24,13 @@ return [
         'username' => 'test',
         'password' => 'password'
     ],
-    'dns' => 'mysql:host=localhost;dbname=mupin',
+    'dsn' => 'mysql:host=localhost;',
+    'production_db' => 'dbname=mupin;',
     'username' => 'root',
+    'db_dump' => file_get_contents("./sql/create_mupin.sql"),
     'psw' => '',
     'PDO' => function(ContainerInterface $c){
-        return new PDO($c->get('dns'),$c->get('username'),$c->get('psw'),
+        return new PDO($c->get('dsn').$c->get('production_db'),$c->get('username'),$c->get('psw'),
         array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
     } 
 ];

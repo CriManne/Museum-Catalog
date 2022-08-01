@@ -13,24 +13,16 @@ use PDOStatement;
 final class UserRepositoryTest extends TestCase
 {
     public UserRepository $userRepository;
+    public PDO $pdo;
 
     public function setUp(): void
     {
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
+        $this->pdo = RepositoryTestUtil::getTestPdo();
 
-        $this->userRepository = new UserRepository($this->pdo);               
+        $this->pdo = RepositoryTestUtil::dropTestDB($this->pdo);
+        $this->pdo = RepositoryTestUtil::createTestDB($this->pdo);
 
-        $this->sampleObject = [
-            "Email"=>'elon@gmail.com',
-            "Password"=>'password',
-            "firstname"=>'Elon',
-            "lastname"=>'Musk',
-            "Privilege"=>0,
-            "Erased"=>null
-        ];
+        $this->userRepository = new UserRepository($this->pdo);  
     }
 
     //INSERT TESTS
@@ -111,10 +103,12 @@ final class UserRepositoryTest extends TestCase
         
         $this->assertNull($this->userRepository->selectById("testemail@gmail.com"));
     }
-
+    */
 
     public function tearDown():void{
-        $this->userRepository->pdo->rollBack();
+        $this->pdo = RepositoryTestUtil::dropTestDB($this->pdo);
+        unset($this->userRepository);
+        unset($this->pdo);
     }
-    */
+    
 }
