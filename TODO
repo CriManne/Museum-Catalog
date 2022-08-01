@@ -4,3 +4,6 @@
 
 - Leave the private endpoints without Authentication during development. But
 !!!REMEMBER TO ENABLE Authentication with BasicAuth pipeline!!!
+
+
+- THINK ABOUT MAKING A GENERIC SERVICE WHICH IS SPECIALIZED BY WHO NEEDS IT
