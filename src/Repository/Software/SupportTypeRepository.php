@@ -13,7 +13,7 @@
     class SupportTypeRepository extends GenericRepository{
 
         //INSERT
-        public function insertSupport(SupportType $supportType):void{
+        public function insert(SupportType $supportType):void{
 
             $query = 
             "INSERT INTO supporttype 
@@ -30,9 +30,14 @@
             }            
         }
         //SELECT
-        public function selectById(int $id): ?SupportType
+        public function selectById(int $id,?bool $showErased = false): ?SupportType
         {            
             $query = "SELECT * FROM supporttype WHERE SupportTypeID = :id";
+            
+            if(isset($showErased)){
+                $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
+            }           
+
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("id",$id,PDO::PARAM_STR);
             $stmt->execute();
@@ -46,8 +51,12 @@
             return null;
         }
         
-        public function selectByName(string $name): ?SupportType{
-            $query = "SELECT * FROM supporttype WHERE Name = :name";                   
+        public function selectByName(string $name,?bool $showErased = false): ?SupportType{
+            $query = "SELECT * FROM supporttype WHERE Name = :name";
+            
+            if(isset($showErased)){
+                $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
+            }    
             
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("name",$name,PDO::PARAM_STR);
@@ -62,8 +71,13 @@
             return null;
         }
         
-        public function selectAll(): ?array{
+        public function selectAll(?bool $showErased = false): ?array{
             $query = "SELECT * FROM supporttype";
+            
+            if(isset($showErased)){
+                $query .= " WHERE Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
+            }    
+            
             $stmt = $this->pdo->query($query);
             
             $supports = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);            
@@ -72,7 +86,7 @@
         }
         
         //UPDATE
-        public function updateSupport(SupportType $s): void
+        public function update(SupportType $s): void
         {            
             $query = 
             "UPDATE supporttype 
@@ -87,24 +101,24 @@
             }catch(PDOException $e){
                 throw new RepositoryException("Error while updating the support type with id: {".$s->ID."}");
             }
-        }
+        }        
         
-        /*
         //DELETE
-        public function deleteUser(string $email): void
+        public function delete(int $id): void
         {
             $query = 
-            "DELETE FROM user             
-            WHERE email = :email;";
+            "UPDATE supporttype          
+            SET Erased = NOW()
+            WHERE SupportTypeID = :id;"; 
 
             $stmt = $this->pdo->prepare($query);                        
-            $stmt->bindParam("email",$email,PDO::PARAM_STR);
+            $stmt->bindParam("id",$id,PDO::PARAM_INT);
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while deleting the user with email: {".$email."}");
+                throw new RepositoryException("Error while deleting the support type with id: {".$id."}");
             }
         }
-        */
+        
     }
 ?>

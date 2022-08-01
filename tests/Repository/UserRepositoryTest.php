@@ -27,7 +27,7 @@ final class UserRepositoryTest extends TestCase
     public function setUp():void{
         //User inserted to test duplicated user errors
         $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
-        self::$userRepository->insertUser($user);
+        self::$userRepository->insert($user);
     }
 
     public function tearDown():void{
@@ -39,7 +39,7 @@ final class UserRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $user = new User('elon@gmail.com','password','Elon','Musk',0);
 
-        self::$userRepository->insertUser($user);
+        self::$userRepository->insert($user);
 
         $this->assertEquals(self::$userRepository->selectById("elon@gmail.com")->Email,"elon@gmail.com");
     }
@@ -49,7 +49,7 @@ final class UserRepositoryTest extends TestCase
         //User already inserted in the setUp() method
         $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
 
-        self::$userRepository->insertUser($user);
+        self::$userRepository->insert($user);
     }
     
     //SELECT TESTS
@@ -81,7 +81,7 @@ final class UserRepositoryTest extends TestCase
     public function testGoodSelectByCredentialsOnlyAdminIsAdminFalse(): void
     {
         $user = new User('testemail2@gmail.com','pwd','Bob','Dylan',0);
-        self::$userRepository->insertUser($user);
+        self::$userRepository->insert($user);
 
         $this->assertNotNull(self::$userRepository->selectByCredentials("testemail2@gmail.com","pwd",false));
     }
@@ -96,9 +96,9 @@ final class UserRepositoryTest extends TestCase
         $user1 = new User('testemail2@gmail.com','pwd','Bob','Dylan',0);
         $user2 = new User('testemail3@gmail.com','pwd','Alice','Red',0);
         $user3 = new User('testemail4@gmail.com','pwd','Tom','Green',0);
-        self::$userRepository->insertUser($user1);
-        self::$userRepository->insertUser($user2);
-        self::$userRepository->insertUser($user3);
+        self::$userRepository->insert($user1);
+        self::$userRepository->insert($user2);
+        self::$userRepository->insert($user3);
 
         $users = self::$userRepository->selectAll();
 
@@ -110,7 +110,7 @@ final class UserRepositoryTest extends TestCase
     public function testGoodUpdate():void{
         $user = new User('testemail@gmail.com','admin','Steve','Jobs',0);
         
-        self::$userRepository->updateUser($user);
+        self::$userRepository->update($user);
         
         $this->assertEquals("Steve",self::$userRepository->selectById("testemail@gmail.com")->firstname);
     }
@@ -119,7 +119,7 @@ final class UserRepositoryTest extends TestCase
     public function testGoodDelete():void{
         $email = "testemail@gmail.com";
         
-        self::$userRepository->deleteUser($email);
+        self::$userRepository->delete($email);
         
         $this->assertNull(self::$userRepository->selectById("testemail@gmail.com"));
     }

@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Test\Repository;
 
 use App\Exception\ServiceException;
+use App\Model\Software\SupportType;
+use App\Repository\Software\SupportTypeRepository;
+use App\Service\Software\SupportTypeService;
 use PHPUnit\Framework\TestCase;
-use App\Repository\UserRepository;
-use App\Service\UserService;
-use App\Model\User;
 use PDO;
 use PDOStatement;
 
-final class UserServiceTest extends TestCase
+final class SupportTypeServiceTest extends TestCase
 {
-    public UserService $userService;
+    public SupportTypeService $supportTypeService;
     
     public function setUp(): void
     {        
@@ -22,68 +22,68 @@ final class UserServiceTest extends TestCase
         $this->sth = $this->createMock(PDOStatement::class);
         $this->pdo->method('prepare')->willReturn($this->sth);
         $this->sth->method('execute')->willReturn(true);
-        $this->userRepository = new UserRepository($this->pdo);    
-        $this->userService = new UserService($this->userRepository);        
+        $this->supportTypeRepository = new SupportTypeRepository($this->pdo);    
+        $this->supportTypeService = new SupportTypeService($this->supportTypeRepository);        
 
         $this->sampleObject = [
-            "Email"=>'elon@gmail.com',
-            "Password"=>'password',
-            "firstname"=>'Elon',
-            "lastname"=>'Musk',
-            "Privilege"=>0
+            "SupportTypeID"=>1,
+            "Name"=>'CD-ROM'
         ];        
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->userService->selectById("elon@gmail.com")->Email,"elon@gmail.com");        
+        $this->assertEquals($this->supportTypeService->selectById(1)->Name,"CD-ROM");        
     }
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
-        $this->userService->insert($user);
+        $supportType = new SupportType(null,'CD-ROM');
+        $this->supportTypeService->insert($supportType);
     }
+
     
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Elon",$this->userService->selectById("testemail@gmail.com")->firstname);
+        $this->assertEquals("CD-ROM",$this->supportTypeService->selectById(1)->Name);
     }
-
+    
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->userService->selectById("testemail@gmail.com");
+        $this->supportTypeService->selectById(2);
     }
-
-    public function testBadSelectByCredentials(): void
+    
+    public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->userService->selectById("testemail@gmail.com");
+        $this->supportTypeService->selectByName("CD-ROM");
     }
     
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $user = new User('wrong@gmail.com','admin','Steve','Jobs',0,null);
+        $supportType = new SupportType(1,"FLOPPY");
         
         $this->sth->method('fetch')->willReturn(null);
-        $this->userService->update($user);
+        $this->supportTypeService->update($supportType);
     }
     
     //DELETE TESTS
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
-
-        $email = "wrong@gmail.com";
+        
         $this->sth->method('fetch')->willReturn(null);
         
-        $this->userService->delete($email);
-    }
+        $this->supportTypeService->delete(5);
+    }   
+    
+
+    // REMOVE USER FROM METHODS
 }

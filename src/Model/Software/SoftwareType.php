@@ -8,7 +8,7 @@
 
         public int $SoftwareTypeID;
         public string $SoftwareTypeName;
-        public string $Erased;
+        public ?string $Erased;
 
         public function __construct(
             int $SoftwareTypeID,

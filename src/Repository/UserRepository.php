@@ -12,7 +12,7 @@
     class UserRepository extends GenericRepository{
 
         //INSERT
-        public function insertUser(User $u):void{
+        public function insert(User $u):void{
 
             $query = 
             "INSERT INTO user 
@@ -87,7 +87,7 @@
         }
 
         //UPDATE
-        public function updateUser(User $u): void
+        public function update(User $u): void
         {            
             $query = 
             "UPDATE user 
@@ -111,7 +111,7 @@
         }
 
         //DELETE
-        public function deleteUser(string $email): void
+        public function delete(string $email): void
         {
             $query = 
             "DELETE FROM user             

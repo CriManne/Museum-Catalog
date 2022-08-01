@@ -25,13 +25,13 @@ final class SupportTypeRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //User inserted to test duplicated user errors
-        $supportType = new SupportType(null,'CD-ROM');
-        self::$supportTypeRepository->insertSupport($supportType);
+        //Support inserted to test duplicated supports errors
+        $supportType = new SupportType(null,'CD-ROM',null);
+        self::$supportTypeRepository->insert($supportType);
     }
 
     public function tearDown():void{
-        //Clear the user table
+        //Clear the table
         self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE supporttype; SET FOREIGN_KEY_CHECKS=1;");
     }
 
@@ -39,7 +39,7 @@ final class SupportTypeRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $supportType = new SupportType(null,'FLOPPY');
 
-        self::$supportTypeRepository->insertSupport($supportType);
+        self::$supportTypeRepository->insert($supportType);
 
         $this->assertEquals(self::$supportTypeRepository->selectById(2)->Name,"FLOPPY");
     }
@@ -49,7 +49,7 @@ final class SupportTypeRepositoryTest extends TestCase
         //SupportType already inserted in the setUp() method
         $supportType = new SupportType(null,'CD-ROM');
 
-        self::$supportTypeRepository->insertSupport($supportType);
+        self::$supportTypeRepository->insert($supportType);
     }
     
     //SELECT TESTS
@@ -68,7 +68,7 @@ final class SupportTypeRepositoryTest extends TestCase
         $this->assertNotNull(self::$supportTypeRepository->selectByName("CD-ROM"));
     }
     
-    public function testBadSelectUserByCredentials(): void
+    public function testBadSelectByCredentials(): void
     {
         $this->assertNull(self::$supportTypeRepository->selectByName("WRONG-SUPPORT"));
     }
@@ -78,9 +78,9 @@ final class SupportTypeRepositoryTest extends TestCase
         $supportType1 = new SupportType(null,'S1');
         $supportType2 = new SupportType(null,'S2');
         $supportType3 = new SupportType(null,'S3');
-        self::$supportTypeRepository->insertSupport($supportType1);
-        self::$supportTypeRepository->insertSupport($supportType2);
-        self::$supportTypeRepository->insertSupport($supportType3);
+        self::$supportTypeRepository->insert($supportType1);
+        self::$supportTypeRepository->insert($supportType2);
+        self::$supportTypeRepository->insert($supportType3);
         
         $supportTypes = self::$supportTypeRepository->selectAll();
         
@@ -89,27 +89,25 @@ final class SupportTypeRepositoryTest extends TestCase
     }    
     
     //UPDATE TESTS
-    public function testGoodUpdateUser():void{
+    public function testGoodUpdate():void{
         $supportType = new SupportType(1,'FLOPPY');
         
-        self::$supportTypeRepository->updateSupport($supportType);
+        self::$supportTypeRepository->update($supportType);
         
         $this->assertEquals("FLOPPY",self::$supportTypeRepository->selectById(1)->Name);
     }
     
-    /*
     //DELETE TESTS
-    public function testGoodDeleteUser():void{
-        $email = "testemail@gmail.com";
+    public function testGoodDelete():void{       
         
-        self::$supportTypeRepository->deleteUser($email);
+        self::$supportTypeRepository->delete(1);
         
-        $this->assertNull(self::$supportTypeRepository->selectById("testemail@gmail.com"));
+        $this->assertNull(self::$supportTypeRepository->selectById(1));
+        $this->assertNotNull(self::$supportTypeRepository->selectById(1,true));
     }
-
+    
     public static function tearDownAfterClass():void{
         self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
         self::$pdo = null;
-    }
-    */   
+    }    
 }

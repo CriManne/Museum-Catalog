@@ -10,7 +10,7 @@
 
         public ?int $ID;
         public string $Name;
-        public string $Erased;
+        public ?string $Erased;
 
         public function __construct(
             ?int $ID,

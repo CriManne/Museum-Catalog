@@ -16,11 +16,11 @@
             $this->userRepository = $userRepository;
         }
 
-        public function insertUser(User $u):void{
+        public function insert(User $u):void{
             if($this->userRepository->selectById($u->Email) != null)
                 throw new ServiceException("Email already used!");
 
-            $this->userRepository->insertUser($u);
+            $this->userRepository->insert($u);
         }
 
         public function selectById(string $email): User{
@@ -37,18 +37,18 @@
             return $user;
         }
 
-        public function updateUser(User $u):void{
+        public function update(User $u):void{
             if($this->userRepository->selectById($u->Email) == null)
                 throw new ServiceException("User not found!");
 
-            $this->userRepository->updateUser($u);
+            $this->userRepository->update($u);
         }
 
-        public function deleteUser(string $email): void{
+        public function delete(string $email): void{
             if($this->userRepository->selectById($email) == null)
                 throw new ServiceException("User not found!");
 
-            $this->userRepository->deleteUser($email);
+            $this->userRepository->delete($email);
         }
     }
 
