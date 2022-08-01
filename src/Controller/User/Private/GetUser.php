@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\User\Public;
+namespace App\Controller\User\Private;
 
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;

@@ -16,7 +16,9 @@ return [
     //[ 'GET', '/', Controller\Home::class ],
     //[ 'GET', '/hello[/{name}]', Controller\Hello::class ],
     //[ 'GET', '/secret', [ BasicAuth::class, Controller\Secret::class ]],
-    [ 'GET', '/user', [Controller\User\Public\GetUser::class]],
     /* CUSTOMER AREA /private/ */
+    [ 'GET', '/user', [Controller\User\Private\GetUser::class]],
+
+    
     [ 'GET', '/private/user', [BasicAuth::class,null]] // TO IMPLEMENT
 ];

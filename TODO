@@ -1,0 +1,6 @@
+- Divide the route controllers in public and private:  
+    - public: is the hosted website which is also divided in public area and employees area
+    - private: are the endpoints to which the website get data
+
+- Leave the private endpoints without Authentication during development. But
+!!!REMEMBER TO ENABLE Authentication with BasicAuth pipeline!!!
