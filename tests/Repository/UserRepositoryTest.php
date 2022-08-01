@@ -12,103 +12,122 @@ use PDOStatement;
 
 final class UserRepositoryTest extends TestCase
 {
-    public UserRepository $userRepository;
-    public PDO $pdo;
+    public static UserRepository $userRepository;
+    public static ?PDO $pdo;
 
-    public function setUp(): void
+    public static function setUpBeforeClass(): void
     {
-        $this->pdo = RepositoryTestUtil::getTestPdo();
+        self::$pdo = RepositoryTestUtil::getTestPdo();
 
-        $this->pdo = RepositoryTestUtil::dropTestDB($this->pdo);
-        $this->pdo = RepositoryTestUtil::createTestDB($this->pdo);
+        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
+        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
 
-        $this->userRepository = new UserRepository($this->pdo);  
+        self::$userRepository = new UserRepository(self::$pdo);          
+    }
+
+    public function setUp():void{
+        //User inserted to test duplicated user errors
+        $user = new User('testemail@gmail.com','admin','Bill','Gates',1,null);
+        self::$userRepository->insertUser($user);
+    }
+
+    public function tearDown():void{
+        //Clear the user table
+        self::$pdo->exec("TRUNCATE TABLE User");
     }
 
     //INSERT TESTS
     public function testGoodInsertUser():void{                
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $user = new User('elon@gmail.com','password','Elon','Musk',0,null);
 
-        $this->assertEquals($this->userRepository->selectById("elon@gmail.com")->Email,"elon@gmail.com");
+        self::$userRepository->insertUser($user);
+
+        $this->assertEquals(self::$userRepository->selectById("elon@gmail.com")->Email,"elon@gmail.com");
     }
-
-    public function testBadInsertUser():void{
+    public function testBadInsertUser():void{        
         $this->expectException(RepositoryException::class);
+
+        //User already inserted in the setUp() method
         $user = new User('testemail@gmail.com','admin','Bill','Gates',1,null);
-        $this->sth->method('execute')->will($this->throwException(new RepositoryException("")));
-        $this->userRepository->insertUser($user);
+
+        self::$userRepository->insertUser($user);
     }
     
     //SELECT TESTS
     public function testGoodSelectUserById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertNotNull($this->userRepository->selectById("testemail@gmail.com"));
+        $this->assertNotNull(self::$userRepository->selectById("testemail@gmail.com"));
     }
     
     public function testBadSelectUserById(): void
     {
-        $this->assertNull($this->userRepository->selectById("wrong@gmail.com"));
+        $this->assertNull(self::$userRepository->selectById("wrong@gmail.com"));
     }
-    
+
     public function testGoodSelectUserByCredentials(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertNotNull($this->userRepository->selectByCredentials("testemail@gmail.com","admin"));
+        $this->assertNotNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin"));
     }
     
     public function testBadSelectUserByCredentials(): void
     {
-        $this->assertNull($this->userRepository->selectByCredentials("wrong@gmail.com","wrong"));
+        $this->assertNull(self::$userRepository->selectByCredentials("wrong@gmail.com","wrong"));
     }
     
-    public function testGoodSelectUserByCredentialsOnlyAdmin(): void
+    public function testGoodSelectUserByCredentialsOnlyAdminIsAdminTrue(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertNotNull($this->userRepository->selectByCredentials("testemail@gmail.com","admin",true));
+        $this->assertNotNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin",true));
+    }
+
+    public function testGoodSelectUserByCredentialsOnlyAdminIsAdminFalse(): void
+    {
+        $user = new User('testemail2@gmail.com','pwd','Bob','Dylan',0,null);
+        self::$userRepository->insertUser($user);
+
+        $this->assertNotNull(self::$userRepository->selectByCredentials("testemail2@gmail.com","pwd",false));
     }
     
     public function testBadSelectUserByCredentialsOnlyAdmin(): void
     {   
-        $this->assertNull($this->userRepository->selectByCredentials("elon@gmail.com","password",true));
+        $this->assertNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin",false));
     }
     
-    /*
-    public function testGoodSelectAll():void{
-        $this->pdo->method('query')->willReturn(true);
-        $this->sth->method('fetchAll')->willReturn($this->sampleObject);
-        $this->assertNotNull($this->userRepository->selectAll());
-    }
-    
-    public function testBadSelectAll():void{
-        
 
-        $this->assertNotNull($this->userRepository->selectAll());
-    }
+    public function testGoodSelectAll():void{
+        $user1 = new User('testemail2@gmail.com','pwd','Bob','Dylan',0,null);
+        $user2 = new User('testemail3@gmail.com','pwd','Alice','Red',0,null);
+        $user3 = new User('testemail4@gmail.com','pwd','Tom','Green',0,null);
+        self::$userRepository->insertUser($user1);
+        self::$userRepository->insertUser($user2);
+        self::$userRepository->insertUser($user3);
+
+        $users = self::$userRepository->selectAll();
+
+        $this->assertEquals(count($users),4);
+        $this->assertNotNull($users[1]);       
+    }    
     
     //UPDATE TESTS
     public function testGoodUpdateUser():void{
         $user = new User('testemail@gmail.com','admin','Steve','Jobs',0,null);
-
-        $this->userRepository->updateUser($user);
         
-        $this->assertEquals("Steve",$this->userRepository->selectById("testemail@gmail.com")->firstname);
+        self::$userRepository->updateUser($user);
+        
+        $this->assertEquals("Steve",self::$userRepository->selectById("testemail@gmail.com")->firstname);
     }
-    
+
     //DELETE TESTS
     public function testGoodDeleteUser():void{
         $email = "testemail@gmail.com";
         
-        $this->userRepository->deleteUser($email);
+        self::$userRepository->deleteUser($email);
         
-        $this->assertNull($this->userRepository->selectById("testemail@gmail.com"));
+        $this->assertNull(self::$userRepository->selectById("testemail@gmail.com"));
     }
-    */
 
-    public function tearDown():void{
-        $this->pdo = RepositoryTestUtil::dropTestDB($this->pdo);
-        unset($this->userRepository);
-        unset($this->pdo);
+    public static function tearDownAfterClass():void{
+        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
+        self::$pdo = null;
     }
     
 }

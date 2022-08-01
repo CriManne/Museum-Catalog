@@ -15,7 +15,7 @@ use PDOStatement;
 final class UserServiceTest extends TestCase
 {
     public UserService $userService;
-    
+    /*
     public function setUp(): void
     {        
         $this->pdo = $this->createMock(PDO::class);

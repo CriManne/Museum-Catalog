@@ -20,16 +20,16 @@
             (:email,:password,:firstname,:lastname,:privilege);";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("email",$u->email,PDO::PARAM_STR);
-            $stmt->bindParam("password",$u->psw,PDO::PARAM_STR);
+            $stmt->bindParam("email",$u->Email,PDO::PARAM_STR);
+            $stmt->bindParam("password",$u->Password,PDO::PARAM_STR);
             $stmt->bindParam("firstname",$u->firstname,PDO::PARAM_STR);
             $stmt->bindParam("lastname",$u->lastname,PDO::PARAM_STR);
-            $stmt->bindParam("privilege",$u->privilege,PDO::PARAM_STR);
+            $stmt->bindParam("privilege",$u->Privilege,PDO::PARAM_STR);
 
             try{             
                 $stmt->execute();
             }catch(PDOException){
-                throw new RepositoryException("Error while inserting the user with email: {".$u->email."}");
+                throw new RepositoryException("Error while inserting the user with email: {".$u->Email."}");
             }            
         }
 
@@ -54,8 +54,13 @@
             return null;
         }
 
-        public function selectByCredentials(string $email,string $psw,bool $isAdmin = false): ?User{
-            $query = "SELECT * FROM user WHERE Email = :email AND Password = :psw".($isAdmin ? " AND privilege = 1" : ""); 
+        public function selectByCredentials(string $email,string $psw,bool $isAdmin = null): ?User{
+            $query = "SELECT * FROM user WHERE Email = :email AND Password = :psw";
+
+            if(isset($isAdmin)){
+                $query .= " AND Privilege = ".($isAdmin ? "1" : "0");
+            }           
+
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("email",$email,PDO::PARAM_STR);
             $stmt->bindParam("psw",$psw,PDO::PARAM_STR);
@@ -75,7 +80,7 @@
         }
 
         public function selectAll(): ?array{
-            $query = "SELECT * FROM author";
+            $query = "SELECT * FROM user";
             $stmt = $this->pdo->query($query);
 
             $users = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);            
@@ -88,20 +93,20 @@
         {            
             $query = 
             "UPDATE user 
-            SET password = :password,
+            SET Password = :password,
             firstname = :firstname,
             lastname = :lastname,
-            privilege = :privilege,
-            erased = :erased 
-            WHERE email = :email;";
+            Privilege = :privilege,
+            Erased = :erased 
+            WHERE Email = :email;";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("password",$u->psw,PDO::PARAM_STR);
+            $stmt->bindParam("password",$u->Password,PDO::PARAM_STR);
             $stmt->bindParam("firstname",$u->firstname,PDO::PARAM_STR);
             $stmt->bindParam("lastname",$u->lastname,PDO::PARAM_STR);
-            $stmt->bindParam("privilege",$u->privilege,PDO::PARAM_STR);
-            $stmt->bindParam("erased",$u->erased);
-            $stmt->bindParam("email",$u->email,PDO::PARAM_STR);
+            $stmt->bindParam("privilege",$u->Privilege,PDO::PARAM_STR);
+            $stmt->bindParam("erased",$u->Erased);
+            $stmt->bindParam("email",$u->Email,PDO::PARAM_STR);
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
