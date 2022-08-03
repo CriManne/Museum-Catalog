@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace App\Test\Service;
 
 use App\Exception\ServiceException;
-use App\Model\Software\SoftwareType;
-use App\Repository\Software\SoftwareTypeRepository;
-use App\Service\Software\SoftwareTypeService;
+use App\Model\Computer\Os;
+use App\Repository\Computer\OsRepository;
+use App\Service\Computer\OsService;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class SoftwareTypeServiceTest extends TestCase
+final class OsServiceTest extends TestCase
 {
-    public SoftwareTypeService $softwareTypeService;
+    public OsService $osService;
     
     public function setUp(): void
     {        
@@ -22,26 +22,27 @@ final class SoftwareTypeServiceTest extends TestCase
         $this->sth = $this->createMock(PDOStatement::class);
         $this->pdo->method('prepare')->willReturn($this->sth);
         $this->sth->method('execute')->willReturn(true);
-        $this->softwareTypeRepository = new SoftwareTypeRepository($this->pdo);    
-        $this->softwareTypeService = new SoftwareTypeService($this->softwareTypeRepository);        
+        $this->osRepository = new OsRepository($this->pdo);    
+        $this->osService = new OsService($this->osRepository);        
 
         $this->sampleObject = [
-            "SoftwareTypeID"=>1,
-            "Name"=>'Office'
+            "OsID"=>1,
+            "Name"=>'Windows',
+            "Erased"=>null
         ];        
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->softwareTypeService->selectById(1)->Name,"Office");        
+        $this->assertEquals($this->osService->selectById(1)->Name,"Windows");        
     }
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $softwareType = new SoftwareType(null,'Office');
-        $this->softwareTypeService->insert($softwareType);
+        $os = new Os(null,'Windows');
+        $this->osService->insert($os);
     }
 
     
@@ -49,30 +50,30 @@ final class SoftwareTypeServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Office",$this->softwareTypeService->selectById(1)->Name);
+        $this->assertEquals("Windows",$this->osService->selectById(1)->Name);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->softwareTypeService->selectById(2);
+        $this->osService->selectById(2);
     }
     
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->softwareTypeService->selectByName("WRONG");
+        $this->osService->selectByName("Windows");
     }
     
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $softwareType = new SoftwareType(1,"Office");
+        $os = new Os(1,"Linux");
         
         $this->sth->method('fetch')->willReturn(null);
-        $this->softwareTypeService->update($softwareType);
+        $this->osService->update($os);
     }
     
     //DELETE TESTS
@@ -81,6 +82,6 @@ final class SoftwareTypeServiceTest extends TestCase
         
         $this->sth->method('fetch')->willReturn(null);
         
-        $this->softwareTypeService->delete(5);
+        $this->osService->delete(5);
     }   
 }

@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Service;
 
 use App\Exception\ServiceException;
 use App\Model\Software\SupportType;

@@ -13,7 +13,7 @@
         public function __construct(
             ?int $ID,
             string $Name,
-            ?string $Erased = null
+            string $Erased = null
         ){            
             $this->ID = $ID;
             $this->Name = $Name;

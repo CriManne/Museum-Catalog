@@ -7,24 +7,51 @@
     use App\Repository\GenericRepository;
     use App\Exception\RepositoryException;
     use App\Model\Software\Software;
-    use PDO;
+    use App\Model\Computer\Os;
+    use App\Model\Software\SoftwareType;
+    use App\Model\Software\SupportType;
+    use App\Repository\Computer\OsRepository;
+    use App\Repository\Software\SupportTypeRepository;
+    use App\Repository\Software\SoftwareTypeRepository;
+use PDO;
     use PDOException;   
 
     class SoftwareRepository extends GenericRepository{
 
+        public SoftwareTypeRepository $softwareTypeRepository;
+        public SupportTypeRepository $supportTypeRepository;
+        public OsRepository $osRepository;
+
+        public function __construct(
+            PDO $pdo,
+            SoftwareTypeRepository $softwareTypeRepository,
+            SupportTypeRepository $supportTypeRepository,
+            OsRepository $osRepository
+            ){
+            parent::__construct($pdo);
+            $this->softwareTypeRepository = $softwareTypeRepository;
+            $this->supportTypeRepository = $supportTypeRepository;
+            $this->osRepository = $osRepository;
+                            
+        }
+
         //INSERT
         public function insert(Software $software):void{
 
-            try{             
-                $this->pdo->beginTransaction();
+            $querySoftware = 
+                "INSERT INTO software
+                (ObjectID,Title,OsID,SoftwareTypeID,SupportTypeID) VALUES 
+                (:objID,:title,:osID,:softID,:suppID);";
 
-                $query = 
+            $queryObject = 
                 "INSERT INTO genericobject
                 (ObjectID,Note,Url,Tag,Active,Erased)
                 VALUES
                 (:ObjectID,:Note,:Url,:Tag,:Active,:Erased)";
+            try{             
+                $this->pdo->beginTransaction();
 
-                $stmt = $this->pdo->prepare($query);
+                $stmt = $this->pdo->prepare($queryObject);
                 $stmt->bindValue(':ObjectID', $software->ObjectID, PDO::PARAM_STR);
                 $stmt->bindValue(':Note', $software->Note, PDO::PARAM_STR);
                 $stmt->bindValue(':Url', $software->Url, PDO::PARAM_STR);
@@ -33,12 +60,7 @@
                 $stmt->bindValue(':Erased', $software->Erased, PDO::PARAM_STR);
                 $stmt->execute();
 
-                $query = 
-                "INSERT INTO software
-                (ObjectID,Title,OsID,SoftwareTypeID,SupportTypeID) VALUES 
-                (:objID,:title,:osID,:softID,:suppID);";
-
-                $stmt = $this->pdo->prepare($query);            
+                $stmt = $this->pdo->prepare($querySoftware);            
                 $stmt->bindParam("objID",$software->ObjectID,PDO::PARAM_STR);
                 $stmt->bindParam("title",$software->Title,PDO::PARAM_STR);
                 $stmt->bindParam("osID",$software->os->ID,PDO::PARAM_INT);
@@ -46,19 +68,20 @@
                 $stmt->bindParam("suppID",$software->SupportType->ID,PDO::PARAM_INT);
 
                 $stmt->execute();
-                
-                $this->pdo->commit();
 
-            }catch(PDOException $e){
+                $this->pdo->commit();     
+
+            }catch(PDOException){
                 $this->pdo->rollBack();    
                 throw new RepositoryException("Error while inserting the software with id: {".$software->ObjectID."}");
             }            
         }
-        /*
         //SELECT
         public function selectById(string $id,?bool $showErased = false): ?Software
         {            
-            $query = "SELECT * FROM software WHERE ObjectID = :id";
+            $query = "SELECT * FROM software 
+            INNER JOIN genericobject g ON g.ObjectID = software.ObjectID 
+            WHERE g.ObjectID = :id";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
@@ -69,36 +92,34 @@
             $stmt->execute();
             $software = $stmt->fetch();
             if($software){
-                return new Software(
-                    $software["SoftwareID"],
-                    $software["Name"]
-                );
+                return $this->returnMappedObject($software);
             }
             return null;
         }
         
-        public function selectByName(string $name,?bool $showErased = false): ?Software{
-            $query = "SELECT * FROM softwaretype WHERE Name = :name";
+        
+        public function selectByTitle(string $title,?bool $showErased = false): ?Software{
+            $query = "SELECT * FROM software 
+            INNER JOIN genericobject g ON g.ObjectID = software.ObjectID 
+            WHERE Title = :title";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }    
             
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$name,PDO::PARAM_STR);
+            $stmt->bindParam("title",$title,PDO::PARAM_STR);
             $stmt->execute();
             $software = $stmt->fetch();
             if($software){
-                return new Software(
-                    $software["SoftwareID"],
-                    $software["Name"]
-                );
+                return $this->returnMappedObject($software);
             }
             return null;
         }
         
         public function selectAll(?bool $showErased = false): ?array{
-            $query = "SELECT * FROM softwaretype";
+            $query = "SELECT * FROM software
+            INNER JOIN genericobject g ON g.ObjectID = software.ObjectID";
             
             if(isset($showErased)){
                 $query .= " WHERE Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
@@ -110,41 +131,84 @@
             
             return $arr_software;
         }
-        
         //UPDATE
         public function update(Software $s): void
-        {            
-            $query = 
-            "UPDATE softwaretype 
-            SET Name = :name            
-            WHERE SoftwareID = :id;";
+        {   
+            $querySoftware = 
+            "UPDATE software
+            SET Title = :title,
+            OsID = :osID,
+            SoftwareTypeID = :softID,
+            SupportTypeID = :suppID
+            WHERE ObjectID = :objID";
 
-            $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$s->Name,PDO::PARAM_STR);
-            $stmt->bindParam("id",$s->ID,PDO::PARAM_INT);            
+            $queryObject = 
+            "UPDATE genericobject
+            SET Note = :note,
+            Url = :url,
+            Tag = :tag,
+            Active = :active,
+            Erased = :erased
+            WHERE ObjectID = :objID";
+
             try{             
+                $this->pdo->beginTransaction();
+
+                $stmt = $this->pdo->prepare($querySoftware);            
+                $stmt->bindParam("title",$s->Title,PDO::PARAM_STR);
+                $stmt->bindParam("osID",$s->os->ID,PDO::PARAM_INT);
+                $stmt->bindParam("softID",$s->SoftwareType->ID,PDO::PARAM_INT);
+                $stmt->bindParam("suppID",$s->SupportType->ID,PDO::PARAM_INT);
+                $stmt->bindParam("objID",$s->ObjectID,PDO::PARAM_INT);            
                 $stmt->execute();
+
+                $stmt = $this->pdo->prepare($queryObject);
+                $stmt->bindParam("note",$s->Note,PDO::PARAM_STR);
+                $stmt->bindParam("url",$s->Url,PDO::PARAM_STR);
+                $stmt->bindParam("tag",$s->Tag,PDO::PARAM_STR);
+                $stmt->bindParam("active",$s->Active,PDO::PARAM_STR);
+                $stmt->bindParam("erased",$s->Erased,PDO::PARAM_STR);
+                $stmt->bindParam("objID",$s->ObjectID,PDO::PARAM_INT);
+                $stmt->execute();
+
+                $this->pdo->commit();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while updating the software type with id: {".$s->ID."}");
+                $this->pdo->rollBack();
+                throw new RepositoryException("Error while updating the software with id: {".$s->ID."}");
             }
         }        
         
         //DELETE
-        public function delete(int $id): void
+        public function delete(string $id): void
         {
             $query = 
-            "UPDATE softwaretype          
+            "UPDATE genericobject
             SET Erased = NOW()
-            WHERE SoftwareID = :id;"; 
+            WHERE ObjectID = :id;"; 
 
             $stmt = $this->pdo->prepare($query);                        
             $stmt->bindParam("id",$id,PDO::PARAM_INT);
             try{             
                 $stmt->execute();
-            }catch(PDOException $e){
-                throw new RepositoryException("Error while deleting the software type with id: {".$id."}");
+            }catch(PDOException){
+                throw new RepositoryException("Error while deleting the software with id: {".$id."}");
             }
         }
-        */
+        
+
+        function returnMappedObject(array $rawsoftware): Software{
+            return new Software(
+                $rawsoftware["ObjectID"],
+                $rawsoftware["Note"],
+                $rawsoftware["Url"],
+                $rawsoftware["Tag"],
+                strval($rawsoftware["Active"]),
+                $rawsoftware["Erased"],
+                $rawsoftware["Title"],
+                $this->osRepository->selectById($rawsoftware["OsID"]),
+                $this->softwareTypeRepository->selectById($rawsoftware["SoftwareTypeID"]),
+                $this->supportTypeRepository->selectById($rawsoftware["SupportTypeID"])
+            );
+        }
     }
 ?>
