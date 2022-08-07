@@ -8,6 +8,7 @@
     use PDO;
     use App\Model\User;
     use PDOException;   
+    use App\Util\ORM;
 
     class UserRepository extends GenericRepository{
 
@@ -40,15 +41,9 @@
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("email",$email,PDO::PARAM_STR);
             $stmt->execute();
-            $user = $stmt->fetch();
-            if($user){
-                return new User(
-                    $user["Email"],
-                    $user["Password"],
-                    $user["firstname"],
-                    $user["lastname"],
-                    $user["Privilege"]
-                );
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($user){                
+                return ORM::getNewInstance(User::class,$user);
             }
             return null;
         }
@@ -64,15 +59,9 @@
             $stmt->bindParam("email",$email,PDO::PARAM_STR);
             $stmt->bindParam("psw",$psw,PDO::PARAM_STR);
             $stmt->execute();
-            $user = $stmt->fetch();
+            $user = $stmt->fetch(PDO::FETCH_ASSOC);
             if($user){
-                return new User(
-                    $user["Email"],
-                    $user["Password"],
-                    $user["firstname"],
-                    $user["lastname"],
-                    $user["Privilege"]
-                );
+                return ORM::getNewInstance(User::class,$user);
             }
             return null;
         }
