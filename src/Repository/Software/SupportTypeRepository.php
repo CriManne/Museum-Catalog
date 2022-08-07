@@ -8,7 +8,8 @@
     use App\Exception\RepositoryException;
     use App\Model\Software\SupportType;
     use PDO;
-    use PDOException;   
+    use PDOException;  
+    use App\Util\ORM; 
 
     class SupportTypeRepository extends GenericRepository{
 
@@ -41,12 +42,9 @@
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("id",$id,PDO::PARAM_STR);
             $stmt->execute();
-            $supportType = $stmt->fetch();
+            $supportType = $stmt->fetch(PDO::FETCH_ASSOC);
             if($supportType){
-                return new SupportType(
-                    $supportType["SupportTypeID"],
-                    $supportType["Name"]
-                );
+                return ORM::getNewInstance(SupportType::class,$supportType);
             }
             return null;
         }
@@ -61,12 +59,9 @@
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("name",$name,PDO::PARAM_STR);
             $stmt->execute();
-            $supportType = $stmt->fetch();
+            $supportType = $stmt->fetch(PDO::FETCH_ASSOC);
             if($supportType){
-                return new SupportType(
-                    $supportType["SupportTypeID"],
-                    $supportType["Name"]
-                );
+                return ORM::getNewInstance(SupportType::class,$supportType);
             }
             return null;
         }
