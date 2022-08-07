@@ -143,7 +143,7 @@ final class SoftwareRepositoryTest extends TestCase
         
         $this->assertEquals(count($softwares),4);
         $this->assertNotNull($softwares[1]);       
-    }    
+    } 
     
     public function testGoodSelectByTitle():void{
 

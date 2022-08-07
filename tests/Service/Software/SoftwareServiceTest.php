@@ -73,19 +73,15 @@ final class SoftwareServiceTest extends TestCase
         ];        
     }
     
+    /*
+    
     //INSERT TESTS
-    public function testGoodInsert():void{
-        $this->sth->method('fetch')->willReturn($this->sampleObjectRaw);
-        $this->assertEquals($this->softwareService->selectById("objID")->Title,"Paint");        
-    }
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObjectRaw);
         $this->softwareService->insert($this->sampleObject);
     }
-
-    /*
     //SELECT TESTS
     public function testGoodSelectById(): void
     {

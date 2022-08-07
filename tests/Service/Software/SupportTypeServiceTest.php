@@ -31,12 +31,7 @@ final class SupportTypeServiceTest extends TestCase
         ];        
     }
     
-    //INSERT TESTS
-    public function testGoodInsert():void{
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->supportTypeService->selectById(1)->Name,"CD-ROM");        
-    }
-    
+    //INSERT TESTS    
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);

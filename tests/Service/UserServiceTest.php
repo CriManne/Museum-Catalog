@@ -35,10 +35,6 @@ final class UserServiceTest extends TestCase
     }
     
     //INSERT TESTS
-    public function testGoodInsert():void{
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->userService->selectById("elon@gmail.com")->Email,"elon@gmail.com");        
-    }
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);

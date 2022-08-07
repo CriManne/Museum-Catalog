@@ -32,10 +32,6 @@ final class SoftwareTypeServiceTest extends TestCase
     }
     
     //INSERT TESTS
-    public function testGoodInsert():void{
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->softwareTypeService->selectById(1)->Name,"Office");        
-    }
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);

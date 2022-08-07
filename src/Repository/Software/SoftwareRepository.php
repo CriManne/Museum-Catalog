@@ -13,8 +13,9 @@
     use App\Repository\Computer\OsRepository;
     use App\Repository\Software\SupportTypeRepository;
     use App\Repository\Software\SoftwareTypeRepository;
-use PDO;
+    use PDO;
     use PDOException;   
+    use Error;
 
     class SoftwareRepository extends GenericRepository{
 
@@ -90,7 +91,7 @@ use PDO;
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("id",$id,PDO::PARAM_STR);
             $stmt->execute();
-            $software = $stmt->fetch();
+            $software = $stmt->fetch(PDO::FETCH_ASSOC);
             if($software){
                 return $this->returnMappedObject($software);
             }
@@ -110,7 +111,7 @@ use PDO;
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("title",$title,PDO::PARAM_STR);
             $stmt->execute();
-            $software = $stmt->fetch();
+            $software = $stmt->fetch(PDO::FETCH_ASSOC);
             if($software){
                 return $this->returnMappedObject($software);
             }
@@ -208,7 +209,7 @@ use PDO;
                 $this->osRepository->selectById($rawsoftware["OsID"]),
                 $this->softwareTypeRepository->selectById($rawsoftware["SoftwareTypeID"]),
                 $this->supportTypeRepository->selectById($rawsoftware["SupportTypeID"])
-            );
+            );            
         }
     }
 ?>
