@@ -90,11 +90,11 @@
 
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("name",$s->Name,PDO::PARAM_STR);
-            $stmt->bindParam("id",$s->ID,PDO::PARAM_INT);            
+            $stmt->bindParam("id",$s->SupportTypeID,PDO::PARAM_INT);            
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while updating the support type with id: {".$s->ID."}");
+                throw new RepositoryException("Error while updating the support type with id: {".$s->SupportTypeID."}");
             }
         }        
         

@@ -6,16 +6,16 @@
 
     class SupportType{
 
-        public ?int $ID;
+        public ?int $SupportTypeID;
         public string $Name;
         public ?string $Erased;
 
         public function __construct(
-            ?int $ID,
+            ?int $SupportTypeID,
             string $Name,
             string $Erased = null
         ){  
-            $this->ID = $ID;
+            $this->SupportTypeID = $SupportTypeID;
             $this->Name = $Name;
             $this->Erased = $Erased;
         }

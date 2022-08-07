@@ -9,6 +9,7 @@
     use App\Model\Software\SoftwareType;
     use PDO;
     use PDOException;   
+    use App\Util\ORM;
 
     class SoftwareTypeRepository extends GenericRepository{
 
@@ -41,12 +42,9 @@
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("id",$id,PDO::PARAM_STR);
             $stmt->execute();
-            $softwareType = $stmt->fetch();
+            $softwareType = $stmt->fetch(PDO::FETCH_ASSOC);
             if($softwareType){
-                return new SoftwareType(
-                    $softwareType["SoftwareTypeID"],
-                    $softwareType["Name"]
-                );
+                return ORM::getNewInstance(SoftwareType::class,$softwareType);
             }
             return null;
         }
@@ -61,12 +59,9 @@
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("name",$name,PDO::PARAM_STR);
             $stmt->execute();
-            $softwareType = $stmt->fetch();
+            $softwareType = $stmt->fetch(PDO::FETCH_ASSOC);
             if($softwareType){
-                return new SoftwareType(
-                    $softwareType["SoftwareTypeID"],
-                    $softwareType["Name"]
-                );
+                return ORM::getNewInstance(SoftwareType::class,$softwareType);
             }
             return null;
         }
@@ -95,11 +90,11 @@
 
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("name",$s->Name,PDO::PARAM_STR);
-            $stmt->bindParam("id",$s->ID,PDO::PARAM_INT);            
+            $stmt->bindParam("id",$s->SoftwareTypeID,PDO::PARAM_INT);            
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while updating the software type with id: {".$s->ID."}");
+                throw new RepositoryException("Error while updating the software type with id: {".$s->SoftwareTypeID."}");
             }
         }        
         

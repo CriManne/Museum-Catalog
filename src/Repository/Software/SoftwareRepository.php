@@ -63,9 +63,9 @@ use PDO;
                 $stmt = $this->pdo->prepare($querySoftware);            
                 $stmt->bindParam("objID",$software->ObjectID,PDO::PARAM_STR);
                 $stmt->bindParam("title",$software->Title,PDO::PARAM_STR);
-                $stmt->bindParam("osID",$software->os->ID,PDO::PARAM_INT);
-                $stmt->bindParam("softID",$software->SoftwareType->ID,PDO::PARAM_INT);
-                $stmt->bindParam("suppID",$software->SupportType->ID,PDO::PARAM_INT);
+                $stmt->bindParam("osID",$software->os->OsID,PDO::PARAM_INT);
+                $stmt->bindParam("softID",$software->SoftwareType->SoftwareTypeID,PDO::PARAM_INT);
+                $stmt->bindParam("suppID",$software->SupportType->SupportTypeID,PDO::PARAM_INT);
 
                 $stmt->execute();
 
@@ -156,9 +156,9 @@ use PDO;
 
                 $stmt = $this->pdo->prepare($querySoftware);            
                 $stmt->bindParam("title",$s->Title,PDO::PARAM_STR);
-                $stmt->bindParam("osID",$s->os->ID,PDO::PARAM_INT);
-                $stmt->bindParam("softID",$s->SoftwareType->ID,PDO::PARAM_INT);
-                $stmt->bindParam("suppID",$s->SupportType->ID,PDO::PARAM_INT);
+                $stmt->bindParam("osID",$s->os->OsID,PDO::PARAM_INT);
+                $stmt->bindParam("softID",$s->SoftwareType->SoftwareTypeID,PDO::PARAM_INT);
+                $stmt->bindParam("suppID",$s->SupportType->SupportTypeID,PDO::PARAM_INT);
                 $stmt->bindParam("objID",$s->ObjectID,PDO::PARAM_INT);            
                 $stmt->execute();
 

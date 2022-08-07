@@ -8,7 +8,8 @@
     use App\Exception\RepositoryException;
     use App\Model\Computer\Os;
     use PDO;
-    use PDOException;   
+    use PDOException;  
+    use App\Util\ORM; 
 
     class OsRepository extends GenericRepository{
 
@@ -41,13 +42,9 @@
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("id",$id,PDO::PARAM_STR);
             $stmt->execute();
-            $os = $stmt->fetch();
+            $os = $stmt->fetch(PDO::FETCH_ASSOC);
             if($os){
-                return new Os(
-                    $os["OsID"],
-                    $os["Name"],
-                    $os["Erased"]
-                );
+                return ORM::getNewInstance(Os::class,$os);
             }
             return null;
         }
@@ -62,12 +59,9 @@
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("name",$name,PDO::PARAM_STR);
             $stmt->execute();
-            $os = $stmt->fetch();
+            $os = $stmt->fetch(PDO::FETCH_ASSOC);
             if($os){
-                return new Os(
-                    $os["OsID"],
-                    $os["Name"]
-                );
+                return ORM::getNewInstance(Os::class,$os);
             }
             return null;
         }
@@ -96,11 +90,11 @@
 
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("name",$s->Name,PDO::PARAM_STR);
-            $stmt->bindParam("id",$s->ID,PDO::PARAM_INT);            
+            $stmt->bindParam("id",$s->OsID,PDO::PARAM_INT);            
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while updating the os  with id: {".$s->ID."}");
+                throw new RepositoryException("Error while updating the os  with id: {".$s->OsID."}");
             }
         }        
         

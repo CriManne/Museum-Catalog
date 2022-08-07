@@ -38,7 +38,7 @@
         }
 
         public function update(SupportType $s):void{
-            if($this->supportTypeRepository->selectById($s->ID) == null)
+            if($this->supportTypeRepository->selectById($s->SupportTypeID) == null)
                 throw new ServiceException("Support Type not found!");
 
             $this->supportTypeRepository->update($s);

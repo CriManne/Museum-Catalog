@@ -38,7 +38,7 @@
         }
 
         public function update(Os $s):void{
-            if($this->osRepository->selectById($s->ID) == null)
+            if($this->osRepository->selectById($s->OsID) == null)
                 throw new ServiceException("Os not found!");
 
             $this->osRepository->update($s);

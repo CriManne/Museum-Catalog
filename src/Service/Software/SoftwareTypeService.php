@@ -38,7 +38,7 @@
         }
 
         public function update(SoftwareType $s):void{
-            if($this->softwareTypeRepository->selectById($s->ID) == null)
+            if($this->softwareTypeRepository->selectById($s->SoftwareTypeID) == null)
                 throw new ServiceException("Software Type not found!");
 
             $this->softwareTypeRepository->update($s);
