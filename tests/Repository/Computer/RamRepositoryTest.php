@@ -6,7 +6,6 @@ namespace App\Test\Repository;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\RamRepository;
-use App\Exception\RepositoryException;
 use App\Model\Computer\Ram;
 
 final class RamRepositoryTest extends TestCase
