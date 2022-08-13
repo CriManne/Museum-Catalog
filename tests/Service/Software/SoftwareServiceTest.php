@@ -1,4 +1,5 @@
 <?php
+/*
 
 declare(strict_types=1);
 
@@ -73,7 +74,6 @@ final class SoftwareServiceTest extends TestCase
         ];        
     }
     
-    /*
     
     //INSERT TESTS
     
@@ -120,5 +120,5 @@ final class SoftwareServiceTest extends TestCase
         
         $this->softwareService->delete(5);
     }   
-    */
 }
+*/

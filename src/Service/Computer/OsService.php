@@ -24,17 +24,17 @@
         }
 
         public function selectById(int $id): Os{
-            $supportType = $this->osRepository->selectById($id); 
-            if($supportType == null) throw new ServiceException("Os not found");
+            $os = $this->osRepository->selectById($id); 
+            if($os == null) throw new ServiceException("Os not found");
 
-            return $supportType;
+            return $os;
         }
 
         public function selectByName(string $name): Os{
-            $supportType = $this->osRepository->selectByName($name);
-            if($supportType == null) throw new ServiceException("Os not found");
+            $os = $this->osRepository->selectByName($name);
+            if($os == null) throw new ServiceException("Os not found");
 
-            return $supportType;
+            return $os;
         }
 
         public function update(Os $s):void{
