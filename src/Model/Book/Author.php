@@ -6,16 +6,16 @@
 
     class Author{
 
-        public int $AuthorID;
+        public ?int $AuthorID;
         public string $firstname;
         public string $lastname;
-        public string $Erased;
+        public ?string $Erased;
 
         public function __construct(
-            int $AuthorID,
+            ?int $AuthorID,
             string $firstname,
             string $lastname,
-            string $Erased = null
+            ?string $Erased = null
         )
         {
             $this->AuthorID = $AuthorID;

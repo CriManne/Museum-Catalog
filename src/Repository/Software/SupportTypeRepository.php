@@ -40,7 +40,7 @@
             }           
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("id",$id,PDO::PARAM_STR);
+            $stmt->bindParam("id",$id,PDO::PARAM_INT);
             $stmt->execute();
             $supportType = $stmt->fetch(PDO::FETCH_ASSOC);
             if($supportType){

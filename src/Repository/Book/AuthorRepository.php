@@ -2,38 +2,39 @@
 
     declare(strict_types=1);
 
-    namespace App\Repository\Computer;
+    namespace App\Repository\Book;
 
     use App\Repository\GenericRepository;
     use App\Exception\RepositoryException;
-    use App\Model\Computer\Os;
+    use App\Model\Book\Author;
     use PDO;
     use PDOException;  
     use App\Util\ORM; 
 
-    class OsRepository extends GenericRepository{
+    class AuthorRepository extends GenericRepository{
 
         //INSERT
-        public function insert(Os $os):void{
+        public function insert(Author $author):void{
 
             $query = 
-            "INSERT INTO os 
-            (Name) VALUES 
-            (:name);";
+            "INSERT INTO author 
+            (firstname,lastname) VALUES 
+            (:firstname,:lastname);";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$os->Name,PDO::PARAM_STR);
+            $stmt->bindParam("firstname",$author->firstname,PDO::PARAM_STR);
+            $stmt->bindParam("lastname",$author->lastname,PDO::PARAM_STR);
 
             try{             
                 $stmt->execute();
             }catch(PDOException){
-                throw new RepositoryException("Error while inserting the os with name: {".$os->Name."}");
+                throw new RepositoryException("Error while inserting the author with name: {".$author->firstname."}");
             }            
         }
         //SELECT
-        public function selectById(int $id,?bool $showErased = false): ?Os
+        public function selectById(int $id,?bool $showErased = false): ?Author
         {            
-            $query = "SELECT * FROM os WHERE OsID = :id";
+            $query = "SELECT * FROM author WHERE AuthorID = :id";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
@@ -42,32 +43,32 @@
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("id",$id,PDO::PARAM_INT);
             $stmt->execute();
-            $os = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($os){
-                return ORM::getNewInstance(Os::class,$os);
+            $author = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($author){
+                return ORM::getNewInstance(Author::class,$author);
             }
             return null;
         }
         
-        public function selectByName(string $name,?bool $showErased = false): ?Os{
-            $query = "SELECT * FROM os WHERE Name = :name";
+        public function selectByFullName(string $fullname,?bool $showErased = false): ?Author{
+            $query = "SELECT * FROM author WHERE Concat(firstname,' ',lastname) = :fullname OR Concat(lastname,' ',firstname) = :fullname";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }    
             
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$name,PDO::PARAM_STR);
+            $stmt->bindParam("fullname",$fullname,PDO::PARAM_STR);
             $stmt->execute();
-            $os = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($os){
-                return ORM::getNewInstance(Os::class,$os);
+            $author = $stmt->fetch(PDO::FETCH_ASSOC);
+            if($author){
+                return ORM::getNewInstance(Author::class,$author);
             }
             return null;
         }
         
         public function selectAll(?bool $showErased = false): ?array{
-            $query = "SELECT * FROM os";
+            $query = "SELECT * FROM author";
             
             if(isset($showErased)){
                 $query .= " WHERE Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
@@ -75,26 +76,28 @@
             
             $stmt = $this->pdo->query($query);
             
-            $arr_os = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);            
+            $arr_cpu = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);            
             
-            return $arr_os;
+            return $arr_cpu;
         }
         
         //UPDATE
-        public function update(Os $s): void
+        public function update(Author $s): void
         {            
             $query = 
-            "UPDATE os 
-            SET Name = :name            
-            WHERE OsID = :id;";
+            "UPDATE author 
+            SET firstname = :firstname,
+            lastname = :lastname
+            WHERE AuthorID = :id;";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$s->Name,PDO::PARAM_STR);
-            $stmt->bindParam("id",$s->OsID,PDO::PARAM_INT);            
+            $stmt->bindParam("firstname",$s->firstname,PDO::PARAM_STR);
+            $stmt->bindParam("lastname",$s->lastname,PDO::PARAM_STR);
+            $stmt->bindParam("id",$s->AuthorID,PDO::PARAM_INT);            
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while updating the os  with id: {".$s->OsID."}");
+                throw new RepositoryException("Error while updating the author with id: {".$s->AuthorID."}");
             }
         }        
         
@@ -102,16 +105,16 @@
         public function delete(int $id): void
         {
             $query = 
-            "UPDATE os          
+            "UPDATE author          
             SET Erased = NOW()
-            WHERE OsID = :id;"; 
+            WHERE AuthorID = :id;"; 
 
             $stmt = $this->pdo->prepare($query);                        
             $stmt->bindParam("id",$id,PDO::PARAM_INT);
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while deleting the os  with id: {".$id."}");
+                throw new RepositoryException("Error while deleting the author with id: {".$id."}");
             }
         }
         
