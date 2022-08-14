@@ -3,7 +3,7 @@
         'name' => 'simplemvc/skeleton',
         'pretty_version' => 'dev-main',
         'version' => 'dev-main',
-        'reference' => '8068be704d4993029bb90c3e55deec9032c6a767',
+        'reference' => '6058bea49742e4115747dcb8065ba9dda10df1bc',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -454,7 +454,7 @@
         'simplemvc/skeleton' => array(
             'pretty_version' => 'dev-main',
             'version' => 'dev-main',
-            'reference' => '8068be704d4993029bb90c3e55deec9032c6a767',
+            'reference' => '6058bea49742e4115747dcb8065ba9dda10df1bc',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
