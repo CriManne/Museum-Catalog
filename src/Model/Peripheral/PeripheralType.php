@@ -7,17 +7,17 @@
 
     class PeripheralType{
         
-        public int $PeripheralTypeID;
-        public string $PeripheralTypeName;
-        public string $Erased;
+        public ?int $PeripheralTypeID;
+        public string $Name;
+        public ?string $Erased;
 
         public function __construct(
-            int $PeripheralTypeID,
-            string $PeripheralTypeName,
-            string $Erased = null
+            ?int $PeripheralTypeID,
+            string $Name,
+            ?string $Erased = null
         ){            
             $this->PeripheralTypeID = $PeripheralTypeID;
-            $this->PeripheralTypeName = $PeripheralTypeName;
+            $this->Name = $Name;
             $this->Erased = $Erased;
         }
     }
