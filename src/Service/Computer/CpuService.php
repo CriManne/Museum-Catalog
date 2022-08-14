@@ -19,7 +19,7 @@
         public function insert(Cpu $s):void{
             $cpu = $this->cpuRepository->selectById($s->CpuID);
             if($cpu->ModelName == $s->ModelName && $cpu->Speed == $s->Speed)
-                throw new ServiceException("Cpu name and size already used!");
+                throw new ServiceException("Cpu name and speed already used!");
 
             $this->cpuRepository->insert($s);
         }

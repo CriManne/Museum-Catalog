@@ -6,7 +6,6 @@ namespace App\Test\Repository;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Book\AuthorRepository;
-use App\Exception\RepositoryException;
 use App\Model\Book\Author;
 
 final class AuthorRepositoryTest extends TestCase

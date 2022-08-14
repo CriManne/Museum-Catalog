@@ -13,39 +13,39 @@
 
         public function __construct(AuthorRepository $authorRepository)
         {
-            $this->osRepository = $authorRepository;
+            $this->authorRepository = $authorRepository;
         }
 
         public function insert(Author $s):void{
-            $this->osRepository->insert($s);
+            $this->authorRepository->insert($s);
         }
 
         public function selectById(int $id): Author{
-            $author = $this->osRepository->selectById($id); 
+            $author = $this->authorRepository->selectById($id); 
             if($author == null) throw new ServiceException("Author not found");
 
             return $author;
         }
 
         public function selectByFullName(string $fullname): Author{
-            $author = $this->osRepository->selectByFullName($fullname);
+            $author = $this->authorRepository->selectByFullName($fullname);
             if($author == null) throw new ServiceException("Author not found");
 
             return $author;
         }
 
         public function update(Author $s):void{
-            if($this->osRepository->selectById($s->AuthorID) == null)
+            if($this->authorRepository->selectById($s->AuthorID) == null)
                 throw new ServiceException("Author not found!");
 
-            $this->osRepository->update($s);
+            $this->authorRepository->update($s);
         }
 
         public function delete(int $id): void{
-            if($this->osRepository->selectById($id) == null)
+            if($this->authorRepository->selectById($id) == null)
                 throw new ServiceException("Author not found!");
 
-            $this->osRepository->delete($id);
+            $this->authorRepository->delete($id);
         }
     }
 
