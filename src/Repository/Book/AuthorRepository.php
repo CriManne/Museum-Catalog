@@ -13,8 +13,13 @@
 
     class AuthorRepository extends GenericRepository{
 
-        //INSERT
-        public function insert(Author $author):void{
+        /**
+         * Insert an author
+         * @param Author $author    The author to insert
+         * @return Author           The author inserted
+         * @throws RepositoryException  If the insert fails
+         */
+        public function insert(Author $author):Author{
 
             $query = 
             "INSERT INTO author 
@@ -27,11 +32,18 @@
 
             try{             
                 $stmt->execute();
+                return $author;
             }catch(PDOException){
                 throw new RepositoryException("Error while inserting the author with name: {".$author->firstname."}");
             }            
         }
-        //SELECT
+        
+        /**
+         * Select author by id
+         * @param int $id   The author id
+         * @param ?bool $showErased     If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
+         * @return ?Author  The selected author, null if not found
+         */
         public function selectById(int $id,?bool $showErased = false): ?Author
         {            
             $query = "SELECT * FROM author WHERE AuthorID = :id";
@@ -50,6 +62,12 @@
             return null;
         }
         
+        /**
+         * Select by fullname
+         * @param string $fullname  The author fullname
+         * @param ?bool $showErased If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
+         * @return ?Author  The selected Author, null if not found
+         */
         public function selectByFullName(string $fullname,?bool $showErased = false): ?Author{
             $query = "SELECT * FROM author WHERE Concat(firstname,' ',lastname) = :fullname OR Concat(lastname,' ',firstname) = :fullname";
             
@@ -67,6 +85,11 @@
             return null;
         }
         
+        /**
+         * Select all authors
+         * @param ?bool $showErased     If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
+         * @return ?array   All the authors, null if author table is empty
+         */
         public function selectAll(?bool $showErased = false): ?array{
             $query = "SELECT * FROM author";
             
@@ -81,40 +104,50 @@
             return $arr_cpu;
         }
         
-        //UPDATE
-        public function update(Author $s): void
+        /**
+         * Update an author
+         * @param Author $a     The author to update
+         * @return Author       The author updated
+         * @throws RepositoryException  If the update fails
+         */
+        public function update(Author $author): Author
         {            
             $query = 
             "UPDATE author 
             SET firstname = :firstname,
             lastname = :lastname
-            WHERE AuthorID = :id;";
+            WHERE AuthorID = :AuthorID;";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("firstname",$s->firstname,PDO::PARAM_STR);
-            $stmt->bindParam("lastname",$s->lastname,PDO::PARAM_STR);
-            $stmt->bindParam("id",$s->AuthorID,PDO::PARAM_INT);            
+            $stmt->bindParam("firstname",$author->firstname,PDO::PARAM_STR);
+            $stmt->bindParam("lastname",$author->lastname,PDO::PARAM_STR);
+            $stmt->bindParam("AuthorID",$author->AuthorID,PDO::PARAM_INT);            
             try{             
                 $stmt->execute();
+                return $author;
             }catch(PDOException $e){
-                throw new RepositoryException("Error while updating the author with id: {".$s->AuthorID."}");
+                throw new RepositoryException("Error while updating the author with id: {".$author->AuthorID."}");
             }
         }        
         
-        //DELETE
-        public function delete(int $id): void
+        /**
+         * Delete an author
+         * @param int $AuthorID     The author id to delete
+         * @throws RepositoryException  If the delete fails
+         */
+        public function delete(int $AuthorID): void
         {
             $query = 
             "UPDATE author          
             SET Erased = NOW()
-            WHERE AuthorID = :id;"; 
+            WHERE AuthorID = :AuthorID;"; 
 
             $stmt = $this->pdo->prepare($query);                        
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("AuthorID",$AuthorID,PDO::PARAM_INT);
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while deleting the author with id: {".$id."}");
+                throw new RepositoryException("Error while deleting the author with id: {".$AuthorID."}");
             }
         }
         

@@ -91,4 +91,3 @@ class UserController implements ControllerInterface
 
     }
 }
-*/
