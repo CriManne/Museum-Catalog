@@ -26,7 +26,7 @@ final class CpuRepositoryTest extends TestCase
 
     public function setUp():void{
         //Cpu inserted to test duplicated cpu errors
-        $cpu= new Cpu(null,'Cpu 1.0',"4GHZ",null);
+        $cpu= new Cpu(null,'Cpu 1.0',"4GHZ");
         self::$cpuRepository->insert($cpu);        
     }
 
@@ -37,7 +37,7 @@ final class CpuRepositoryTest extends TestCase
 
     //INSERT TESTS
     public function testGoodInsert():void{                
-        $cpu= new Cpu(null,'Cpu 2.0',"4GHZ",null);
+        $cpu= new Cpu(null,'Cpu 2.0',"4GHZ");
 
         self::$cpuRepository->insert($cpu);
 
@@ -69,9 +69,9 @@ final class CpuRepositoryTest extends TestCase
     
     
     public function testGoodSelectAll():void{
-        $cpu1 = new Cpu(null,'Cpu 4.0',"4GHZ",null);
-        $cpu2 = new Cpu(null,'Cpu 5.0',"8GHZ",null);
-        $cpu3 = new Cpu(null,'Cpu 6.0',"12GHZ",null);
+        $cpu1 = new Cpu(null,'Cpu 4.0',"4GHZ");
+        $cpu2 = new Cpu(null,'Cpu 5.0',"8GHZ");
+        $cpu3 = new Cpu(null,'Cpu 6.0',"12GHZ");
         self::$cpuRepository->insert($cpu1);
         self::$cpuRepository->insert($cpu2);
         self::$cpuRepository->insert($cpu3);
@@ -84,7 +84,7 @@ final class CpuRepositoryTest extends TestCase
     
     //UPDATE TESTS
     public function testGoodUpdate():void{
-        $cpu= new Cpu(1,'Cpu 2.0',"4GHZ",null);
+        $cpu= new Cpu(1,'Cpu 2.0',"4GHZ");
         
         self::$cpuRepository->update($cpu);
         

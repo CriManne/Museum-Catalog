@@ -13,35 +13,47 @@
 
     class CpuRepository extends GenericRepository{
 
-        //INSERT
-        public function insert(Cpu $cpu):void{
+        /**
+         * Insert a cpu
+         * @param Cpu $cpu  The cpu to insert
+         * @return Cpu  The cpu inserted
+         * @throws RepositoryException  If the insert fails
+         */
+        public function insert(Cpu $cpu):Cpu{
 
             $query = 
             "INSERT INTO cpu 
             (ModelName,Speed) VALUES 
-            (:name,:speed);";
+            (:ModelName,:Speed);";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$cpu->ModelName,PDO::PARAM_STR);
-            $stmt->bindParam("speed",$cpu->Speed,PDO::PARAM_STR);
+            $stmt->bindParam("ModelName",$cpu->ModelName,PDO::PARAM_STR);
+            $stmt->bindParam("Speed",$cpu->Speed,PDO::PARAM_STR);
 
-            try{             
+            try{                             
                 $stmt->execute();
-            }catch(PDOException){
+                return $cpu;
+            }catch(PDOException $e){
                 throw new RepositoryException("Error while inserting the cpu with name: {".$cpu->ModelName."}");
             }            
         }
-        //SELECT
-        public function selectById(int $id,?bool $showErased = false): ?Cpu
+
+        /**
+         * Select cpu by id
+         * @param int $CpuID    The cpu id to select
+         * @param ?bool $showErased
+         * @return ?Cpu     The selected cpu, null if not found
+         */
+        public function selectById(int $CpuID,?bool $showErased = false): ?Cpu
         {            
-            $query = "SELECT * FROM cpu WHERE CpuID = :id";
+            $query = "SELECT * FROM cpu WHERE CpuID = :CpuID";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }           
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("CpuID",$CpuID,PDO::PARAM_INT);
             $stmt->execute();
             $cpu = $stmt->fetch(PDO::FETCH_ASSOC);
             if($cpu){
@@ -50,15 +62,21 @@
             return null;
         }
         
-        public function selectByName(string $name,?bool $showErased = false): ?Cpu{
-            $query = "SELECT * FROM cpu WHERE ModelName = :name";
+        /**
+         * Select cpu by name
+         * @param string $ModelName     The cpu name to select
+         * @param ?bool $showErased
+         * @return ?Cpu     The cpu selected, null if not found
+         */
+        public function selectByName(string $ModelName,?bool $showErased = false): ?Cpu{
+            $query = "SELECT * FROM cpu WHERE ModelName = :ModelName";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }    
             
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$name,PDO::PARAM_STR);
+            $stmt->bindParam("ModelName",$ModelName,PDO::PARAM_STR);
             $stmt->execute();
             $cpu = $stmt->fetch(PDO::FETCH_ASSOC);
             if($cpu){
@@ -66,7 +84,12 @@
             }
             return null;
         }
-        
+
+        /**
+         * Select all cpus
+         * @param ?bool $showErased
+         * @return ?array   The cpus selected, null if no result
+         */
         public function selectAll(?bool $showErased = false): ?array{
             $query = "SELECT * FROM cpu";
             
@@ -81,40 +104,50 @@
             return $arr_cpu;
         }
         
-        //UPDATE
-        public function update(Cpu $s): void
+        /**
+         * Update a cpu
+         * @param Cpu $c    The cpu to update
+         * @return Cpu      The cpu updated
+         * @throws RepositoryException If the update fails
+         */
+        public function update(Cpu $c): Cpu
         {            
             $query = 
             "UPDATE cpu 
-            SET ModelName = :name,
-            Speed = :speed
-            WHERE CpuID = :id;";
+            SET ModelName = :ModelName,
+            Speed = :Speed
+            WHERE CpuID = :CpuID;";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$s->ModelName,PDO::PARAM_STR);
-            $stmt->bindParam("speed",$s->Speed,PDO::PARAM_STR);
-            $stmt->bindParam("id",$s->CpuID,PDO::PARAM_INT);            
+            $stmt->bindParam("ModelName",$c->ModelName,PDO::PARAM_STR);
+            $stmt->bindParam("Speed",$c->Speed,PDO::PARAM_STR);
+            $stmt->bindParam("CpuID",$c->CpuID,PDO::PARAM_INT);            
             try{             
                 $stmt->execute();
+                return $c;
             }catch(PDOException $e){
-                throw new RepositoryException("Error while updating the cpu with id: {".$s->CpuID."}");
+                throw new RepositoryException("Error while updating the cpu with id: {".$c->CpuID."}");
             }
         }        
         
-        //DELETE
-        public function delete(int $id): void
+        /**
+         * Delete a cpu by id
+         * @param int $CpuID    The cpu id to delete
+         * @throws RepositoryException  If the delete fails
+         */
+        public function delete(int $CpuID): void
         {
             $query = 
             "UPDATE cpu          
             SET Erased = NOW()
-            WHERE CpuID = :id;"; 
+            WHERE CpuID = :CpuID;"; 
 
             $stmt = $this->pdo->prepare($query);                        
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("CpuID",$CpuID,PDO::PARAM_INT);
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while deleting the cpu with id: {".$id."}");
+                throw new RepositoryException("Error while deleting the cpu with id: {".$CpuID."}");
             }
         }
         
