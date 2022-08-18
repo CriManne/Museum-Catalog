@@ -26,7 +26,7 @@ final class PublisherRepositoryTest extends TestCase
 
     public function setUp():void{
         //Publisher inserted to test duplicated cpu errors
-        $publisher= new Publisher(null,'Mondadori',null);
+        $publisher= new Publisher(null,'Mondadori');
         self::$publisherRepository->insert($publisher);        
     }
 
@@ -37,7 +37,7 @@ final class PublisherRepositoryTest extends TestCase
 
     //INSERT TESTS
     public function testGoodInsert():void{                
-        $publisher= new Publisher(null,'Einaudi',null);
+        $publisher= new Publisher(null,'Einaudi');
 
         self::$publisherRepository->insert($publisher);
 
@@ -46,7 +46,7 @@ final class PublisherRepositoryTest extends TestCase
 
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);        
-        $publisher= new Publisher(null,'Mondadori',null);
+        $publisher= new Publisher(null,'Mondadori');
 
         self::$publisherRepository->insert($publisher);
     }
@@ -74,9 +74,9 @@ final class PublisherRepositoryTest extends TestCase
     
     
     public function testGoodSelectAll():void{
-        $publisher1 = new Publisher(null,'P1',null);
-        $publisher2 = new Publisher(null,'P2',null);
-        $publisher3 = new Publisher(null,'P3',null);
+        $publisher1 = new Publisher(null,'P1');
+        $publisher2 = new Publisher(null,'P2');
+        $publisher3 = new Publisher(null,'P3');
         self::$publisherRepository->insert($publisher1);
         self::$publisherRepository->insert($publisher2);
         self::$publisherRepository->insert($publisher3);
@@ -89,7 +89,7 @@ final class PublisherRepositoryTest extends TestCase
     
     //UPDATE TESTS
     public function testGoodUpdate():void{
-        $publisher= new Publisher(1,"PTEST",null);
+        $publisher= new Publisher(1,"PTEST");
         
         self::$publisherRepository->update($publisher);
         

@@ -16,3 +16,5 @@ OTHER TESTS WITH THE FK CHECKS AND EXPECT EXCEPTIONS
 
 
 - USE mysql_real_escape_string TO CLEAN INPUTS
+
+- Implement documentation for the showErased PARAMETER

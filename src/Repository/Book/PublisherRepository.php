@@ -13,34 +13,46 @@
 
     class PublisherRepository extends GenericRepository{
 
-        //INSERT
-        public function insert(Publisher $publisher):void{
+        /**
+         * Insert a publisher
+         * @param Publisher $publisher  The publisher to insert
+         * @return Publisher    The publisher inserted
+         * @throws RepositoryException  If the insert fails
+         */
+        public function insert(Publisher $publisher):Publisher{
 
             $query = 
             "INSERT INTO publisher 
             (Name) VALUES 
-            (:name);";
+            (:Name);";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$publisher->Name,PDO::PARAM_STR);
+            $stmt->bindParam("Name",$publisher->Name,PDO::PARAM_STR);
 
             try{             
                 $stmt->execute();
+                return $publisher;
             }catch(PDOException){
                 throw new RepositoryException("Error while inserting the publisher with name: {".$publisher->Name."}");
             }            
         }
-        //SELECT
-        public function selectById(int $id,?bool $showErased = false): ?Publisher
+
+        /**
+         * Select publisher by id
+         * @param int $PublisherID  The publisher id
+         * @param ?bool $showErased
+         * @return ?Publisher   The publisher selected, null if not found         * 
+         */
+        public function selectById(int $PublisherID,?bool $showErased = false): ?Publisher
         {            
-            $query = "SELECT * FROM publisher WHERE PublisherID = :id";
+            $query = "SELECT * FROM publisher WHERE PublisherID = :PublisherID";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }           
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("PublisherID",$PublisherID,PDO::PARAM_INT);
             $stmt->execute();
             $publisher = $stmt->fetch(PDO::FETCH_ASSOC);
             if($publisher){
@@ -49,15 +61,21 @@
             return null;
         }
         
-        public function selectByName(string $name,?bool $showErased = false): ?Publisher{
-            $query = "SELECT * FROM publisher WHERE Name = :name";
+        /**
+         * Select publisher by name
+         * @param string $Name  The publisher name
+         * @param ?bool $showErased
+         * @return ?Publisher   The publisher selected,null if not found
+         */
+        public function selectByName(string $Name,?bool $showErased = false): ?Publisher{
+            $query = "SELECT * FROM publisher WHERE Name = :Name";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }    
             
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$name,PDO::PARAM_STR);
+            $stmt->bindParam("Name",$Name,PDO::PARAM_STR);
             $stmt->execute();
             $publisher = $stmt->fetch(PDO::FETCH_ASSOC);
             if($publisher){
@@ -66,6 +84,11 @@
             return null;
         }
         
+        /**
+         * Select all publishers
+         * @param ?bool $showErased
+         * @return ?array   The selected publishers, null if no result
+         */
         public function selectAll(?bool $showErased = false): ?array{
             $query = "SELECT * FROM publisher";
             
@@ -80,40 +103,49 @@
             return $arr_cpu;
         }
         
-        //UPDATE
-        public function update(Publisher $s): void
+        /**
+         * Update a publisher
+         * @param Publisher $p  The publisher to update
+         * @return Publisher The publisher updated
+         * @throws RepositoryException  If the update fails
+         */
+        public function update(Publisher $p): Publisher
         {            
             $query = 
             "UPDATE publisher 
             SET Name = :name
-            WHERE PublisherID = :id;";
+            WHERE PublisherID = :PublisherID;";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$s->Name,PDO::PARAM_STR);
-            $stmt->bindParam("id",$s->PublisherID,PDO::PARAM_INT);            
+            $stmt->bindParam("name",$p->Name,PDO::PARAM_STR);
+            $stmt->bindParam("PublisherID",$p->PublisherID,PDO::PARAM_INT);            
             try{             
                 $stmt->execute();
+                return $p;
             }catch(PDOException $e){
-                throw new RepositoryException("Error while updating the publisher with id: {".$s->PublisherID."}");
+                throw new RepositoryException("Error while updating the publisher with id: {".$p->PublisherID."}");
             }
         }        
         
-        //DELETE
-        public function delete(int $id): void
+        /**
+         * Delete a publisher
+         * @param int $PublisherID  The publisher id to delete
+         * @throws RepositoryException If the delete fails         * 
+         */
+        public function delete(int $PublisherID): void
         {
             $query = 
             "UPDATE publisher          
             SET Erased = NOW()
-            WHERE PublisherID = :id;"; 
+            WHERE PublisherID = :PublisherID;"; 
 
             $stmt = $this->pdo->prepare($query);                        
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("PublisherID",$PublisherID,PDO::PARAM_INT);
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while deleting the publisher with id: {".$id."}");
+                throw new RepositoryException("Error while deleting the publisher with id: {".$PublisherID."}");
             }
-        }
-        
+        }        
     }
 ?>
