@@ -13,34 +13,48 @@
 
     class SupportTypeRepository extends GenericRepository{
 
-        //INSERT
-        public function insert(SupportType $supportType):void{
+        /**
+         * Insert support type
+         * @param SupportType $supportType  The support type to insert
+         * @return SupportType  The support type inserted
+         * @throws RepositoryException  If the insert fails
+         */
+        public function insert(SupportType $supportType):SupportType{
 
             $query = 
             "INSERT INTO supporttype 
             (Name) VALUES 
-            (:name);";
+            (:Name);";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$supportType->Name,PDO::PARAM_STR);
+            $stmt->bindParam("Name",$supportType->Name,PDO::PARAM_STR);
 
             try{             
                 $stmt->execute();
+                $supportType->SupportTypeID = intval($this->pdo->lastInsertId());
+                return $supportType;
             }catch(PDOException){
                 throw new RepositoryException("Error while inserting the support type with name: {".$supportType->Name."}");
             }            
         }
-        //SELECT
-        public function selectById(int $id,?bool $showErased = false): ?SupportType
+        
+        
+        /**
+         * Select by id
+         * @param int $SupportTypeID    The id to select
+         * @param ?bool $showErased
+         * @return ?SupportType     The support type selected, null if not found
+         */
+        public function selectById(int $SupportTypeID,?bool $showErased = false): ?SupportType
         {            
-            $query = "SELECT * FROM supporttype WHERE SupportTypeID = :id";
+            $query = "SELECT * FROM supporttype WHERE SupportTypeID = :SupportTypeID";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }           
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("SupportTypeID",$SupportTypeID,PDO::PARAM_INT);
             $stmt->execute();
             $supportType = $stmt->fetch(PDO::FETCH_ASSOC);
             if($supportType){
@@ -49,15 +63,21 @@
             return null;
         }
         
-        public function selectByName(string $name,?bool $showErased = false): ?SupportType{
-            $query = "SELECT * FROM supporttype WHERE Name = :name";
+        /**
+         * Select by name
+         * @param string $Name  The name to select
+         * @param ?bool $showErased
+         * @return ?SupportType The support type selected, null if not found
+         */
+        public function selectByName(string $Name,?bool $showErased = false): ?SupportType{
+            $query = "SELECT * FROM supporttype WHERE Name = :Name";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }    
             
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$name,PDO::PARAM_STR);
+            $stmt->bindParam("Name",$Name,PDO::PARAM_STR);
             $stmt->execute();
             $supportType = $stmt->fetch(PDO::FETCH_ASSOC);
             if($supportType){
@@ -66,6 +86,11 @@
             return null;
         }
         
+        /**
+         * Select all
+         * @param ?bool $showErased
+         * @return ?array   The support types selected, null if no results;
+         */
         public function selectAll(?bool $showErased = false): ?array{
             $query = "SELECT * FROM supporttype";
             
@@ -80,17 +105,22 @@
             return $supports;
         }
         
-        //UPDATE
+        /**
+         * Update support type
+         * @param SupportType $s    The support type to update
+         * @return SupportType  The support type updated
+         * @throws RepositoryException  If the update fails
+         */
         public function update(SupportType $s): void
         {            
             $query = 
             "UPDATE supporttype 
-            SET Name = :name            
-            WHERE SupportTypeID = :id;";
+            SET Name = :Name            
+            WHERE SupportTypeID = :SupportTypeID;";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$s->Name,PDO::PARAM_STR);
-            $stmt->bindParam("id",$s->SupportTypeID,PDO::PARAM_INT);            
+            $stmt->bindParam("Name",$s->Name,PDO::PARAM_STR);
+            $stmt->bindParam("SupportTypeID",$s->SupportTypeID,PDO::PARAM_INT);            
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
@@ -98,20 +128,24 @@
             }
         }        
         
-        //DELETE
-        public function delete(int $id): void
+        /**
+         * Delete a support type
+         * @param int $SupportTypeID    The id to delete
+         * @throws RepositoryException  If the delete fails
+         */
+        public function delete(int $SupportTypeID): void
         {
             $query = 
             "UPDATE supporttype          
             SET Erased = NOW()
-            WHERE SupportTypeID = :id;"; 
+            WHERE SupportTypeID = :SupportTypeID;"; 
 
             $stmt = $this->pdo->prepare($query);                        
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("SupportTypeID",$SupportTypeID,PDO::PARAM_INT);
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while deleting the support type with id: {".$id."}");
+                throw new RepositoryException("Error while deleting the support type with id: {".$SupportTypeID."}");
             }
         }
         
