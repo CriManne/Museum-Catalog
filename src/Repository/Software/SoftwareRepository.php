@@ -43,7 +43,7 @@
             $querySoftware = 
                 "INSERT INTO software
                 (ObjectID,Title,OsID,SoftwareTypeID,SupportTypeID) VALUES 
-                (:objID,:title,:osID,:softID,:suppID);";
+                (:ObjectID,:Title,:OsID,:SoftwareTypeID,:SupportTypeID);";
 
             $queryObject = 
                 "INSERT INTO genericobject
@@ -63,11 +63,11 @@
                 $stmt->execute();
 
                 $stmt = $this->pdo->prepare($querySoftware);            
-                $stmt->bindParam("objID",$software->ObjectID,PDO::PARAM_STR);
-                $stmt->bindParam("title",$software->Title,PDO::PARAM_STR);
-                $stmt->bindParam("osID",$software->os->OsID,PDO::PARAM_INT);
-                $stmt->bindParam("softID",$software->SoftwareType->SoftwareTypeID,PDO::PARAM_INT);
-                $stmt->bindParam("suppID",$software->SupportType->SupportTypeID,PDO::PARAM_INT);
+                $stmt->bindParam("ObjectID",$software->ObjectID,PDO::PARAM_STR);
+                $stmt->bindParam("Title",$software->Title,PDO::PARAM_STR);
+                $stmt->bindParam("OsID",$software->os->OsID,PDO::PARAM_INT);
+                $stmt->bindParam("SoftwareTypeID",$software->SoftwareType->SoftwareTypeID,PDO::PARAM_INT);
+                $stmt->bindParam("SupportTypeID",$software->SupportType->SupportTypeID,PDO::PARAM_INT);
 
                 $stmt->execute();
 
@@ -160,45 +160,45 @@
         {   
             $querySoftware = 
             "UPDATE software
-            SET Title = :title,
-            OsID = :osID,
-            SoftwareTypeID = :softID,
-            SupportTypeID = :suppID
-            WHERE ObjectID = :objID";
+            SET Title = :Title,
+            OsID = :OsID,
+            SoftwareTypeID = :SoftwareTypeID,
+            SupportTypeID = :SupportTypeID
+            WHERE ObjectID = :ObjectID";
 
             $queryObject = 
             "UPDATE genericobject
-            SET Note = :note,
-            Url = :url,
-            Tag = :tag,
-            Active = :active,
-            Erased = :erased
-            WHERE ObjectID = :objID";
+            SET Note = :Note,
+            Url = :Url,
+            Tag = :Tag,
+            Active = :Active,
+            Erased = :Erased
+            WHERE ObjectID = :ObjectID";
 
             try{             
                 $this->pdo->beginTransaction();
 
                 $stmt = $this->pdo->prepare($querySoftware);            
-                $stmt->bindParam("title",$s->Title,PDO::PARAM_STR);
-                $stmt->bindParam("osID",$s->os->OsID,PDO::PARAM_INT);
-                $stmt->bindParam("softID",$s->SoftwareType->SoftwareTypeID,PDO::PARAM_INT);
-                $stmt->bindParam("suppID",$s->SupportType->SupportTypeID,PDO::PARAM_INT);
-                $stmt->bindParam("objID",$s->ObjectID,PDO::PARAM_INT);            
+                $stmt->bindParam("Title",$s->Title,PDO::PARAM_STR);
+                $stmt->bindParam("OsID",$s->os->OsID,PDO::PARAM_INT);
+                $stmt->bindParam("SoftwareTypeID",$s->SoftwareType->SoftwareTypeID,PDO::PARAM_INT);
+                $stmt->bindParam("SupportTypeID",$s->SupportType->SupportTypeID,PDO::PARAM_INT);
+                $stmt->bindParam("ObjectID",$s->ObjectID,PDO::PARAM_STR);            
                 $stmt->execute();
 
                 $stmt = $this->pdo->prepare($queryObject);
-                $stmt->bindParam("note",$s->Note,PDO::PARAM_STR);
-                $stmt->bindParam("url",$s->Url,PDO::PARAM_STR);
-                $stmt->bindParam("tag",$s->Tag,PDO::PARAM_STR);
-                $stmt->bindParam("active",$s->Active,PDO::PARAM_STR);
-                $stmt->bindParam("erased",$s->Erased,PDO::PARAM_STR);
-                $stmt->bindParam("objID",$s->ObjectID,PDO::PARAM_INT);
+                $stmt->bindParam("Note",$s->Note,PDO::PARAM_STR);
+                $stmt->bindParam("Url",$s->Url,PDO::PARAM_STR);
+                $stmt->bindParam("Tag",$s->Tag,PDO::PARAM_STR);
+                $stmt->bindParam("Active",$s->Active,PDO::PARAM_STR);
+                $stmt->bindParam("Erased",$s->Erased,PDO::PARAM_STR);
+                $stmt->bindParam("ObjectID",$s->ObjectID,PDO::PARAM_STR);
                 $stmt->execute();
 
                 $this->pdo->commit();
             }catch(PDOException $e){
                 $this->pdo->rollBack();
-                throw new RepositoryException("Error while updating the software with id: {".$s->ID."}");
+                throw new RepositoryException("Error while updating the software with id: {".$s->ObjectID."}");
             }
         }        
         
@@ -207,19 +207,19 @@
          * @param string $ObjectID  The object id to delete
          * @throws RepositoryException  If the delete fails
          */
-        public function delete(string $id): void
+        public function delete(string $ObjectID): void
         {
             $query = 
             "UPDATE genericobject
             SET Erased = NOW()
-            WHERE ObjectID = :id;"; 
+            WHERE ObjectID = :ObjectID;"; 
 
             $stmt = $this->pdo->prepare($query);                        
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("ObjectID",$ObjectID,PDO::PARAM_STR);
             try{             
                 $stmt->execute();
             }catch(PDOException){
-                throw new RepositoryException("Error while deleting the software with id: {".$id."}");
+                throw new RepositoryException("Error while deleting the software with id: {".$ObjectID."}");
             }
         }
         

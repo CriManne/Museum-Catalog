@@ -13,34 +13,47 @@
 
     class SoftwareTypeRepository extends GenericRepository{
 
-        //INSERT
-        public function insert(SoftwareType $softwareType):void{
+        /**
+         * Insert softwaretype
+         * @param SoftwareType  $softwareType   The software type to insert
+         * @return SoftwareType     The software type inserted
+         * @throws RepositoryException If the insert fails
+         */
+        public function insert(SoftwareType $softwareType):SoftwareType{
 
             $query = 
             "INSERT INTO softwaretype 
             (Name) VALUES 
-            (:name);";
+            (:Name);";
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$softwareType->Name,PDO::PARAM_STR);
+            $stmt->bindParam("Name",$softwareType->Name,PDO::PARAM_STR);
 
             try{             
                 $stmt->execute();
+                $softwareType->SoftwareTypeID = intval($this->pdo->lastInsertId());
+                return $softwareType;
             }catch(PDOException){
                 throw new RepositoryException("Error while inserting the software type with name: {".$softwareType->Name."}");
             }            
         }
-        //SELECT
-        public function selectById(int $id,?bool $showErased = false): ?SoftwareType
+        
+        /**
+         * Select by id
+         * @param int $SoftwareTypeID   The id to select
+         * @param ?boo $showErased
+         * @return ?SoftwareType    The software type selected, null if not found
+         */
+        public function selectById(int $SoftwareTypeID,?bool $showErased = false): ?SoftwareType
         {            
-            $query = "SELECT * FROM softwaretype WHERE SoftwareTypeID = :id";
+            $query = "SELECT * FROM softwaretype WHERE SoftwareTypeID = :SoftwareTypeID";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }           
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("SoftwareTypeID",$SoftwareTypeID,PDO::PARAM_INT);
             $stmt->execute();
             $softwareType = $stmt->fetch(PDO::FETCH_ASSOC);
             if($softwareType){
@@ -49,15 +62,21 @@
             return null;
         }
         
-        public function selectByName(string $name,?bool $showErased = false): ?SoftwareType{
-            $query = "SELECT * FROM softwaretype WHERE Name = :name";
+        /**
+         * Select by name
+         * @param string $Name  The name to select
+         * @param ?bool $showErased
+         * @return ?SoftwareType    The software type selected, null if not found
+         */
+        public function selectByName(string $Name,?bool $showErased = false): ?SoftwareType{
+            $query = "SELECT * FROM softwaretype WHERE Name = :Name";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }    
             
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("name",$name,PDO::PARAM_STR);
+            $stmt->bindParam("Name",$Name,PDO::PARAM_STR);
             $stmt->execute();
             $softwareType = $stmt->fetch(PDO::FETCH_ASSOC);
             if($softwareType){
@@ -66,6 +85,11 @@
             return null;
         }
         
+        /**
+         * Select all
+         * @param ?bool $showErased 
+         * @return ?array   The software types selected, null if no result
+         */
         public function selectAll(?bool $showErased = false): ?array{
             $query = "SELECT * FROM softwaretype";
             
@@ -80,8 +104,13 @@
             return $arr_software;
         }
         
-        //UPDATE
-        public function update(SoftwareType $s): void
+        /**
+         * Update a software type
+         * @param SoftwareType  The software type to update
+         * @return SoftwareType The software type updated
+         * @throws RepositoryException  If the update fails
+         */
+        public function update(SoftwareType $s): SoftwareType
         {            
             $query = 
             "UPDATE softwaretype 
@@ -93,25 +122,30 @@
             $stmt->bindParam("id",$s->SoftwareTypeID,PDO::PARAM_INT);            
             try{             
                 $stmt->execute();
+                return $s;
             }catch(PDOException $e){
                 throw new RepositoryException("Error while updating the software type with id: {".$s->SoftwareTypeID."}");
             }
         }        
         
-        //DELETE
-        public function delete(int $id): void
+        /**
+         * Delete software type
+         * @param int $SoftwareTypeID   The id to delete
+         * @throws RepositoryException  If the delete fails
+         */
+        public function delete(int $SoftwareTypeID): void
         {
             $query = 
             "UPDATE softwaretype          
             SET Erased = NOW()
-            WHERE SoftwareTypeID = :id;"; 
+            WHERE SoftwareTypeID = :SoftwareTypeID;"; 
 
             $stmt = $this->pdo->prepare($query);                        
-            $stmt->bindParam("id",$id,PDO::PARAM_INT);
+            $stmt->bindParam("SoftwareTypeID",$SoftwareTypeID,PDO::PARAM_INT);
             try{             
                 $stmt->execute();
             }catch(PDOException $e){
-                throw new RepositoryException("Error while deleting the software type with id: {".$id."}");
+                throw new RepositoryException("Error while deleting the software type with id: {".$SoftwareTypeID."}");
             }
         }
         
