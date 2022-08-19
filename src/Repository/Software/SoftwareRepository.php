@@ -7,15 +7,11 @@
     use App\Repository\GenericRepository;
     use App\Exception\RepositoryException;
     use App\Model\Software\Software;
-    use App\Model\Computer\Os;
-    use App\Model\Software\SoftwareType;
-    use App\Model\Software\SupportType;
     use App\Repository\Computer\OsRepository;
     use App\Repository\Software\SupportTypeRepository;
     use App\Repository\Software\SoftwareTypeRepository;
     use PDO;
     use PDOException;   
-    use Error;
 
     class SoftwareRepository extends GenericRepository{
 
@@ -36,8 +32,13 @@
                             
         }
 
-        //INSERT
-        public function insert(Software $software):void{
+        /**
+         * Insert software
+         * @param Software $software    The software to insert
+         * @return Software         The software inserted
+         * @throws RepositoryException  If the insert fails         * 
+         */
+        public function insert(Software $software):Software{
 
             $querySoftware = 
                 "INSERT INTO software
@@ -71,25 +72,31 @@
                 $stmt->execute();
 
                 $this->pdo->commit();     
-
+                return $software;
             }catch(PDOException){
                 $this->pdo->rollBack();    
                 throw new RepositoryException("Error while inserting the software with id: {".$software->ObjectID."}");
             }            
         }
-        //SELECT
-        public function selectById(string $id,?bool $showErased = false): ?Software
+        
+        /**
+         * Select software by id
+         * @param string $ObjectID  The object id to select
+         * @param ?bool $showErased
+         * @return ?Software    The software selected, null if not found
+         */
+        public function selectById(string $ObjectID,?bool $showErased = false): ?Software
         {            
             $query = "SELECT * FROM software 
             INNER JOIN genericobject g ON g.ObjectID = software.ObjectID 
-            WHERE g.ObjectID = :id";
+            WHERE g.ObjectID = :ObjectID";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }           
 
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("id",$id,PDO::PARAM_STR);
+            $stmt->bindParam("ObjectID",$ObjectID,PDO::PARAM_STR);
             $stmt->execute();
             $software = $stmt->fetch(PDO::FETCH_ASSOC);
             if($software){
@@ -98,18 +105,23 @@
             return null;
         }
         
-        
-        public function selectByTitle(string $title,?bool $showErased = false): ?Software{
+        /**
+         * Select software by title
+         * @param string $Title     The software title to select
+         * @param ?bool $showErased
+         * @return ?Software    The software selected, null if not found
+         */
+        public function selectByTitle(string $Title,?bool $showErased = false): ?Software{
             $query = "SELECT * FROM software 
             INNER JOIN genericobject g ON g.ObjectID = software.ObjectID 
-            WHERE Title = :title";
+            WHERE Title = :Title";
             
             if(isset($showErased)){
                 $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
             }    
             
             $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("title",$title,PDO::PARAM_STR);
+            $stmt->bindParam("Title",$Title,PDO::PARAM_STR);
             $stmt->execute();
             $software = $stmt->fetch(PDO::FETCH_ASSOC);
             if($software){
@@ -118,6 +130,11 @@
             return null;
         }
         
+        /**
+         * Select all software
+         * @param ?bool $showErased
+         * @return ?array   All software, null if no results
+         */
         public function selectAll(?bool $showErased = false): ?array{
             $query = "SELECT * FROM software
             INNER JOIN genericobject g ON g.ObjectID = software.ObjectID";
@@ -132,7 +149,13 @@
             
             return $arr_software;
         }
-        //UPDATE
+        
+        /**
+         * Update a software
+         * @param Software $s   The software to update
+         * @return Software     The software updated
+         * @throws RepositoryException  If the update fails
+         */
         public function update(Software $s): void
         {   
             $querySoftware = 
@@ -179,7 +202,11 @@
             }
         }        
         
-        //DELETE
+        /**
+         * Delete a software
+         * @param string $ObjectID  The object id to delete
+         * @throws RepositoryException  If the delete fails
+         */
         public function delete(string $id): void
         {
             $query = 
@@ -196,7 +223,11 @@
             }
         }
         
-
+        /**
+         * Return a new instance of Software from an array
+         * @param array $rawSoftware    The raw software object
+         * @return Software The new instance of software with the fk filled with the result of selects
+         */
         function returnMappedObject(array $rawsoftware): Software{
             return new Software(
                 $rawsoftware["ObjectID"],
