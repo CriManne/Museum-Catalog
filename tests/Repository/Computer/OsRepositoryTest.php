@@ -26,7 +26,7 @@ final class OsRepositoryTest extends TestCase
 
     public function setUp():void{
         //Os inserted to test duplicated os errors
-        $os = new Os(null,'Windows',null);
+        $os = new Os(null,'Windows');
         self::$osRepository->insert($os);
     }
 
@@ -39,9 +39,11 @@ final class OsRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $os = new Os(null,'Linux');
 
-        self::$osRepository->insert($os);
+        $insertResult = self::$osRepository->insert($os);
 
-        $this->assertEquals(self::$osRepository->selectById(2)->Name,"Linux");
+        $selectResult = self::$osRepository->selectById(2);
+
+        $this->assertEquals($insertResult->Name,$selectResult->Name);
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
