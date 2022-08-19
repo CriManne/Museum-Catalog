@@ -19,5 +19,6 @@ OTHER TESTS WITH THE FK CHECKS AND EXPECT EXCEPTIONS
 
 - Implement documentation for the showErased PARAMETER
 
-- On insert when returning the object inserted fill the ids, update integration test 
-on insert and compare the select result with the insert result
+- On insert when returning the object inserted fill the ids
+
+- *OPTIONAL* update integration test on insert and compare the select result with the insert result

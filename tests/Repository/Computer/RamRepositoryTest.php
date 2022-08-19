@@ -25,7 +25,7 @@ final class RamRepositoryTest extends TestCase
 
     public function setUp():void{
         //Ram inserted to test duplicated ram errors
-        $ram= new Ram(null,'Ram 1.0',"256KB",null);
+        $ram= new Ram(null,'Ram 1.0',"256KB");
         self::$ramRepository->insert($ram);        
     }
 
@@ -36,7 +36,7 @@ final class RamRepositoryTest extends TestCase
 
     //INSERT TESTS
     public function testGoodInsert():void{                
-        $ram= new Ram(null,'Ram 2.0',"256KB",null);
+        $ram= new Ram(null,'Ram 2.0',"256KB");
 
         self::$ramRepository->insert($ram);
 
@@ -71,9 +71,9 @@ final class RamRepositoryTest extends TestCase
     
     
     public function testGoodSelectAll():void{
-        $ram1 = new Ram(null,'Ram 4.0',"256KB",null);
-        $ram2 = new Ram(null,'Ram 5.0',"1024KB",null);
-        $ram3 = new Ram(null,'Ram 6.0',"512KB",null);
+        $ram1 = new Ram(null,'Ram 4.0',"256KB");
+        $ram2 = new Ram(null,'Ram 5.0',"1024KB");
+        $ram3 = new Ram(null,'Ram 6.0',"512KB");
         self::$ramRepository->insert($ram1);
         self::$ramRepository->insert($ram2);
         self::$ramRepository->insert($ram3);
@@ -86,7 +86,7 @@ final class RamRepositoryTest extends TestCase
     
     //UPDATE TESTS
     public function testGoodUpdate():void{
-        $ram= new Ram(1,'Ram 2.0',"256KB",null);
+        $ram= new Ram(1,'Ram 2.0',"256KB");
         
         self::$ramRepository->update($ram);
         
