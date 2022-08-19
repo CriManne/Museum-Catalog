@@ -26,7 +26,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
 
     public function setUp():void{
         //PeripheralType inserted to test duplicated os errors
-        $peripheralType = new PeripheralType(null,'Mouse',null);
+        $peripheralType = new PeripheralType(null,'Mouse');
         self::$peripheralTypeRepository->insert($peripheralType);
     }
 

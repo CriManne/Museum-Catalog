@@ -8,7 +8,10 @@
 - WHEN TESTING REPOSITORIES WITH RELATIONS ADD TESTS WITHOUT FOREIGN KEY CHECKS AND
 OTHER TESTS WITH THE FK CHECKS AND EXPECT EXCEPTIONS
 
-- REMEMBER TO HANDLE THE ACTIVE FIELD OF GENERIC OBJECT
+- REMEMBER TO HANDLE THE ACTIVE FIELD OF GENERIC OBJECT:
+    because the erased field is used to delete softly a record to avoid integrity fails
+    the active field could be used to disable an object so is not show in the catalog but still available
+    and it can be reactivated
 
 - REFACTOR CODE, FIX COPY AND PASTE TYPOS AND RENAME $s PARAMETERS AND REMOVE UNUSED IMPORTS
 
@@ -20,5 +23,7 @@ OTHER TESTS WITH THE FK CHECKS AND EXPECT EXCEPTIONS
 - Implement documentation for the showErased PARAMETER
 
 - On insert when returning the object inserted fill the ids
+
+- improve select alls
 
 - *OPTIONAL* update integration test on insert and compare the select result with the insert result
