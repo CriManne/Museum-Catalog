@@ -32,6 +32,7 @@
 
             try{             
                 $stmt->execute();
+                $author->AuthorID = intval($this->pdo->lastInsertId());
                 return $author;
             }catch(PDOException){
                 throw new RepositoryException("Error while inserting the author with name: {".$author->firstname."}");

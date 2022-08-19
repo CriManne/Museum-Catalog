@@ -31,6 +31,7 @@
 
             try{             
                 $stmt->execute();
+                $publisher->PublisherID = intval($this->pdo->lastInsertId());
                 return $publisher;
             }catch(PDOException){
                 throw new RepositoryException("Error while inserting the publisher with name: {".$publisher->Name."}");

@@ -31,6 +31,7 @@
 
             try{             
                 $stmt->execute();
+                $os->OsID = intval($this->pdo->lastInsertId());
                 return $os;
             }catch(PDOException){
                 throw new RepositoryException("Error while inserting the os with name: {".$os->Name."}");

@@ -32,6 +32,7 @@
 
             try{                             
                 $stmt->execute();
+                $cpu->CpuID = intval($this->pdo->lastInsertId());
                 return $cpu;
             }catch(PDOException $e){
                 throw new RepositoryException("Error while inserting the cpu with name: {".$cpu->ModelName."}");
