@@ -16,13 +16,26 @@
             $this->peripheralTypeRepository = $peripheralTypeRepository;
         }
 
-        public function insert(PeripheralType $s):void{
-            if($this->peripheralTypeRepository->selectByName($s->Name) != null)
+        /**
+         * Insert peripheral type
+         * @param PeripheralType $pt The object to insert
+         * @return PeripheralType The object inserted
+         * @throws ServiceException If the name is already used
+         * @throws RepositoryException If the insert fails
+         */
+        public function insert(PeripheralType $pt):PeripheralType{
+            if($this->peripheralTypeRepository->selectByName($pt->Name) != null)
                 throw new ServiceException("PeripheralType name already used!");
 
-            $this->peripheralTypeRepository->insert($s);
+            return $this->peripheralTypeRepository->insert($pt);
         }
 
+        /**
+         * Select by id
+         * @param int $id The id to select
+         * @return PeripheralType The object selected
+         * @throws ServiceException If not found
+         */
         public function selectById(int $id): PeripheralType{
             $peripheralType = $this->peripheralTypeRepository->selectById($id); 
             if($peripheralType == null) throw new ServiceException("PeripheralType not found");
@@ -30,6 +43,12 @@
             return $peripheralType;
         }
 
+        /**
+         * Select by name
+         * @param string $name The name to select
+         * @return PeripheralType The object selected
+         * @throws ServiceException If not found
+         */
         public function selectByName(string $name): PeripheralType{
             $peripheralType = $this->peripheralTypeRepository->selectByName($name);
             if($peripheralType == null) throw new ServiceException("PeripheralType not found");
@@ -37,18 +56,34 @@
             return $peripheralType;
         }
 
-        public function update(PeripheralType $s):void{
-            if($this->peripheralTypeRepository->selectById($s->PeripheralTypeID) == null)
+        /**
+         * Update peripheral type
+         * @param PeripheralType $pt The object to update
+         * @return PeripheralType The object updated
+         * @throws ServiceException If not found
+         * @throws RepositoryException If the update fails
+         */
+        public function update(PeripheralType $pt):PeripheralType{
+            if($this->peripheralTypeRepository->selectById($pt->PeripheralTypeID) == null)
                 throw new ServiceException("PeripheralType not found!");
 
-            $this->peripheralTypeRepository->update($s);
+            return $this->peripheralTypeRepository->update($pt);
         }
 
-        public function delete(int $id): void{
-            if($this->peripheralTypeRepository->selectById($id) == null)
+        /**
+         * Delete PeripheralType
+         * @param int $id The id to delete
+         * @return PeripheralType The object deleted
+         * @throws ServiceException If not found
+         * @throws RepositoryException If the delete fails
+         */
+        public function delete(int $id): PeripheralType{
+            $pt = $this->peripheralTypeRepository->selectById($id);
+            if($pt == null)
                 throw new ServiceException("PeripheralType not found!");
 
             $this->peripheralTypeRepository->delete($id);
+            return $pt;
         }
     }
 

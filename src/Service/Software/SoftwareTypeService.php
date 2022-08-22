@@ -16,13 +16,26 @@
             $this->softwareTypeRepository = $softwareTypeRepository;
         }
 
-        public function insert(SoftwareType $s):void{
+        /**
+         * Insert SoftwareType
+         * @param SoftwareType $s The SoftwareType to insert
+         * @return SoftwareType The SoftwareType inserted
+         * @throws ServiceException If the name is already used
+         * @throws RepositoryException If the insert fails
+         */
+        public function insert(SoftwareType $s):SoftwareType{
             if($this->softwareTypeRepository->selectByName($s->Name) != null)
                 throw new ServiceException("Software Type name already used!");
 
-            $this->softwareTypeRepository->insert($s);
+            return $this->softwareTypeRepository->insert($s);
         }
 
+        /**
+         * Select by id
+         * @param int $id The id to select
+         * @return SoftwareType The SoftwareType selected
+         * @throws ServiceException If not found
+         */
         public function selectById(int $id): SoftwareType{
             $softwareType = $this->softwareTypeRepository->selectById($id); 
             if($softwareType == null) throw new ServiceException("Software Type not found");
@@ -30,6 +43,12 @@
             return $softwareType;
         }
 
+        /**
+         * Select by name
+         * @param string $name The name to select
+         * @return SoftwareType The SoftwareType selected
+         * @throws ServiceException If not found
+         */
         public function selectByName(string $name): SoftwareType{
             $softwareType = $this->softwareTypeRepository->selectByName($name);
             if($softwareType == null) throw new ServiceException("Software Type not found");
@@ -37,18 +56,34 @@
             return $softwareType;
         }
 
-        public function update(SoftwareType $s):void{
+        /**
+         * Update SoftwareType
+         * @param SoftwareType $s The SoftwareType to update
+         * @return SoftwareType The SoftwareType updated
+         * @throws ServiceException If not found
+         * @throws RepositoryException If the update fails
+         */
+        public function update(SoftwareType $s):SoftwareType{
             if($this->softwareTypeRepository->selectById($s->SoftwareTypeID) == null)
                 throw new ServiceException("Software Type not found!");
 
-            $this->softwareTypeRepository->update($s);
+            return $this->softwareTypeRepository->update($s);
         }
 
-        public function delete(int $id): void{
-            if($this->softwareTypeRepository->selectById($id) == null)
+        /**
+         * Delete SoftwareType
+         * @param int $id The id to delete
+         * @return SoftwareType The SoftwareType deleted
+         * @throws ServiceException If not found
+         * @throws RepositoryException If the delete fails
+         */
+        public function delete(int $id): SoftwareType{
+            $s = $this->softwareTypeRepository->selectById($id);
+            if($s == null)
                 throw new ServiceException("Software Type not found!");
 
             $this->softwareTypeRepository->delete($id);
+            return $s;
         }
     }
 

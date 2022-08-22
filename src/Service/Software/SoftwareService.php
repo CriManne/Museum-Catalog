@@ -16,13 +16,26 @@
             $this->softwareRepository = $softwareRepository;
         }
 
-        public function insert(Software $s):void{
+        /**
+         * Insert software
+         * @param Software $s The software to insert
+         * @return Software The software inserted
+         * @throws ServiceException If the title is already used
+         * @throws RepositoryException If the insert fails
+         */
+        public function insert(Software $s):Software{
             if($this->softwareRepository->selectByTitle($s->Title) != null)
                 throw new ServiceException("Software already used!");
 
-            $this->softwareRepository->insert($s);
+            return $this->softwareRepository->insert($s);
         }
 
+        /**
+         * Select by id
+         * @param string $id The id to select
+         * @return Software The software selected
+         * @throws ServiceException If not found
+         */
         public function selectById(string $id): Software{
             $software = $this->softwareRepository->selectById($id); 
             if($software == null) throw new ServiceException("Software not found");
@@ -30,6 +43,12 @@
             return $software;
         }
 
+        /**
+         * Select by title
+         * @param string $title The title to select
+         * @return Software The software selected
+         * @throws ServiceException If not found
+         */
         public function selectByTitle(string $title): Software{
             $software = $this->softwareRepository->selectByTitle($title);
             if($software == null) throw new ServiceException("Software not found");
@@ -37,18 +56,34 @@
             return $software;
         }
 
-        public function update(Software $s):void{
+        /**
+         * Update a Software
+         * @param Software $s The Software to update
+         * @return Software The software updated
+         * @throws ServiceException If not found
+         * @throws RepositoryException If the update fails
+         */
+        public function update(Software $s):Software{
             if($this->softwareRepository->selectById($s->ID) == null)
                 throw new ServiceException("Software not found!");
 
-            $this->softwareRepository->update($s);
+            return $this->softwareRepository->update($s);
         }
 
-        public function delete(string $id): void{
-            if($this->softwareRepository->selectById($id) == null)
+        /**
+         * Delete a Software
+         * @param string $id The id to delete
+         * @return Software The software deleted
+         * @throws ServiceException If not found
+         * @throws RepositoryException If the delete fails
+         */
+        public function delete(string $id): Software{
+            $s = $this->softwareRepository->selectById($id);
+            if($s == null)
                 throw new ServiceException("Software not found!");
 
             $this->softwareRepository->delete($id);
+            return $s;
         }
     }
 
