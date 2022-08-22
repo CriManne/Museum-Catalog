@@ -23,12 +23,12 @@
          * @throws ServiceException If the publisher name already exists
          * @throws RepositoryException If the insert fails
          */
-        public function insert(Publisher $p):void{
+        public function insert(Publisher $p):Publisher{
             $publisher = $this->publisherRepository->selectById($p->PublisherID);
             if($publisher->Name == $p->Name)
                 throw new ServiceException("Publisher name already used!");
 
-            $this->publisherRepository->insert($p);
+            return $this->publisherRepository->insert($p);
         }
 
         /**
@@ -64,11 +64,11 @@
          * @throws ServiceException If not found
          * @throws RepositoryException If the update fails
          */
-        public function update(Publisher $p):void{
+        public function update(Publisher $p):Publisher{
             if($this->publisherRepository->selectById($p->PublisherID) == null)
                 throw new ServiceException("Publisher not found!");
 
-            $this->publisherRepository->update($p);
+            return $this->publisherRepository->update($p);
         }
 
         /**
@@ -78,11 +78,13 @@
          * @throws ServiceException If not found
          * @throws RepositoryException If the delete fails
          */
-        public function delete(int $id): void{
-            if($this->publisherRepository->selectById($id) == null)
+        public function delete(int $id): Publisher{
+            $p = $this->publisherRepository->selectById($id);
+            if($p == null)
                 throw new ServiceException("Publisher not found!");
 
             $this->publisherRepository->delete($id);
+            return $p;
         }
     }
 
