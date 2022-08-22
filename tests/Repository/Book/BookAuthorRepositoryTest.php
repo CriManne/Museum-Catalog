@@ -34,7 +34,7 @@ final class BookAuthorRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("TRUNCATE TABLE author; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("TRUNCATE TABLE bookauthor;");
     }
 
     //INSERT TESTS
@@ -42,8 +42,8 @@ final class BookAuthorRepositoryTest extends TestCase
         $bookAuthor= new BookAuthor('BOOK2',1);
 
         self::$bookAuthorRepository->insert($bookAuthor);
-
-        $this->assertEquals(self::$bookAuthorRepository->selectByBookID("BOOK2")[0]->BookID,"BOOK2");
+        
+        $this->assertEquals(self::$bookAuthorRepository->selectById("BOOK2",1)->BookID,"BOOK2");
     }
     
     //SELECT TESTS
@@ -51,7 +51,7 @@ final class BookAuthorRepositoryTest extends TestCase
     {
         $this->assertNotNull(self::$bookAuthorRepository->selectById("BOOK1",1));
     }
-
+    
     public function testBadSelectById(): void
     {
         $this->assertNull(self::$bookAuthorRepository->selectById("BOOK3",1));
@@ -79,9 +79,9 @@ final class BookAuthorRepositoryTest extends TestCase
     
     
     public function testGoodSelectAll():void{
-        $bookAuthor1 = new BookAuthor("BOOK1",1);
-        $bookAuthor2 = new BookAuthor("BOOK2",2);
-        $bookAuthor3 = new BookAuthor("BOOK3",3);
+        $bookAuthor1 = new BookAuthor("BOOK2",5);
+        $bookAuthor2 = new BookAuthor("BOOK3",3);
+        $bookAuthor3 = new BookAuthor("BOOK4",1);
         self::$bookAuthorRepository->insert($bookAuthor1);
         self::$bookAuthorRepository->insert($bookAuthor2);
         self::$bookAuthorRepository->insert($bookAuthor3);
@@ -93,16 +93,9 @@ final class BookAuthorRepositoryTest extends TestCase
     }
     
     //DELETE TESTS
-    public function testGoodDeleteByBookID():void{       
-        
-        self::$bookAuthorRepository->deleteByBookID("BOOK1");
-        
-        $this->assertNull(self::$bookAuthorRepository->selectByBookID("BOOK1"));
-    }
-
     public function testGoodDeleteByBookAuthorID():void{       
         
-        self::$bookAuthorRepository->delete("BOOK1",1);
+        self::$bookAuthorRepository->deleteById("BOOK1",1);
         
         $this->assertNull(self::$bookAuthorRepository->selectByBookID("BOOK1"));
     }

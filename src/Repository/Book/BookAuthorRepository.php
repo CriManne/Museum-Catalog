@@ -42,22 +42,19 @@
          * Select book author by id
          * @param string $BookID   The book id
          * @param int $AuthorID    The author id
-         * @param ?bool $showErased     If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
          * @return ?BookAuthor  The selected book author, null if not found
          */
-        public function selectById(string $BookID,int $AuthorID,?bool $showErased = false): ?BookAuthor
+        public function selectById(string $BookID,int $AuthorID): ?BookAuthor
         {            
             $query = "SELECT * FROM bookauthor WHERE BookID = :BookID AND AuthorID = :AuthorID";
-            
-            if(isset($showErased)){
-                $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
-            }           
+
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("BookID",$BookID,PDO::PARAM_STR);
             $stmt->bindParam("AuthorID",$AuthorID,PDO::PARAM_INT);
             $stmt->execute();
             $bookAuthor = $stmt->fetch(PDO::FETCH_ASSOC);
-            if($bookAuthor){
+
+            if($bookAuthor){        
                 return ORM::getNewInstance(BookAuthor::class,$bookAuthor);
             }
 
@@ -67,71 +64,86 @@
         /**
          * Select book authors by book id
          * @param string $BookID   The book id
-         * @param ?bool $showErased     If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
          * @return ?BookAuthor  The selected book author, null if not found
          */
-        public function selectByBookId(string $BookID,?bool $showErased = false): ?array
+        public function selectByBookId(string $BookID): ?array
         {            
             $query = "SELECT * FROM bookauthor WHERE BookID = :BookID";
-            
-            if(isset($showErased)){
-                $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
-            }           
+
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("BookID",$BookID,PDO::PARAM_STR);
             $stmt->execute();
-            $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+            $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
             
-            return $bookAuthors;            
+            if(count($bookAuthors)>0){
+                return $bookAuthors;            
+            }
+
+            return null;
         }
 
         /**
          * Select book authors by author id
          * @param int $AuthorID    The author id
-         * @param ?bool $showErased     If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
          * @return ?BookAuthor  The selected book author, null if not found
          */
-        public function selectByAuthorId(int $AuthorID,?bool $showErased = false): ?array
+        public function selectByAuthorId(int $AuthorID): ?array
         {            
             $query = "SELECT * FROM bookauthor WHERE AuthorID = :AuthorID";
-            
-            if(isset($showErased)){
-                $query .= " AND Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
-            }           
+
             $stmt = $this->pdo->prepare($query);            
             $stmt->bindParam("AuthorID",$AuthorID,PDO::PARAM_INT);
             $stmt->execute();
             $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
 
-            return $bookAuthors;            
+            if(count($bookAuthors)>0){
+                return $bookAuthors;            
+            }
+
+            return null;           
         }
 
         /**
          * Select all book authors
-         * @param ?bool $showErased     If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
          * @return ?BookAuthor  The selected book author, null if not found
          */
-        public function selectAll(?bool $showErased = false): ?array
+        public function selectAll(): ?array
         {            
             $query = "SELECT * FROM bookauthor";
-            
-            if(isset($showErased)){
-                $query .= " WHERE Erased ".($showErased ? "IS NOT NULL;" : "IS NULL;");
-            }           
+
             $stmt = $this->pdo->prepare($query);            
             $stmt->execute();
             $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
 
-            return $bookAuthors;            
+            if(count($bookAuthors)>0){
+                return $bookAuthors;            
+            }
+
+            return null;            
         }        
 
         /**
          * Delete by id
          * @param string $BookID The book id
          * @param int $AuthorID The author id
-         * @param ?bool $showErased
          * @throws
          */
+        public function deleteById(string $BookID,int $AuthorID):void{
+            $query = 
+            "DELETE FROM bookauthor                      
+            WHERE 
+            BookID = :BookID AND
+            AuthorID = :AuthorID;"; 
+
+            $stmt = $this->pdo->prepare($query);                        
+            $stmt->bindParam("BookID",$BookID,PDO::PARAM_STR);
+            $stmt->bindParam("AuthorID",$AuthorID,PDO::PARAM_INT);
+            try{             
+                $stmt->execute();
+            }catch(PDOException $e){
+                throw new RepositoryException("Error while deleting the book author with ids: {".$AuthorID."}");
+            }
+        }
 
         
 
