@@ -34,8 +34,7 @@ final class UserServiceTest extends TestCase
         ];        
     }
     
-    //INSERT TESTS
-    
+    //INSERT TESTS    
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
@@ -67,7 +66,7 @@ final class UserServiceTest extends TestCase
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $user = new User('wrong@gmail.com','admin','Steve','Jobs',0,null);
+        $user = new User('wrong@gmail.com','admin','Steve','Jobs',0);
         
         $this->sth->method('fetch')->willReturn(null);
         $this->userService->update($user);
