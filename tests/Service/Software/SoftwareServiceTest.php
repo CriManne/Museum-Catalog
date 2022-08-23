@@ -4,8 +4,6 @@ declare(strict_types=1);
 namespace App\Test\Service;
 
 use PHPUnit\Framework\TestCase;
-use PDO;
-use PDOStatement;
 use App\Exception\ServiceException;
 
 use App\Model\Software\Software;
@@ -14,9 +12,6 @@ use App\Model\Software\SupportType;
 use App\Model\Computer\Os;
 
 use App\Repository\Software\SoftwareRepository;
-use App\Repository\Software\SoftwareTypeRepository;
-use App\Repository\Software\SupportTypeRepository;
-use App\Repository\Computer\OsRepository;
 use App\Service\Software\SoftwareService;
 
 final class SoftwareServiceTest extends TestCase

@@ -28,6 +28,9 @@
 
 - IN SELECT BY TITLE,NAME OR SIMILAR USE LIKE TO MATCH PARTIAL RESULTS
 
+- In Services unit tests just mock the repository is being used because the you don't need to
+mock the pdo because the low level db interaction is already being tested in integration tests
+
 ____
 
 Book model
