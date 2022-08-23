@@ -13,12 +13,10 @@ use SimpleMVC\Controller\BasicAuth;
 
 return [
     /* PUBLIC AREA / */
-    //[ 'GET', '/', Controller\Home::class ],
+    [ 'GET', '/', Controller\Home::class ],
     //[ 'GET', '/hello[/{name}]', Controller\Hello::class ],
     //[ 'GET', '/secret', [ BasicAuth::class, Controller\Secret::class ]],
-    /* CUSTOMER AREA /private/ */
-    [ 'GET', '/user', [Controller\User\Private\GetUser::class]],
-    ['GET','/test',[Controller\TestController::class]],
-    
-    [ 'GET', '/private/user', [BasicAuth::class,null]] // TO IMPLEMENT
+    /* EMPLOYEE AREA /private/ */
+    [ 'GET', '/private', Controller\LoginController::class],
+    [ 'POST', '/login', [Controller\ValidateLoginController::class,Controller\PRIV_HomeController::class]]    
 ];

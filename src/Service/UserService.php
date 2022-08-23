@@ -46,11 +46,12 @@
         /**
          * Select by id
          * @param string $Email The email to select
+         * @param string $Password The password to select
          * @return User     The user selected
          * @throws ServiceException     If no user is found
          */
-        public function selectByCredentials(string $email,string $psw,bool $isAdmin = null): User{
-            $user = $this->userRepository->selectByCredentials($email,$psw,$isAdmin);
+        public function selectByCredentials(string $Email,string $Password,bool $isAdmin = null): User{
+            $user = $this->userRepository->selectByCredentials($Email,$Password,$isAdmin);
             if($user == null) throw new ServiceException("User not found");
 
             return $user;

@@ -4,8 +4,6 @@
 
     namespace App\Model;
 
-    use DateTime;
-
     class User{
 
         public string $Email;
