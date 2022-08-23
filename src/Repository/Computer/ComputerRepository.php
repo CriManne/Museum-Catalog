@@ -41,7 +41,7 @@
          * @return Computer         The computer inserted
          * @throws RepositoryException  If the insert fails         * 
          */
-        public function insert(Computer $computer):Computer{
+        public function insert(Computer $computer): Computer{
 
             $queryComputer = 
                 "INSERT INTO computer
@@ -66,7 +66,7 @@
 
                 $stmt->execute();
 
-                $stmt = $this->pdo->prepare($queryComputer);            
+                $stmt = $this->pdo->prepare($queryComputer);
                 $stmt->bindParam("ObjectID",$computer->ObjectID,PDO::PARAM_STR);
                 $stmt->bindParam("ModelName",$computer->ModelName,PDO::PARAM_STR);
                 $stmt->bindParam("Year",$computer->Year,PDO::PARAM_INT);
@@ -77,7 +77,7 @@
 
                 $stmt->execute();
 
-                $this->pdo->commit();     
+                $this->pdo->commit();
                 return $computer;
             }catch(PDOException){
                 $this->pdo->rollBack();    

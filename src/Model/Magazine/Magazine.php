@@ -4,13 +4,14 @@
 
     namespace App\Model\Magazine;
 
-    use App\Model\GenericObject;
+use App\Model\Book\Publisher;
+use App\Model\GenericObject;
 
     class Magazine extends GenericObject{
 
         public string $Title;
         public int $MagazineNumber;
-        public string $publisher;
+        public Publisher $Publisher;
         public int $Year;
 
         public function __construct(
@@ -21,13 +22,13 @@
             string $Active,
             string $Erased = null,
             string $Title,
-            string $publisher,
             int $Year,
-            int $MagazineNumber
+            int $MagazineNumber,
+            Publisher $Publisher
         ){
             parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->Title = $Title;
-            $this->publisher = $publisher;
+            $this->Publisher = $Publisher;
             $this->Year = $Year;
             $this->MagazineNumber = $MagazineNumber;
         }
