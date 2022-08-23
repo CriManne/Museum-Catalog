@@ -9,10 +9,10 @@
         
         public string $ModelName;
         public int $Year;
-        public Cpu $cpu;
-        public Ram $ram;
         public string $HddSize;
-        public Os $os;
+        public Cpu $Cpu;
+        public Ram $Ram;
+        public Os $Os;
         
         public function __construct(
             string $ObjectID,
@@ -23,18 +23,18 @@
             string $Erased = null,
             string $ModelName,
             int $Year,
-            Cpu $cpu,
-            Ram $ram,
             ?string $HddSize,
-            ?Os $os
+            Cpu $Cpu,
+            Ram $Ram,
+            ?Os $Os
         ){
             parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->ModelName = $ModelName;
             $this->Year = $Year;
-            $this->cpu = $cpu;
-            $this->ram = $ram;
+            $this->Cpu = $Cpu;
+            $this->Ram = $Ram;
             $this->HddSize = $HddSize;
-            $this->os = $os;
+            $this->Os = $Os;
         }
 
     }
