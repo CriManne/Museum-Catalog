@@ -27,3 +27,5 @@ OTHER TESTS WITH THE FK CHECKS AND EXPECT EXCEPTIONS
 - improve select alls
 
 - *OPTIONAL* update integration test on insert and compare the select result with the insert result
+
+- REMOVE REPOSITORIES AND SERVICES METHODS NOT USED
