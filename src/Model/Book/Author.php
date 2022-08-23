@@ -7,14 +7,14 @@
     class Author{
 
         public ?int $AuthorID;
-        public string $firstname;
-        public string $lastname;
+        public ?string $firstname;
+        public ?string $lastname;
         public ?string $Erased;
 
         public function __construct(
             ?int $AuthorID,
-            string $firstname,
-            string $lastname,
+            ?string $firstname,
+            ?string $lastname,
             ?string $Erased = null
         )
         {

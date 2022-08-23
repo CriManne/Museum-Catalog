@@ -18,8 +18,6 @@ use App\Repository\Computer\OsRepository;
 
 use App\Exception\RepositoryException;
 
-use function PHPSTORM_META\map;
-
 final class SoftwareRepositoryTest extends TestCase
 {
     public static ?PDO $pdo;

@@ -7,12 +7,12 @@
     class Publisher{
 
         public ?int $PublisherID;
-        public string $Name;
+        public ?string $Name;
         public ?string $Erased;
 
         public function __construct(
             ?int $PublisherID,
-            string $Name,
+            ?string $Name,
             ?string $Erased = null
         )
         {

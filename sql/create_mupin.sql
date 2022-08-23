@@ -91,8 +91,7 @@ CREATE TABLE Book(
     PublisherID INTEGER NOT NULL,
     Year INTEGER NOT NULL,
     Pages INTEGER NULL,
-    ISBN VARCHAR(13) NULL,
-    Erased DATE NULL,        
+    ISBN VARCHAR(13) NULL, 
     PRIMARY KEY (ObjectID),
     FOREIGN KEY (ObjectID) REFERENCES GenericObject(ObjectID),
     FOREIGN KEY (PublisherID) REFERENCES Publisher(PublisherID)

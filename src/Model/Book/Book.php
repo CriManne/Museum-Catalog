@@ -9,10 +9,11 @@
     class Book extends GenericObject{
 
         public string $Title;
-        public Publisher $publisher;
+        public Publisher $Publisher;
         public int $Year;
         public string $ISBN;
-        public int $PageCount;
+        public int $Pages;
+        public array $Authors;
 
         public function __construct(
             string $ObjectID,
@@ -22,17 +23,19 @@
             string $Active,
             string $Erased = null,
             string $Title,
-            Publisher $publisher,
+            Publisher $Publisher,
             int $Year,
             string $ISBN,
-            int $PageCount
+            int $Pages,
+            array $Authors
         ){
             parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->Title = $Title;
-            $this->publisher = $publisher;
+            $this->Publisher = $Publisher;
             $this->Year = $Year;
             $this->ISBN = $ISBN;
-            $this->PageCount = $PageCount;
+            $this->Pages = $Pages;
+            $this->Authors = $Authors;
         }
 
     }

@@ -34,7 +34,7 @@
                 $stmt->execute();
                 return $bookAuthor;
             }catch(PDOException){
-                throw new RepositoryException("Error while inserting the book author {".$bookAuthor."}");
+                throw new RepositoryException("Error while inserting the book author {".$bookAuthor->BookID.",".$bookAuthor->AuthorID."}");
             }            
         }
         

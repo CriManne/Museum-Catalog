@@ -5,9 +5,6 @@
 - Leave the private endpoints without Authentication during development. But
 !!!REMEMBER TO ENABLE Authentication with BasicAuth pipeline!!!
 
-- WHEN TESTING REPOSITORIES WITH RELATIONS ADD TESTS WITHOUT FOREIGN KEY CHECKS AND
-OTHER TESTS WITH THE FK CHECKS AND EXPECT EXCEPTIONS
-
 - REMEMBER TO HANDLE THE ACTIVE FIELD OF GENERIC OBJECT:
     because the erased field is used to delete softly a record to avoid integrity fails
     the active field could be used to disable an object so is not show in the catalog but still available
@@ -16,7 +13,6 @@ OTHER TESTS WITH THE FK CHECKS AND EXPECT EXCEPTIONS
 - REFACTOR CODE, FIX COPY AND PASTE TYPOS AND RENAME $s PARAMETERS AND REMOVE UNUSED IMPORTS
 
 - CHECK BAD INSERTS TEST FOR MODEL WITH UNIQUE NAMES
-
 
 - USE mysql_real_escape_string TO CLEAN INPUTS
 
@@ -29,3 +25,10 @@ OTHER TESTS WITH THE FK CHECKS AND EXPECT EXCEPTIONS
 - *OPTIONAL* update integration test on insert and compare the select result with the insert result
 
 - REMOVE REPOSITORIES AND SERVICES METHODS NOT USED
+
+- IN SELECT BY TITLE,NAME OR SIMILAR USE LIKE TO MATCH PARTIAL RESULTS
+
+____
+
+Book model
+Authors can be stored as an array of Author and if the book has no known author it can have an Author with name "Unknown"
