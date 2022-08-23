@@ -64,7 +64,7 @@
          * @throws RepositoryException If the update fails
          */
         public function update(Software $s):Software{
-            if($this->softwareRepository->selectById($s->ID) == null)
+            if($this->softwareRepository->selectById($s->ObjectID) == null)
                 throw new ServiceException("Software not found!");
 
             return $this->softwareRepository->update($s);

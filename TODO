@@ -3,7 +3,7 @@
     - private: are the endpoints to which the website get data
 
 - Leave the private endpoints without Authentication during development. But
-!!!REMEMBER TO ENABLE Authentication with BasicAuth pipeline!!!
+!!!REMEMBER TO ENABLE Authentication with BasicAuth pipeline or another validation pipeline!!!
 
 - REMEMBER TO HANDLE THE ACTIVE FIELD OF GENERIC OBJECT:
     because the erased field is used to delete softly a record to avoid integrity fails

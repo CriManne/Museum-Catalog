@@ -1,6 +1,4 @@
 <?php
-/*
-
 declare(strict_types=1);
 
 namespace App\Test\Service;
@@ -23,27 +21,13 @@ use App\Service\Software\SoftwareService;
 
 final class SoftwareServiceTest extends TestCase
 {
+    public SoftwareRepository $softwareRepository;
     public SoftwareService $softwareService;
-    public SoftwareTypeRepository $softwareTypeRepository;
-    public SupportTypeRepository $supportTypeRepository;
-    public OsRepository $osRepository;
+    
 
     public function setUp(): void
-    {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-
-        $this->softwareTypeRepository = new SoftwareTypeRepository($this->pdo);
-        $this->supportTypeRepository = new SupportTypeRepository($this->pdo);
-        $this->osRepository = new OsRepository($this->pdo);
-        $this->softwareRepository = new SoftwareRepository(
-            $this->pdo, 
-            $this->softwareTypeRepository, 
-            $this->supportTypeRepository, 
-            $this->osRepository
-        );
+    {                
+        $this->softwareRepository = $this->createMock(SoftwareRepository::class);
 
         $this->softwareService = new SoftwareService($this->softwareRepository);        
 
@@ -55,22 +39,22 @@ final class SoftwareServiceTest extends TestCase
             "1",
             null,
             'Paint',
-            new Os(1, 'Windows', null),
+            new Os(1, 'Windows'),
             new SoftwareType(1, 'Office'),
             new SupportType(1, 'Support')
         );    
         
         $this->sampleObjectRaw = [
-            'ObjectID' => 'objID',
-            'Title' => null,
+            'Title' => 'Paint',
             'OsID' => 1,
             'SoftwareTypeID' => 1,
             'SupportTypeID' => 1,
+            'ObjectID' => 'objID',
             'Note' => null,
             'Url' => null,
-            'Tag' => 'Paint',
+            'Tag' => null,
             'Active' => '1',
-            'Erased' => null
+            'Erased' => null,
         ];        
     }
     
@@ -79,46 +63,43 @@ final class SoftwareServiceTest extends TestCase
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn($this->sampleObjectRaw);
+        $this->softwareRepository->method('selectByTitle')->willReturn($this->sampleObject);
         $this->softwareService->insert($this->sampleObject);
     }
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Office",$this->softwareService->selectById(1)->Name);
+        $this->softwareRepository->method('selectById')->willReturn($this->sampleObject);
+        $this->assertEquals("Paint",$this->softwareService->selectById("ObjID")->Title);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
-        $this->softwareService->selectById(2);
+        $this->softwareRepository->method('selectById')->willReturn(null);
+        $this->softwareService->selectById("ObjID25");
     }
     
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
-        $this->softwareService->selectByName("WRONG");
+        $this->softwareRepository->method('selectByTitle')->willReturn(null);
+        $this->softwareService->selectByTitle("WRONG");
     }
     
     //UPDATE TESTS
     public function testBadUpdate():void{
-        $this->expectException(ServiceException::class);
-        $softwareType = new Software(1,"Office");
-        
-        $this->sth->method('fetch')->willReturn(null);
-        $this->softwareService->update($softwareType);
+        $this->expectException(ServiceException::class);                
+        $this->softwareRepository->method('selectById')->willReturn(null);
+        $this->softwareService->update($this->sampleObject);
     }
     
     //DELETE TESTS
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
         
-        $this->sth->method('fetch')->willReturn(null);
+        $this->softwareRepository->method('selectById')->willReturn(null);
         
-        $this->softwareService->delete(5);
-    }   
+        $this->softwareService->delete("ObjID99");
+    }       
 }
-*/
