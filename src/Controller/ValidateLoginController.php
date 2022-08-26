@@ -21,6 +21,7 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
+use SimpleMVC\Response\HaltResponse;
 
 class ValidateLoginController implements ControllerInterface
 {
@@ -48,9 +49,12 @@ class ValidateLoginController implements ControllerInterface
 
         try{
             $user = $this->userService->selectByCredentials($credentials["email"],$credentials["password"]);
+            $request = $request->withAttribute('user',$user);   
+            var_dump($request->getAttributes()); //--> returns array(1)  'user' => object(User)....
+            var_dump($request->getAttribute('user')); //--> returns object(User) ....
             return $response;
         }catch(ServiceException $e){
-            return new Response(
+            return new HaltResponse(
                 404,
                 [],
                 $e->getMessage()
