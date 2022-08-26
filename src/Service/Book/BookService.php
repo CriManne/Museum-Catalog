@@ -64,7 +64,7 @@
          * @throws RepositoryException If the update fails
          */
         public function update(Book $b):Book{
-            if($this->bookRepository->selectById($b->ID) == null)
+            if($this->bookRepository->selectById($b->ObjectID) == null)
                 throw new ServiceException("Book not found!");
 
             return $this->bookRepository->update($b);
