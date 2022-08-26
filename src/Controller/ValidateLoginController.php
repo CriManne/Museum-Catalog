@@ -40,13 +40,12 @@ class ValidateLoginController implements ControllerInterface
         $credentials = $request->getParsedBody();
 
         if(!isset($credentials["submitLogin"]) || !isset($credentials["email"]) || !isset($credentials["password"])){            
-            return new Response(
+            return new HaltResponse(
                 400,
                 [],
-                "Bad request!"
+                "Invalid params!"
             );
         }
-
         try{
             $user = $this->userService->selectByCredentials($credentials["email"],$credentials["password"]);
             $request = $request->withAttribute('user',$user);   
