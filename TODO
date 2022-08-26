@@ -31,6 +31,7 @@
 - In Services unit tests just mock the repository is being used because the you don't need to
 mock the pdo because the low level db interaction is already being tested in integration tests
 
+- CHECK FORMATTING AND THE ERRORS MADE IN THE OTHER PROJECTS
 ____
 
 Book model

@@ -9,7 +9,7 @@
     class Peripheral extends GenericObject{
         
         public string $ModelName;
-        public string $peripheralType;
+        public PeripheralType $PeripheralType;
 
         public function __construct(
             string $ObjectID,
@@ -19,11 +19,11 @@
             string $Active,
             string $Erased = null,
             string $ModelName,
-            PeripheralType $peripheralType
+            PeripheralType $PeripheralType
         ){
             parent::__construct($ObjectID,$Note,$Url,$Tag,$Active,$Erased);
             $this->ModelName = $ModelName;
-            $this->peripheralType = $peripheralType;
+            $this->PeripheralType = $PeripheralType;
         }
     }
 ?>
