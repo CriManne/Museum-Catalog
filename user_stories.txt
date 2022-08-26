@@ -1,0 +1,54 @@
+## EMPLOYEE ##
+
+User story 1:
+As an employee, I want to login in the private area and view all the categories, I want to click on one of them and be
+able to view all the objects in multiple pages.
+
+User story 2:
+As an employee, I want to order the list of objects by any of the fields available.
+I want to create, update or delete any of the objects.
+
+User story 3:
+As an employee, I want to disable an objects so it cannot be viewed by the users but just for the employees, and I want to be able to reenable it
+whenever I want.
+
+User story 4:
+As an employee, I want to make a search which will search any object by any fields.
+I want to apply filters and ordering conditions.
+I want to increase the amount of object per page.
+
+User story 5:
+As an employee, I want to update my profile.
+
+User story 6:
+As an employee, I want to create an object and I want to upload the photo of it.
+
+## /EMPLOYEE ##
+
+## ADMIN ##
+
+User story 7:
+As the administrator, I want to login in the private area and view all the employees in a table.
+I want to create, update or delete any of them. I want also to search an employee for his firstname, lastname or both.
+I want to be able to do the operations that a normal employee can do.
+
+## /ADMIN ##
+
+## USER ##
+
+User story 8:
+As an user, I want to view an about page of mupin
+
+User story 9:
+As an user, I want to select a category of object and I want to view them splitted in pages.
+I also want to change the amount of object per page.
+
+User story 10:
+As an user, I want to make a search which will search any object by any fields.
+I want to apply filters and ordering conditions.
+I want to increase the amount of object per page.
+
+User story 11:
+As an user, I want to open an object and view its details.
+
+## /USER ##
