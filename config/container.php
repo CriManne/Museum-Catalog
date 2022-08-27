@@ -16,7 +16,9 @@ use Psr\Container\ContainerInterface;
 return [
     'view_path' => 'src/View',
     Engine::class => function(ContainerInterface $c) {
-        return new Engine($c->get('view_path'));
+        $engine = new Engine($c->get('view_path'));
+        $engine->addFolder('layouts',$c->get('view_path').'/layouts');
+        return $engine;
     },
     Secret::class => function(ContainerInterface $c) {
         return new Secret($c->get(Engine::class), $c->get('authentication'));

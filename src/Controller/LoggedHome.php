@@ -35,7 +35,7 @@ class LoggedHome implements ControllerInterface
         return new Response(
             200,
             [],
-            "RENDER PAGE"
+            $this->plates->render('home')
         );
     }
 }

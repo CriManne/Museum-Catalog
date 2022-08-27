@@ -1,4 +1,4 @@
-<?php $this->layout('layout', ['title' => 'Home SimpleMVC']) ?>
+<?php $this->layout('layouts::layout', ['title' => 'Home SimpleMVC']) ?>
 
 <div>
     <p><img src="/img/logo.png" alt="Logo SimpleMVC"></p>

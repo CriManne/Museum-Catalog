@@ -1,4 +1,4 @@
-<?php $this->layout('layout', ['title' => 'Login']) ?>
+<?php $this->layout('layouts::layout', ['title' => 'Login']) ?>
 
 <div>
     <form action="/login" method="POST">
