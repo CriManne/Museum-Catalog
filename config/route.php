@@ -17,6 +17,8 @@ return [
     //[ 'GET', '/hello[/{name}]', Controller\Hello::class ],
     //[ 'GET', '/secret', [ BasicAuth::class, Controller\Secret::class ]],
     /* EMPLOYEE AREA /private/ */
-    [ 'GET', '/private', Controller\LoginPageController::class],
-    [ 'POST', '/login', [Controller\ValidateLoginController::class,Controller\LoggedHome::class]]    
+    [ 'GET', '/login', Controller\LoginPageController::class],
+    
+    //[ 'POST', '/login', [Controller\ValidateLoginController::class,Controller\LoggedHome::class]]    
+    ['POST','/private',Controller\ValidateLoginController::class]
 ];

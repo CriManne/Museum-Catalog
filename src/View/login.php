@@ -1,7 +1,7 @@
 <?php $this->layout('layouts::layout', ['title' => 'Login']) ?>
 
 <div>
-    <form action="/login" method="POST">
+    <form action="/private" method="POST">
 
         <input type="text" name="email">
         <input type="password" name="password">

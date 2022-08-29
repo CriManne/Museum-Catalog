@@ -43,20 +43,21 @@ class ValidateLoginController implements ControllerInterface
             return new HaltResponse(
                 400,
                 [],
-                "Invalid params!"
+                $this->plates->render('error',['error_code'=>400,'error_message'=>'Invalid params!'])
             );
         }
         try{
-            $user = $this->userService->selectByCredentials($credentials["email"],$credentials["password"]);
-            $request = $request->withAttribute('user',$user);   
-            var_dump($request->getAttributes()); //--> returns array(1)  'user' => object(User)....
-            var_dump($request->getAttribute('user')); //--> returns object(User) ....
-            return $response;
+            $user = $this->userService->selectByCredentials($credentials["email"],$credentials["password"]);                        
+            return new Response(
+                200,
+                [],
+                $this->plates->render('private::home',['user'=>$user])
+            );
         }catch(ServiceException $e){
             return new HaltResponse(
                 404,
                 [],
-                $e->getMessage()
+                $this->plates->render('error',[404,$e->getMessage()])
             );
         }
     }
