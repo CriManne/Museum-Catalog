@@ -23,15 +23,14 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class ValidateLoginController implements ControllerInterface
+class ValidateLoginController extends ViewsUtil implements ControllerInterface
 {
-    protected Engine $plates;
 
     protected UserService $userService;
     
     public function __construct(Engine $plates, UserService $userService)
     {
-        $this->plates = $plates;
+        parent::__construct($plates);
         $this->userService = $userService;        
     }
 
@@ -43,7 +42,7 @@ class ValidateLoginController implements ControllerInterface
             return new HaltResponse(
                 400,
                 [],
-                $this->plates->render('error',['error_code'=>400,'error_message'=>'Invalid params!'])
+                $this->displayError(400,'Invalid params!')
             );
         }
         try{
@@ -57,7 +56,7 @@ class ValidateLoginController implements ControllerInterface
             return new HaltResponse(
                 404,
                 [],
-                $this->plates->render('error',[404,$e->getMessage()])
+                $this->displayError(404,$e->getMessage())
             );
         }
     }

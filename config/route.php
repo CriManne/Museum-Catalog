@@ -20,5 +20,5 @@ return [
     [ 'GET', '/login', Controller\LoginPageController::class],
     
     //[ 'POST', '/login', [Controller\ValidateLoginController::class,Controller\LoggedHome::class]]    
-    ['POST','/private',Controller\ValidateLoginController::class]
+    [['GET','POST'],'/private',Controller\ValidateLoginController::class]
 ];

@@ -19,6 +19,7 @@ return [
         $engine = new Engine($c->get('view_path'));
         $engine->addFolder('layouts',$c->get('view_path').'/layouts');
         $engine->addFolder('private',$c->get('view_path').'/private');
+        $engine->addFolder('error',$c->get('view_path').'/error');
         return $engine;
     },
     Secret::class => function(ContainerInterface $c) {
