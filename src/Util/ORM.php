@@ -1,16 +1,15 @@
 <?php
 
-    declare(strict_types=1);
+declare(strict_types=1);
 
-    namespace App\Util;
+namespace App\Util;
 
-    use ReflectionClass;
+use ReflectionClass;
 
-    class ORM{
+class ORM {
 
-        public static function getNewInstance(string $className,array $obj): object{
-            $reflectionClass = new ReflectionClass($className);
-            return $reflectionClass->newInstanceArgs($obj);
-        }
-
+    public static function getNewInstance(string $className, array $obj): object {
+        $reflectionClass = new ReflectionClass($className);
+        return $reflectionClass->newInstanceArgs($obj);
     }
+}

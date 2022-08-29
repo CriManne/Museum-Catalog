@@ -1,19 +1,18 @@
 <?php
 
-    declare(strict_types=1);
+declare(strict_types=1);
 
-    namespace App\Util;
+namespace App\Util;
 
-    use DI\Container;
-    use DI\ContainerBuilder;
+use DI\Container;
+use DI\ContainerBuilder;
 
-    class DIC{
+class DIC {
 
-        public static function getContainer(): Container{
-            $builder = new ContainerBuilder();
-            $builder->addDefinitions('config/container.php');
-            $container = $builder->build();
-            return $container;
-        }
-
+    public static function getContainer(): Container {
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions('config/container.php');
+        $container = $builder->build();
+        return $container;
     }
+}
