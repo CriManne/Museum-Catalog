@@ -58,6 +58,21 @@ class UserService {
     }
 
     /**
+     * Select all Users
+     * @return array All the users
+     * @throws ServiceException If no results
+     */
+    public function selectAll():array{
+        $users = $this->userRepository->selectAll();
+
+        if($users){
+            return $users;
+        }
+
+        throw new ServiceException("No results");
+    }
+
+    /**
      * Update a user
      * @param User $u The user to update
      * @return User The user updated

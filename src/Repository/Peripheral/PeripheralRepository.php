@@ -137,7 +137,7 @@ class PeripheralRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_peripheral = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+        $arr_peripheral = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $arr_peripheral;
     }

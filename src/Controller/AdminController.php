@@ -9,8 +9,9 @@
  */
 
 declare(strict_types=1);
-
 namespace App\Controller;
+session_start();
+
 
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -18,22 +19,26 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
+use SimpleMVC\Response\HaltResponse;
 
-class LoginPageController implements ControllerInterface {
-    protected Engine $plates;
+class AdminController extends ViewsUtil implements ControllerInterface {    
 
-    /**
-     * @param string[] $auth
-     */
     public function __construct(Engine $plates) {
-        $this->plates = $plates;
+        parent::__construct($plates);
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
+        if(!isset($_SESSION['user_email'])){
+            return new HaltResponse(
+                400,
+                [],
+                $this->displayError(400,"Unauthorized access")   
+            );
+        }
         return new Response(
             200,
             [],
-            $this->plates->render('login')
+            $this->plates->render('private::admin')
         );
     }
 }

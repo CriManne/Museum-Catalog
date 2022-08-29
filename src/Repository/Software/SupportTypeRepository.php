@@ -99,7 +99,7 @@ class SupportTypeRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $supports = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+        $supports = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $supports;
     }

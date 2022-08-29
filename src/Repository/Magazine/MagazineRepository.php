@@ -139,7 +139,7 @@ class MagazineRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_magazine = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+        $arr_magazine = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $arr_magazine;
     }

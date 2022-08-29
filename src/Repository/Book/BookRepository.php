@@ -150,7 +150,7 @@ class BookRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_book = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+        $arr_book = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $arr_book;
     }

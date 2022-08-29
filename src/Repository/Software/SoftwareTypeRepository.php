@@ -98,7 +98,7 @@ class SoftwareTypeRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_software = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+        $arr_software = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $arr_software;
     }

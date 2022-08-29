@@ -90,7 +90,7 @@ class UserRepository extends GenericRepository {
         $query = "SELECT * FROM user";
         $stmt = $this->pdo->query($query);
 
-        $users = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+        $users = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $users;
     }

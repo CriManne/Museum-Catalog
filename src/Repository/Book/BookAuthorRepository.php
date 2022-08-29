@@ -91,7 +91,7 @@ class BookAuthorRepository extends GenericRepository {
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("AuthorID", $AuthorID, PDO::PARAM_INT);
         $stmt->execute();
-        $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+        $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         if (count($bookAuthors) > 0) {
             return $bookAuthors;
@@ -109,7 +109,7 @@ class BookAuthorRepository extends GenericRepository {
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
-        $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+        $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         if (count($bookAuthors) > 0) {
             return $bookAuthors;

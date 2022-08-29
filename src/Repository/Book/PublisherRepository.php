@@ -98,7 +98,7 @@ class PublisherRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_cpu = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+        $arr_cpu = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $arr_cpu;
     }
