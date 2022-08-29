@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Skeleton application for SimpleMVC
  * 
@@ -6,6 +7,7 @@
  * @copyright Copyright (c) Enrico Zimuel (https://www.zimuel.it)
  * @license   https://opensource.org/licenses/MIT MIT License
  */
+
 declare(strict_types=1);
 
 namespace App\Controller;
@@ -16,17 +18,14 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-class Home implements ControllerInterface
-{
+class Home implements ControllerInterface {
     protected Engine $plates;
 
-    public function __construct(Engine $plates)
-    {
+    public function __construct(Engine $plates) {
         $this->plates = $plates;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         return new Response(
             200,
             [],
