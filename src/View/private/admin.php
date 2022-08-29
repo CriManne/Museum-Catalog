@@ -24,7 +24,9 @@ use App\Util\DIC;
 
 
         foreach($users as $user){
-            echo "<tr><th scope='row'>$user->Email</th><td>$user->firstname</td><td>$user->lastname</td><td>$user->Privilege</td></tr>";
+            echo "<tr><th scope='row'>$user->Email</th><td>$user->firstname</td><td>$user->lastname</td><td>$user->Privilege</td>
+            <td>
+            </tr>";
         }
         echo "</tbody></table>";
     }catch(ServiceException $e){
