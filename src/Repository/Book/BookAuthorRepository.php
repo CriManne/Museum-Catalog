@@ -1,157 +1,143 @@
 <?php
 
-    declare(strict_types=1);
+declare(strict_types=1);
 
-    namespace App\Repository\Book;
+namespace App\Repository\Book;
 
-    use App\Repository\GenericRepository;
-    use App\Exception\RepositoryException;
-    use App\Model\Book\BookAuthor;
-    use PDO;
-    use PDOException;  
-    use App\Util\ORM; 
+use App\Repository\GenericRepository;
+use App\Exception\RepositoryException;
+use App\Model\Book\BookAuthor;
+use PDO;
+use PDOException;
+use App\Util\ORM;
 
-    class BookAuthorRepository extends GenericRepository{
+class BookAuthorRepository extends GenericRepository {
 
-        /**
-         * Insert a book author
-         * @param BookAuthor $bookAuthor    The book author to insert
-         * @return BookAuthor           The book author inserted
-         * @throws RepositoryException  If the insert fails
-         */
-        public function insert(BookAuthor $bookAuthor):BookAuthor{
+    /**
+     * Insert a book author
+     * @param BookAuthor $bookAuthor    The book author to insert
+     * @return BookAuthor           The book author inserted
+     * @throws RepositoryException  If the insert fails
+     */
+    public function insert(BookAuthor $bookAuthor): BookAuthor {
 
-            $query = 
+        $query =
             "INSERT INTO bookauthor 
             (BookID,AuthorID) VALUES 
             (:BookID,:AuthorID);";
 
-            $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("BookID",$bookAuthor->BookID,PDO::PARAM_STR);
-            $stmt->bindParam("AuthorID",$bookAuthor->AuthorID,PDO::PARAM_INT);
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("BookID", $bookAuthor->BookID, PDO::PARAM_STR);
+        $stmt->bindParam("AuthorID", $bookAuthor->AuthorID, PDO::PARAM_INT);
 
-            try{             
-                $stmt->execute();
-                return $bookAuthor;
-            }catch(PDOException){
-                throw new RepositoryException("Error while inserting the book author {".$bookAuthor->BookID.",".$bookAuthor->AuthorID."}");
-            }            
-        }
-        
-        /**
-         * Select book author by id
-         * @param string $BookID   The book id
-         * @param int $AuthorID    The author id
-         * @return ?BookAuthor  The selected book author, null if not found
-         */
-        public function selectById(string $BookID,int $AuthorID): ?BookAuthor
-        {            
-            $query = "SELECT * FROM bookauthor WHERE BookID = :BookID AND AuthorID = :AuthorID";
-
-            $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("BookID",$BookID,PDO::PARAM_STR);
-            $stmt->bindParam("AuthorID",$AuthorID,PDO::PARAM_INT);
+        try {
             $stmt->execute();
-            $bookAuthor = $stmt->fetch(PDO::FETCH_ASSOC);
+            return $bookAuthor;
+        } catch (PDOException) {
+            throw new RepositoryException("Error while inserting the book author {" . $bookAuthor->BookID . "," . $bookAuthor->AuthorID . "}");
+        }
+    }
 
-            if($bookAuthor){        
-                return ORM::getNewInstance(BookAuthor::class,$bookAuthor);
-            }
+    /**
+     * Select book author by id
+     * @param string $BookID   The book id
+     * @param int $AuthorID    The author id
+     * @return ?BookAuthor  The selected book author, null if not found
+     */
+    public function selectById(string $BookID, int $AuthorID): ?BookAuthor {
+        $query = "SELECT * FROM bookauthor WHERE BookID = :BookID AND AuthorID = :AuthorID";
 
-            return null; 
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("BookID", $BookID, PDO::PARAM_STR);
+        $stmt->bindParam("AuthorID", $AuthorID, PDO::PARAM_INT);
+        $stmt->execute();
+        $bookAuthor = $stmt->fetch(PDO::FETCH_ASSOC);
+
+        if ($bookAuthor) {
+            return ORM::getNewInstance(BookAuthor::class, $bookAuthor);
         }
 
-        /**
-         * Select book authors by book id
-         * @param string $BookID   The book id
-         * @return ?BookAuthor  The selected book author, null if not found
-         */
-        public function selectByBookId(string $BookID): ?array
-        {            
-            $query = "SELECT * FROM bookauthor WHERE BookID = :BookID";
+        return null;
+    }
 
-            $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("BookID",$BookID,PDO::PARAM_STR);
-            $stmt->execute();
-            $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
-            
-            if(count($bookAuthors)>0){
-                return $bookAuthors;            
-            }
+    /**
+     * Select book authors by book id
+     * @param string $BookID   The book id
+     * @return ?BookAuthor  The selected book author, null if not found
+     */
+    public function selectByBookId(string $BookID): ?array {
+        $query = "SELECT * FROM bookauthor WHERE BookID = :BookID";
 
-            return null;
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("BookID", $BookID, PDO::PARAM_STR);
+        $stmt->execute();
+        $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        if (count($bookAuthors) > 0) {
+            return $bookAuthors;
         }
 
-        /**
-         * Select book authors by author id
-         * @param int $AuthorID    The author id
-         * @return ?BookAuthor  The selected book author, null if not found
-         */
-        public function selectByAuthorId(int $AuthorID): ?array
-        {            
-            $query = "SELECT * FROM bookauthor WHERE AuthorID = :AuthorID";
+        return null;
+    }
 
-            $stmt = $this->pdo->prepare($query);            
-            $stmt->bindParam("AuthorID",$AuthorID,PDO::PARAM_INT);
-            $stmt->execute();
-            $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+    /**
+     * Select book authors by author id
+     * @param int $AuthorID    The author id
+     * @return ?BookAuthor  The selected book author, null if not found
+     */
+    public function selectByAuthorId(int $AuthorID): ?array {
+        $query = "SELECT * FROM bookauthor WHERE AuthorID = :AuthorID";
 
-            if(count($bookAuthors)>0){
-                return $bookAuthors;            
-            }
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("AuthorID", $AuthorID, PDO::PARAM_INT);
+        $stmt->execute();
+        $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
 
-            return null;           
+        if (count($bookAuthors) > 0) {
+            return $bookAuthors;
         }
 
-        /**
-         * Select all book authors
-         * @return ?BookAuthor  The selected book author, null if not found
-         */
-        public function selectAll(): ?array
-        {            
-            $query = "SELECT * FROM bookauthor";
+        return null;
+    }
 
-            $stmt = $this->pdo->prepare($query);            
-            $stmt->execute();
-            $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
+    /**
+     * Select all book authors
+     * @return ?BookAuthor  The selected book author, null if not found
+     */
+    public function selectAll(): ?array {
+        $query = "SELECT * FROM bookauthor";
 
-            if(count($bookAuthors)>0){
-                return $bookAuthors;            
-            }
+        $stmt = $this->pdo->prepare($query);
+        $stmt->execute();
+        $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASSTYPE);
 
-            return null;            
-        }        
+        if (count($bookAuthors) > 0) {
+            return $bookAuthors;
+        }
 
-        /**
-         * Delete by id
-         * @param string $BookID The book id
-         * @param int $AuthorID The author id
-         * @throws
-         */
-        public function deleteById(string $BookID,int $AuthorID):void{
-            $query = 
+        return null;
+    }
+
+    /**
+     * Delete by id
+     * @param string $BookID The book id
+     * @param int $AuthorID The author id
+     * @throws
+     */
+    public function deleteById(string $BookID, int $AuthorID): void {
+        $query =
             "DELETE FROM bookauthor                      
             WHERE 
             BookID = :BookID AND
-            AuthorID = :AuthorID;"; 
+            AuthorID = :AuthorID;";
 
-            $stmt = $this->pdo->prepare($query);                        
-            $stmt->bindParam("BookID",$BookID,PDO::PARAM_STR);
-            $stmt->bindParam("AuthorID",$AuthorID,PDO::PARAM_INT);
-            try{             
-                $stmt->execute();
-            }catch(PDOException $e){
-                throw new RepositoryException("Error while deleting the book author with ids: {".$AuthorID."}");
-            }
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("BookID", $BookID, PDO::PARAM_STR);
+        $stmt->bindParam("AuthorID", $AuthorID, PDO::PARAM_INT);
+        try {
+            $stmt->execute();
+        } catch (PDOException $e) {
+            throw new RepositoryException("Error while deleting the book author with ids: {" . $AuthorID . "}");
         }
-
-        
-
-        
-
-
-        
-
-        
     }
-?>
+}

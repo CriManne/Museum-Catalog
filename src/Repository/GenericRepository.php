@@ -1,18 +1,16 @@
 <?php
 
-    declare(strict_types=1);
+declare(strict_types=1);
 
-    namespace App\Repository;
-    
-    use PDO;
+namespace App\Repository;
 
-    class GenericRepository{
+use PDO;
 
-        public PDO $pdo;
+class GenericRepository {
 
-        public function __construct(PDO $pdo){
-            $this->pdo = $pdo;
-        }
+    public PDO $pdo;
 
+    public function __construct(PDO $pdo) {
+        $this->pdo = $pdo;
     }
-?>
+}
