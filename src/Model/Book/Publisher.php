@@ -1,24 +1,22 @@
 <?php
 
-    declare(strict_types=1);
+declare(strict_types=1);
 
-    namespace App\Model\Book;
+namespace App\Model\Book;
 
-    class Publisher{
+class Publisher {
 
-        public ?int $PublisherID;
-        public ?string $Name;
-        public ?string $Erased;
+    public ?int $PublisherID;
+    public ?string $Name;
+    public ?string $Erased;
 
-        public function __construct(
-            ?int $PublisherID,
-            ?string $Name,
-            ?string $Erased = null
-        )
-        {
-            $this->PublisherID = $PublisherID;
-            $this->Name = $Name;
-            $this->Erased = $Erased;
-        }
+    public function __construct(
+        ?int $PublisherID,
+        ?string $Name,
+        ?string $Erased = null
+    ) {
+        $this->PublisherID = $PublisherID;
+        $this->Name = $Name;
+        $this->Erased = $Erased;
     }
-?>
+}

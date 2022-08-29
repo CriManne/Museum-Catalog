@@ -1,14 +1,12 @@
 <?php
 
-    namespace App\Exception;
+namespace App\Exception;
 
-    use Exception;
+use Exception;
 
-    class ServiceException extends Exception{
+class ServiceException extends Exception {
 
-        public function __construct(string $msg)
-        {
-            $this->message = $msg;
-        }
-
+    public function __construct(string $msg) {
+        $this->message = $msg;
     }
+}

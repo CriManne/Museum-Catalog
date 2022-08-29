@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Skeleton application for SimpleMVC
  * 
@@ -6,6 +7,7 @@
  * @copyright Copyright (c) Enrico Zimuel (https://www.zimuel.it)
  * @license   https://opensource.org/licenses/MIT MIT License
  */
+
 declare(strict_types=1);
 
 use App\Controller\Secret;
@@ -15,14 +17,14 @@ use Psr\Container\ContainerInterface;
 
 return [
     'view_path' => 'src/View',
-    Engine::class => function(ContainerInterface $c) {
+    Engine::class => function (ContainerInterface $c) {
         $engine = new Engine($c->get('view_path'));
-        $engine->addFolder('layouts',$c->get('view_path').'/layouts');
-        $engine->addFolder('private',$c->get('view_path').'/private');
-        $engine->addFolder('error',$c->get('view_path').'/error');
+        $engine->addFolder('layouts', $c->get('view_path') . '/layouts');
+        $engine->addFolder('private', $c->get('view_path') . '/private');
+        $engine->addFolder('error', $c->get('view_path') . '/error');
         return $engine;
     },
-    Secret::class => function(ContainerInterface $c) {
+    Secret::class => function (ContainerInterface $c) {
         return new Secret($c->get(Engine::class), $c->get('authentication'));
     },
     'authentication' => [
@@ -34,12 +36,16 @@ return [
     'username' => 'root',
     'db_dump' => file_get_contents("./sql/create_mupin.sql"),
     'psw' => '',
-    'PDO' => function(ContainerInterface $c){
-        try{
-            return new PDO($c->get('dsn').$c->get('production_db'),$c->get('username'),$c->get('psw'),
-            array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
-        }catch(PDOException){
+    'PDO' => function (ContainerInterface $c) {
+        try {
+            return new PDO(
+                $c->get('dsn') . $c->get('production_db'),
+                $c->get('username'),
+                $c->get('psw'),
+                array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
+            );
+        } catch (PDOException) {
             throw new RepositoryException("Cannot connect to database!");
         }
-    } 
+    }
 ];

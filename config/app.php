@@ -1,4 +1,5 @@
 <?php
+
 /**
  * Skeleton application for SimpleMVC
  * 
@@ -6,6 +7,7 @@
  * @copyright Copyright (c) Enrico Zimuel (https://www.zimuel.it)
  * @license   https://opensource.org/licenses/MIT MIT License
  */
+
 declare(strict_types=1);
 
 use Psr\Container\ContainerInterface;
@@ -20,8 +22,8 @@ return [
         '404' => Error404::class,
         '405' => Error405::class
     ],
-    'bootstrap' => function(ContainerInterface $c) {
-       // Put here the code to bootstrap, if any
-       // e.g. a database or ORM initialization
+    'bootstrap' => function (ContainerInterface $c) {
+        // Put here the code to bootstrap, if any
+        // e.g. a database or ORM initialization
     }
 ];

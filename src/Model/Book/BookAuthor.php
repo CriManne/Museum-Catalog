@@ -1,21 +1,19 @@
 <?php
 
-    declare(strict_types=1);
+declare(strict_types=1);
 
-    namespace App\Model\Book;
+namespace App\Model\Book;
 
-    class BookAuthor{
+class BookAuthor {
 
-        public ?string $BookID;
-        public ?int $AuthorID;
+    public ?string $BookID;
+    public ?int $AuthorID;
 
-        public function __construct(
-            ?string $BookID,
-            ?int $AuthorID
-        )
-        {
-            $this->BookID = $BookID;
-            $this->AuthorID = $AuthorID;
-        }
+    public function __construct(
+        ?string $BookID,
+        ?int $AuthorID
+    ) {
+        $this->BookID = $BookID;
+        $this->AuthorID = $AuthorID;
     }
-?>
+}
