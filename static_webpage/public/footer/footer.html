@@ -1,0 +1,893 @@
+<!doctype html>
+<html lang="it-IT" xmlns:og="http://opengraphprotocol.org/schema/" xmlns:fb="http://www.facebook.com/2008/fbml">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, user-scalable=no" />
+    <link rel="profile" href="http://gmpg.org/xfn/11">
+
+    <title>MuPIn &#x2d; Museo Piemontese dell&#039;Informatica</title>
+
+    <!-- The SEO Framework by Sybre Waaijer -->
+    <meta name="robots" content="max-snippet:-1,max-image-preview:standard,max-video-preview:-1" />
+    <meta name="description" content="Al Museo Piemontese dell&#8217;Informatica scoprirete tutto sulla storia dei computer vintage e sulla storia della scienza dell&#8217;informatica." />
+    <meta property="og:image" content="https://www.mupin.it/wp-content/uploads/2022/08/play-venaria-locandina.png" />
+    <meta property="og:locale" content="it_IT" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="MuPIn" />
+    <meta property="og:description" content="Al Museo Piemontese dell&#8217;Informatica scoprirete tutto sulla storia dei computer vintage e sulla storia della scienza dell&#8217;informatica." />
+    <meta property="og:url" content="https://www.mupin.it/" />
+    <meta property="og:site_name" content="MuPIn" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="MuPIn" />
+    <meta name="twitter:description" content="Al Museo Piemontese dell&#8217;Informatica scoprirete tutto sulla storia dei computer vintage e sulla storia della scienza dell&#8217;informatica." />
+    <meta name="twitter:image" content="https://www.mupin.it/wp-content/uploads/2022/08/play-venaria-locandina.png" />
+    <link rel="canonical" href="https://www.mupin.it/" />
+
+    <!-- / The SEO Framework by Sybre Waaijer | 7.66ms meta | 2.16ms boot -->
+
+    <link rel='dns-prefetch' href='//static.addtoany.com' />
+    <link rel='dns-prefetch' href='//s.w.org' />
+    <meta property="og:title" content="Home" />
+    <meta property="og:description" content="Museo Piemontese dell&#039;Informatica" />
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://www.mupin.it/" />
+    <meta property="og:site_name" content="MuPIn" />
+    <meta name="twitter:title" content="Home" />
+    <meta name="twitter:card" content="summary" />
+    <meta name="twitter:description" content="Museo Piemontese dell&#039;Informatica" />
+    <meta name="twitter:url" content="https://www.mupin.it/" />
+    <meta property="og:image" content="https://www.mupin.it/wp-content/themes/mupin/default-sharing-image.png" />
+    <meta name="twitter:image" content="https://www.mupin.it/wp-content/themes/mupin/default-sharing-image.png" />
+    <!-- This site uses the Google Analytics by MonsterInsights plugin v8.8.2 - Using Analytics tracking - https://www.monsterinsights.com/ -->
+
+    <script data-cfasync="false" data-wpfc-render="false" type="text/javascript">
+        var mi_version = '8.8.2';
+        var mi_track_user = true;
+        var mi_no_track_reason = '';
+
+        var disableStrs = [
+            'ga-disable-G-54MT5CKEJG',
+        ];
+
+        /* Function to detect opted out users */
+        function __gtagTrackerIsOptedOut() {
+            for (var index = 0; index < disableStrs.length; index++) {
+                if (document.cookie.indexOf(disableStrs[index] + '=true') > -1) {
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
+        /* Disable tracking if the opt-out cookie exists. */
+        if (__gtagTrackerIsOptedOut()) {
+            for (var index = 0; index < disableStrs.length; index++) {
+                window[disableStrs[index]] = true;
+            }
+        }
+
+        /* Opt-out function */
+        function __gtagTrackerOptout() {
+            for (var index = 0; index < disableStrs.length; index++) {
+                document.cookie = disableStrs[index] + '=true; expires=Thu, 31 Dec 2099 23:59:59 UTC; path=/';
+                window[disableStrs[index]] = true;
+            }
+        }
+
+        if ('undefined' === typeof gaOptout) {
+            function gaOptout() {
+                __gtagTrackerOptout();
+            }
+        }
+        window.dataLayer = window.dataLayer || [];
+
+        window.MonsterInsightsDualTracker = {
+            helpers: {},
+            trackers: {},
+        };
+        if (mi_track_user) {
+            function __gtagDataLayer() {
+                dataLayer.push(arguments);
+            }
+
+            function __gtagTracker(type, name, parameters) {
+                if (!parameters) {
+                    parameters = {};
+                }
+
+                if (parameters.send_to) {
+                    __gtagDataLayer.apply(null, arguments);
+                    return;
+                }
+
+                if (type === 'event') {
+                    parameters.send_to = monsterinsights_frontend.v4_id;
+                    var hookName = name;
+                    if (typeof parameters['event_category'] !== 'undefined') {
+                        hookName = parameters['event_category'] + ':' + name;
+                    }
+
+                    if (typeof MonsterInsightsDualTracker.trackers[hookName] !== 'undefined') {
+                        MonsterInsightsDualTracker.trackers[hookName](parameters);
+                    } else {
+                        __gtagDataLayer('event', name, parameters);
+                    }
+
+                } else {
+                    __gtagDataLayer.apply(null, arguments);
+                }
+            }
+
+            __gtagTracker('js', new Date());
+            __gtagTracker('set', {
+                'developer_id.dZGIzZG': true,
+            });
+            __gtagTracker('config', 'G-54MT5CKEJG', {
+                "forceSSL": "true",
+                "link_attribution": "true"
+            });
+            window.gtag = __gtagTracker;
+            (function() {
+                /* https://developers.google.com/analytics/devguides/collection/analyticsjs/ */
+                /* ga and __gaTracker compatibility shim. */
+                var noopfn = function() {
+                    return null;
+                };
+                var newtracker = function() {
+                    return new Tracker();
+                };
+                var Tracker = function() {
+                    return null;
+                };
+                var p = Tracker.prototype;
+                p.get = noopfn;
+                p.set = noopfn;
+                p.send = function() {
+                    var args = Array.prototype.slice.call(arguments);
+                    args.unshift('send');
+                    __gaTracker.apply(null, args);
+                };
+                var __gaTracker = function() {
+                    var len = arguments.length;
+                    if (len === 0) {
+                        return;
+                    }
+                    var f = arguments[len - 1];
+                    if (typeof f !== 'object' || f === null || typeof f.hitCallback !== 'function') {
+                        if ('send' === arguments[0]) {
+                            var hitConverted, hitObject = false,
+                                action;
+                            if ('event' === arguments[1]) {
+                                if ('undefined' !== typeof arguments[3]) {
+                                    hitObject = {
+                                        'eventAction': arguments[3],
+                                        'eventCategory': arguments[2],
+                                        'eventLabel': arguments[4],
+                                        'value': arguments[5] ? arguments[5] : 1,
+                                    }
+                                }
+                            }
+                            if ('pageview' === arguments[1]) {
+                                if ('undefined' !== typeof arguments[2]) {
+                                    hitObject = {
+                                        'eventAction': 'page_view',
+                                        'page_path': arguments[2],
+                                    }
+                                }
+                            }
+                            if (typeof arguments[2] === 'object') {
+                                hitObject = arguments[2];
+                            }
+                            if (typeof arguments[5] === 'object') {
+                                Object.assign(hitObject, arguments[5]);
+                            }
+                            if ('undefined' !== typeof arguments[1].hitType) {
+                                hitObject = arguments[1];
+                                if ('pageview' === hitObject.hitType) {
+                                    hitObject.eventAction = 'page_view';
+                                }
+                            }
+                            if (hitObject) {
+                                action = 'timing' === arguments[1].hitType ? 'timing_complete' : hitObject.eventAction;
+                                hitConverted = mapArgs(hitObject);
+                                __gtagTracker('event', action, hitConverted);
+                            }
+                        }
+                        return;
+                    }
+
+                    function mapArgs(args) {
+                        var arg, hit = {};
+                        var gaMap = {
+                            'eventCategory': 'event_category',
+                            'eventAction': 'event_action',
+                            'eventLabel': 'event_label',
+                            'eventValue': 'event_value',
+                            'nonInteraction': 'non_interaction',
+                            'timingCategory': 'event_category',
+                            'timingVar': 'name',
+                            'timingValue': 'value',
+                            'timingLabel': 'event_label',
+                            'page': 'page_path',
+                            'location': 'page_location',
+                            'title': 'page_title',
+                        };
+                        for (arg in args) {
+                            if (!(!args.hasOwnProperty(arg) || !gaMap.hasOwnProperty(arg))) {
+                                hit[gaMap[arg]] = args[arg];
+                            } else {
+                                hit[arg] = args[arg];
+                            }
+                        }
+                        return hit;
+                    }
+
+                    try {
+                        f.hitCallback();
+                    } catch (ex) {}
+                };
+                __gaTracker.create = newtracker;
+                __gaTracker.getByName = newtracker;
+                __gaTracker.getAll = function() {
+                    return [];
+                };
+                __gaTracker.remove = noopfn;
+                __gaTracker.loaded = true;
+                window['__gaTracker'] = __gaTracker;
+            })();
+        } else {
+            console.log("");
+            (function() {
+                function __gtagTracker() {
+                    return null;
+                }
+
+                window['__gtagTracker'] = __gtagTracker;
+                window['gtag'] = __gtagTracker;
+            })();
+        }
+    </script>
+    <!-- / Google Analytics by MonsterInsights -->
+    <script type="text/javascript">
+        window._wpemojiSettings = {
+            "baseUrl": "https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/72x72\/",
+            "ext": ".png",
+            "svgUrl": "https:\/\/s.w.org\/images\/core\/emoji\/14.0.0\/svg\/",
+            "svgExt": ".svg",
+            "source": {
+                "concatemoji": "https:\/\/www.mupin.it\/wp-includes\/js\/wp-emoji-release.min.js?ver=6.0.1"
+            }
+        };
+        /*! This file is auto-generated */
+        ! function(e, a, t) {
+            var n, r, o, i = a.createElement("canvas"),
+                p = i.getContext && i.getContext("2d");
+
+            function s(e, t) {
+                var a = String.fromCharCode,
+                    e = (p.clearRect(0, 0, i.width, i.height), p.fillText(a.apply(this, e), 0, 0), i.toDataURL());
+                return p.clearRect(0, 0, i.width, i.height), p.fillText(a.apply(this, t), 0, 0), e === i.toDataURL()
+            }
+
+            function c(e) {
+                var t = a.createElement("script");
+                t.src = e, t.defer = t.type = "text/javascript", a.getElementsByTagName("head")[0].appendChild(t)
+            }
+            for (o = Array("flag", "emoji"), t.supports = {
+                    everything: !0,
+                    everythingExceptFlag: !0
+                }, r = 0; r < o.length; r++) t.supports[o[r]] = function(e) {
+                if (!p || !p.fillText) return !1;
+                switch (p.textBaseline = "top", p.font = "600 32px Arial", e) {
+                    case "flag":
+                        return s([127987, 65039, 8205, 9895, 65039], [127987, 65039, 8203, 9895, 65039]) ? !1 : !s([55356, 56826, 55356, 56819], [55356, 56826, 8203, 55356, 56819]) && !s([55356, 57332, 56128, 56423, 56128, 56418, 56128, 56421, 56128, 56430, 56128, 56423, 56128, 56447], [55356, 57332, 8203, 56128, 56423, 8203, 56128, 56418, 8203, 56128, 56421, 8203, 56128, 56430, 8203, 56128, 56423, 8203, 56128, 56447]);
+                    case "emoji":
+                        return !s([129777, 127995, 8205, 129778, 127999], [129777, 127995, 8203, 129778, 127999])
+                }
+                return !1
+            }(o[r]), t.supports.everything = t.supports.everything && t.supports[o[r]], "flag" !== o[r] && (t.supports.everythingExceptFlag = t.supports.everythingExceptFlag && t.supports[o[r]]);
+            t.supports.everythingExceptFlag = t.supports.everythingExceptFlag && !t.supports.flag, t.DOMReady = !1, t.readyCallback = function() {
+                t.DOMReady = !0
+            }, t.supports.everything || (n = function() {
+                t.readyCallback()
+            }, a.addEventListener ? (a.addEventListener("DOMContentLoaded", n, !1), e.addEventListener("load", n, !1)) : (e.attachEvent("onload", n), a.attachEvent("onreadystatechange", function() {
+                "complete" === a.readyState && t.readyCallback()
+            })), (e = t.source || {}).concatemoji ? c(e.concatemoji) : e.wpemoji && e.twemoji && (c(e.twemoji), c(e.wpemoji)))
+        }(window, document, window._wpemojiSettings);
+    </script>
+    <style type="text/css">
+        img.wp-smiley,
+        img.emoji {
+            display: inline !important;
+            border: none !important;
+            box-shadow: none !important;
+            height: 1em !important;
+            width: 1em !important;
+            margin: 0 0.07em !important;
+            vertical-align: -0.1em !important;
+            background: none !important;
+            padding: 0 !important;
+        }
+    </style>
+    <link rel='stylesheet' id='wp-block-library-css' href='https://www.mupin.it/wp-includes/css/dist/block-library/style.min.css?ver=6.0.1' type='text/css' media='all' />
+    <style id='global-styles-inline-css' type='text/css'>
+        body {
+            --wp--preset--color--black: #000000;
+            --wp--preset--color--cyan-bluish-gray: #abb8c3;
+            --wp--preset--color--white: #ffffff;
+            --wp--preset--color--pale-pink: #f78da7;
+            --wp--preset--color--vivid-red: #cf2e2e;
+            --wp--preset--color--luminous-vivid-orange: #ff6900;
+            --wp--preset--color--luminous-vivid-amber: #fcb900;
+            --wp--preset--color--light-green-cyan: #7bdcb5;
+            --wp--preset--color--vivid-green-cyan: #00d084;
+            --wp--preset--color--pale-cyan-blue: #8ed1fc;
+            --wp--preset--color--vivid-cyan-blue: #0693e3;
+            --wp--preset--color--vivid-purple: #9b51e0;
+            --wp--preset--gradient--vivid-cyan-blue-to-vivid-purple: linear-gradient(135deg, rgba(6, 147, 227, 1) 0%, rgb(155, 81, 224) 100%);
+            --wp--preset--gradient--light-green-cyan-to-vivid-green-cyan: linear-gradient(135deg, rgb(122, 220, 180) 0%, rgb(0, 208, 130) 100%);
+            --wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange: linear-gradient(135deg, rgba(252, 185, 0, 1) 0%, rgba(255, 105, 0, 1) 100%);
+            --wp--preset--gradient--luminous-vivid-orange-to-vivid-red: linear-gradient(135deg, rgba(255, 105, 0, 1) 0%, rgb(207, 46, 46) 100%);
+            --wp--preset--gradient--very-light-gray-to-cyan-bluish-gray: linear-gradient(135deg, rgb(238, 238, 238) 0%, rgb(169, 184, 195) 100%);
+            --wp--preset--gradient--cool-to-warm-spectrum: linear-gradient(135deg, rgb(74, 234, 220) 0%, rgb(151, 120, 209) 20%, rgb(207, 42, 186) 40%, rgb(238, 44, 130) 60%, rgb(251, 105, 98) 80%, rgb(254, 248, 76) 100%);
+            --wp--preset--gradient--blush-light-purple: linear-gradient(135deg, rgb(255, 206, 236) 0%, rgb(152, 150, 240) 100%);
+            --wp--preset--gradient--blush-bordeaux: linear-gradient(135deg, rgb(254, 205, 165) 0%, rgb(254, 45, 45) 50%, rgb(107, 0, 62) 100%);
+            --wp--preset--gradient--luminous-dusk: linear-gradient(135deg, rgb(255, 203, 112) 0%, rgb(199, 81, 192) 50%, rgb(65, 88, 208) 100%);
+            --wp--preset--gradient--pale-ocean: linear-gradient(135deg, rgb(255, 245, 203) 0%, rgb(182, 227, 212) 50%, rgb(51, 167, 181) 100%);
+            --wp--preset--gradient--electric-grass: linear-gradient(135deg, rgb(202, 248, 128) 0%, rgb(113, 206, 126) 100%);
+            --wp--preset--gradient--midnight: linear-gradient(135deg, rgb(2, 3, 129) 0%, rgb(40, 116, 252) 100%);
+            --wp--preset--duotone--dark-grayscale: url('#wp-duotone-dark-grayscale');
+            --wp--preset--duotone--grayscale: url('#wp-duotone-grayscale');
+            --wp--preset--duotone--purple-yellow: url('#wp-duotone-purple-yellow');
+            --wp--preset--duotone--blue-red: url('#wp-duotone-blue-red');
+            --wp--preset--duotone--midnight: url('#wp-duotone-midnight');
+            --wp--preset--duotone--magenta-yellow: url('#wp-duotone-magenta-yellow');
+            --wp--preset--duotone--purple-green: url('#wp-duotone-purple-green');
+            --wp--preset--duotone--blue-orange: url('#wp-duotone-blue-orange');
+            --wp--preset--font-size--small: 13px;
+            --wp--preset--font-size--medium: 20px;
+            --wp--preset--font-size--large: 36px;
+            --wp--preset--font-size--x-large: 42px;
+        }
+        
+        .has-black-color {
+            color: var(--wp--preset--color--black) !important;
+        }
+        
+        .has-cyan-bluish-gray-color {
+            color: var(--wp--preset--color--cyan-bluish-gray) !important;
+        }
+        
+        .has-white-color {
+            color: var(--wp--preset--color--white) !important;
+        }
+        
+        .has-pale-pink-color {
+            color: var(--wp--preset--color--pale-pink) !important;
+        }
+        
+        .has-vivid-red-color {
+            color: var(--wp--preset--color--vivid-red) !important;
+        }
+        
+        .has-luminous-vivid-orange-color {
+            color: var(--wp--preset--color--luminous-vivid-orange) !important;
+        }
+        
+        .has-luminous-vivid-amber-color {
+            color: var(--wp--preset--color--luminous-vivid-amber) !important;
+        }
+        
+        .has-light-green-cyan-color {
+            color: var(--wp--preset--color--light-green-cyan) !important;
+        }
+        
+        .has-vivid-green-cyan-color {
+            color: var(--wp--preset--color--vivid-green-cyan) !important;
+        }
+        
+        .has-pale-cyan-blue-color {
+            color: var(--wp--preset--color--pale-cyan-blue) !important;
+        }
+        
+        .has-vivid-cyan-blue-color {
+            color: var(--wp--preset--color--vivid-cyan-blue) !important;
+        }
+        
+        .has-vivid-purple-color {
+            color: var(--wp--preset--color--vivid-purple) !important;
+        }
+        
+        .has-black-background-color {
+            background-color: var(--wp--preset--color--black) !important;
+        }
+        
+        .has-cyan-bluish-gray-background-color {
+            background-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+        }
+        
+        .has-white-background-color {
+            background-color: var(--wp--preset--color--white) !important;
+        }
+        
+        .has-pale-pink-background-color {
+            background-color: var(--wp--preset--color--pale-pink) !important;
+        }
+        
+        .has-vivid-red-background-color {
+            background-color: var(--wp--preset--color--vivid-red) !important;
+        }
+        
+        .has-luminous-vivid-orange-background-color {
+            background-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+        }
+        
+        .has-luminous-vivid-amber-background-color {
+            background-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+        }
+        
+        .has-light-green-cyan-background-color {
+            background-color: var(--wp--preset--color--light-green-cyan) !important;
+        }
+        
+        .has-vivid-green-cyan-background-color {
+            background-color: var(--wp--preset--color--vivid-green-cyan) !important;
+        }
+        
+        .has-pale-cyan-blue-background-color {
+            background-color: var(--wp--preset--color--pale-cyan-blue) !important;
+        }
+        
+        .has-vivid-cyan-blue-background-color {
+            background-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+        }
+        
+        .has-vivid-purple-background-color {
+            background-color: var(--wp--preset--color--vivid-purple) !important;
+        }
+        
+        .has-black-border-color {
+            border-color: var(--wp--preset--color--black) !important;
+        }
+        
+        .has-cyan-bluish-gray-border-color {
+            border-color: var(--wp--preset--color--cyan-bluish-gray) !important;
+        }
+        
+        .has-white-border-color {
+            border-color: var(--wp--preset--color--white) !important;
+        }
+        
+        .has-pale-pink-border-color {
+            border-color: var(--wp--preset--color--pale-pink) !important;
+        }
+        
+        .has-vivid-red-border-color {
+            border-color: var(--wp--preset--color--vivid-red) !important;
+        }
+        
+        .has-luminous-vivid-orange-border-color {
+            border-color: var(--wp--preset--color--luminous-vivid-orange) !important;
+        }
+        
+        .has-luminous-vivid-amber-border-color {
+            border-color: var(--wp--preset--color--luminous-vivid-amber) !important;
+        }
+        
+        .has-light-green-cyan-border-color {
+            border-color: var(--wp--preset--color--light-green-cyan) !important;
+        }
+        
+        .has-vivid-green-cyan-border-color {
+            border-color: var(--wp--preset--color--vivid-green-cyan) !important;
+        }
+        
+        .has-pale-cyan-blue-border-color {
+            border-color: var(--wp--preset--color--pale-cyan-blue) !important;
+        }
+        
+        .has-vivid-cyan-blue-border-color {
+            border-color: var(--wp--preset--color--vivid-cyan-blue) !important;
+        }
+        
+        .has-vivid-purple-border-color {
+            border-color: var(--wp--preset--color--vivid-purple) !important;
+        }
+        
+        .has-vivid-cyan-blue-to-vivid-purple-gradient-background {
+            background: var(--wp--preset--gradient--vivid-cyan-blue-to-vivid-purple) !important;
+        }
+        
+        .has-light-green-cyan-to-vivid-green-cyan-gradient-background {
+            background: var(--wp--preset--gradient--light-green-cyan-to-vivid-green-cyan) !important;
+        }
+        
+        .has-luminous-vivid-amber-to-luminous-vivid-orange-gradient-background {
+            background: var(--wp--preset--gradient--luminous-vivid-amber-to-luminous-vivid-orange) !important;
+        }
+        
+        .has-luminous-vivid-orange-to-vivid-red-gradient-background {
+            background: var(--wp--preset--gradient--luminous-vivid-orange-to-vivid-red) !important;
+        }
+        
+        .has-very-light-gray-to-cyan-bluish-gray-gradient-background {
+            background: var(--wp--preset--gradient--very-light-gray-to-cyan-bluish-gray) !important;
+        }
+        
+        .has-cool-to-warm-spectrum-gradient-background {
+            background: var(--wp--preset--gradient--cool-to-warm-spectrum) !important;
+        }
+        
+        .has-blush-light-purple-gradient-background {
+            background: var(--wp--preset--gradient--blush-light-purple) !important;
+        }
+        
+        .has-blush-bordeaux-gradient-background {
+            background: var(--wp--preset--gradient--blush-bordeaux) !important;
+        }
+        
+        .has-luminous-dusk-gradient-background {
+            background: var(--wp--preset--gradient--luminous-dusk) !important;
+        }
+        
+        .has-pale-ocean-gradient-background {
+            background: var(--wp--preset--gradient--pale-ocean) !important;
+        }
+        
+        .has-electric-grass-gradient-background {
+            background: var(--wp--preset--gradient--electric-grass) !important;
+        }
+        
+        .has-midnight-gradient-background {
+            background: var(--wp--preset--gradient--midnight) !important;
+        }
+        
+        .has-small-font-size {
+            font-size: var(--wp--preset--font-size--small) !important;
+        }
+        
+        .has-medium-font-size {
+            font-size: var(--wp--preset--font-size--medium) !important;
+        }
+        
+        .has-large-font-size {
+            font-size: var(--wp--preset--font-size--large) !important;
+        }
+        
+        .has-x-large-font-size {
+            font-size: var(--wp--preset--font-size--x-large) !important;
+        }
+    </style>
+    <link rel='stylesheet' id='eae-css-css' href='https://www.mupin.it/wp-content/plugins/addon-elements-for-elementor-page-builder/assets/css/eae.min.css?ver=1.11.15' type='text/css' media='all' />
+    <link rel='stylesheet' id='font-awesome-4-shim-css' href='https://www.mupin.it/wp-content/plugins/elementor/assets/lib/font-awesome/css/v4-shims.min.css?ver=1.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='font-awesome-5-all-css' href='https://www.mupin.it/wp-content/plugins/elementor/assets/lib/font-awesome/css/all.min.css?ver=1.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='vegas-css-css' href='https://www.mupin.it/wp-content/plugins/addon-elements-for-elementor-page-builder/assets/lib/vegas/vegas.min.css?ver=2.4.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='contact-form-7-css' href='https://www.mupin.it/wp-content/plugins/contact-form-7/includes/css/styles.css?ver=5.6.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='owl.carousel.css-css' href='https://www.mupin.it/wp-content/plugins/slider-bws/css/owl.carousel.css?ver=6.0.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='owl.theme.default.css-css' href='https://www.mupin.it/wp-content/plugins/slider-bws/css/owl.theme.default.css?ver=6.0.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='dashicons-css' href='https://www.mupin.it/wp-includes/css/dashicons.min.css?ver=6.0.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='sldr_stylesheet-css' href='https://www.mupin.it/wp-content/plugins/slider-bws/css/frontend_style.css?ver=6.0.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='give-styles-css' href='https://www.mupin.it/wp-content/plugins/give/assets/dist/css/give.css?ver=2.22.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='give-donation-summary-style-frontend-css' href='https://www.mupin.it/wp-content/plugins/give/assets/dist/css/give-donation-summary.css?ver=2.22.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='parent-style-css' href='https://www.mupin.it/wp-content/themes/wp-bootstrap-4/style.css?ver=6.0.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='open-iconic-bootstrap-css' href='https://www.mupin.it/wp-content/themes/wp-bootstrap-4/assets/css/open-iconic-bootstrap.css?ver=v4.0.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='bootstrap-4-css' href='https://www.mupin.it/wp-content/themes/wp-bootstrap-4/assets/css/bootstrap.css?ver=v4.0.0' type='text/css' media='all' />
+    <link rel='stylesheet' id='wp-bootstrap-4-style-css' href='https://www.mupin.it/wp-content/themes/mupin/style.css?ver=1.0.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='cookie-notice-front-css' href='https://www.mupin.it/wp-content/plugins/cookie-notice/includes/../css/front.min.css?ver=6.0.1' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-frontend-legacy-css' href='https://www.mupin.it/wp-content/plugins/elementor/assets/css/frontend-legacy.min.css?ver=3.7.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-frontend-css' href='https://www.mupin.it/wp-content/plugins/elementor/assets/css/frontend.min.css?ver=3.7.2' type='text/css' media='all' />
+    <link rel='stylesheet' id='eael-general-css' href='https://www.mupin.it/wp-content/plugins/essential-addons-for-elementor-lite/assets/front-end/css/view/general.min.css?ver=5.2.3' type='text/css' media='all' />
+    <link rel='stylesheet' id='eael-2-css' href='https://www.mupin.it/wp-content/uploads/essential-addons-elementor/eael-2.css?ver=1659664447' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-icons-css' href='https://www.mupin.it/wp-content/plugins/elementor/assets/lib/eicons/css/elementor-icons.min.css?ver=5.16.0' type='text/css' media='all' />
+    <style id='elementor-icons-inline-css' type='text/css'>
+        .elementor-add-new-section .elementor-add-templately-promo-button {
+            background-color: #5d4fff;
+            background-image: url(https://www.mupin.it/wp-content/plugins/essential-addons-for-elementor-lite/assets/admin/images/templately/logo-icon.svg);
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin-left: 5px;
+            position: relative;
+            bottom: 5px;
+        }
+        
+        .elementor-add-new-section .elementor-add-templately-promo-button {
+            background-color: #5d4fff;
+            background-image: url(https://www.mupin.it/wp-content/plugins/essential-addons-for-elementor-lite/assets/admin/images/templately/logo-icon.svg);
+            background-repeat: no-repeat;
+            background-position: center center;
+            margin-left: 5px;
+            position: relative;
+            bottom: 5px;
+        }
+    </style>
+    <link rel='stylesheet' id='elementor-post-39-css' href='https://www.mupin.it/wp-content/uploads/elementor/css/post-39.css?ver=1661639304' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-global-css' href='https://www.mupin.it/wp-content/uploads/elementor/css/global.css?ver=1661639305' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-post-2-css' href='https://www.mupin.it/wp-content/uploads/elementor/css/post-2.css?ver=1661641537' type='text/css' media='all' />
+    <link rel='stylesheet' id='addtoany-css' href='https://www.mupin.it/wp-content/plugins/add-to-any/addtoany.min.css?ver=1.16' type='text/css' media='all' />
+    <link rel='stylesheet' id='google-fonts-1-css' href='https://fonts.googleapis.com/css?family=Roboto%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CRoboto+Slab%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic%7CPoppins%3A100%2C100italic%2C200%2C200italic%2C300%2C300italic%2C400%2C400italic%2C500%2C500italic%2C600%2C600italic%2C700%2C700italic%2C800%2C800italic%2C900%2C900italic&#038;display=auto&#038;ver=6.0.1'
+        type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-icons-shared-0-css' href='https://www.mupin.it/wp-content/plugins/elementor/assets/lib/font-awesome/css/fontawesome.min.css?ver=5.15.3' type='text/css' media='all' />
+    <link rel='stylesheet' id='elementor-icons-fa-solid-css' href='https://www.mupin.it/wp-content/plugins/elementor/assets/lib/font-awesome/css/solid.min.css?ver=5.15.3' type='text/css' media='all' />
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/google-analytics-for-wordpress/assets/js/frontend-gtag.min.js?ver=8.8.2' id='monsterinsights-frontend-script-js'></script>
+    <script data-cfasync="false" data-wpfc-render="false" type="text/javascript" id='monsterinsights-frontend-script-js-extra'>
+        /* <![CDATA[ */
+        var monsterinsights_frontend = {
+            "js_events_tracking": "true",
+            "download_extensions": "doc,pdf,ppt,zip,xls,docx,pptx,xlsx",
+            "inbound_paths": "[]",
+            "home_url": "https:\/\/www.mupin.it",
+            "hash_tracking": "false",
+            "ua": "",
+            "v4_id": "G-54MT5CKEJG"
+        }; /* ]]> */
+    </script>
+    <script type='text/javascript' id='addtoany-core-js-before'>
+        window.a2a_config = window.a2a_config || {};
+        a2a_config.callbacks = [];
+        a2a_config.overlays = [];
+        a2a_config.templates = {};
+        a2a_localize = {
+            Share: "Share",
+            Save: "Salva",
+            Subscribe: "Abbonati",
+            Email: "Email",
+            Bookmark: "Segnalibro",
+            ShowAll: "espandi",
+            ShowLess: "comprimi",
+            FindServices: "Trova servizi",
+            FindAnyServiceToAddTo: "Trova subito un servizio da aggiungere",
+            PoweredBy: "Powered by",
+            ShareViaEmail: "Condividi via email",
+            SubscribeViaEmail: "Iscriviti via email",
+            BookmarkInYourBrowser: "Aggiungi ai segnalibri",
+            BookmarkInstructions: "Premi Ctrl+D o \u2318+D per mettere questa pagina nei preferiti",
+            AddToYourFavorites: "Aggiungi ai favoriti",
+            SendFromWebOrProgram: "Invia da qualsiasi indirizzo email o programma di posta elettronica",
+            EmailProgram: "Programma di posta elettronica",
+            More: "Di più&#8230;",
+            ThanksForSharing: "Thanks for sharing!",
+            ThanksForFollowing: "Thanks for following!"
+        };
+
+        a2a_config.icon_color = "#34aaa2";
+    </script>
+    <script type='text/javascript' async src='https://static.addtoany.com/menu/page.js' id='addtoany-core-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-includes/js/jquery/jquery.min.js?ver=3.6.0' id='jquery-core-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-includes/js/jquery/jquery-migrate.min.js?ver=3.3.2' id='jquery-migrate-js'></script>
+    <script type='text/javascript' async src='https://www.mupin.it/wp-content/plugins/add-to-any/addtoany.min.js?ver=1.1' id='addtoany-jquery-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-includes/js/dist/vendor/regenerator-runtime.min.js?ver=0.13.9' id='regenerator-runtime-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-includes/js/dist/vendor/wp-polyfill.min.js?ver=3.15.0' id='wp-polyfill-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.carousel.js?ver=6.0.1' id='owl.carousel.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.animate.js?ver=6.0.1' id='owl.animate.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.autoheight.js?ver=6.0.1' id='owl.autoheight.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.autoplay.js?ver=6.0.1' id='owl.autoplay.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.autorefresh.js?ver=6.0.1' id='owl.autorefresh.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.hash.js?ver=6.0.1' id='owl.hash.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.lazyload.js?ver=6.0.1' id='owl.lazyload.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.navigation.js?ver=6.0.1' id='owl.navigation.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.support.js?ver=6.0.1' id='owl.support.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/owl.carousel/owl.video.js?ver=6.0.1' id='owl.video.js-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/slider-bws/js/script.js?ver=6.0.1' id='sldr_front_script-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-includes/js/dist/hooks.min.js?ver=c6d64f2cb8f5c6bb49caca37f8828ce3' id='wp-hooks-js'></script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-includes/js/dist/i18n.min.js?ver=ebee46757c6a411e38fd079a7ac71d94' id='wp-i18n-js'></script>
+    <script type='text/javascript' id='wp-i18n-js-after'>
+        wp.i18n.setLocaleData({
+            'text direction\u0004ltr': ['ltr']
+        });
+    </script>
+    <script type='text/javascript' id='give-js-extra'>
+        /* <![CDATA[ */
+        var give_global_vars = {
+            "ajaxurl": "https:\/\/www.mupin.it\/wp-admin\/admin-ajax.php",
+            "checkout_nonce": "1e4cf69a2f",
+            "currency": "EUR",
+            "currency_sign": "\u20ac",
+            "currency_pos": "before",
+            "thousands_separator": ".",
+            "decimal_separator": ",",
+            "no_gateway": "Seleziona un metodo di pagamento.",
+            "bad_minimum": "L'importo minimo che puoi donare \u00e8",
+            "bad_maximum": "L'importo massimo della donazione per questo modulo \u00e8",
+            "general_loading": "Caricamento in corso...",
+            "purchase_loading": "Attendi...",
+            "textForOverlayScreen": "<h3>Elaborazione in corso...<\/h3><p>Ci vorr\u00e0 solo un attimo! <\/p>",
+            "number_decimals": "2",
+            "is_test_mode": "",
+            "give_version": "2.22.0",
+            "magnific_options": {
+                "main_class": "give-modal",
+                "close_on_bg_click": false
+            },
+            "form_translation": {
+                "payment-mode": "Seleziona un metodo di pagamento.",
+                "give_first": "Inserisci il tuo nome.",
+                "give_last": "Inserisci il tuo cognome.",
+                "give_email": "Inserisci un indirizzo email valido.",
+                "give_user_login": "Indirizzo email o nome utente non valido.",
+                "give_user_pass": "Inserisci una password.",
+                "give_user_pass_confirm": "Inserisci conferma della password.",
+                "give_agree_to_terms": "Devi accettare i termini e condizioni."
+            },
+            "confirm_email_sent_message": "Controlla la tua email e fai clic sul link d'accesso per la cronologia completa delle tua donazioni.",
+            "ajax_vars": {
+                "ajaxurl": "https:\/\/www.mupin.it\/wp-admin\/admin-ajax.php",
+                "ajaxNonce": "8a60e6ee97",
+                "loading": "Caricamento in corso",
+                "select_option": "Seleziona un'opzione ",
+                "default_gateway": "offline",
+                "permalinks": "1",
+                "number_decimals": 2
+            },
+            "cookie_hash": "1655d16fe4e784fa2a6bd450c209c9b9",
+            "session_nonce_cookie_name": "wp-give_session_reset_nonce_1655d16fe4e784fa2a6bd450c209c9b9",
+            "session_cookie_name": "wp-give_session_1655d16fe4e784fa2a6bd450c209c9b9",
+            "delete_session_nonce_cookie": "0"
+        };
+        var giveApiSettings = {
+            "root": "https:\/\/www.mupin.it\/wp-json\/give-api\/v2\/",
+            "rest_base": "give-api\/v2"
+        };
+        /* ]]> */
+    </script>
+    <script type='text/javascript' id='give-js-translations'>
+        (function(domain, translations) {
+            var localeData = translations.locale_data[domain] || translations.locale_data.messages;
+            localeData[""].domain = domain;
+            wp.i18n.setLocaleData(localeData, domain);
+        })("give", {
+            "translation-revision-date": "2022-08-19 08:06:11+0000",
+            "generator": "GlotPress\/4.0.0-alpha.1",
+            "domain": "messages",
+            "locale_data": {
+                "messages": {
+                    "": {
+                        "domain": "messages",
+                        "plural-forms": "nplurals=2; plural=n != 1;",
+                        "lang": "it"
+                    },
+                    "Dismiss this notice.": ["Ignora questa notifica."]
+                }
+            },
+            "comment": {
+                "reference": "assets\/dist\/js\/give.js"
+            }
+        });
+    </script>
+    <script type='text/javascript' src='https://www.mupin.it/wp-content/plugins/give/assets/dist/js/give.js?ver=54434f04079f3f89' id='give-js'></script>
+    <link rel="https://api.w.org/" href="https://www.mupin.it/wp-json/" />
+    <link rel="alternate" type="application/json" href="https://www.mupin.it/wp-json/wp/v2/pages/2" />
+    <link rel="EditURI" type="application/rsd+xml" title="RSD" href="https://www.mupin.it/xmlrpc.php?rsd" />
+    <link rel="wlwmanifest" type="application/wlwmanifest+xml" href="https://www.mupin.it/wp-includes/wlwmanifest.xml" />
+    <link rel="alternate" type="application/json+oembed" href="https://www.mupin.it/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.mupin.it%2F" />
+    <link rel="alternate" type="text/xml+oembed" href="https://www.mupin.it/wp-json/oembed/1.0/embed?url=https%3A%2F%2Fwww.mupin.it%2F&#038;format=xml" />
+    <style type="text/css">
+        .gllr_image_row {
+            clear: both;
+        }
+    </style>
+    <meta name="generator" content="Give v2.22.0" />
+    <style type="text/css">
+        .wb-bp-front-page .wp-bs-4-jumbotron {
+            background-image: url(https://www.mupin.it/wp-content/themes/wp-bootstrap-4/assets/images/default-cover-img.jpeg);
+        }
+        
+        .wp-bp-jumbo-overlay {
+            background: rgba(33, 37, 41, 0.7);
+        }
+    </style>
+    <style id="kirki-inline-styles">
+        body,
+        button,
+        input,
+        optgroup,
+        select,
+        textarea {
+            font-family: Poppins;
+            font-weight: 400;
+        }
+        
+        .h1,
+        .h2,
+        .h3,
+        .h4,
+        .h5,
+        .h6,
+        h1,
+        h2,
+        h3,
+        h4,
+        h5,
+        h6 {
+            font-family: Lato;
+            font-weight: 400;
+        }
+        
+        .container {
+            max-width: 1140px;
+        }
+    </style>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.1/css/all.min.css" integrity="sha512-+4zCK9k+qNFUR5X+cKL9EIR+ZOhtIloNl9GIKS57V1MyNsYpYcUrUeQc9vNfzsWfV28IaLL3i96P9sdNyeRssA==" crossorigin="anonymous" />
+
+</head>
+
+<body class="home page-template page-template-page-templates page-template-full-width page-template-page-templatesfull-width-php page page-id-2 wp-custom-logo gllr_www.mupin.it wb-bp-front-page cookies-set cookies-accepted elementor-default elementor-kit-39 elementor-page elementor-page-2">
+    <div id="page" class="site">
+
+        <footer id="colophon" class="site-footer text-center mt-4 text-muted">
+
+            <section class="footer-widgets text-left">
+                <div class="container">
+                    <div class="row">
+                        <div class="col-md-4 col-12">
+                            <aside class="widget-area footer-1-area mb-2">
+                                <section id="custom_html-6" class="widget_text widget wp-bp-footer-widget widget_custom_html">
+                                    <h5 class="widget-title h6">Associazione culturale</h5>
+                                    <div class="textwidget custom-html-widget">
+                                        <hr /> Associazione “Museo Piemontese dell’informatica – MuPIn” OdV<br /> C.F. 94064820015
+
+                                        <br><br> Rinnovo tesseramento annuale e donazioni a mezzo bonifico:<br> IBAN: IT 54 B 02008 01119 000105034382 <br> Intestato a: Museo Piemontese dell'Informatica</div>
+                                </section>
+                            </aside>
+                        </div>
+
+                        <div class="col-md-4 col-12">
+                            <aside class="widget-area footer-2-area mb-2">
+                                <section id="custom_html-5" class="widget_text widget wp-bp-footer-widget widget_custom_html">
+                                    <h5 class="widget-title h6">Informazioni</h5>
+                                    <div class="textwidget custom-html-widget">
+                                        <hr />
+                                        <ul>
+                                            <li><i class="fas fa-map-marker-alt"></i> Piazza Riccardo Valla, 5 (già via Reiss Romoli, 49 bis) – 10148 Torino - ITALY</li>
+                                            <li><i class="fas fa-envelope"></i> <a href="mailto:info@mupin.it">info@mupin.it</a></li>
+                                            <li><i class="fas fa-mobile"></i> <a href="tel:+393500319477">+39 350 031 9477</a></li>
+
+                                        </ul>
+                                    </div>
+                                </section>
+                            </aside>
+                        </div>
+
+                        <div class="col-md-4 col-12">
+                            <aside class="widget-area footer-3-area mb-2">
+                                <section id="custom_html-4" class="widget_text widget wp-bp-footer-widget widget_custom_html">
+                                    <h5 class="widget-title h6">Seguici sui social</h5>
+                                    <div class="textwidget custom-html-widget">
+                                        <hr />
+                                        <ul class="list-inline">
+                                            <li class="list-inline-item"><a href="https://www.facebook.com/MuPIn.org" target="_blank" rel="noopener"><i class="fab fa-facebook-f"></i></a></li>
+                                            <li class="list-inline-item"><a href="https://www.youtube.com/user/MuPInTV/videos" target="_blank" rel="noopener"><i class="fab fa-youtube"></i></a></li>
+                                            <li class="list-inline-item"><a href="https://www.pinterest.it/mupin_it/_saved/" target="_blank" rel="noopener"><i class="fab fa-pinterest-p"></i></a></li>
+                                            <li class="list-inline-item"><a href="https://twitter.com/Mupin_It" target="_blank" rel="noopener"><i class="fab fa-twitter"></i></a></li>
+                                            <li class="list-inline-item"><a href="https://www.instagram.com/mupin_it" target="_blank" rel="noopener"><i class="fab fa-instagram"></i></a></li>
+                                            <li class="list-inline-item"><a href="https://www.linkedin.com/company/museo-piemontese-dell'informatica" target="_blank" rel="noopener"><i class="fab fa-linkedin-in"></i></a></li>
+                                            <li class="list-inline-item"><a href="https://telegram.me/mupin" target="_blank" rel="noopener"><i class="fab fa-telegram-plane"></i></a></li>
+                                        </ul>
+                                    </div>
+                                </section>
+                            </aside>
+                        </div>
+
+                    </div>
+                    <!-- /.row -->
+                </div>
+            </section>
+
+
+            <!-- /.container -->
+        </footer>
+        <!-- #colophon -->
+        <div class="container-fluid">
+            <div class="site-info row text-center">
+                <div class="col">
+                    <p class="text-center">
+                        <a rel="license" href="http://creativecommons.org/licenses/by-nc-sa/4.0/"><img alt="Creative Commons License" style="border-width:0" src="https://i.creativecommons.org/l/by-nc-sa/4.0/88x31.png" /></a>
+                        <br>
+                        <a href="/privacy-cookie-policy/">Privacy e Cookie Policy</a> - MuPIn - Museo Piemontese dell'Informatica
+                    </p>
+                </div>
+            </div>
+            <!-- .site-info -->
+        </div>
+    </div>
