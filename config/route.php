@@ -16,6 +16,8 @@ use SimpleMVC\Controller\BasicAuth;
 return [
     /* PUBLIC AREA / */
     ['GET', '/', Controller\Home::class],
+
+    ['GET','/categories',Controller\CategoriesController::class],
     //[ 'GET', '/hello[/{name}]', Controller\Hello::class ],
     //[ 'GET', '/secret', [ BasicAuth::class, Controller\Secret::class ]],
     /* EMPLOYEE AREA /private/ */
