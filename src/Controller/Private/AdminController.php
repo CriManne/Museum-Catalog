@@ -9,10 +9,10 @@
  */
 
 declare(strict_types=1);
-namespace App\Controller;
+namespace App\Controller\Private;
 session_start();
 
-
+use App\Controller\ViewsUtil;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -21,22 +21,24 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class CategoriesController implements ControllerInterface {    
+class AdminController extends ViewsUtil implements ControllerInterface {    
+
+    public function __construct(Engine $plates) {
+        parent::__construct($plates);
+    }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
-        
-        $categories = [
-            'Computer',
-            'Peripheral',
-            'Book',
-            'Magazine',
-            'Software'            
-        ];
-        
+        if(!isset($_SESSION['user_email'])){
+            return new HaltResponse(
+                400,
+                [],
+                $this->displayError(400,"Unauthorized access")   
+            );
+        }
         return new Response(
             200,
-            ["Access-Control-Allow-Origin"=>"*"],
-            json_encode($categories)
+            [],
+            $this->plates->render('p_admin::admin')
         );
     }
 }

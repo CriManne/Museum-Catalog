@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Public;
 
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -29,7 +29,7 @@ class Home implements ControllerInterface {
         return new Response(
             200,
             [],
-            $this->plates->render('home')
+            $this->plates->render('public::home')
         );
     }
 }

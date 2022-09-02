@@ -11,8 +11,10 @@ declare(strict_types=1);
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
+use App\Controller\ViewsUtil;
 use App\Exception\RepositoryException;
 use DI\ContainerBuilder;
+use League\Plates\Engine;
 use SimpleMVC\App;
 use SimpleMVC\Emitter\SapiEmitter;
 
@@ -30,7 +32,8 @@ $app->bootstrap();
 try{
     $response = $app->dispatch(); // PSR-7 response
     SapiEmitter::emit($response);
-}catch(RepositoryException $e){
-    http_response_code(500);
-    echo $e->getMessage();
+}catch(RepositoryException $e){    
+    $util = new ViewsUtil($container->get(Engine::class));
+
+    echo $util->displayError(500,$e->getMessage());    
 }

@@ -10,8 +10,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Private;
 
+use App\Controller\ViewsUtil;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\User;

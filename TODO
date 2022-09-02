@@ -1,3 +1,9 @@
+- MAKE GENERAL SEARCH BY KEY THAT SEARCHES IN EACH PROPERTY AND EVEN RELATIONAL PROPERTIES
+
+- CREATE A GENERIC MODEL THAT HAS PROPERTIES SUCH AS: title, description and others.
+AND IN THE SERVICES YOU MOCK MODELS TO THIS MODEL SO THAT THE WEB APP RECEIVE A GENERIC MODEL
+SO IT CAN WORK WITH IT
+
 - Divide the route controllers in public and private:  
     - public: is the hosted website which is also divided in public area and employees area
     - private: are the endpoints to which the website get data

@@ -21,6 +21,8 @@ return [
         $engine = new Engine($c->get('view_path'));
         $engine->addFolder('layouts', $c->get('view_path') . '/layouts');
         $engine->addFolder('private', $c->get('view_path') . '/private');
+        $engine->addFolder('p_admin', $c->get('view_path') . '/private/admin');
+        $engine->addFolder('public', $c->get('view_path') . '/public');
         $engine->addFolder('error', $c->get('view_path') . '/error');
         return $engine;
     },

@@ -9,8 +9,9 @@
  */
 
 declare(strict_types=1);
+namespace App\Controller\Public;
+session_start();
 
-namespace App\Controller;
 
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -18,22 +19,24 @@ use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
+use SimpleMVC\Response\HaltResponse;
 
-class LoginController implements ControllerInterface {
-    protected Engine $plates;
-
-    /**
-     * @param string[] $auth
-     */
-    public function __construct(Engine $plates) {
-        $this->plates = $plates;
-    }
+class CategoriesController implements ControllerInterface {    
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
+        
+        $categories = [
+            'Computer',
+            'Peripheral',
+            'Book',
+            'Magazine',
+            'Software'            
+        ];
+        
         return new Response(
             200,
-            [],
-            $this->plates->render('login')
+            ["Access-Control-Allow-Origin"=>"*"],
+            json_encode($categories)
         );
     }
 }
