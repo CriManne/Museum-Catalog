@@ -11,6 +11,7 @@
 declare(strict_types=1);
 
 namespace App\Controller\Private;
+session_start();
 
 use App\Controller\ViewsUtil;
 use App\Exception\RepositoryException;
@@ -36,9 +37,15 @@ class ValidateLoginController extends ViewsUtil implements ControllerInterface {
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+        $sessionValid = false;
+
+        if(isset($_SESSION['user_email'])){
+            $sessionValid = true;
+        }
+
         $credentials = $request->getParsedBody();
 
-        if (!isset($credentials["submitLogin"]) || !isset($credentials["email"]) || !isset($credentials["password"])) {
+        if (!$sessionValid && (!isset($credentials["submitLogin"]) || !isset($credentials["email"]) || !isset($credentials["password"]))) {
             return new HaltResponse(
                 400,
                 [],
@@ -46,7 +53,16 @@ class ValidateLoginController extends ViewsUtil implements ControllerInterface {
             );
         }
         try {
-            $user = $this->userService->selectByCredentials($credentials["email"], $credentials["password"]);
+            $user = null;
+            if($sessionValid){
+                $user = $this->userService->selectById($_SESSION['user_email']);
+            }else{
+                $user = $this->userService->selectByCredentials($credentials["email"], $credentials["password"]);
+            }
+
+            $_SESSION['user_email'] = $user->Email;
+            $_SESSION['privilege'] = $user->Privilege;
+
             return new Response(
                 200,
                 [],

@@ -36,7 +36,7 @@ return [
     ['GET','/private/users',Controller\Private\UsersController::class],
 
     //VALIDATE LOGIN
-    ['POST', '/private', Controller\Private\ValidateLoginController::class],
+    [['GET','POST'], '/private', Controller\Private\ValidateLoginController::class],
 
     //ADMIN PAGE
     ['GET','/private/admin',Controller\Private\AdminController::class]

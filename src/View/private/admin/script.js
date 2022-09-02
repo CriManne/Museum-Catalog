@@ -1,4 +1,4 @@
-var urlUsers = "http://127.0.0.1:8080/private/users";
+var urlUsers = "/private/users";
 
 $(document).ready(function() {
 
@@ -21,7 +21,7 @@ $(document).ready(function() {
 
     // });
 
-
+    // https://stackoverflow.com/questions/2870371/why-is-jquerys-ajax-method-not-sending-my-session-cookie
 });
 
 function fillResult(data) {
@@ -64,6 +64,10 @@ function makeRequest(url, method, headers = [], params = []) {
         async: false,
         headers: headers,
         data: params,
+        xhrFields: {
+            withCredentials: true,
+            sameSite: 'None'
+        },
         success: function(data) {
             returnData = JSON.parse(data);
         },

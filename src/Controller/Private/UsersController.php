@@ -12,6 +12,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Private;
 
+session_start();
+
 use App\Controller\ViewsUtil;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
@@ -35,8 +37,11 @@ class UsersController extends ViewsUtil implements ControllerInterface {
         $this->userService = $userService;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {                
         try {
+            if(!isset($_SESSION['user_email'])){
+                throw new ServiceException("Unauthorized");
+            }
             $users = $this->userService->selectAll();
             return new Response(
                 200,
@@ -45,9 +50,9 @@ class UsersController extends ViewsUtil implements ControllerInterface {
             );
         } catch (ServiceException $e) {
             return new HaltResponse(
-                404,
+                400,
                 ["Access-Control-Allow-Origin"=>"*"],
-                'Users not found'
+                $e->getMessage()
             );
         }
     }
