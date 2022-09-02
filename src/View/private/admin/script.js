@@ -55,6 +55,9 @@ function createPagination() {
         $('#paginations').append('<li class="page-item"><button class="page-link" id="change-page-' + i + '" data-page=' + i + '>' + (i + 1) + '</button></li>');
 
         $("#change-page-" + i).on("click", function() {
+            if (currentPage == parseInt($(this).attr('data-page'))) {
+                return;
+            }
             currentPage = parseInt($(this).attr('data-page'));
             initializePage();
         });
