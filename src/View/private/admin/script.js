@@ -1,9 +1,18 @@
 var urlUsers = "/private/users";
+var countUsers = 0;
+var limitPerPage = 5;
+var users = [];
+var currentPage = 0;
 
 $(document).ready(function() {
 
-    var data = makeRequest(urlUsers, 'GET');
-    fillResult(data);
+    initializePage();
+
+    $("#page-limit").on('change', function() {
+        limitPerPage = this.value;
+        currentPage = 0;
+        initializePage();
+    });
 
     // $("#search-form").submit(function(e) {
     //     e.preventDefault();
@@ -24,14 +33,48 @@ $(document).ready(function() {
     // https://stackoverflow.com/questions/2870371/why-is-jquerys-ajax-method-not-sending-my-session-cookie
 });
 
+function initializePage() {
+
+    countUsers = makeRequest(urlUsers + "?count=true", 'GET')["count"];
+
+    var data = makeRequest(urlUsers + "?page=" + currentPage + "&limit=" + limitPerPage, 'GET');
+    fillResult(data);
+
+    createPagination();
+
+}
+
+function createPagination() {
+    $("#paginations").empty();
+    var pages = Math.ceil(countUsers / limitPerPage);
+
+    for (var i = currentPage - 1; i <= currentPage + 1; i++) {
+        if (i < 0 || i >= pages) {
+            continue;
+        }
+        $('#paginations').append('<li class="page-item"><button class="page-link" id="change-page-' + i + '" data-page=' + i + '>' + (i + 1) + '</button></li>');
+
+        $("#change-page-" + i).on("click", function() {
+            currentPage = parseInt($(this).attr('data-page'));
+            initializePage();
+        });
+    }
+
+
+
+
+
+}
+
 function fillResult(data) {
+    $("#tb-container").empty();
 
     if (data.length < 1) {
-        $("#result-container").append("No users found");
+        $("#tb-container").append("No users found");
         return;
     }
 
-    $("#result-container").append(
+    $("#tb-container").append(
         "<table class='table' id='table-result'>"
     );
     $('#table-result').append(
@@ -65,8 +108,7 @@ function makeRequest(url, method, headers = [], params = []) {
         headers: headers,
         data: params,
         xhrFields: {
-            withCredentials: true,
-            sameSite: 'None'
+            withCredentials: true
         },
         success: function(data) {
             returnData = JSON.parse(data);

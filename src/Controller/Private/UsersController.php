@@ -37,21 +37,38 @@ class UsersController extends ViewsUtil implements ControllerInterface {
         $this->userService = $userService;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {                
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         try {
-            if(!isset($_SESSION['user_email'])){
+            if (!isset($_SESSION['user_email'])) {
                 throw new ServiceException("Unauthorized");
             }
-            $users = $this->userService->selectAll();
+
+            if (isset($request->getQueryParams()['count'])) {
+                $count = $this->userService->getCount();
+                return new Response(
+                    200,
+                    [],
+                    json_encode(['count' => $count])
+                );
+            }
+
+            $currentPage = $request->getQueryParams()['page'] ?? "0";
+            $perPageLimit = $request->getQueryParams()['limit'] ?? "5";
+            
+            if(intval($perPageLimit) > 25){
+                $perPageLimit = "5";
+            }
+
+            $users = $this->userService->selectAll(intval($currentPage),intval($perPageLimit));
             return new Response(
                 200,
-                ["Access-Control-Allow-Origin"=>"*"],
+                [],
                 json_encode($users)
             );
         } catch (ServiceException $e) {
             return new HaltResponse(
                 400,
-                ["Access-Control-Allow-Origin"=>"*"],
+                [],
                 $e->getMessage()
             );
         }

@@ -90,19 +90,33 @@ final class UserRepositoryTest extends TestCase
     {   
         $this->assertNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin",false));
     }
-    
 
-    public function testGoodSelectAll():void{
+    public function testGoodGetCount():void{
         $user1 = new User('testemail2@gmail.com','pwd','Bob','Dylan',0);
         $user2 = new User('testemail3@gmail.com','pwd','Alice','Red',0);
         $user3 = new User('testemail4@gmail.com','pwd','Tom','Green',0);
         self::$userRepository->insert($user1);
         self::$userRepository->insert($user2);
         self::$userRepository->insert($user3);
+        
+        $this->assertEquals(self::$userRepository->getCount(),4);
+    }  
+
+    public function testGoodSelectAll():void{
+        $user1 = new User('testemail2@gmail.com','pwd','Bob','Dylan',0);
+        $user2 = new User('testemail3@gmail.com','pwd','Alice','Red',0);
+        $user3 = new User('testemail4@gmail.com','pwd','Tom','Green',0);
+        $user4 = new User('testemail5@gmail.com','pwd','Alice','Red',0);
+        $user5 = new User('testemail6@gmail.com','pwd','Tom','Green',0);
+        self::$userRepository->insert($user1);
+        self::$userRepository->insert($user2);
+        self::$userRepository->insert($user3);
+        self::$userRepository->insert($user4);
+        self::$userRepository->insert($user5);
 
         $users = self::$userRepository->selectAll();
 
-        $this->assertEquals(count($users),4);
+        $this->assertEquals(count($users),5);
         $this->assertNotNull($users[1]);       
     }    
     

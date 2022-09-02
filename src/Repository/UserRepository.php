@@ -84,15 +84,32 @@ class UserRepository extends GenericRepository {
 
     /**
      * Select all users
+     * @param int $currentPage The page number
+     * @param int $perPageLimit The limit of results
      * @return ?array   All users, null if user table is empty
      */
-    public function selectAll(): ?array {
-        $query = "SELECT * FROM user";
+    public function selectAll(int $currentPage,int $perPageLimit): ?array {
+        $offset = $currentPage*$perPageLimit;
+        $query = "SELECT * FROM user ORDER BY Email ASC LIMIT $offset,$perPageLimit";
+        
         $stmt = $this->pdo->query($query);
 
         $users = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $users;
+    }
+
+    /**
+     * Get count of all Users
+     * @return int The number of users in the db     * 
+     */
+    public function getCount(): int{
+        $query = "SELECT COUNT(*) FROM user";
+        $stmt = $this->pdo->query($query);
+
+        $count = intval($stmt->fetchColumn());
+        
+        return $count;
     }
 
     /**
