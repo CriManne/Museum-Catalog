@@ -39,5 +39,5 @@ return [
     [['GET','POST'], '/private', Controller\Private\ValidateLoginController::class],
 
     //ADMIN PAGE
-    ['GET','/private/admin',Controller\Private\AdminController::class]
+    ['GET','/private/admin',[Controller\Private\AuthorizationController::class,Controller\Private\AdminController::class]]
 ];

@@ -114,7 +114,7 @@ final class UserRepositoryTest extends TestCase
         self::$userRepository->insert($user4);
         self::$userRepository->insert($user5);
 
-        $users = self::$userRepository->selectAll();
+        $users = self::$userRepository->selectAll(0,5);
 
         $this->assertEquals(count($users),5);
         $this->assertNotNull($users[1]);       

@@ -21,17 +21,20 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class AdminController extends ViewsUtil implements ControllerInterface {    
+class AuthorizationController extends ViewsUtil implements ControllerInterface {    
 
     public function __construct(Engine $plates) {
         parent::__construct($plates);
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {                
-        return new Response(
-            200,
-            [],
-            $this->plates->render('p_admin::admin')
-        );
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
+        if(!isset($_SESSION['user_email'])){
+            return new HaltResponse(
+                400,
+                [],
+                $this->displayError(400,"Unauthorized access")   
+            );
+        }
+        return $response;
     }
 }
