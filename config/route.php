@@ -33,7 +33,10 @@ return [
     /* PRIVATE AREA */
 
     //GET USERS
-    ['GET','/private/users',Controller\Private\UsersController::class],
+    ['GET','/private/users',[Controller\Private\AuthorizationController::class,Controller\Private\User\GetController::class]],
+
+    //DELETE USERS
+    ['DELETE','/private/users',[Controller\Private\AuthorizationController::class,Controller\Private\User\DeleteController::class]],
 
     //VALIDATE LOGIN
     [['GET','POST'], '/private', Controller\Private\ValidateLoginController::class],

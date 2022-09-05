@@ -109,13 +109,10 @@ class UserRepository extends GenericRepository {
 
     /**
      * Select all users
-     * @param int $currentPage The page number
-     * @param int $perPageLimit The limit of results
      * @return ?array   All users, null if user table is empty
      */
-    public function selectAll(int $currentPage,int $perPageLimit): ?array {
-        $offset = $currentPage*$perPageLimit;
-        $query = "SELECT * FROM user ORDER BY Email ASC LIMIT $offset,$perPageLimit";
+    public function selectAll(): ?array {
+        $query = "SELECT * FROM user ORDER BY Email ASC";
         
         $stmt = $this->pdo->query($query);
 

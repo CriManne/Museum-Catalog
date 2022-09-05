@@ -40,6 +40,8 @@ mock the pdo because the low level db interaction is already being tested in int
 - CHECK FORMATTING AND THE ERRORS MADE IN THE OTHER PROJECTS
 
 - REMOVE AUTHORIZED CROSS ORIGIN HEADER FROM CONTROLLERS
+
+- REMOVE GET COUNT METHOD FROM USER
 ____
 
 Book model

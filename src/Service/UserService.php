@@ -74,18 +74,12 @@ class UserService {
 
     /**
      * Select all Users
-     * @param int $currentPage The current page
-     * @param int $perPageLimit The limit of results
      * @return array All the users
      * @throws ServiceException If no results
      */
-    public function selectAll(int $currentPage,int $perPageLimit):array{
+    public function selectAll():array{
 
-        if($currentPage>ceil($this->userRepository->getCount()/$perPageLimit)){
-            throw new ServiceException("Invalid page number!");
-        }
-
-        $users = $this->userRepository->selectAll($currentPage,$perPageLimit);
+        $users = $this->userRepository->selectAll();
 
         if($users){
             return $users;

@@ -12,28 +12,23 @@
 <body>
     <div class="container-fluid my-5 px-5">
 
-        <form class="input-group mb-3" id="search-form">
-            <input type="text" class="form-control" placeholder="Search user" aria-label="User's search" id="user-search" required>
-            <input type="submit" class="btn btn-outline-secondary">
-        </form>
+        <input type="text" class="form-control" placeholder="Search user" aria-label="User's search" id="user-search" required>
 
         <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="result-container">
             <div class="container-fluid" id="tb-container"></div>
             <nav id="navigation">
                 <ul class="pagination">
                     <li class="page-item" id="navigation-prev">
-                        <a class="page-link" href="#" aria-label="Previous">
+                        <div class="page-link" style="cursor:pointer;" aria-label="Previous">
                             <span aria-hidden="true">&laquo;</span>
-                        </a>
+                        </div>
                     </li>
-                    <div id="paginations" class="d-flex flex-row">
-                        <li class="page-item" id="current-page-index"><a class="page-link" href="#">1</a></li>
-                    </div>
+                    <div id="paginations" class="d-flex flex-row"></div>
 
-                    <li class="page-item">
-                        <a class="page-link" href="#" aria-label="Next">
+                    <li class="page-item" id="navigation-next">
+                        <div class="page-link" style="cursor:pointer;" aria-label="Next">
                             <span aria-hidden="true">&raquo;</span>
-                        </a>
+                        </div>
                     </li>
                 </ul>
             </nav>
@@ -42,6 +37,26 @@
                 <option value="10">10</option>
                 <option value="25">25</option>
             </select>
+        </div>
+
+
+        <!-- Modal -->
+        <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="modal-title"></h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body" id="modal-body">
+                        
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                        <button type="button" class="btn btn-primary" id="save-modal">Save changes</button>
+                    </div>
+                </div>
+            </div>
         </div>
 
     </div>

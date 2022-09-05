@@ -10,9 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Private;
-
-session_start();
+namespace App\Controller\Private\User;
 
 use App\Controller\ViewsUtil;
 use App\Exception\RepositoryException;
@@ -28,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class UsersController extends ViewsUtil implements ControllerInterface {
+class DeleteController extends ViewsUtil implements ControllerInterface {
 
     protected UserService $userService;
 
@@ -39,34 +37,25 @@ class UsersController extends ViewsUtil implements ControllerInterface {
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         try {
-            if (!isset($_SESSION['user_email'])) {
-                throw new ServiceException("Unauthorized");
-            }
+            $params = $request->getQueryParams();            
 
-            if (isset($request->getQueryParams()['count'])) {
-                $count = $this->userService->getCount();
+            if(!isset($params['id'])){
                 return new Response(
-                    200,
+                    400,
                     [],
-                    json_encode(['count' => $count])
+                    "Invalid request!"
                 );
             }
 
-            $currentPage = $request->getQueryParams()['page'] ?? "0";
-            $perPageLimit = $request->getQueryParams()['limit'] ?? "5";
-            
-            if(intval($perPageLimit) > 25){
-                $perPageLimit = "5";
-            }
+            $this->userService->delete($params['id']);
 
-            $users = $this->userService->selectAll(intval($currentPage),intval($perPageLimit));
             return new Response(
                 200,
                 [],
-                json_encode($users)
+                json_encode(['message'=>'User with id {'.$params['id'].'} deleted!'])
             );
         } catch (ServiceException $e) {
-            return new HaltResponse(
+            return new Response(
                 400,
                 [],
                 $e->getMessage()
