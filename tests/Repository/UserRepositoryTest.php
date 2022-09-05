@@ -91,6 +91,14 @@ final class UserRepositoryTest extends TestCase
         $this->assertNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin",false));
     }
 
+    public function testGoodSelectByKey():void{
+        $this->assertNotNull(self::$userRepository->selectByKey("TeSt"));
+    }
+
+    public function testBadSelectByKey():void{
+        $this->assertEquals(count(self::$userRepository->selectByKey("WRONGSEARCH")),0);
+    }
+    
     public function testGoodGetCount():void{
         $user1 = new User('testemail2@gmail.com','pwd','Bob','Dylan',0);
         $user2 = new User('testemail3@gmail.com','pwd','Alice','Red',0);

@@ -22,15 +22,15 @@ class UserRepository extends GenericRepository {
 
         $query =
             "INSERT INTO user 
-            (Email,password,firstname,lastname,privilege) VALUES 
-            (:Email,:password,:firstname,:lastname,:privilege);";
+            (Email,Password,firstname,lastname,Privilege) VALUES 
+            (:Email,:Password,:firstname,:lastname,:Privilege);";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Email", $u->Email, PDO::PARAM_STR);
-        $stmt->bindParam("password", $u->Password, PDO::PARAM_STR);
+        $stmt->bindParam("Password", $u->Password, PDO::PARAM_STR);
         $stmt->bindParam("firstname", $u->firstname, PDO::PARAM_STR);
         $stmt->bindParam("lastname", $u->lastname, PDO::PARAM_STR);
-        $stmt->bindParam("privilege", $u->Privilege, PDO::PARAM_STR);
+        $stmt->bindParam("Privilege", $u->Privilege, PDO::PARAM_STR);
 
         try {
             $stmt->execute();
@@ -60,7 +60,7 @@ class UserRepository extends GenericRepository {
     /**
      * Select a user with his credentials
      * @param string $Email     The Email of the user
-     * @param string $Password  The password of the user
+     * @param string $Password  The Password of the user
      * @param bool $isAdmin     If set it will select only admins if true, only normal users otherwise
      * @return ?User            The user selected, null if not found         * 
      */
@@ -80,6 +80,31 @@ class UserRepository extends GenericRepository {
             return ORM::getNewInstance(User::class, $user);
         }
         return null;
+    }
+
+    /**
+     * Select by key
+     * @param string $key The key to search
+     * @param bool $isAdmin     If set it will select only admins if true, only normal users otherwise
+     * @return ?array The users selected     * 
+     */
+    public function selectByKey(string $key,bool $isAdmin = null):?array{
+        $query = "SELECT * FROM user WHERE 
+        Email LIKE :key OR 
+        firstname LIKE :key OR 
+        lastname LIKE :key";
+
+        if (isset($isAdmin)) {
+            $query .= " AND Privilege = " . ($isAdmin ? "1" : "0");
+        }
+
+        $stmt = $this->pdo->prepare($query);
+        $key = "%".$key."%";
+        $stmt->bindParam("key",$key, PDO::PARAM_STR);
+        $stmt->execute();
+        $users = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $users;
     }
 
     /**

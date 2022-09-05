@@ -58,6 +58,21 @@ class UserService {
     }
 
     /**
+     * Select by key
+     * @param string $key The key to search
+     * @return array The users selected
+     * @throws ServiceException If no result
+     */
+    public function selectByKey(string $key,bool $isAdmin = null):array{
+        $users = $this->userRepository->selectByKey($key,$isAdmin);
+        if(count($users)<1){
+            throw new ServiceException("No results");
+        }
+
+        return $users;
+    }
+
+    /**
      * Select all Users
      * @param int $currentPage The current page
      * @param int $perPageLimit The limit of results
