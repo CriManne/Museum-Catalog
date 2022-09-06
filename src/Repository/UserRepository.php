@@ -46,7 +46,7 @@ class UserRepository extends GenericRepository {
      * @return ?User            The User selected, null if not found
      */
     public function selectById(string $Email): ?User {
-        $query = "SELECT * FROM user WHERE Email = :Email";
+        $query = "SELECT * FROM user WHERE BINARY Email = :Email";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Email", $Email, PDO::PARAM_STR);
         $stmt->execute();
@@ -65,7 +65,7 @@ class UserRepository extends GenericRepository {
      * @return ?User            The user selected, null if not found         * 
      */
     public function selectByCredentials(string $Email, string $Password, bool $isAdmin = null): ?User {
-        $query = "SELECT * FROM user WHERE Email = :Email AND Password = :Password";
+        $query = "SELECT * FROM user WHERE BINARY Email = :Email AND BINARY Password = :Password";
 
         if (isset($isAdmin)) {
             $query .= " AND Privilege = " . ($isAdmin ? "1" : "0");

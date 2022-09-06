@@ -40,7 +40,7 @@ return [
 //    ['POST','/private/users',[Controller\Private\BasicAuthController::class,Controller\Private\AdvancedAuthController::class,Controller\Private\User\PostController::class]],
 
     //DELETE USERS
-    ['DELETE','/private/users',[Controller\Private\AuthorizationController::class,Controller\Private\User\DeleteController::class]],
+    ['DELETE','/private/users',[Controller\Private\BasicAuthController::class,Controller\Private\AdvancedAuthController::class,Controller\Private\User\DeleteController::class]],
 
     //VALIDATE LOGIN
     [['GET','POST'], '/private', Controller\Private\ValidateLoginController::class],
