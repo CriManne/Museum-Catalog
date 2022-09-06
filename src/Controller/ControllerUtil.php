@@ -6,12 +6,16 @@ namespace App\Controller;
 
 use League\Plates\Engine;
 
-class ViewsUtil {
+class ControllerUtil {
 
     protected Engine $plates;
 
     public function __construct(Engine $plates) {
         $this->plates = $plates;
+    }
+
+    public function getResponse(string $message):string{
+        return json_encode(["message"=>$message]);
     }
 
     public function displayError(int $error_code, string $error_message): string {

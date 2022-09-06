@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Private\User;
 
-use App\Controller\ViewsUtil;
+use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\User;
@@ -26,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class DeleteController extends ViewsUtil implements ControllerInterface {
+class DeleteController extends ControllerUtil implements ControllerInterface {
 
     protected UserService $userService;
 
@@ -43,7 +43,7 @@ class DeleteController extends ViewsUtil implements ControllerInterface {
                 return new Response(
                     400,
                     [],
-                    "Invalid request!"
+                    $this->getResponse("Invalid request!")
                 );
             }
 
@@ -52,13 +52,13 @@ class DeleteController extends ViewsUtil implements ControllerInterface {
             return new Response(
                 200,
                 [],
-                json_encode(['message'=>'User with id {'.$params['id'].'} deleted!'])
+                $this->getResponse('User with id {'.$params['id'].'} deleted!')
             );
         } catch (ServiceException $e) {
             return new Response(
                 400,
                 [],
-                $e->getMessage()
+                $this->getResponse($e->getMessage())
             );
         }
     }

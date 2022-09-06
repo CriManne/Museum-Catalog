@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Private\User;
 
-use App\Controller\ViewsUtil;
+use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\User;
@@ -26,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class GetController extends ViewsUtil implements ControllerInterface {
+class GetController extends ControllerUtil implements ControllerInterface {
 
     protected UserService $userService;
 
@@ -66,7 +66,7 @@ class GetController extends ViewsUtil implements ControllerInterface {
             return new HaltResponse(
                 400,
                 [],
-                $e->getMessage()
+                $this->getResponse($e->getMessage())
             );
         }
     }

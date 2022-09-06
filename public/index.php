@@ -11,7 +11,7 @@ declare(strict_types=1);
 chdir(dirname(__DIR__));
 require 'vendor/autoload.php';
 
-use App\Controller\ViewsUtil;
+use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
 use DI\ContainerBuilder;
 use League\Plates\Engine;
@@ -33,7 +33,7 @@ try{
     $response = $app->dispatch(); // PSR-7 response
     SapiEmitter::emit($response);
 }catch(RepositoryException $e){    
-    $util = new ViewsUtil($container->get(Engine::class));
+    $util = new ControllerUtil($container->get(Engine::class));
 
     echo $util->displayError(500,$e->getMessage());    
 }

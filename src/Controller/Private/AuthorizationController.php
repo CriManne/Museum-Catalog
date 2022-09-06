@@ -12,7 +12,7 @@ declare(strict_types=1);
 namespace App\Controller\Private;
 session_start();
 
-use App\Controller\ViewsUtil;
+use App\Controller\ControllerUtil;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -21,7 +21,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class AuthorizationController extends ViewsUtil implements ControllerInterface {    
+class AuthorizationController extends ControllerUtil implements ControllerInterface {    
 
     public function __construct(Engine $plates) {
         parent::__construct($plates);

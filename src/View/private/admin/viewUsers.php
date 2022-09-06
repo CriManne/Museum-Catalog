@@ -1,10 +1,11 @@
 <style>
 .table-scrollable {
   overflow-x: auto;
-  max-width: 600px;
+  max-width: 100vw;
   box-shadow: inset 0 0 5px rgba(150, 150 ,150,0.35);
   margin: auto;
-  padding:10px;
+  padding:0;
+  padding-top:10px;
 }
 </style>
 
@@ -35,5 +36,5 @@
     </select>
 </div>
 <script>
-    <?php include('script.js'); ?>
+    <?php include('viewUsers.js'); ?>
 </script>

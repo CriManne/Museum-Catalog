@@ -35,12 +35,13 @@ return [
     //GET USERS
     ['GET','/private/users',[Controller\Private\AuthorizationController::class,Controller\Private\User\GetController::class]],
 
+    //POST USER
+    ['POST','/private/users',Controller\Private\User\PostController::class],
+//    ['POST','/private/users',[Controller\Private\AuthorizationController::class,Controller\Private\User\PostController::class]],
+
     //DELETE USERS
     ['DELETE','/private/users',[Controller\Private\AuthorizationController::class,Controller\Private\User\DeleteController::class]],
 
     //VALIDATE LOGIN
     [['GET','POST'], '/private', Controller\Private\ValidateLoginController::class],
-
-    //ADMIN PAGE
-    ['GET','/private/admin',[Controller\Private\AuthorizationController::class,Controller\Private\AdminController::class]]
 ];

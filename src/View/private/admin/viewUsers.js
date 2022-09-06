@@ -7,6 +7,9 @@ var limitPerPage = 5;
 //Current page index
 var currentPage = 0;
 
+//Amount of pages displayable
+var pages = 0;
+
 //All the users fetched, since there will be not many users the app will fetch all the users in the db and it will store them locally
 var users = [];
 
@@ -16,6 +19,12 @@ var filteredUsers = [];
 
 $(document).ready(function() {
 
+    //DEBUG SCRIPT
+    // for (var i = 0; i < 20; i++) {
+    //     $("#result-container").append(
+    //         "INSERT INTO user(Email,Password,firstname,lastname,Privilege) VALUES('test" + i + "','admin','test" + i + "','test" + i + "',0);"
+    //     );
+    // }
 
     initializePage();
 
@@ -67,15 +76,18 @@ $(document).ready(function() {
 
 function initializePage() {
     //Fetch the data from the API
+    // response = makeRequest(urlUsers);
+    // $("#result-container").append("STATUS:" + response.);
+    // // if(response.status_code != "200"){
+
+    // // }
     users = filteredUsers = makeRequest(urlUsers);
+
     loadPage();
 
 }
 
 function loadPage() {
-    //Calculate the offset of the subset for pagination
-    var offset = currentPage * limitPerPage;
-
     //If there's no user in the subset
     if (filteredUsers.length < 1) {
         $("#tb-container").empty();
@@ -84,6 +96,18 @@ function loadPage() {
         $("#page-limit").hide();
         return;
     }
+
+    //Calculate the pages
+    pages = Math.ceil(filteredUsers.length / limitPerPage);
+
+    //Reload page until the current page exists
+    if (currentPage + 1 > pages) {
+        currentPage--;
+        loadPage();
+    }
+
+    //Calculate the offset of the subset for pagination
+    var offset = currentPage * limitPerPage;
 
     //Fill the table with the data
     fillTable(filteredUsers.slice(offset, offset + limitPerPage));
@@ -98,7 +122,6 @@ function createPaginationButtons() {
 
     $(".pagination").show();
     $("#page-limit").show();
-    var pages = Math.ceil(filteredUsers.length / limitPerPage);
 
     //If the current page is the 4th or more create a button with the first page link
     if (currentPage >= 3) {
@@ -109,10 +132,12 @@ function createPaginationButtons() {
         });
     }
 
+    //Add the three dots in the pagination
     if (currentPage >= 2) {
         $('#paginations').append('<li class="page-item"><div class="page-link">...</div></li >');
     }
 
+    //Create all the pagination links
     for (var i = currentPage - 1; i <= currentPage + 1; i++) {
         if (i < 0 || i >= pages) {
             continue;
@@ -128,10 +153,12 @@ function createPaginationButtons() {
         });
     }
 
+    //Add the three dots in the pagination
     if (currentPage <= pages - 3) {
         $('#paginations').append('<li class="page-item"><button class="page-link">...</button></li >');
     }
 
+    //Add a button with the last page link
     if (currentPage < pages - 3) {
         $('#paginations').append('<li class="page-item"><button class="page-link" id="change-page-' + (pages - 1) + '" data-page=' + (pages - 1) + '>' + pages + '</button></li>');
         $("#change-page-" + (pages - 1)).unbind().on("click", function() {
@@ -178,17 +205,19 @@ function fillTable(data) {
 
     });
 
+    //Delete user button handler
     $(".delete-user").unbind().on('click', function() {
         var email = $(this).data("id");
         if (confirm("Sei sicuro di voler eliminare l'utente {" + email + "}?")) {
-            var result = makeRequest(urlUsers + "?id=" + email, 'DELETE');
+            var response = makeRequest(urlUsers + "?id=" + email, 'DELETE');
             initializePage();
-            createSuccessAlert(result.message);
+            createAlert(response);
         }
     });
 
 }
 
+//Custom compare function 
 function compare(property, direction) {
     return (a, b) => {
         if (direction == 1) {
@@ -196,36 +225,4 @@ function compare(property, direction) {
         }
         return a[property] < b[property] ? 1 : -1;
     };
-}
-
-function createSuccessAlert(message) {
-    $("#result-container").prepend(
-        '<div class="alert alert-warning alert-dismissible fade show" role="alert" id="success-alert">' +
-        '<p><strong>Success!</strong></p>' + message +
-        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
-    );
-    $("#success-alert").fadeTo(3000, 0).slideUp(500, function() {
-        $(this).remove();
-    });
-}
-
-function makeRequest(url, method = 'GET', headers = [], params = []) {
-    var returnData;
-    $.ajax({
-        url: url,
-        method: method,
-        async: false,
-        headers: headers,
-        data: params,
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function(data) {
-            returnData = JSON.parse(data);
-        },
-        error: function() {
-            returnData = null;
-        }
-    });
-    return returnData;
 }
