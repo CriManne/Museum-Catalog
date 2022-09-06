@@ -1,28 +1,37 @@
+//URL to fetch users
 var urlUsers = "/private/users";
-var countUsers = 0;
+
+//Limit of records per page
 var limitPerPage = 5;
-var users = [];
-var filteredUsers = [];
+
+//Current page index
 var currentPage = 0;
+
+//All the users fetched, since there will be not many users the app will fetch all the users in the db and it will store them locally
+var users = [];
+
+//The filtered users which is a subset of the users array
+var filteredUsers = [];
+
 
 $(document).ready(function() {
 
-    // for (var i = 0; i < 20; i++) {
-    //     $("#result-container").append(
-    //         "INSERT INTO User(Email,Password,firstname,lastname,Privilege) VALUES('test" + i + "','admin','test" + i + "','test" + i + "',0);"
-    //     );
-    // }
 
     initializePage();
 
+    //When the per page limit select is changed
     $("#page-limit").unbind().on('change', function() {
         limitPerPage = parseInt(this.value);
         currentPage = 0;
-        loadPage(filteredUsers);
+
+        //Reload the page with the new per page limit
+        loadPage();
     });
 
-    $("#user-search").unbind().on('input change keyup copy paste cut', function() {
+    //When the user type in the search bar
+    $("#user-search").unbind().on('input copy paste cut', function() {
         var key = this.value.toLowerCase();
+        //Create the subset array filtered by the key
         filteredUsers = users.filter(function(elem) {
             if (elem.firstname.toLowerCase().includes(key) ||
                 elem.lastname.toLowerCase().includes(key) ||
@@ -32,55 +41,66 @@ $(document).ready(function() {
             }
             return false;
         });
+
         currentPage = 0;
-        loadPage(filteredUsers);
+        loadPage();
     });
 
+    //When the user go to the prev page
     $("#navigation-prev").unbind().on('click', function() {
         if (currentPage > 0) {
             currentPage--;
-            loadPage(filteredUsers);
+            loadPage();
         }
     });
 
+    //When the user go to the next page
     $("#navigation-next").unbind().on('click', function() {
         if (currentPage < Math.ceil(filteredUsers.length / limitPerPage) - 1) {
             currentPage++;
-            loadPage(filteredUsers);
+            loadPage();
         }
     });
 
 });
 
-function initializePage() {
 
-    users = makeRequest(urlUsers);
-    filteredUsers = users;
-    loadPage(users);
+function initializePage() {
+    //Fetch the data from the API
+    users = filteredUsers = makeRequest(urlUsers);
+    loadPage();
 
 }
 
-function loadPage(data) {
+function loadPage() {
+    //Calculate the offset of the subset for pagination
     var offset = currentPage * limitPerPage;
 
-    fillResult(data.slice(offset, offset + limitPerPage));
-
-    createPagination();
-}
-
-function createPagination() {
-    $("#paginations").empty();
-
+    //If there's no user in the subset
     if (filteredUsers.length < 1) {
+        $("#tb-container").empty();
+        $("#tb-container").append("No users found");
         $(".pagination").hide();
         $("#page-limit").hide();
-    } else {
-        $(".pagination").show();
-        $("#page-limit").show();
+        return;
     }
 
+    //Fill the table with the data
+    fillTable(filteredUsers.slice(offset, offset + limitPerPage));
+
+    //Create the pagination buttons
+    createPaginationButtons();
+}
+
+function createPaginationButtons() {
+    //Reset the paginations container
+    $("#paginations").empty();
+
+    $(".pagination").show();
+    $("#page-limit").show();
     var pages = Math.ceil(filteredUsers.length / limitPerPage);
 
+    //If the current page is the 4th or more create a button with the first page link
     if (currentPage >= 3) {
         $('#paginations').append('<li class="page-item"><button class="page-link" id="change-page-' + 0 + '" data-page=' + 0 + '>' + 1 + '</button></li>');
         $("#change-page-0").unbind().on("click", function() {
@@ -90,7 +110,7 @@ function createPagination() {
     }
 
     if (currentPage >= 2) {
-        $('#paginations').append('<li class="page-item"><button class="page-link">...</button></li >');
+        $('#paginations').append('<li class="page-item"><div class="page-link">...</div></li >');
     }
 
     for (var i = currentPage - 1; i <= currentPage + 1; i++) {
@@ -121,20 +141,22 @@ function createPagination() {
     }
 }
 
-function fillResult(data) {
+function fillTable(data) {
     $("#tb-container").empty();
 
-    if (data.length < 1) {
-        $("#tb-container").append("No users found");
-        return;
-    }
-
     $("#tb-container").append(
-        "<table class='table' id='table-result'>"
+        "<table class='m-auto table table-hover table-responsive w-100' id='table-result'>"
     );
     $('#table-result').append(
-        "<thead><tr><th scope='col'>Email</th><th scope='col'>Nome</th><th scope='col'>Cognome</th><th scope='col'>Privilegi</th><th scope='col'>Operazioni</th></tr></thead><tbody>"
+        "<thead><tr>" +
+        "<th scope='col' style='cursor:pointer;' class='order-filter' data-id='Email'>Email</th>" +
+        "<th scope='col' style='cursor:pointer;' class='order-filter' data-id='firstname'>Nome</th>" +
+        "<th scope='col' style='cursor:pointer;' class='order-filter' data-id='lastname'>Cognome</th>" +
+        "<th scope='col' style='cursor:pointer;' class='order-filter' data-id='Privilege'>Privilegi</th>" +
+        "<th scope='col'>Operazioni</th>" +
+        "</tr></thead><tbody>"
     );
+
 
     data.forEach(function(elem) {
 
@@ -149,25 +171,31 @@ function fillResult(data) {
             "</td><td>" + lastname +
             "</td><td>" + (privilege == "1" ? "ADMIN" : "EMPLOYEE") +
             "</td><td>" +
-            "<button class='button update-user' data-id='" + email + "'>Aggiorna</button>" +
-            "<button class='button delete-user' data-id='" + email + "'>Elimina</button>" +
+            "<button class='btn btn-primary delete-user' data-id='" + email + "'>Elimina</button>" +
             "</td>" +
             "</tr>"
         );
 
-        $(".update-user").unbind().on('click', function() {
-            confirm("Sei sicuro di voler aggiornare l'utente {" + $(this).data("id") + "}?");
-        });
-
-        $(".delete-user").unbind().on('click', function() {
-            var email = $(this).data("id");
-            if (confirm("Sei sicuro di voler eliminare l'utente {" + email + "}?")) {
-                var result = makeRequest(urlUsers + "?id=" + email, 'DELETE');
-                initializePage();
-                createSuccessAlert(result.message);
-            }
-        });
     });
+
+    $(".delete-user").unbind().on('click', function() {
+        var email = $(this).data("id");
+        if (confirm("Sei sicuro di voler eliminare l'utente {" + email + "}?")) {
+            var result = makeRequest(urlUsers + "?id=" + email, 'DELETE');
+            initializePage();
+            createSuccessAlert(result.message);
+        }
+    });
+
+}
+
+function compare(property, direction) {
+    return (a, b) => {
+        if (direction == 1) {
+            return a[property] > b[property] ? 1 : -1;
+        }
+        return a[property] < b[property] ? 1 : -1;
+    };
 }
 
 function createSuccessAlert(message) {

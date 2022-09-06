@@ -4,13 +4,6 @@
 AND IN THE SERVICES YOU MOCK MODELS TO THIS MODEL SO THAT THE WEB APP RECEIVE A GENERIC MODEL
 SO IT CAN WORK WITH IT
 
-- Divide the route controllers in public and private:  
-    - public: is the hosted website which is also divided in public area and employees area
-    - private: are the endpoints to which the website get data
-
-- Leave the private endpoints without Authentication during development. But
-!!!REMEMBER TO ENABLE Authentication with BasicAuth pipeline or another validation pipeline!!!
-
 - REMEMBER TO HANDLE THE ACTIVE FIELD OF GENERIC OBJECT:
     because the erased field is used to delete softly a record to avoid integrity fails
     the active field could be used to disable an object so is not show in the catalog but still available
@@ -22,7 +15,7 @@ SO IT CAN WORK WITH IT
 
 - USE mysql_real_escape_string TO CLEAN INPUTS
 
-- Implement documentation for the showErased PARAMETER
+- Implement documentation for the showErased and isAdmin PARAMETER
 
 - On insert when returning the object inserted fill the ids
 
@@ -31,8 +24,6 @@ SO IT CAN WORK WITH IT
 - *OPTIONAL* update integration test on insert and compare the select result with the insert result
 
 - REMOVE REPOSITORIES AND SERVICES METHODS NOT USED
-
-- IN SELECT BY TITLE,NAME OR SIMILAR USE LIKE TO MATCH PARTIAL RESULTS
 
 - In Services unit tests just mock the repository is being used because the you don't need to
 mock the pdo because the low level db interaction is already being tested in integration tests

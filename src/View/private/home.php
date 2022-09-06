@@ -14,8 +14,7 @@ if($this->e($user->Privilege)==="1"){
   </a>
 </p>
 <div class="collapse mx-2" id="collapseExample">
-  <div class="card card-body">
-    
+  <div class="card card-body">    
   <?php    
     $this->insert('p_admin::admin');    
   ?>
