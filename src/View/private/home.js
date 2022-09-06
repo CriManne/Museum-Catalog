@@ -1,3 +1,14 @@
+//URL to fetch users
+var urlUsers = "/private/users";
+
+$(document).ready(function() {
+
+    $("#logout-btn").on('click', function() {
+        window.location.replace('/login');
+    });
+
+});
+
 //Create alert
 function createAlert(response, container = "#alert-container") {
     $(container).prepend(

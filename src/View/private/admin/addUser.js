@@ -1,5 +1,3 @@
-var urlPostUsers = "/private/users";
-
 $(document).ready(function() {
 
     $("#add-user-form").on('submit', function(e) {

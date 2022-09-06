@@ -21,7 +21,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class AuthorizationController extends ControllerUtil implements ControllerInterface {    
+class BasicAuthController extends ControllerUtil implements ControllerInterface {    
 
     public function __construct(Engine $plates) {
         parent::__construct($plates);
@@ -30,9 +30,9 @@ class AuthorizationController extends ControllerUtil implements ControllerInterf
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
         if(!isset($_SESSION['user_email'])){
             return new HaltResponse(
-                400,
+                401,
                 [],
-                $this->displayError(400,"Unauthorized access")   
+                $this->displayError(401,"Unauthorized access")   
             );
         }
         return $response;

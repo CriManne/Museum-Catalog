@@ -33,11 +33,11 @@ return [
     /* PRIVATE AREA */
 
     //GET USERS
-    ['GET','/private/users',[Controller\Private\AuthorizationController::class,Controller\Private\User\GetController::class]],
+    ['GET','/private/users',[Controller\Private\BasicAuthController::class,Controller\Private\AdvancedAuthController::class,Controller\Private\User\GetController::class]],
 
     //POST USER
     ['POST','/private/users',Controller\Private\User\PostController::class],
-//    ['POST','/private/users',[Controller\Private\AuthorizationController::class,Controller\Private\User\PostController::class]],
+//    ['POST','/private/users',[Controller\Private\BasicAuthController::class,Controller\Private\AdvancedAuthController::class,Controller\Private\User\PostController::class]],
 
     //DELETE USERS
     ['DELETE','/private/users',[Controller\Private\AuthorizationController::class,Controller\Private\User\DeleteController::class]],

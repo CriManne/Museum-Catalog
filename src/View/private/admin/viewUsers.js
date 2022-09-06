@@ -1,6 +1,3 @@
-//URL to fetch users
-var urlUsers = "/private/users";
-
 //Limit of records per page
 var limitPerPage = 5;
 
@@ -18,13 +15,6 @@ var filteredUsers = [];
 
 
 $(document).ready(function() {
-
-    //DEBUG SCRIPT
-    // for (var i = 0; i < 20; i++) {
-    //     $("#result-container").append(
-    //         "INSERT INTO user(Email,Password,firstname,lastname,Privilege) VALUES('test" + i + "','admin','test" + i + "','test" + i + "',0);"
-    //     );
-    // }
 
     initializePage();
 
@@ -176,11 +166,11 @@ function fillTable(data) {
     );
     $('#table-result').append(
         "<thead><tr>" +
-        "<th scope='col' style='cursor:pointer;' class='order-filter' data-id='Email'>Email</th>" +
-        "<th scope='col' style='cursor:pointer;' class='order-filter' data-id='firstname'>Nome</th>" +
-        "<th scope='col' style='cursor:pointer;' class='order-filter' data-id='lastname'>Cognome</th>" +
-        "<th scope='col' style='cursor:pointer;' class='order-filter' data-id='Privilege'>Privilegi</th>" +
-        "<th scope='col'>Operazioni</th>" +
+        "<th scope='col'>Email</th>" +
+        "<th scope='col'>Nome</th>" +
+        "<th scope='col'>Cognome</th>" +
+        "<th scope='col'>Privilegi</th>" +
+        "<th scope='col'>Elimina</th>" +
         "</tr></thead><tbody>"
     );
 
@@ -196,7 +186,7 @@ function fillTable(data) {
             '<tr><th scope="row">' + email +
             '</th><td>' + firstname +
             "</td><td>" + lastname +
-            "</td><td>" + (privilege == "1" ? "ADMIN" : "EMPLOYEE") +
+            "</td><td>" + (privilege == "1" ? "Amministratore" : "Dipendente") +
             "</td><td>" +
             "<button class='btn btn-primary delete-user' data-id='" + email + "'>Elimina</button>" +
             "</td>" +

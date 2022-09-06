@@ -49,7 +49,7 @@ class ValidateLoginController extends ControllerUtil implements ControllerInterf
             return new HaltResponse(
                 400,
                 [],
-                $this->displayError(400,"Unauthorized access")   
+                $this->displayError(400,"Bad request")   
             );
         }
         try {
@@ -72,7 +72,7 @@ class ValidateLoginController extends ControllerUtil implements ControllerInterf
             return new HaltResponse(
                 404,
                 [],
-                $this->displayError(404, $e->getMessage())
+                $this->plates->render('public::login', ['error' => $e->getMessage()])
             );
         }
     }
