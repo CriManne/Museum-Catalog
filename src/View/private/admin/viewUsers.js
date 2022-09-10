@@ -200,8 +200,8 @@ function fillTable(data) {
         var email = $(this).data("id");
         if (confirm("Sei sicuro di voler eliminare l'utente {" + email + "}?")) {
             var response = makeRequest(urlUsers + "?id=" + email, 'DELETE');
-            initializePage();
             createAlert(response);
+            initializePage();
         }
     });
 

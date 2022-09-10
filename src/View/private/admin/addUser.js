@@ -9,13 +9,17 @@ $(document).ready(function() {
         });
 
         var response = makeRequest(
-            urlPostUsers,
+            urlUsers,
             'POST',
             headers = {
                 "mimeType": "multipart/form-data",
             },
             params = object);
         createAlert(response);
+
+        if (response.status_code == "200") {
+            initializePage();
+        }
     });
 
 });

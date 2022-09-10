@@ -15,6 +15,7 @@ use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
 use DI\ContainerBuilder;
 use League\Plates\Engine;
+use Nyholm\Psr7\Response;
 use SimpleMVC\App;
 use SimpleMVC\Emitter\SapiEmitter;
 
@@ -33,7 +34,18 @@ try{
     $response = $app->dispatch(); // PSR-7 response
     SapiEmitter::emit($response);
 }catch(RepositoryException $e){    
-    $util = new ControllerUtil($container->get(Engine::class));
-
-    echo $util->displayError(500,$e->getMessage());    
+    $util = new ControllerUtil($container->get(Engine::class));    
+    $requestUrl = $app->getRequest()->getRequestTarget();    
+    $responseBody = null;
+    if(explode('/',$requestUrl)[1] == 'api'){
+        $responseBody = $util->getResponse($e->getMessage());               
+    }else{
+        $responseBody = $util->displayError(500,$e->getMessage()); 
+    }
+    SapiEmitter::emit(new Response(
+        500,
+        [],
+        $responseBody
+    ));                
+    
 }

@@ -10,56 +10,47 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Private\User;
+namespace App\Controller\Private;
 
-use App\Controller\ControllerUtil;
-use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
-use App\Model\User;
-use App\Repository\UserRepository;
 use App\Service\UserService;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
-use SimpleMVC\Response\HaltResponse;
 
-class DeleteController extends ControllerUtil implements ControllerInterface {
 
+class HomeController implements ControllerInterface {
+    protected Engine $plates;
     protected UserService $userService;
 
     public function __construct(Engine $plates, UserService $userService) {
-        parent::__construct($plates);
+        $this->plates = $plates;
         $this->userService = $userService;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        try {
-            $params = $request->getQueryParams();            
+        try{
 
-            if(!isset($params['id'])){
+            if(isset($request->getQueryParams()['logout-btn'])){
+                unset($_SESSION);
+                session_destroy();
                 return new Response(
-                    400,
-                    [],
-                    $this->getResponse("Invalid request!")
+                    302,
+                    ['Location'=>'/login']
                 );
             }
 
-            $this->userService->delete($params['id']);
+            $user = $this->userService->selectById($_SESSION['user_email']);
 
             return new Response(
                 200,
                 [],
-                $this->getResponse('User with id {'.$params['id'].'} deleted!')
+                $this->plates->render('private::home',['user'=>$user])
             );
-        } catch (ServiceException $e) {
-            return new Response(
-                400,
-                [],
-                $this->getResponse($e->getMessage())
-            );
+        }catch(ServiceException){
+
         }
     }
 }

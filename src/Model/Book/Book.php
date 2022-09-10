@@ -37,4 +37,17 @@ class Book extends GenericObject {
         $this->Pages = $Pages;
         $this->Authors = $Authors;
     }
+
+    public function toGeneric():array{
+        return [
+            'ObjectID'=>$this->ObjectID,
+            'Name'=>$this->Title,
+            'Info'=>[
+                'Year'=>$this->Year,
+                'Pages'=>$this->Pages,
+                'Publisher'=>$this->Publisher->Name,
+                'Authors'=>$this->Authors
+            ]
+        ];
+    }
 }

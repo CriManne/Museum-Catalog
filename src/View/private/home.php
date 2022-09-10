@@ -16,15 +16,15 @@ $this->layout('layouts::layout', ['title' => 'Login'])
       Aggiungi utente
     </a>
   <?php } ?>
-  <a class="btn btn-primary" data-bs-toggle="collapse" href="#addUser" role="button" aria-expanded="false" aria-controls="addUser">
+  <a class="btn btn-primary" href="/private/artifacts">
     Visualizza reperti
   </a>
-  <a class="btn btn-primary" data-bs-toggle="collapse" href="#addUser" role="button" aria-expanded="false" aria-controls="addUser">
+  <a class="btn btn-primary" href="/private/addArtifact">
     Aggiungi reperto
   </a>
-  <div class="btn btn-primary" id="logout-btn">
-    Logout
-  </div>
+  <form action='/private' method='GET'>
+    <input type='submit' class="btn btn-primary" name='logout-btn' value='Logout'>
+  </form>
 </div>
 <div id="alert-container"></div>
 <?php
@@ -33,20 +33,18 @@ if ($this->e($user->Privilege) === "1") {
   <div class="collapse mx-2" id="viewUsers">
     <div class="card card-body">
       <?php
-      //$this->insert('p_admin::viewUsers');
+      $this->insert('p_admin::viewUsers');
       ?>
     </div>
   </div>
   <div class="collapse mx-2" id="addUser">
     <div class="card card-body">
       <?php
-      //$this->insert('p_admin::addUser');
+      $this->insert('p_admin::addUser');
       ?>
     </div>
   </div>
 <?php } ?>
-
-
 
 <script>
   <?php require('home.js'); ?>

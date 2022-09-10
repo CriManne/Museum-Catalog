@@ -27,7 +27,7 @@ function is_session_started()
 ?>
 
 <div>
-    <form action="/private" method="POST">
+    <form action="/login" method="POST">
 
         <input type="text" name="email">
         <input type="password" name="password">

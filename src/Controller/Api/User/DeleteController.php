@@ -10,8 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Private;
-session_start();
+namespace App\Controller\Api\User;
 
 use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
@@ -27,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class ValidateLoginController extends ControllerUtil implements ControllerInterface {
+class DeleteController extends ControllerUtil implements ControllerInterface {
 
     protected UserService $userService;
 
@@ -37,42 +36,29 @@ class ValidateLoginController extends ControllerUtil implements ControllerInterf
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        $sessionValid = false;
-
-        if(isset($_SESSION['user_email'])){
-            $sessionValid = true;
-        }
-
-        $credentials = $request->getParsedBody();
-
-        if (!$sessionValid && (!isset($credentials["submitLogin"]) || !isset($credentials["email"]) || !isset($credentials["password"]))) {
-            return new HaltResponse(
-                400,
-                [],
-                $this->displayError(400,"Bad request")   
-            );
-        }
         try {
-            $user = null;
-            if($sessionValid){
-                $user = $this->userService->selectById($_SESSION['user_email']);
-            }else{
-                $user = $this->userService->selectByCredentials($credentials["email"], $credentials["password"]);
+            $params = $request->getQueryParams();            
+
+            if(!isset($params['id'])){
+                return new Response(
+                    400,
+                    [],
+                    $this->getResponse("Invalid request!")
+                );
             }
 
-            $_SESSION['user_email'] = $user->Email;
-            $_SESSION['privilege'] = $user->Privilege;
+            $this->userService->delete($params['id']);
 
             return new Response(
                 200,
                 [],
-                $this->plates->render('private::home', ['user' => $user])
+                $this->getResponse('User with id {'.$params['id'].'} deleted!')
             );
         } catch (ServiceException $e) {
-            return new HaltResponse(
-                404,
+            return new Response(
+                400,
                 [],
-                $this->plates->render('public::login', ['error' => $e->getMessage()])
+                $this->getResponse($e->getMessage())
             );
         }
     }

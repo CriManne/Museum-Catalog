@@ -17,31 +17,31 @@ return [
     /* PUBLIC AREA */
 
     //HOME PAGE
-    ['GET', '/', Controller\Public\Home::class],
+    ['GET', '/', Controller\Public\HomeController::class],
 
-    //UTIL ENDPOINT TO RETURN ALL THE ARTIFACT'S CATEGORIES
-    ['GET','/categories',Controller\Public\CategoriesController::class],
-
-    //SEARCH CONTROLLER
-    ['GET','/search',Controller\Public\SearchController::class],    
-    
     //LOGIN PAGE
-    ['GET', '/login', Controller\Public\LoginController::class],
+    [['GET', 'POST'], '/login', Controller\Public\LoginController::class],
 
     // ______________________________________________________ //
 
     /* PRIVATE AREA */
 
+    //PRIVATE HOME
+    ['GET', '/private', [Controller\Private\BasicAuthController::class, Controller\Private\HomeController::class]],
+
+
+    // ______________________________________________________ //
+
+    //UTIL ENDPOINT TO RETURN ALL THE ARTIFACT'S CATEGORIES
+    ['GET', '/api/categories', Controller\Api\CategoriesController::class],
+
     //GET USERS
-    ['GET','/private/users',[Controller\Private\BasicAuthController::class,Controller\Private\AdvancedAuthController::class,Controller\Private\User\GetController::class]],
+    ['GET', '/api/private/users', [Controller\Private\BasicAuthController::class, Controller\Private\AdvancedAuthController::class, Controller\Api\User\GetController::class]],
 
     //POST USER
-    ['POST','/private/users',Controller\Private\User\PostController::class],
-//    ['POST','/private/users',[Controller\Private\BasicAuthController::class,Controller\Private\AdvancedAuthController::class,Controller\Private\User\PostController::class]],
+    ['POST', '/api/private/users', Controller\Api\User\PostController::class],
+    //    ['POST','/private/users',[Controller\Private\BasicAuthController::class,Controller\Private\AdvancedAuthController::class,Controller\Api\User\PostController::class]],
 
     //DELETE USERS
-    ['DELETE','/private/users',[Controller\Private\BasicAuthController::class,Controller\Private\AdvancedAuthController::class,Controller\Private\User\DeleteController::class]],
-
-    //VALIDATE LOGIN
-    [['GET','POST'], '/private', Controller\Private\ValidateLoginController::class],
+    ['DELETE', '/api/private/users', [Controller\Private\BasicAuthController::class, Controller\Private\AdvancedAuthController::class, Controller\Api\User\DeleteController::class]],
 ];

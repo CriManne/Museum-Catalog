@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Private\User;
+namespace App\Controller\Api\User;
 
 use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;

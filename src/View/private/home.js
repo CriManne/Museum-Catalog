@@ -1,11 +1,8 @@
 //URL to fetch users
-var urlUsers = "/private/users";
+var urlUsers = "api/private/users";
 
 $(document).ready(function() {
 
-    $("#logout-btn").on('click', function() {
-        window.location.replace('/login');
-    });
 
 });
 
