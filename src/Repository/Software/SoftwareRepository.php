@@ -28,7 +28,7 @@ class SoftwareRepository extends GenericRepository {
         parent::__construct($pdo);
         $this->softwareTypeRepository = $softwareTypeRepository;
         $this->supportTypeRepository = $supportTypeRepository;
-        $this->osRepository = $osRepository;
+        $this->OsRepository = $osRepository;
     }
 
     /**
@@ -64,7 +64,7 @@ class SoftwareRepository extends GenericRepository {
             $stmt = $this->pdo->prepare($querySoftware);
             $stmt->bindParam("ObjectID", $software->ObjectID, PDO::PARAM_STR);
             $stmt->bindParam("Title", $software->Title, PDO::PARAM_STR);
-            $stmt->bindParam("OsID", $software->os->OsID, PDO::PARAM_INT);
+            $stmt->bindParam("OsID", $software->Os->OsID, PDO::PARAM_INT);
             $stmt->bindParam("SoftwareTypeID", $software->SoftwareType->SoftwareTypeID, PDO::PARAM_INT);
             $stmt->bindParam("SupportTypeID", $software->SupportType->SupportTypeID, PDO::PARAM_INT);
 
@@ -177,7 +177,7 @@ class SoftwareRepository extends GenericRepository {
 
             $stmt = $this->pdo->prepare($querySoftware);
             $stmt->bindParam("Title", $s->Title, PDO::PARAM_STR);
-            $stmt->bindParam("OsID", $s->os->OsID, PDO::PARAM_INT);
+            $stmt->bindParam("OsID", $s->Os->OsID, PDO::PARAM_INT);
             $stmt->bindParam("SoftwareTypeID", $s->SoftwareType->SoftwareTypeID, PDO::PARAM_INT);
             $stmt->bindParam("SupportTypeID", $s->SupportType->SupportTypeID, PDO::PARAM_INT);
             $stmt->bindParam("ObjectID", $s->ObjectID, PDO::PARAM_STR);
@@ -233,7 +233,7 @@ class SoftwareRepository extends GenericRepository {
             strval($rawsoftware["Active"]),
             $rawsoftware["Erased"],
             $rawsoftware["Title"],
-            $this->osRepository->selectById($rawsoftware["OsID"]),
+            $this->OsRepository->selectById($rawsoftware["OsID"]),
             $this->softwareTypeRepository->selectById($rawsoftware["SoftwareTypeID"]),
             $this->supportTypeRepository->selectById($rawsoftware["SupportTypeID"])
         );

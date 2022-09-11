@@ -10,7 +10,7 @@ use App\Model\GenericObject;
 class Software extends GenericObject {
 
     public string $Title;
-    public Os $os;
+    public Os $Os;
     public SoftwareType $SoftwareType;
     public SupportType $SupportType;
 
@@ -22,13 +22,13 @@ class Software extends GenericObject {
         string $Active,
         string $Erased = null,
         string $Title,
-        Os $os,
+        Os $Os,
         SoftwareType $SoftwareType,
         SupportType $SupportType
     ) {
         parent::__construct($ObjectID, $Note, $Url, $Tag, $Active, $Erased);
         $this->Title = $Title;
-        $this->os = $os;
+        $this->Os = $Os;
         $this->SoftwareType = $SoftwareType;
         $this->SupportType = $SupportType;
     }

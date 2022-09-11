@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Book;
 
 use App\Model\GenericObject;
+use App\Model\Response\GenericObjectResponse;
 
 class Book extends GenericObject {
 
@@ -36,18 +37,5 @@ class Book extends GenericObject {
         $this->ISBN = $ISBN;
         $this->Pages = $Pages;
         $this->Authors = $Authors;
-    }
-
-    public function toGeneric():array{
-        return [
-            'ObjectID'=>$this->ObjectID,
-            'Name'=>$this->Title,
-            'Info'=>[
-                'Year'=>$this->Year,
-                'Pages'=>$this->Pages,
-                'Publisher'=>$this->Publisher->Name,
-                'Authors'=>$this->Authors
-            ]
-        ];
     }
 }
