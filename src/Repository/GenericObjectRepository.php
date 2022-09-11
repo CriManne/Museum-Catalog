@@ -24,11 +24,6 @@ use App\Util\ORM;
 class GenericObjectRepository extends GenericRepository {
 
     public array $Repositories;
-    // public SoftwareRepository $softwareRepository;
-    // public ComputerRepository $computerRepository;
-    // public BookRepository $bookRepository;
-    // public PeripheralRepository $peripheralRepository;
-    // public MagazineRepository $magazineRepository;
 
     public function __construct(
         PDO $pdo,
@@ -41,17 +36,12 @@ class GenericObjectRepository extends GenericRepository {
     {
         parent::__construct($pdo);
         $this->Repositories = [
-            'software'=>$softwareRepository,
-            'computer'=>$computerRepository,
-            'book'=>$bookRepository,
-            'peripheral'=>$peripheralRepository,
-            'magazine'=>$magazineRepository
+            'Software'=>$softwareRepository,
+            'Computer'=>$computerRepository,
+            'Book'=>$bookRepository,
+            'Peripheral'=>$peripheralRepository,
+            'Magazine'=>$magazineRepository
         ];
-        // $this->softwareRepository = $softwareRepository;
-        // $this->computerRepository = $computerRepository;
-        // $this->bookRepository = $bookRepository;
-        // $this->peripheralRepository = $peripheralRepository;
-        // $this->magazineRepository = $magazineRepository;
     }
 
     /**
@@ -94,7 +84,9 @@ class GenericObjectRepository extends GenericRepository {
             if(count($unmappedResult)>0){                             
 
                 foreach($unmappedResult as $item){
-                    $result[] = $this->$RepoName($item);
+                    $mappedObject = $Repo->returnMappedObject(json_decode(json_encode($item),true));
+
+                    $result[] = $this->$RepoName($mappedObject);
                 }                
             }
         }   
@@ -107,7 +99,7 @@ class GenericObjectRepository extends GenericRepository {
      * @param Book $obj The book object
      * @return GenericObjectResponse The object mapped
      */
-    public function book(Book $obj):GenericObjectResponse{
+    public function Book(Book $obj):GenericObjectResponse{
         $authors = [];
         foreach($obj->Authors as $author){
             $authors[] = $author->lastname;
@@ -134,7 +126,7 @@ class GenericObjectRepository extends GenericRepository {
      * @param Computer $obj The computer object
      * @return GenericObjectResponse The object mapped
      */
-    public function computer(Computer $obj):GenericObjectResponse{        
+    public function Computer(Computer $obj):GenericObjectResponse{        
         return new GenericObjectResponse(
             $obj->ObjectID,
             $obj->ModelName,
@@ -156,7 +148,7 @@ class GenericObjectRepository extends GenericRepository {
      * @param Magazine $obj The magazine object
      * @return GenericObjectResponse The object mapped
      */
-    public function magazine(Magazine $obj):GenericObjectResponse{        
+    public function Magazine(Magazine $obj):GenericObjectResponse{        
         return new GenericObjectResponse(
             $obj->ObjectID,
             $obj->Title,
@@ -176,7 +168,7 @@ class GenericObjectRepository extends GenericRepository {
      * @param Peripheral $obj The peripheral object
      * @return GenericObjectResponse The object mapped
      */
-    public function peripheral(Peripheral $obj):GenericObjectResponse{        
+    public function Peripheral(Peripheral $obj):GenericObjectResponse{        
         return new GenericObjectResponse(
             $obj->ObjectID,
             $obj->ModelName,
@@ -194,7 +186,7 @@ class GenericObjectRepository extends GenericRepository {
      * @param Software $obj The software object
      * @return GenericObjectResponse The object mapped
      */
-    public function software(Software $obj):GenericObjectResponse{
+    public function Software(Software $obj):GenericObjectResponse{
         return new GenericObjectResponse(
             $obj->ObjectID,
             $obj->Title,
