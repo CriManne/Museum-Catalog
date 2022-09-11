@@ -57,6 +57,15 @@ class PeripheralService {
     }
 
     /**
+     * Select by key
+     * @param string $key The key given
+     * @return array The pheriperals selected, empty if no result
+     */
+    public function selectByKey(string $key):array {
+        return $this->peripheralRepository->selectByKey($key);
+    }
+
+    /**
      * Update a Peripheral
      * @param Peripheral $p The Peripheral to update
      * @return Peripheral The peripheral updated

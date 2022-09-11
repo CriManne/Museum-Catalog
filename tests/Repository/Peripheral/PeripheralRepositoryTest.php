@@ -124,6 +124,21 @@ final class PeripheralRepositoryTest extends TestCase
         $this->assertEquals(self::$peripheralRepository->selectByModelName("Peripheral Test")->ModelName,"Peripheral Test");
     }
 
+    public function testGoodSelectByKey():void{
+
+        $peripheral = clone self::$samplePeripheral;
+        $peripheral->ObjectID = "objID2";
+        $peripheral->ModelName = "Peripheral Test";
+        
+        self::$peripheralRepository->insert($peripheral);
+
+        $this->assertEquals(count(self::$peripheralRepository->selectByKey("mous")),2);
+    }
+
+    public function testBadSelectByKey():void{
+        $this->assertEquals(self::$peripheralRepository->selectByKey("wrongkey"),[]);
+    }
+
     //UPDATE TESTS
     public function testGoodUpdate():void{
         $peripheral = clone self::$samplePeripheral;

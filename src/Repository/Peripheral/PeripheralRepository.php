@@ -123,6 +123,34 @@ class PeripheralRepository extends GenericRepository {
     }
 
     /**
+     * Select by key
+     * @param string $key     The key given
+     * @param ?bool $showErased
+     * @return array The peripherals, empty array if no result
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM peripheral p
+            INNER JOIN genericobject g ON g.ObjectID = p.ObjectID
+            INNER JOIN peripheraltype pt ON p.PeripheralTypeID = pt.PeripheralTypeID
+            WHERE p.ModelName LIKE :key OR
+            pt.Name LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $arr_peripheral = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_peripheral;
+    }
+
+    /**
      * Select all peripherals
      * @param ?bool $showErased
      * @return ?array   All peripherals, null if no result
