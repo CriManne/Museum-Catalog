@@ -28,4 +28,13 @@ class GenericObjectService {
 
         return $genericObject;
     }
+
+    /**
+     * Select by query
+     * @param string $query The query given
+     * @return array The result, empty if no result
+     */
+    public function selectByQuery(string $query): array{
+        return $this->genericObjectRepository->selectByQuery($query);
+    }
 }
