@@ -126,6 +126,21 @@ final class MagazineRepositoryTest extends TestCase
         $this->assertEquals(self::$magazineRepository->selectByTitle("Magazine Test")->Title,"Magazine Test");
     }
 
+    public function testGoodSelectByKey():void{
+
+        $magazine = clone self::$sampleMagazine;
+        $magazine->ObjectID = "objID2";
+        $magazine->Title = "Magazine Test";
+        
+        self::$magazineRepository->insert($magazine);
+
+        $this->assertEquals(count(self::$magazineRepository->selectByKey("maGazIn")),2);
+    }
+
+    public function testBadSelectByKey():void{       
+        $this->assertEquals(self::$magazineRepository->selectByKey("wrongkey"),[]);
+    }
+
     //UPDATE TESTS
     public function testGoodUpdate():void{
         $magazine = clone self::$sampleMagazine;

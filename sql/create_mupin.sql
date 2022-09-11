@@ -6,7 +6,7 @@
 
 CREATE TABLE GenericObject(
     ObjectID VARCHAR(20) NOT NULL,
-    Note VARCHAR(100),
+    Note TEXT,
     Url VARCHAR(100),
     Tag VARCHAR(300),
     Active SMALLINT DEFAULT 1,

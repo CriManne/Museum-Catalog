@@ -125,6 +125,36 @@ class MagazineRepository extends GenericRepository {
     }
 
     /**
+     * Select by key
+     * @param string $key The key given
+     * @param ?bool $showErased
+     * @return array   All magazines, empty array if no result
+     */
+    public function selectByKey(string $key,?bool $showErased = false): array {
+        $query = "SELECT * FROM magazine m
+            INNER JOIN genericobject g ON g.ObjectID = m.ObjectID
+            INNER JOIN publisher p ON m.PublisherID = p.PublisherID
+            WHERE m.Title LIKE :key OR
+            m.MagazineNumber LIKE :key OR
+            m.Year LIKE :key OR
+            p.Name LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        
+        $stmt->execute();
+
+        $arr_magazine = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_magazine;
+    }
+
+    /**
      * Select all magazines
      * @param ?bool $showErased
      * @return ?array   All magazines, null if no result

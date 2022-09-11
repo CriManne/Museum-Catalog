@@ -57,6 +57,15 @@ class MagazineService {
     }
 
     /**
+     * Select by key
+     * @param string $key The key given
+     * @return array Magazines selected, empty array if no result
+     */
+    public function selectByKey(string $key):array {
+        return $this->magazineRepository->selectByKey($key);
+    }
+
+    /**
      * Update a Magazine
      * @param Magazine $m The Magazine to update
      * @return Magazine The magazine updated
