@@ -80,6 +80,29 @@ class GenericObjectRepository extends GenericRepository {
     }
 
     /**
+     * Select objects by query
+     * @param string $query     The query given
+     * @return array            The result array
+     */
+    public function selectByQuery(string $query): array {
+
+        $result = [];
+
+        foreach($this->Repositories as $RepoName => $Repo){
+            $unmappedResult = $Repo->selectByKey($query);
+            
+            if(count($unmappedResult)>0){                             
+
+                foreach($unmappedResult as $item){
+                    $result[] = $this->$RepoName($item);
+                }                
+            }
+        }   
+        
+        return $result;
+    }
+
+    /**
      * Map a book object to a generic object
      * @param Book $obj The book object
      * @return GenericObjectResponse The object mapped

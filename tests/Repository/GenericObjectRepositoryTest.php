@@ -8,10 +8,12 @@ use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\GenericObjectRepository;
 use App\Exception\RepositoryException;
+use App\Model\Book\Publisher;
 use App\Model\Computer\Computer;
 use App\Model\Computer\Cpu;
 use App\Model\Computer\Os;
 use App\Model\Computer\Ram;
+use App\Model\Magazine\Magazine;
 use App\Model\Software\Software;
 use App\Model\Software\SoftwareType;
 use App\Model\Software\SupportType;
@@ -76,9 +78,10 @@ final class GenericObjectRepositoryTest extends TestCase {
             new BookAuthorRepository(self::$pdo)
         );
 
+        $publisherRepository = new PublisherRepository(self::$pdo);
         self::$magazineRepository = new MagazineRepository(
             self::$pdo,
-            new PublisherRepository(self::$pdo)
+            $publisherRepository
         );
 
         self::$peripheralRepository = new PeripheralRepository(
@@ -95,9 +98,14 @@ final class GenericObjectRepositoryTest extends TestCase {
             self::$magazineRepository            
         );         
 
-        self::$cpuRepository->insert(new Cpu(1, "I7", "4GHZ"));
-        self::$ramRepository->insert(new Ram(1, "Ram 1", "64GB"));
-        self::$osRepository->insert(new Os(1, "Windows 10"));
+        $cpu = new Cpu(1, "I7", "4GHZ");
+        $ram = new Ram(1, "Ram 1", "64GB");
+        $os = new Os(1, "Windows 10");
+        $publisher = new Publisher(1,"Einaudi");
+
+        self::$cpuRepository->insert($cpu);
+        self::$ramRepository->insert($ram);
+        self::$osRepository->insert($os);
 
         self::$computerRepository->insert(new Computer(
             "OBJ1",
@@ -109,9 +117,24 @@ final class GenericObjectRepositoryTest extends TestCase {
             "Computer1",
             2018,
             "1TB",
-            new Cpu(1, "I7", "4GHZ"),
-            new Ram(1, "Ram 1", "64GB"),
-            new Os(1, "Windows 10")
+            $cpu,
+            $ram,
+            $os
+        ));
+
+        $publisherRepository->insert($publisher);
+
+        self::$magazineRepository->insert(new Magazine(
+            "OBJ2",
+            null,
+            null,
+            null,
+            "",
+            null,
+            "Compass",
+            2017,
+            23,
+            $publisher
         ));
     }
 
@@ -131,8 +154,19 @@ final class GenericObjectRepositoryTest extends TestCase {
         $this->assertEquals("Computer1", $obj->Title);
     }
 
+    
     public function testBadSelectById(): void {
         $this->assertNull(self::$genericObjectRepository->selectById("wrong"));
+    }
+    
+    public function testGoodSelectByQuery():void{
+        $result = self::$genericObjectRepository->selectByQuery("cOmP");
+        $this->assertEquals(2,count($result));
+    }
+
+    public function testBadSelectByQuery():void{
+        $result = self::$genericObjectRepository->selectByQuery("WRONG");
+        $this->assertEquals(0,count($result));
     }
 
     public static function tearDownAfterClass(): void {

@@ -39,9 +39,9 @@ class GetController extends ControllerUtil implements ControllerInterface{
 
         $params = $request->getQueryParams();
         
-        if(isset($params["q"])){
+        if(isset($params["id"])){
             try{
-                $query = $params["q"];
+                $query = $params["id"];
                 $obj = $this->genericObjectService->selectById($query);
 
                 return new Response(
