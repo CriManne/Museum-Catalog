@@ -32,8 +32,12 @@ return [
 
     // ______________________________________________________ //
 
+    /* API */
+
     //UTIL ENDPOINT TO RETURN ALL THE ARTIFACT'S CATEGORIES
     ['GET', '/api/categories', Controller\Api\CategoriesController::class],
+
+    /* USER */
 
     //GET USERS
     ['GET', '/api/private/users', [Controller\Private\BasicAuthController::class, Controller\Private\AdvancedAuthController::class, Controller\Api\User\GetController::class]],
@@ -44,4 +48,12 @@ return [
 
     //DELETE USERS
     ['DELETE', '/api/private/users', [Controller\Private\BasicAuthController::class, Controller\Private\AdvancedAuthController::class, Controller\Api\User\DeleteController::class]],
+
+    /* /USER */
+
+    /* ARTIFACT */
+
+    //GET ARTIFACT
+    //['GET','/private/artifact']
+
 ];
