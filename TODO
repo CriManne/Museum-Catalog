@@ -1,8 +1,4 @@
-- MAKE GENERAL SEARCH BY KEY THAT SEARCHES IN EACH PROPERTY AND EVEN RELATIONAL PROPERTIES
-
-- CREATE A GENERIC MODEL THAT HAS PROPERTIES SUCH AS: title, description and others.
-AND IN THE SERVICES YOU MOCK MODELS TO THIS MODEL SO THAT THE WEB APP RECEIVE A GENERIC MODEL
-SO IT CAN WORK WITH IT
+- add tags and generic object fields in the search by key
 
 - REMEMBER TO HANDLE THE ACTIVE FIELD OF GENERIC OBJECT:
     because the erased field is used to delete softly a record to avoid integrity fails
@@ -19,13 +15,9 @@ SO IT CAN WORK WITH IT
 
 - On insert when returning the object inserted fill the ids
 
-- improve select alls
-
-- *OPTIONAL* update integration test on insert and compare the select result with the insert result
-
 - REMOVE REPOSITORIES AND SERVICES METHODS NOT USED
 
-- In Services unit tests just mock the repository is being used because the you don't need to
+- REMINDER: In Services unit tests just mock the repository is being used because the you dont need to
 mock the pdo because the low level db interaction is already being tested in integration tests
 
 - CHECK FORMATTING AND THE ERRORS MADE IN THE OTHER PROJECTS
