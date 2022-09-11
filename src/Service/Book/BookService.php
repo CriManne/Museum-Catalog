@@ -57,6 +57,15 @@ class BookService {
     }
 
     /**
+     * Select by key
+     * @param string $key The key given
+     * @return array The array of books, empty if no result
+     */
+    public function selectByKey(string $key): array {
+        return $this->bookRepository->selectByKey($key);
+    }
+
+    /**
      * Update a Book
      * @param Book $b The Book to update
      * @return Book The book updated

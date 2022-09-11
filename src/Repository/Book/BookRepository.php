@@ -136,6 +136,38 @@ class BookRepository extends GenericRepository {
     }
 
     /**
+     * Select book by key
+     * @param string $key     The key given
+     * @param ?bool $showErased
+     * @return array    The books selected, empty array if no result
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM book b
+            INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
+            INNER JOIN publisher p ON b.PublisherID = p.PublisherID
+            INNER JOIN bookauthor ba ON b.ObjectID = ba.BookID
+            INNER JOIN author a ON ba.AuthorID = a.AuthorID
+            WHERE Title LIKE :key OR
+            Year LIKE :key OR
+            ISBN LIKE :key OR
+            a.firstname LIKE :key OR
+            a.lastname LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+        
+        $arr_book = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_book;
+    }
+
+    /**
      * Select all books
      * @param ?bool $showErased
      * @return ?array   All books, null if no result

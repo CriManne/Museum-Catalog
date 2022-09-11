@@ -80,7 +80,7 @@ final class BookServiceTest extends TestCase
         $this->bookService->selectById("ObjID25");
     }
     
-    public function testBadSelectByName(): void
+    public function testBadSelectByTitle(): void
     {
         $this->expectException(ServiceException::class);
         $this->bookRepository->method('selectByTitle')->willReturn(null);

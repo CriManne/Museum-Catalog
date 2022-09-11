@@ -146,6 +146,17 @@ final class BookRepositoryTest extends TestCase
         $this->assertEquals(self::$bookRepository->selectByTitle("Big Bang")->Title,"Big Bang");
     }
 
+    public function testGoodSelectByKey(): void {
+
+        $book = clone self::$sampleBook;
+        $book->ObjectID = "objID2";
+        $book->Title = "Big Bang";
+
+        self::$bookRepository->insert($book);
+
+        $this->assertEquals(count(self::$bookRepository->selectByKey("gEoRge")),2);
+    }
+
     //UPDATE TESTS
     public function testGoodUpdate():void{
         $book = clone self::$sampleBook;

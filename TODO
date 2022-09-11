@@ -33,6 +33,8 @@ mock the pdo because the low level db interaction is already being tested in int
 - REMOVE AUTHORIZED CROSS ORIGIN HEADER FROM CONTROLLERS
 
 - REMOVE GET COUNT METHOD FROM USER
+
+- REMOVE CONCAT FUNCTION AND PASS THE CONCATENATED VALUE
 ____
 
 Book model
