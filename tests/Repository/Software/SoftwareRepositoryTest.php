@@ -154,6 +154,21 @@ final class SoftwareRepositoryTest extends TestCase
         $this->assertEquals(self::$softwareRepository->selectByTitle("Visual studio")->Title,"Visual studio");
     }
 
+    public function testGoodSelectByKey():void{
+
+        $software = clone self::$sampleSoftware;
+        $software->ObjectID = "objID2";
+        $software->Title = "Visual studio";
+        
+        self::$softwareRepository->insert($software);
+
+        $this->assertEquals(count(self::$softwareRepository->selectByKey("oFFic")),2);
+    }
+
+    public function testBadSelectByKey():void{
+        $this->assertEquals(self::$softwareRepository->selectByKey("wrongkey"),[]);
+    }
+
     //UPDATE TESTS
     public function testGoodUpdate():void{
         $software = clone self::$sampleSoftware;

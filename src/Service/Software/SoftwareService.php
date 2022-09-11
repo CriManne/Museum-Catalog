@@ -57,6 +57,15 @@ class SoftwareService {
     }
 
     /**
+     * Select by key
+     * @param string $key The key given
+     * @return array Software(s) selected, empty array if no result
+     */
+    public function selectByKey(string $key):array {
+        return $this->softwareRepository->selectByKey($key);
+    }
+
+    /**
      * Update a Software
      * @param Software $s The Software to update
      * @return Software The software updated

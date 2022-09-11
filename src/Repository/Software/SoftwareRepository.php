@@ -129,6 +129,37 @@ class SoftwareRepository extends GenericRepository {
     }
 
     /**
+     * Select software by key
+     * @param string $key     The key given
+     * @param ?bool $showErased
+     * @return array    Software(s) selected, empty array if no result
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM software s
+            INNER JOIN genericobject g ON g.ObjectID = s.ObjectID 
+            INNER JOIN os o ON s.OsID = o.OsID
+            INNER JOIN softwaretype st ON s.SoftwareTypeID = st.SoftwareTypeID
+            INNER JOIN supporttype supt ON s.SupportTypeID = supt.SupportTypeID
+            WHERE s.Title LIKE :key OR
+            o.Name LIKE :key OR
+            st.Name LIKE :key OR
+            supt.Name LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+        $arr_software = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_software;
+    }
+
+    /**
      * Select all software
      * @param ?bool $showErased
      * @return ?array   All software, null if no results
