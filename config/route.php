@@ -17,20 +17,20 @@ return [
     /* PUBLIC AREA */
 
     //HOME PAGE
-    ['GET', '/', Controller\Public\HomeController::class],
+    ['GET', '/', Controller\Pages\Public\HomeController::class],
 
     //LOGIN PAGE
-    [['GET', 'POST'], '/login', Controller\Public\LoginController::class],
+    [['GET', 'POST'], '/login', Controller\Pages\Public\LoginController::class],
 
     //SEARCH ARTIFACT
-    ['GET','/artifact',Controller\Public\Artifact\ArtifactPageController::class],
+    ['GET','/artifact',Controller\Pages\Public\Artifact\ArtifactPageController::class],
 
     // ______________________________________________________ //
 
     /* PRIVATE AREA */
 
     //PRIVATE HOME
-    ['GET', '/private', [Controller\Private\BasicAuthController::class, Controller\Private\HomeController::class]],
+    ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
 
 
     // ______________________________________________________ //
@@ -43,20 +43,31 @@ return [
     /* USER */
 
     //GET USERS
-    ['GET', '/api/private/users', [Controller\Private\BasicAuthController::class, Controller\Private\AdvancedAuthController::class, Controller\Api\User\GetController::class]],
+    ['GET', '/api/private/user', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\GetController::class]],
 
     //POST USER
-    ['POST', '/api/private/users', Controller\Api\User\PostController::class],
-    //    ['POST','/private/users',[Controller\Private\BasicAuthController::class,Controller\Private\AdvancedAuthController::class,Controller\Api\User\PostController::class]],
+    ['POST', '/api/private/user', Controller\Api\User\PostController::class],
+    //    ['POST','/private/user',[Controller\BasicAuthController::class,Controller\AdvancedAuthController::class,Controller\Api\User\PostController::class]],
 
-    //DELETE USERS
-    ['DELETE', '/api/private/users', [Controller\Private\BasicAuthController::class, Controller\Private\AdvancedAuthController::class, Controller\Api\User\DeleteController::class]],
+    //DELETE USER
+    ['DELETE', '/api/private/user', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\DeleteController::class]],
 
     /* /USER */
 
     /* ARTIFACT */
 
+    //CREATE ARTIFACT
+    ['POST','/api/artifact',[Controller\BasicAuthController::class,Controller\Api\Artifact\PostController::class]],    
+
     //GET ARTIFACT
     ['GET','/api/artifact',Controller\Api\Artifact\GetController::class],
+    ['GET','/api/artifacts',Controller\Api\Artifact\GetMultipleController::class],
+
+    //UPDATE ARTIFACT
+    ['PUT','/api/artifact/update',[Controller\BasicAuthController::class,Controller\Api\Artifact\UpdateController::class]],    
+
+    //DELETE ARTIFACT
+    ['DELETE','/api/artifact/delete',[Controller\BasicAuthController::class,Controller\Api\Artifact\DeleteController::class]],    
+
 
 ];

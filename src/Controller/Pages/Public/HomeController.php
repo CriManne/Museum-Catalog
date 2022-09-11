@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Public;
+namespace App\Controller\Pages\Public;
 
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;

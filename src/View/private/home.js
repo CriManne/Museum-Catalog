@@ -1,5 +1,5 @@
 //URL to fetch users
-var urlUsers = "api/private/users";
+var urlUsers = "api/private/user";
 
 $(document).ready(function() {
 
