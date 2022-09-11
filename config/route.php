@@ -22,6 +22,9 @@ return [
     //LOGIN PAGE
     [['GET', 'POST'], '/login', Controller\Public\LoginController::class],
 
+    //SEARCH ARTIFACT
+    ['GET','/artifact',Controller\Public\Artifact\ArtifactPageController::class],
+
     // ______________________________________________________ //
 
     /* PRIVATE AREA */
@@ -54,6 +57,6 @@ return [
     /* ARTIFACT */
 
     //GET ARTIFACT
-    //['GET','/private/artifact']
+    ['GET','/api/artifact',Controller\Api\Artifact\GetController::class],
 
 ];

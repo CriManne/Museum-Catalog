@@ -83,31 +83,6 @@ class UserRepository extends GenericRepository {
     }
 
     /**
-     * Select by key
-     * @param string $key The key to search
-     * @param bool $isAdmin     If set it will select only admins if true, only normal users otherwise
-     * @return ?array The users selected     * 
-     */
-    public function selectByKey(string $key,bool $isAdmin = null):?array{
-        $query = "SELECT * FROM user WHERE 
-        Email LIKE :key OR 
-        firstname LIKE :key OR 
-        lastname LIKE :key";
-
-        if (isset($isAdmin)) {
-            $query .= " AND Privilege = " . ($isAdmin ? "1" : "0");
-        }
-
-        $stmt = $this->pdo->prepare($query);
-        $key = "%".$key."%";
-        $stmt->bindParam("key",$key, PDO::PARAM_STR);
-        $stmt->execute();
-        $users = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $users;
-    }
-
-    /**
      * Select all users
      * @return ?array   All users, null if user table is empty
      */
@@ -119,19 +94,6 @@ class UserRepository extends GenericRepository {
         $users = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $users;
-    }
-
-    /**
-     * Get count of all Users
-     * @return int The number of users in the db     * 
-     */
-    public function getCount(): int{
-        $query = "SELECT COUNT(*) FROM user";
-        $stmt = $this->pdo->query($query);
-
-        $count = intval($stmt->fetchColumn());
-        
-        return $count;
     }
 
     /**

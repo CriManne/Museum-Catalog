@@ -43,7 +43,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
                 return new Response(
                     400,
                     [],
-                    $this->getResponse("Invalid request!")
+                    $this->getResponse("Invalid request!",400)
                 );
             }
 
@@ -58,7 +58,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             return new Response(
                 400,
                 [],
-                $this->getResponse($e->getMessage())
+                $this->getResponse($e->getMessage(),400)
             );
         }
     }

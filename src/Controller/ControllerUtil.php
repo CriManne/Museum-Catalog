@@ -14,8 +14,8 @@ class ControllerUtil {
         $this->plates = $plates;
     }
 
-    public function getResponse(string $message):string{
-        return json_encode(["message"=>$message]);
+    public function getResponse(string $message,int $status=200):string{
+        return json_encode(["status"=>$status,"message"=>$message]);
     }
 
     public function displayError(int $error_code, string $error_message): string {

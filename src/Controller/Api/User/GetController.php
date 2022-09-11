@@ -36,26 +36,8 @@ class GetController extends ControllerUtil implements ControllerInterface {
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        try {
-            $params = $request->getQueryParams();            
-
-            if (isset($params['count'])) {
-                $count = $this->userService->getCount();
-                return new Response(
-                    200,
-                    [],
-                    json_encode(['count' => $count])
-                );
-            }
-            
-
-            $users = [];
-
-            if(isset($params['q'])){
-                $users = $this->userService->selectByKey($params['q']);
-            }else{
-                $users = $this->userService->selectAll();
-            }
+        try {            
+            $users = $this->userService->selectAll();
 
             return new Response(
                 200,
@@ -66,7 +48,7 @@ class GetController extends ControllerUtil implements ControllerInterface {
             return new HaltResponse(
                 400,
                 [],
-                $this->getResponse($e->getMessage())
+                $this->getResponse($e->getMessage(),400)
             );
         }
     }

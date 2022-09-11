@@ -10,31 +10,34 @@
 
 declare(strict_types=1);
 
-namespace App\Controller;
+namespace App\Controller\Public\Artifact;
 
+use App\Controller\ControllerUtil;
+use App\Exception\RepositoryException;
+use App\Exception\ServiceException;
 use App\Model\User;
+use App\Repository\UserRepository;
+use App\Service\UserService;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
+use SimpleMVC\Response\HaltResponse;
 
-class LoggedHome implements ControllerInterface {
-    protected Engine $plates;
-    protected User $user;
+class ArtifactPageController extends ControllerUtil implements ControllerInterface {
 
     public function __construct(Engine $plates) {
-        $this->plates = $plates;
+        parent::__construct($plates);
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        var_dump($request->getAttributes()); //--> returns array(0) { }
-        $this->user = $request->getAttribute('user'); //--> returns null
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {       
+
         return new Response(
             200,
             [],
-            $this->plates->render('home')
+            $this->plates->render('public::artifact')
         );
     }
 }

@@ -10,8 +10,6 @@
 
 declare(strict_types=1);
 namespace App\Controller\Api;
-session_start();
-
 
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;

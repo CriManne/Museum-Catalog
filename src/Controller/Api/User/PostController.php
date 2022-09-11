@@ -47,7 +47,7 @@ class PostController extends ControllerUtil implements ControllerInterface {
                 return new HaltResponse(
                     400,
                     [],
-                    $this->getResponse("Bad request!")
+                    $this->getResponse("Bad request!",400)
                 );
             }
 
@@ -67,7 +67,7 @@ class PostController extends ControllerUtil implements ControllerInterface {
             return new HaltResponse(
                 400,
                 [],
-                $this->getResponse($e->getMessage())
+                $this->getResponse($e->getMessage(),400)
             );
         }
     }

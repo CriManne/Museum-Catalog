@@ -56,12 +56,6 @@ final class UserServiceTest extends TestCase
         $this->userService->selectById("testemail@gmail.com");
     }
 
-    public function testBadSelectByKey():void{
-        $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn([]);
-        $this->userService->selectById("WRONGSEARCH");
-    }
-
     public function testBadSelectByCredentials(): void
     {
         $this->expectException(ServiceException::class);

@@ -44,7 +44,7 @@ class UserService {
     }
 
     /**
-     * Select by id
+     * Select by credentials
      * @param string $Email The email to select
      * @param string $Password The password to select
      * @return User     The user selected
@@ -55,21 +55,6 @@ class UserService {
         if ($user == null) throw new ServiceException("User not found");
 
         return $user;
-    }
-
-    /**
-     * Select by key
-     * @param string $key The key to search
-     * @return array The users selected
-     * @throws ServiceException If no result
-     */
-    public function selectByKey(string $key,bool $isAdmin = null):array{
-        $users = $this->userRepository->selectByKey($key,$isAdmin);
-        if(count($users)<1){
-            throw new ServiceException("No results");
-        }
-
-        return $users;
     }
 
     /**
@@ -86,14 +71,6 @@ class UserService {
         }
 
         throw new ServiceException("No results");
-    }
-
-    /**
-     * Get count of Users
-     * @return int The count of users
-     */
-    public function getCount():int{
-        return $this->userRepository->getCount();
     }
 
     /**
