@@ -57,6 +57,15 @@ class ComputerService {
     }
 
     /**
+     * Select by key
+     * @param string $key The key given
+     * @return array The array of computers, empty if no result
+     */
+    public function selectByKey(string $key): array {
+        return $this->computerRepository->selectByKey($key);
+    }
+
+    /**
      * Update a Computer
      * @param Computer $c The Computer to update
      * @return Computer The computer updated

@@ -135,6 +135,40 @@ class ComputerRepository extends GenericRepository {
     }
 
     /**
+     * Select by key
+     * @param string $key The key given
+     * @param ?bool $showErased
+     * @return array   All computers, empty if no result
+     */
+    public function selectByKey(string $key,?bool $showErased = false): array {
+        $query = "SELECT * FROM computer c
+            INNER JOIN genericobject g ON g.ObjectID = c.ObjectID
+            INNER JOIN cpu cp ON c.CpuID = cp.CpuID
+            INNER JOIN ram r ON r.RamID = c.RamID
+            INNER JOIN os o ON c.OsID = o.OsID
+            WHERE c.ModelName LIKE :key OR
+            Year LIKE :key OR
+            HddSize LIKE :key OR
+            cp.ModelName LIKE :key OR
+            cp.Speed LIKE :key OR
+            r.ModelName LIKE :key OR
+            r.Size LIKE :key OR
+            o.Name LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+        $key = '%'.$key.'%';
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $arr_computer = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_computer;
+    }
+
+    /**
      * Select all computers
      * @param ?bool $showErased
      * @return ?array   All computers, null if no result

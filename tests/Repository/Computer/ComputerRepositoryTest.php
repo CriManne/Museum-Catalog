@@ -121,7 +121,20 @@ final class ComputerRepositoryTest extends TestCase
     public function testBadSelectById(): void
     {
         $this->assertNull(self::$computerRepository->selectById("WRONGID"));
-    }       
+    }     
+    
+    public function testGoodSelectByKey():void{
+        $newPc = clone self::$sampleComputer;
+        $newPc->ObjectID = "OBJ2";
+        $newPc->ModelName = "Computer 2";
+        self::$computerRepository->insert($newPc);
+
+        $this->assertEquals(count(self::$computerRepository->selectByKey("comp")),2);
+    }
+
+    public function testBadSelectByKey():void{
+        $this->assertEquals(self::$computerRepository->selectByKey("wrongkey"),[]);
+    }
     
     public function testGoodSelectAll():void{
         $computer1 = clone self::$sampleComputer;
