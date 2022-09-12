@@ -11,15 +11,17 @@ $(document).ready(function() {
 
         var result = makeRequest(urlSearch + "?q=" + search);
 
+        $("#tb-container").empty();
+        $("#error-alert").empty();
+
         if (result.status_code == "404") {
             $("#error-alert").show();
-            $("#error-alert").empty();
+            $("#tb-container").hide();
             $("#error-alert").append(result.message);
         } else {
             $("#tb-container").show();
-            $("#tb-container").empty();
-            loadHeader();
             $("#error-alert").hide();
+            loadHeader();
             displayResult(result);
             $("#tb-container").append("</tbody></table>");
         }
@@ -44,7 +46,7 @@ function displayResult(result) {
 
     result.forEach(function(elem) {
         $("#table-result").append(
-            "<tr><th scope='row' role='button' class='artifact-row' data-id='" + elem.ObjectID + "'>" + elem.ObjectID +
+            "<tr role='button' class='artifact-row' data-id='" + elem.ObjectID + "'><th scope='row' class='text-decoration-underline'>" + elem.ObjectID +
             "</th><td>" + elem.Title +
             "</td><td>" + JSON.stringify(elem.Descriptors) +
             "</td>" +

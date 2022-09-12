@@ -160,12 +160,22 @@ final class GenericObjectRepositoryTest extends TestCase {
     }
     
     public function testGoodSelectByQuery():void{
-        $result = self::$genericObjectRepository->selectByQuery("cOmP");
+        $result = self::$genericObjectRepository->selectByQuery("cOmP",null);
         $this->assertEquals(2,count($result));
     }
 
+    public function testGoodSelectByQueryWithCategory():void{
+        $result = self::$genericObjectRepository->selectByQuery("cOmP","Computer");
+        $this->assertEquals(1,count($result));
+    }
+
     public function testBadSelectByQuery():void{
-        $result = self::$genericObjectRepository->selectByQuery("WRONG");
+        $result = self::$genericObjectRepository->selectByQuery("WRONG",null);
+        $this->assertEquals(0,count($result));
+    }
+
+    public function testBadSelectByQueryWithWrongCategory():void{
+        $result = self::$genericObjectRepository->selectByQuery("comp","magazine");
         $this->assertEquals(0,count($result));
     }
 

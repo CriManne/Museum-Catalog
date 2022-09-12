@@ -14,6 +14,7 @@ namespace App\Controller\Api\Artifact;
 
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
+use App\Model\Response\GenericObjectResponse;
 use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
 use App\Service\GenericObjectService;
@@ -42,25 +43,38 @@ class SearchController extends ControllerUtil implements ControllerInterface {
         if (isset($params["q"])) {
             $query = $params["q"];
 
+            $category = $params["category"] ?? null;
+
             $keywords = explode(" ", $query);
 
-            $result = $this->genericObjectService->selectByQuery(array_shift($keywords));
+            $result = $this->genericObjectService->selectByQuery(array_shift($keywords),$category);
 
             if (count($keywords) > 0) {
+                $resultsKeyword = [$result];
                 foreach ($keywords as $keyword) {
-                    $resultKeyword = $this->genericObjectService->selectByQuery($keyword);
-                    $result = array_uintersect($result, $resultKeyword, function ($a, $b) {
-                        return $a == $b;
-                    });
+                    $resultsKeyword[] = $this->genericObjectService->selectByQuery($keyword,$category);
                 }
+
+                $result = array_uintersect(...$resultsKeyword,...[function ($a,$b) {                    
+                    if ($a->ObjectID === $b->ObjectID) {
+                        return 0;
+                    }
+                    return -1;
+                }]);
+                
             }
 
-            if(count($result)<1){
+            if (count($result) < 1) {
                 return new Response(
                     404,
                     [],
-                    $this->getResponse("No object found",404)
+                    $this->getResponse("No object found", 404)
                 );
+            }
+
+            //Sometimes the result it's a key value array with one result
+            if(count($result)==1){
+                $result = [array_pop($result)];
             }
 
             return new Response(

@@ -32,9 +32,10 @@ class GenericObjectService {
     /**
      * Select by query
      * @param string $query The query given
+     * @param ?string $category The category to search in
      * @return array The result, empty if no result
      */
-    public function selectByQuery(string $query): array{
-        return $this->genericObjectRepository->selectByQuery($query);
+    public function selectByQuery(string $query,?string $category): array{
+        return $this->genericObjectRepository->selectByQuery($query,$category);
     }
 }
