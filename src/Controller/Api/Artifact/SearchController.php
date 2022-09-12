@@ -9,6 +9,7 @@
  */
 
 declare(strict_types=1);
+
 namespace App\Controller\Api\Artifact;
 
 use App\Controller\ControllerUtil;
@@ -24,56 +25,55 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class SearchController extends ControllerUtil implements ControllerInterface{ 
+class SearchController extends ControllerUtil implements ControllerInterface {
 
     public GenericObjectService $genericObjectService;
-    
+
     public function __construct(
         GenericObjectService $genericObjectService
-    )
-    {
+    ) {
         $this->genericObjectService = $genericObjectService;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         $params = $request->getQueryParams();
-        
-        if(isset($params["q"])){
-            try{
-                $query = $params["q"];               
 
-                $keywords = explode(" ",$query);
+        if (isset($params["q"])) {
+            $query = $params["q"];
 
-                $result = $this->genericObjectService->selectByQuery(array_shift($keywords));                        
-                
-                if(count($keywords)>0){
-                    foreach($keywords as $keyword){
-                        $resultKeyword = $this->genericObjectService->selectByQuery($keyword);                                 
-                        $result = array_uintersect($result,$resultKeyword,function($a,$b){                            
-                            return $a == $b;
-                        });                    
-                    }
+            $keywords = explode(" ", $query);
+
+            $result = $this->genericObjectService->selectByQuery(array_shift($keywords));
+
+            if (count($keywords) > 0) {
+                foreach ($keywords as $keyword) {
+                    $resultKeyword = $this->genericObjectService->selectByQuery($keyword);
+                    $result = array_uintersect($result, $resultKeyword, function ($a, $b) {
+                        return $a == $b;
+                    });
                 }
+            }
 
-                return new Response(
-                    200,
-                    [],
-                    json_encode($result)
-                );
-            }catch(ServiceException $e){
+            if(count($result)<1){
                 return new Response(
                     404,
                     [],
-                    $this->getResponse($e->getMessage(),404)
+                    $this->getResponse("No object found",404)
                 );
-            }            
+            }
+
+            return new Response(
+                200,
+                [],
+                json_encode($result)
+            );
         }
 
         return new Response(
             400,
             [],
-            $this->getResponse("Invalid request!",400)
+            $this->getResponse("Invalid request!", 400)
         );
     }
 }

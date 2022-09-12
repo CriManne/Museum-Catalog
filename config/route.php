@@ -22,8 +22,11 @@ return [
     //LOGIN PAGE
     [['GET', 'POST'], '/login', Controller\Pages\Public\LoginController::class],
 
-    //SEARCH ARTIFACT
-    ['GET','/artifact',Controller\Pages\Public\Artifact\ArtifactPageController::class],
+    //SINGLE ARTIFACT
+    ['GET','/artifact',Controller\Pages\Public\Artifact\ArtifactController::class],
+
+    //ARTIFACTS 
+    ['GET','/artifacts',Controller\Pages\Public\Artifact\ArtifactsController::class],
 
     // ______________________________________________________ //
 

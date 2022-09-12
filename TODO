@@ -30,6 +30,8 @@ mock the pdo because the low level db interaction is already being tested in int
 
 - REMOVE CONCAT FUNCTION AND PASS THE CONCATENATED VALUE
 
+- REMOVE DEBUG CONTAINERS IN PAGES
+
 - SEARCH IN THE PROJECT FOR //TODO s
 ____
 

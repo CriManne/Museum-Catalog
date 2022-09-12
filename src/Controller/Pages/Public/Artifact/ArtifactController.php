@@ -26,18 +26,27 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class ArtifactPageController extends ControllerUtil implements ControllerInterface {
+class ArtifactController extends ControllerUtil implements ControllerInterface {
 
     public function __construct(Engine $plates) {
         parent::__construct($plates);
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {       
+        $params = $request->getQueryParams();
+
+        if(!isset($params['id'])){
+            return new Response(
+                400,
+                [],
+                $this->displayError(400,"Bad request!")
+            );
+        }
 
         return new Response(
             200,
             [],
-            $this->plates->render('public::artifact')
+            $this->plates->render('artifact::artifact')
         );
     }
 }

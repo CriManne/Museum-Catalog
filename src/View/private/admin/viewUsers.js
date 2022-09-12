@@ -65,12 +65,6 @@ $(document).ready(function() {
 
 
 function initializePage() {
-    //Fetch the data from the API
-    // response = makeRequest(urlUsers);
-    // $("#result-container").append("STATUS:" + response.);
-    // // if(response.status_code != "200"){
-
-    // // }
     users = filteredUsers = makeRequest(urlUsers);
 
     loadPage();
