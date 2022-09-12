@@ -133,7 +133,9 @@ class PeripheralRepository extends GenericRepository {
             INNER JOIN genericobject g ON g.ObjectID = p.ObjectID
             INNER JOIN peripheraltype pt ON p.PeripheralTypeID = pt.PeripheralTypeID
             WHERE p.ModelName LIKE :key OR
-            pt.Name LIKE :key";
+            pt.Name LIKE :key OR
+            g.Note LIKE :key OR
+            g.Tag LIKE :key";
 
         if (isset($showErased)) {
             $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");

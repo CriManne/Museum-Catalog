@@ -151,7 +151,9 @@ class BookRepository extends GenericRepository {
             Year LIKE :key OR
             ISBN LIKE :key OR
             a.firstname LIKE :key OR
-            a.lastname LIKE :key";
+            a.lastname LIKE :key OR
+            g.Note LIKE :key OR
+            g.Tag LIKE :key";
 
         if (isset($showErased)) {
             $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");

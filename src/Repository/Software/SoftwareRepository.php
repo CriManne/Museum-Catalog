@@ -143,7 +143,9 @@ class SoftwareRepository extends GenericRepository {
             WHERE s.Title LIKE :key OR
             o.Name LIKE :key OR
             st.Name LIKE :key OR
-            supt.Name LIKE :key";
+            supt.Name LIKE :key OR
+            g.Note LIKE :key OR
+            g.Tag LIKE :key";
 
         if (isset($showErased)) {
             $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");

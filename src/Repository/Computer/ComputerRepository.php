@@ -153,7 +153,9 @@ class ComputerRepository extends GenericRepository {
             cp.Speed LIKE :key OR
             r.ModelName LIKE :key OR
             r.Size LIKE :key OR
-            o.Name LIKE :key";
+            o.Name LIKE :key OR
+            g.Note LIKE :key OR
+            g.Tag LIKE :key";
 
         if (isset($showErased)) {
             $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");

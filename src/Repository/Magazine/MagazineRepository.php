@@ -137,7 +137,9 @@ class MagazineRepository extends GenericRepository {
             WHERE m.Title LIKE :key OR
             m.MagazineNumber LIKE :key OR
             m.Year LIKE :key OR
-            p.Name LIKE :key";
+            p.Name LIKE :key OR
+            g.Note LIKE :key OR
+            g.Tag LIKE :key";
 
         if (isset($showErased)) {
             $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
