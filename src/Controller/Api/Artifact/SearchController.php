@@ -24,7 +24,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class GetController extends ControllerUtil implements ControllerInterface{ 
+class SearchController extends ControllerUtil implements ControllerInterface{ 
 
     public GenericObjectService $genericObjectService;
     
@@ -43,7 +43,18 @@ class GetController extends ControllerUtil implements ControllerInterface{
             try{
                 $query = $params["q"];               
 
-                $result = $this->genericObjectService->selectByQuery($query);
+                $keywords = explode(" ",$query);
+
+                $result = $this->genericObjectService->selectByQuery(array_shift($keywords));                        
+                
+                if(count($keywords)>0){
+                    foreach($keywords as $keyword){
+                        $resultKeyword = $this->genericObjectService->selectByQuery($keyword);                                 
+                        $result = array_uintersect($result,$resultKeyword,function($a,$b){                            
+                            return $a == $b;
+                        });                    
+                    }
+                }
 
                 return new Response(
                     200,
