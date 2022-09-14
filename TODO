@@ -1,3 +1,6 @@
+- Change the request type to a json object to be a correct rest api
+
+
 - add tags and generic object fields in the search by key
 
 - REMEMBER TO HANDLE THE ACTIVE FIELD OF GENERIC OBJECT:
