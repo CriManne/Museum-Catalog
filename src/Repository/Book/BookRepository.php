@@ -283,10 +283,10 @@ class BookRepository extends GenericRepository {
             strval($rawBook["Active"]),
             $rawBook["Erased"],
             $rawBook["Title"],
-            $this->publisherRepository->selectById($rawBook["PublisherID"]),
-            $rawBook["Year"],
+            $this->publisherRepository->selectById(intval($rawBook["PublisherID"])),
+            intval($rawBook["Year"]),
             $rawBook["ISBN"],
-            $rawBook["Pages"],
+            intval($rawBook["Pages"]),
             $authors
         );
     }

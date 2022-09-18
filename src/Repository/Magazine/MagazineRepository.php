@@ -261,9 +261,9 @@ class MagazineRepository extends GenericRepository {
             strval($rawMagazine["Active"]),
             $rawMagazine["Erased"],
             $rawMagazine["Title"],
-            $rawMagazine["Year"],
-            $rawMagazine["MagazineNumber"],
-            $this->publisherRepository->selectById($rawMagazine["PublisherID"])
+            intval($rawMagazine["Year"]),
+            intval($rawMagazine["MagazineNumber"]),
+            $this->publisherRepository->selectById(intval($rawMagazine["PublisherID"]))
         );
     }
 }
