@@ -73,7 +73,7 @@ class BookAuthorRepository extends GenericRepository {
         $stmt->execute();
         $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
 
-        if (count($bookAuthors) > 0) {
+        if ($bookAuthors) {
             return $bookAuthors;
         }
 
@@ -93,7 +93,7 @@ class BookAuthorRepository extends GenericRepository {
         $stmt->execute();
         $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
 
-        if (count($bookAuthors) > 0) {
+        if ($bookAuthors) {
             return $bookAuthors;
         }
 
@@ -111,7 +111,7 @@ class BookAuthorRepository extends GenericRepository {
         $stmt->execute();
         $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
 
-        if (count($bookAuthors) > 0) {
+        if ($bookAuthors) {
             return $bookAuthors;
         }
 

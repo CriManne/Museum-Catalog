@@ -271,7 +271,7 @@ class BookRepository extends GenericRepository {
         $bookAuthors = $this->bookAuthorRepository->selectByBookId($rawBook["ObjectID"]);
         $authors = [];
         foreach ($bookAuthors as $bookAuthor) {
-            $authors[] = $this->authorRepository->selectById($bookAuthor->AuthorID);
+            $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID));
         }
 
 
