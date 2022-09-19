@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "aa813e21adec02a0e7e3bfea70e084f6",
+    "content-hash": "fb56958b4cf9353f610e82cc927ec88f",
     "packages": [
         {
             "name": "laravel/serializable-closure",
@@ -810,16 +810,16 @@
         },
         {
             "name": "simplemvc/framework",
-            "version": "0.3.0",
+            "version": "0.1",
             "source": {
                 "type": "git",
                 "url": "https://github.com/simplemvc/framework.git",
-                "reference": "39ed176eaddd91f5456f2444cef17510d539c976"
+                "reference": "333d2e0759c4f413b55a77f2ff3e411c644cb1e7"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/simplemvc/framework/zipball/39ed176eaddd91f5456f2444cef17510d539c976",
-                "reference": "39ed176eaddd91f5456f2444cef17510d539c976",
+                "url": "https://api.github.com/repos/simplemvc/framework/zipball/333d2e0759c4f413b55a77f2ff3e411c644cb1e7",
+                "reference": "333d2e0759c4f413b55a77f2ff3e411c644cb1e7",
                 "shasum": ""
             },
             "require": {
@@ -832,9 +832,7 @@
                 "psr/log": "^1|^2|^3"
             },
             "require-dev": {
-                "mockery/mockery": "^1.5",
                 "phpstan/phpstan": "^1.8",
-                "phpstan/phpstan-mockery": "^1.1",
                 "phpunit/phpunit": "^9.5"
             },
             "type": "library",
@@ -856,9 +854,9 @@
             ],
             "support": {
                 "issues": "https://github.com/simplemvc/framework/issues",
-                "source": "https://github.com/simplemvc/framework/tree/0.3.0"
+                "source": "https://github.com/simplemvc/framework/tree/0.1"
             },
-            "time": "2022-09-13T20:40:58+00:00"
+            "time": "2022-07-25T13:41:39+00:00"
         }
     ],
     "packages-dev": [
