@@ -82,3 +82,18 @@ INSERT INTO supporttype(Name) VALUES
 INSERT INTO software(ObjectID,Title,OsID,SoftwareTypeID,SupportTypeID) VALUES
 ("OBJ2","Software gestione dei computer",1,1,1);
 
+-- POPULATE USER
+
+INSERT INTO user(Email,Password,firstname,lastname,Privilege) VALUES
+("admin","admin","Cristian","Rossi",1),
+("test","admin","Test","Test"),
+("test1","admin","Test","Test"),
+("test2","admin","Test","Test"),
+("test3","admin","Test","Test"),
+("test4","admin","Test","Test"),
+("test5","admin","Test","Test"),
+("test6","admin","Test","Test"),
+("test7","admin","Test","Test"),
+("test8","admin","Test","Test"),
+("test9","admin","Test","Test"),
+("test10","admin","Test","Test");

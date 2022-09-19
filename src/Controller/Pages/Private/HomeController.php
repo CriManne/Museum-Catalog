@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Private;
+namespace App\Controller\Pages\Private;
 
 use App\Exception\ServiceException;
 use App\Service\UserService;
