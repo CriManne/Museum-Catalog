@@ -10,7 +10,6 @@
 
 declare(strict_types=1);
 
-use App\Controller\Secret;
 use App\Exception\RepositoryException;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
@@ -26,9 +25,6 @@ return [
         $engine->addFolder('artifact', $c->get('view_path') . '/public/artifact');
         $engine->addFolder('error', $c->get('view_path') . '/error');
         return $engine;
-    },
-    Secret::class => function (ContainerInterface $c) {
-        return new Secret($c->get(Engine::class), $c->get('authentication'));
     },
     'authentication' => [
         'username' => 'test',
