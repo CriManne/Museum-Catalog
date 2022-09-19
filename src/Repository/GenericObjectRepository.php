@@ -69,6 +69,34 @@ class GenericObjectRepository extends GenericRepository {
     }
 
     /**
+     * Select all objects
+     * @param ?string $category  The category to search in
+     * @return array            The result array
+     */
+    public function selectAll(?string $category): array {
+
+        $result = [];
+
+        foreach ($this->Repositories as $RepoName => $Repo) {
+            if ($category && $RepoName !== $category) {
+                continue;
+            }
+
+            $unmappedResult = $Repo->selectAll();
+            if (count($unmappedResult) > 0) {
+
+                foreach ($unmappedResult as $item) {
+                    $mappedObject = $Repo->returnMappedObject(json_decode(json_encode($item), true));
+
+                    $result[] = $this->$RepoName($mappedObject);
+                }
+            }
+        }
+
+        return $result;
+    }
+
+    /**
      * Select objects by query
      * @param string $query     The query given
      * @param ?string $category  The category to search in

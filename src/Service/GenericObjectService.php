@@ -30,6 +30,15 @@ class GenericObjectService {
     }
 
     /**
+     * Select all
+     * @param ?string $category The category to search in
+     * @return array The result, empty if no result
+     */
+    public function selectAll(?string $category): array{
+        return $this->genericObjectRepository->selectAll($category);
+    }
+
+    /**
      * Select by query
      * @param string $query The query given
      * @param ?string $category The category to search in

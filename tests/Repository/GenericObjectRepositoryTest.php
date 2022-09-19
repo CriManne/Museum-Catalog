@@ -158,6 +158,10 @@ final class GenericObjectRepositoryTest extends TestCase {
     public function testBadSelectById(): void {
         $this->assertNull(self::$genericObjectRepository->selectById("wrong"));
     }
+
+    public function testGoodSelectAll():void{
+        $this->assertEquals(count(self::$genericObjectRepository->selectAll(null)),2);
+    }
     
     public function testGoodSelectByQuery():void{
         $result = self::$genericObjectRepository->selectByQuery("cOmP",null);

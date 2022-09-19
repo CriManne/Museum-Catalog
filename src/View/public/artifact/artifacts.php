@@ -21,7 +21,7 @@
         <select class="input-select" id="category-select">
             <option selected value="">Tutte le categorie</option>            
         </select>
-        <input type="text" class="form-control" placeholder="Search artifact" aria-label="Artifact's search" id="artifact-search" required>
+        <input type="text" class="form-control" placeholder="Search artifact" aria-label="Artifact's search" id="artifact-search">
         <input type='submit' class='btn btn-primary'>
     </div>
 </form>

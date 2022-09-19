@@ -20,10 +20,19 @@ $(document).ready(function () {
         e.preventDefault();
         let q = $("#artifact-search").val();
 
-        let search = "?q=" + q;
+        let search = "";
+
+        if (q != "") {
+            search = "?q=" + q;
+        }
 
         if (category != "") {
-            search += "&category=" + category;
+            if(q!=""){
+                search+="&";
+            }else{
+                search+="?";
+            }
+            search += "category=" + category;
         }
 
         loadResult(search);

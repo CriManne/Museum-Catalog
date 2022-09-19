@@ -66,7 +66,7 @@ class SearchController extends ControllerUtil implements ControllerInterface
                 }]);
             }
         } else {
-            //$result = $this->genericObjectService->selectAll($category);
+            $result = $this->genericObjectService->selectAll($category);
         }
 
         if (count($result) < 1) {
