@@ -142,7 +142,7 @@ class BookRepository extends GenericRepository {
      * @return array    The books selected, empty array if no result
      */
     public function selectByKey(string $key, ?bool $showErased = false): array {
-        $query = "SELECT * FROM book b
+        $query = "SELECT DISTINCT g.*,b.* FROM book b
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
             INNER JOIN publisher p ON b.PublisherID = p.PublisherID
             INNER JOIN bookauthor ba ON b.ObjectID = ba.BookID

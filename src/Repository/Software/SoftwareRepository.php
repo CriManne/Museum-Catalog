@@ -135,7 +135,7 @@ class SoftwareRepository extends GenericRepository {
      * @return array    Software(s) selected, empty array if no result
      */
     public function selectByKey(string $key, ?bool $showErased = false): array {
-        $query = "SELECT * FROM software s
+        $query = "SELECT DISTINCT g.*,s.* FROM software s
             INNER JOIN genericobject g ON g.ObjectID = s.ObjectID 
             INNER JOIN os o ON s.OsID = o.OsID
             INNER JOIN softwaretype st ON s.SoftwareTypeID = st.SoftwareTypeID

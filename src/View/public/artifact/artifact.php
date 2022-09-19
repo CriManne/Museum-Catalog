@@ -1,7 +1,4 @@
 <?php $this->layout('layouts::layout', ['title' => 'Artifact']) ?>
-<script defer>
-    <?php require('artifact.js'); ?>
-</script>
 
 <!-- Product section-->
 <section class="py-5" id="artifact">
@@ -19,3 +16,8 @@
 <div class="alert alert-danger" role="alert" id="error-alert"></div>
 
 <div id="debug-container"></div>
+
+<?php $this->push('scripts') ?>
+<script src="/resources/js/util.js"></script>
+<script src="/resources/js/artifact.js"></script>
+<?php $this->end() ?>

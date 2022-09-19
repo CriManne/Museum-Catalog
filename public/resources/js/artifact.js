@@ -21,29 +21,3 @@ $(document).ready(function() {
         $("#object-description").append("<p><b>" + key + "</b>: " + value + "</p>");
     }
 });
-
-
-
-//Make a request and return a json response
-function makeRequest(url, method = 'GET', headers = [], params = []) {
-    var returnData = {};
-    $.ajax({
-        url: url,
-        method: method,
-        async: false,
-        headers: headers,
-        data: params,
-        xhrFields: {
-            withCredentials: true
-        },
-        success: function(data, textStatus, xhr) {
-            returnData = JSON.parse(data);
-            returnData.status_code = xhr.status;
-        },
-        error: function(xhr, status, error) {
-            returnData.message = JSON.parse(xhr.responseText).message;
-            returnData.status_code = xhr.status;
-        }
-    });
-    return returnData;
-}

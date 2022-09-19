@@ -12,5 +12,7 @@
 </head>
 <body>
     <?=$this->section('content')?>
+
+    <?=$this->section('scripts')?>
 </body>
 </html>

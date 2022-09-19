@@ -46,6 +46,8 @@ if ($this->e($user->Privilege) === "1") {
   </div>
 <?php } ?>
 
-<script>
-  <?php require('home.js'); ?>
-</script>
+<?php $this->push('scripts') ?>
+<script src="/resources/js/util.js"></script>
+<script src="/resources/js/addUser.js"></script>
+<script src="resources/js/viewUsers.js"></script>
+<?php $this->end() ?>

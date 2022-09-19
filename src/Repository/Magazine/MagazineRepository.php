@@ -131,7 +131,7 @@ class MagazineRepository extends GenericRepository {
      * @return array   All magazines, empty array if no result
      */
     public function selectByKey(string $key,?bool $showErased = false): array {
-        $query = "SELECT * FROM magazine m
+        $query = "SELECT DISTINCT g.*,m.* FROM magazine m
             INNER JOIN genericobject g ON g.ObjectID = m.ObjectID
             INNER JOIN publisher p ON m.PublisherID = p.PublisherID
             WHERE m.Title LIKE :key OR

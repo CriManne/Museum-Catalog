@@ -105,7 +105,7 @@ class GenericObjectRepository extends GenericRepository {
     public function Book(Book $obj): GenericObjectResponse {
         $authors = [];
         foreach ($obj->Authors as $author) {
-            $authors[] = $author->lastname;
+            $authors[] = $author->firstname[0]." ".$author->lastname;
         }
 
         return new GenericObjectResponse(

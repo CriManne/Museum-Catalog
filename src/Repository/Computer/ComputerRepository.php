@@ -141,7 +141,7 @@ class ComputerRepository extends GenericRepository {
      * @return array   All computers, empty if no result
      */
     public function selectByKey(string $key,?bool $showErased = false): array {
-        $query = "SELECT * FROM computer c
+        $query = "SELECT DISTINCT g.*,c.* FROM computer c
             INNER JOIN genericobject g ON g.ObjectID = c.ObjectID
             INNER JOIN cpu cp ON c.CpuID = cp.CpuID
             INNER JOIN ram r ON r.RamID = c.RamID

@@ -26,7 +26,8 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class SearchController extends ControllerUtil implements ControllerInterface {
+class SearchController extends ControllerUtil implements ControllerInterface
+{
 
     public GenericObjectService $genericObjectService;
 
@@ -36,58 +37,55 @@ class SearchController extends ControllerUtil implements ControllerInterface {
         $this->genericObjectService = $genericObjectService;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
         $params = $request->getQueryParams();
 
-        if (isset($params["q"])) {
-            $query = $params["q"];
+        $query = $params["q"] ?? null;
+        $category = $params["category"] ?? null;
 
-            $category = $params["category"] ?? null;
+        $result = [];
+
+        if (isset($params["q"])) {
 
             $keywords = explode(" ", $query);
 
-            $result = $this->genericObjectService->selectByQuery(array_shift($keywords),$category);
+            $result = $this->genericObjectService->selectByQuery(array_shift($keywords), $category);
 
             if (count($keywords) > 0) {
                 $resultsKeyword = [$result];
                 foreach ($keywords as $keyword) {
-                    $resultsKeyword[] = $this->genericObjectService->selectByQuery($keyword,$category);
+                    $resultsKeyword[] = $this->genericObjectService->selectByQuery($keyword, $category);
                 }
 
-                $result = array_uintersect(...$resultsKeyword,...[function ($a,$b) {                    
+                $result = array_uintersect(...$resultsKeyword, ...[function ($a, $b) {
                     if ($a->ObjectID === $b->ObjectID) {
                         return 0;
                     }
                     return -1;
                 }]);
-                
             }
+        } else {
+            //$result = $this->genericObjectService->selectAll($category);
+        }
 
-            if (count($result) < 1) {
-                return new Response(
-                    404,
-                    [],
-                    $this->getResponse("No object found", 404)
-                );
-            }
-
-            //Sometimes the result it's a key value array with one result
-            if(count($result)==1){
-                $result = [array_pop($result)];
-            }
-
+        if (count($result) < 1) {
             return new Response(
-                200,
+                404,
                 [],
-                json_encode($result)
+                $this->getResponse("No object found", 404)
             );
         }
 
+        //Sometimes the result it's a key value array with one result
+        if (count($result) == 1) {
+            $result = [array_pop($result)];
+        }
+
         return new Response(
-            400,
+            200,
             [],
-            $this->getResponse("Invalid request!", 400)
+            json_encode($result)
         );
     }
 }

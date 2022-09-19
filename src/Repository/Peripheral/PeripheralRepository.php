@@ -129,7 +129,7 @@ class PeripheralRepository extends GenericRepository {
      * @return array The peripherals, empty array if no result
      */
     public function selectByKey(string $key, ?bool $showErased = false): array {
-        $query = "SELECT * FROM peripheral p
+        $query = "SELECT DISTINCT g.*,p.* FROM peripheral p
             INNER JOIN genericobject g ON g.ObjectID = p.ObjectID
             INNER JOIN peripheraltype pt ON p.PeripheralTypeID = pt.PeripheralTypeID
             WHERE p.ModelName LIKE :key OR

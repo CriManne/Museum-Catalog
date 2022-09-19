@@ -27,6 +27,3 @@
     <input type='submit' class='btn btn-primary' id='btn-submit'>
 </form>
 <div id="debug-container"></div>
-<script>
-    <?php require('addUser.js'); ?>
-</script>
