@@ -21,20 +21,20 @@ use SimpleMVC\Response\HaltResponse;
 
 class CategoriesController implements ControllerInterface {    
 
+    public static array $categories = [
+        'Computer',
+        'Peripheral',
+        'Book',
+        'Magazine',
+        'Software'            
+    ];
+
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
-        
-        $categories = [
-            'Computer',
-            'Peripheral',
-            'Book',
-            'Magazine',
-            'Software'            
-        ];
-        
+                
         return new Response(
             200,
             ["Access-Control-Allow-Origin"=>"*"],
-            json_encode($categories)
+            json_encode(self::$categories)
         );
     }
 }
