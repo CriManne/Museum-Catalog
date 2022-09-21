@@ -1,8 +1,8 @@
-const urlSearch = '/api/artifact/search';
+const urlSearch = '/api/artifacts/search';
 const urlCategories = "/api/categories";
 let category = "";
 
-$(document).ready(function () {
+$(document).ready(function() {
 
     $("#tb-container").hide();
     $("#error-alert").hide();
@@ -11,12 +11,13 @@ $(document).ready(function () {
 
     loadResult("");
 
-    $("#category-select").on('change', function () {
+    $("#category-select").on('change', function() {
         let value = this.value;
         category = value;
+        loadResult("?category=" + category);
     })
 
-    $("#artifact-search-form").on('submit', function (e) {
+    $("#artifact-search-form").on('submit', function(e) {
         e.preventDefault();
         let q = $("#artifact-search").val();
 
@@ -27,10 +28,10 @@ $(document).ready(function () {
         }
 
         if (category != "") {
-            if(q!=""){
-                search+="&";
-            }else{
-                search+="?";
+            if (q != "") {
+                search += "&";
+            } else {
+                search += "?";
             }
             search += "category=" + category;
         }
@@ -74,7 +75,7 @@ function loadHeader() {
 
 function displayResult(result) {
 
-    result.forEach(function (elem) {
+    result.forEach(function(elem) {
 
         let description = [];
 
@@ -91,7 +92,7 @@ function displayResult(result) {
         );
     });
 
-    $(".artifact-row").unbind().on('click', function () {
+    $(".artifact-row").unbind().on('click', function() {
         window.location.href = '/artifact?id=' + $(this).attr('data-id');
     });
 
@@ -100,7 +101,7 @@ function displayResult(result) {
 function loadSelect() {
     let data = makeRequest(urlCategories);
     if (data) {
-        data.forEach(function (elem) {
+        data.forEach(function(elem) {
             $("#category-select").append($('<option>', {
                 value: elem,
                 text: elem

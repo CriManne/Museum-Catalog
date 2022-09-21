@@ -30,8 +30,7 @@ class GetController extends ControllerUtil implements ControllerInterface {
 
     protected UserService $userService;
 
-    public function __construct(Engine $plates, UserService $userService) {
-        parent::__construct($plates);
+    public function __construct(UserService $userService) {
         $this->userService = $userService;
     }
 

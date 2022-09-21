@@ -60,17 +60,18 @@ return [
     /* ARTIFACT */
 
     //CREATE ARTIFACT
-    ['POST','/api/artifact',[Controller\BasicAuthController::class,Controller\Api\Artifact\PostController::class]],    
+    //['POST','/api/artifact',[Controller\BasicAuthController::class,Controller\Api\Artifact\PostController::class]],    
+    ['POST','/api/artifacts',Controller\Api\Artifact\PostController::class],    
 
     //GET ARTIFACT
-    ['GET','/api/artifact',Controller\Api\Artifact\GetController::class],
-    ['GET','/api/artifact/search',Controller\Api\Artifact\SearchController::class],
+    ['GET','/api/artifacts',Controller\Api\Artifact\GetController::class],
+    ['GET','/api/artifacts/search',Controller\Api\Artifact\SearchController::class],
 
     //UPDATE ARTIFACT
-    ['PUT','/api/artifact/update',[Controller\BasicAuthController::class,Controller\Api\Artifact\UpdateController::class]],    
+    ['PUT','/api/artifacts',[Controller\BasicAuthController::class,Controller\Api\Artifact\UpdateController::class]],    
 
     //DELETE ARTIFACT
-    ['DELETE','/api/artifact/delete',[Controller\BasicAuthController::class,Controller\Api\Artifact\DeleteController::class]],    
+    ['DELETE','/api/artifacts',Controller\Api\Artifact\DeleteController::class],    
 
 
 ];

@@ -10,8 +10,10 @@ class ControllerUtil {
 
     protected Engine $plates;
 
-    public function __construct(Engine $plates) {
-        $this->plates = $plates;
+    public function __construct(?Engine $plates) {
+        if($plates){
+            $this->plates = $plates;
+        }
     }
 
     public function getResponse(string $message,int $status=200):string{

@@ -28,23 +28,3 @@
     <div class="container-fluid table-scrollable" id="tb-container"></div>
 </div>
 <div class="alert alert-danger" role="alert" id="error-alert"></div>
-
-<?php $this->push('scripts') ?>
-<script src="/resources/js/util.js"></script>
-<script src="/resources/js/artifacts.js"></script>
-<script>
-function setSelectWidth() {
-    var sel = $('#sel');
-    $('#templateOption').text( sel.val() );
-    // for some reason, a small fudge factor is needed
-    // so that the text doesn't become clipped
-    sel.width( $('#template').width() * 1.03 );
-}
-
-setSelectWidth();
-
-$('#sel').change( function() {
-    setSelectWidth();
-} );
-</script>
-<?php $this->end() ?>

@@ -10,7 +10,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\User;
+namespace App\Controller\Api\Artifact;
 
 use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
@@ -18,56 +18,60 @@ use App\Exception\ServiceException;
 use App\Model\User;
 use App\Repository\UserRepository;
 use App\Service\UserService;
-use App\Util\ORM;
+use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
+use PDO;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class PostController extends ControllerUtil implements ControllerInterface {
+class DeleteController extends ControllerUtil implements ControllerInterface {
 
-    protected UserService $userService;
+    protected PDO $pdo;
 
-    public function __construct(UserService $userService) {
-        $this->userService = $userService;
+    public function __construct(PDO $pdo) {
+        $this->pdo = $pdo;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         try {
-            $params = $request->getParsedBody();  
-                         
-            if(!isset($params['Email']) ||
-            !isset($params['Password']) ||
-            !isset($params['firstname']) ||
-            !isset($params['lastname'])            
-            ){
-                return new HaltResponse(
+            $params = $request->getQueryParams();
+
+            $category = $params["category"] ?? null;
+            $id = $params["id"] ?? null;
+
+            if (!$category || !$id) {
+                return new Response(
                     400,
                     [],
-                    $this->getResponse("Bad request!",400)
+                    $this->getResponse("Invalid request!", 400)
                 );
             }
 
-            if(isset($params["Privilege"])){
-                $params["Privilege"] = 1;
-            }
+            $category = ucwords($category);
+            $servicePath = "App\\Service\\$category\\$category" . "Service";
 
-            $user = ORM::getNewInstance(User::class,$params);
-            $this->userService->insert($user);
+            $builder = new ContainerBuilder();
+            $builder->addDefinitions('config/container.php');
+            $container = $builder->build();
+            
+            $this->artifactService = $container->get($servicePath);
+
+            $this->artifactService->delete($id);
 
             return new Response(
                 200,
                 [],
-                $this->getResponse('User with email {'.$params['Email'].'} inserted successfully!')
+                $this->getResponse('Artifact with id {' . $id . '} deleted!')
             );
         } catch (ServiceException $e) {
-            return new HaltResponse(
+            return new Response(
                 400,
                 [],
-                $this->getResponse($e->getMessage(),400)
+                $this->getResponse($e->getMessage(), 400)
             );
         }
     }

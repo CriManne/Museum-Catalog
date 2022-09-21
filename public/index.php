@@ -38,7 +38,7 @@ try{
     $requestUrl = $app->getRequest()->getRequestTarget();    
     $responseBody = null;
     if(explode('/',$requestUrl)[1] == 'api'){
-        $responseBody = $util->getResponse($e->getMessage());               
+        $responseBody = $util->getResponse($e->getMessage(),500);               
     }else{
         $responseBody = $util->displayError(500,$e->getMessage()); 
     }
