@@ -19,6 +19,7 @@ use App\Exception\ServiceException;
 use App\Model\User;
 use App\Repository\UserRepository;
 use App\Service\UserService;
+use DI\Container;
 use DI\ContainerBuilder;
 use Exception;
 use League\Plates\Engine;
@@ -27,6 +28,7 @@ use PDO;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ReflectionClass;
 use ReflectionFunction;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
@@ -35,73 +37,83 @@ use TypeError;
 class DeleteController extends ControllerUtil implements ControllerInterface {
 
     protected PDO $pdo;
+    protected Container $container;
 
-    public function __construct(PDO $pdo) {
+    public function __construct(PDO $pdo, ContainerBuilder $builder) {
         $this->pdo = $pdo;
+        $builder->addDefinitions('config/container.php');
+        $this->container = $builder->build();
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        try {
-            $params = $request->getQueryParams();
 
-            $category = $params["category"] ?? null;
-            $id = $params["id"] ?? null;
+        $params = $request->getQueryParams();
 
-            if (!$category || !$id) {
-                return new Response(
-                    400,
-                    [],
-                    $this->getResponse("Invalid request!", 400)
-                );
-            }
+        $category = $params["category"] ?? null;
+        $id = $params["id"] ?? null;
 
-            $category = ucwords($category);
-            $categories = CategoriesController::$categories;
-
-            $builder = new ContainerBuilder();
-            $builder->addDefinitions('config/container.php');
-            $container = $builder->build();
-
-            foreach ($categories as $singleCat) {
-                try {
-                    $servicePath = "App\\Service\\$singleCat\\$category" . "Service";
-                    $this->artifactService = $container->get($servicePath);
-
-                    try {
-                        $this->artifactService->delete(intval($id));
-                    } catch (TypeError) {
-                        try {
-                            $this->artifactService->delete($id);
-                        } catch (TypeError) {
-                        }
-                    }
-
-                    return new Response(
-                        200,
-                        [],
-                        $this->getResponse('Artifact with id {' . $id . '} deleted!')
-                    );
-                } catch (ServiceException $e) {
-                    return new Response(
-                        404,
-                        [],
-                        $this->getResponse($e->getMessage(), 404)
-                    );
-                } catch (Exception) {
-                }
-            }
-
+        if (!$category || !$id) {
             return new Response(
                 400,
                 [],
-                $this->getResponse("Bad request!", 400)
-            );
-        } catch (ServiceException $e) {
-            return new Response(
-                400,
-                [],
-                $this->getResponse($e->getMessage(), 400)
+                $this->getResponse("Invalid request!", 400)
             );
         }
+
+        //category title case
+        $category = ucwords($category);
+
+        $categories = CategoriesController::$categories;
+
+        foreach ($categories as $singleCategory) {
+            try {
+                //Service full path
+                $servicePath = "App\\Service\\$singleCategory\\$category" . "Service";
+
+                /**
+                 * Get service class, throws an exception if not found
+                 */
+                $this->artifactService = $this->container->get($servicePath);
+
+                /**
+                 * Get the delete id type name (string or int)
+                 */
+                $reflectionClass = new ReflectionClass($servicePath);
+                $method = $reflectionClass->getMethod("delete");
+                $methodType = $method->getParameters()[0]->getType()->getName();
+
+                if ($methodType === "string") {
+                    $this->artifactService->delete($id);
+                } elseif ($methodType === "int") {
+                    if (!is_numeric($id)) {
+                        return new Response(
+                            400,
+                            [],
+                            $this->getResponse("Bad request!", 400)
+                        );
+                    }
+                    $this->artifactService->delete(intval($id));
+                }
+
+                return new Response(
+                    200,
+                    [],
+                    $this->getResponse('Artifact with id {' . $id . '} deleted!')
+                );
+            } catch (ServiceException $e) {
+                return new Response(
+                    404,
+                    [],
+                    $this->getResponse($e->getMessage(), 404)
+                );
+            } catch (Exception) {
+            }
+        }
+
+        return new Response(
+            400,
+            [],
+            $this->getResponse("Bad request!", 400)
+        );
     }
 }
