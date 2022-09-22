@@ -25,7 +25,7 @@ final class AuthorRepositoryTest extends TestCase
 
     public function setUp():void{
         //Author inserted to test duplicated cpu errors
-        $author= new Author(null,'Mario',"Rossi",null);
+        $author= new Author('Mario',"Rossi");
         self::$authorRepository->insert($author);        
     }
 
@@ -36,7 +36,7 @@ final class AuthorRepositoryTest extends TestCase
 
     //INSERT TESTS
     public function testGoodInsert():void{                
-        $author= new Author(null,'Luca',"Verdi",null);
+        $author= new Author('Luca',"Verdi");
 
         self::$authorRepository->insert($author);
 
@@ -66,9 +66,9 @@ final class AuthorRepositoryTest extends TestCase
     
     
     public function testGoodSelectAll():void{
-        $author1 = new Author(null,'Sara',"Neri",null);
-        $author2 = new Author(null,'Tommaso',"Gialli",null);
-        $author3 = new Author(null,'Franco',"Verdi",null);
+        $author1 = new Author('Sara',"Neri");
+        $author2 = new Author('Tommaso',"Gialli");
+        $author3 = new Author('Franco',"Verdi");
         self::$authorRepository->insert($author1);
         self::$authorRepository->insert($author2);
         self::$authorRepository->insert($author3);
@@ -81,7 +81,7 @@ final class AuthorRepositoryTest extends TestCase
     
     //UPDATE TESTS
     public function testGoodUpdate():void{
-        $author= new Author(1,'Andrea',"Rossi",null);
+        $author= new Author('Andrea',"Rossi",1);
         
         self::$authorRepository->update($author);
         

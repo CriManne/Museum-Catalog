@@ -63,7 +63,7 @@ final class AuthorServiceTest extends TestCase
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $author = new Author(1,"WRONG AUTHOR","Rossi");
+        $author = new Author("WRONG AUTHOR","Rossi",1);
         
         $this->sth->method('fetch')->willReturn(null);
         $this->authorService->update($author);

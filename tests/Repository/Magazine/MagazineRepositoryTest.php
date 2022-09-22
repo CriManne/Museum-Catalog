@@ -36,8 +36,7 @@ final class MagazineRepositoryTest extends TestCase
             self::$publisherRepository
         );        
         
-        self::$samplePublisher = new Publisher(
-            null,
+        self::$samplePublisher = new Publisher(            
             "Einaudi"            
         );
 

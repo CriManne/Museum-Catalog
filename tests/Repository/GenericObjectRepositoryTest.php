@@ -14,9 +14,6 @@ use App\Model\Computer\Cpu;
 use App\Model\Computer\Os;
 use App\Model\Computer\Ram;
 use App\Model\Magazine\Magazine;
-use App\Model\Software\Software;
-use App\Model\Software\SoftwareType;
-use App\Model\Software\SupportType;
 use App\Repository\Book\AuthorRepository;
 use App\Repository\Book\BookAuthorRepository;
 use App\Repository\Book\BookRepository;
@@ -101,7 +98,7 @@ final class GenericObjectRepositoryTest extends TestCase {
         $cpu = new Cpu(1, "I7", "4GHZ");
         $ram = new Ram(1, "Ram 1", "64GB");
         $os = new Os(1, "Windows 10");
-        $publisher = new Publisher(1,"Einaudi");
+        $publisher = new Publisher("Einaudi",1);
 
         self::$cpuRepository->insert($cpu);
         self::$ramRepository->insert($ram);

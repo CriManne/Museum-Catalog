@@ -11,8 +11,8 @@ class Publisher {
     public ?string $Erased;
 
     public function __construct(
-        ?int $PublisherID,
         ?string $Name,
+        ?int $PublisherID = null,
         ?string $Erased = null
     ) {
         $this->PublisherID = $PublisherID;

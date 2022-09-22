@@ -62,7 +62,7 @@ final class PublisherServiceTest extends TestCase
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $publisher = new Publisher(15,"WRONG PUBLISHER");
+        $publisher = new Publisher("WRONG PUBLISHER",15);
         
         $this->sth->method('fetch')->willReturn(null);
         $this->publisherService->update($publisher);

@@ -34,7 +34,7 @@ final class MagazineServiceTest extends TestCase
             'Magazine Title',   
             2005,
             205,
-            new Publisher(1, 'Publisher 1')
+            new Publisher('Publisher 1',1)
         );    
         
         $this->sampleObjectRaw = [

@@ -34,12 +34,12 @@ final class BookServiceTest extends TestCase
             "1",
             null,
             '1984',
-            new Publisher(1,"Mondadori"),
+            new Publisher("Mondadori",1),
             1945,
             "ALSKDI82SB",
             245,
             [
-                new Author(1,"George","Orwell")
+                new Author("George","Orwell",1)
             ]
         );    
         

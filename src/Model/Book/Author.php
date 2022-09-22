@@ -12,9 +12,9 @@ class Author {
     public ?string $Erased;
 
     public function __construct(
-        ?int $AuthorID,
         ?string $firstname,
         ?string $lastname,
+        ?int $AuthorID = null,
         ?string $Erased = null
     ) {
         $this->AuthorID = $AuthorID;
