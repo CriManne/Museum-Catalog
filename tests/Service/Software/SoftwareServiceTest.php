@@ -35,8 +35,8 @@ final class SoftwareServiceTest extends TestCase
             null,
             'Paint',
             new Os('Windows',1),
-            new SoftwareType(1, 'Office'),
-            new SupportType(1, 'Support')
+            new SoftwareType('Office',1),
+            new SupportType('Support',1)
         );    
         
         $this->sampleObjectRaw = [

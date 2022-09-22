@@ -26,7 +26,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
 
     public function setUp():void{
         //Support inserted to test duplicated supports errors
-        $softwareType = new SoftwareType(null,'Office');
+        $softwareType = new SoftwareType('Office');
         self::$softwareTypeRepository->insert($softwareType);
     }
 
@@ -37,7 +37,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
 
     //INSERT TESTS
     public function testGoodInsert():void{                
-        $softwareType = new SoftwareType(null,'Game');
+        $softwareType = new SoftwareType('Game');
 
         self::$softwareTypeRepository->insert($softwareType);
 
@@ -47,7 +47,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
         $this->expectException(RepositoryException::class);
 
         //SoftwareType already inserted in the setUp() method
-        $softwareType = new SoftwareType(null,'Office');
+        $softwareType = new SoftwareType('Office');
 
         self::$softwareTypeRepository->insert($softwareType);
     }
@@ -75,9 +75,9 @@ final class SoftwareTypeRepositoryTest extends TestCase
     
     
     public function testGoodSelectAll():void{
-        $softwareType1 = new SoftwareType(null,'S1');
-        $softwareType2 = new SoftwareType(null,'S2');
-        $softwareType3 = new SoftwareType(null,'S3');
+        $softwareType1 = new SoftwareType('S1');
+        $softwareType2 = new SoftwareType('S2');
+        $softwareType3 = new SoftwareType('S3');
         self::$softwareTypeRepository->insert($softwareType1);
         self::$softwareTypeRepository->insert($softwareType2);
         self::$softwareTypeRepository->insert($softwareType3);
@@ -90,7 +90,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
     
     //UPDATE TESTS
     public function testGoodUpdate():void{
-        $softwareType = new SoftwareType(1,'Game');
+        $softwareType = new SoftwareType('Game',1);
         
         self::$softwareTypeRepository->update($softwareType);
         

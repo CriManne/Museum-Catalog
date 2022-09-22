@@ -36,7 +36,7 @@ final class SoftwareTypeServiceTest extends TestCase
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $softwareType = new SoftwareType(null,'Office');
+        $softwareType = new SoftwareType('Office');
         $this->softwareTypeService->insert($softwareType);
     }
 
@@ -65,7 +65,7 @@ final class SoftwareTypeServiceTest extends TestCase
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $softwareType = new SoftwareType(1,"Office");
+        $softwareType = new SoftwareType("Office",1);
         
         $this->sth->method('fetch')->willReturn(null);
         $this->softwareTypeService->update($softwareType);

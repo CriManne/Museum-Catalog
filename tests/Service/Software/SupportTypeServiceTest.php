@@ -35,7 +35,7 @@ final class SupportTypeServiceTest extends TestCase
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $supportType = new SupportType(null,'CD-ROM');
+        $supportType = new SupportType('CD-ROM');
         $this->supportTypeService->insert($supportType);
     }
 
@@ -64,7 +64,7 @@ final class SupportTypeServiceTest extends TestCase
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $supportType = new SupportType(1,"FLOPPY");
+        $supportType = new SupportType("FLOPPY",1);
         
         $this->sth->method('fetch')->willReturn(null);
         $this->supportTypeService->update($supportType);

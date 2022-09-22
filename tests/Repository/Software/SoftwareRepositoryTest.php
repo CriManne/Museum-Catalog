@@ -55,15 +55,13 @@ final class SoftwareRepositoryTest extends TestCase
         );
 
         self::$sampleSoftwareType = new SoftwareType(
-            1,
             'Office',
-            null
+            1
         );
 
         self::$sampleSupportType = new SupportType(
-            1,
             'CD-ROM',
-            null
+            1
         );      
 
         self::$sampleSoftware = new Software(

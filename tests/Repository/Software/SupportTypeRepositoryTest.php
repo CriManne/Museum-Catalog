@@ -26,7 +26,7 @@ final class SupportTypeRepositoryTest extends TestCase
 
     public function setUp():void{
         //Support inserted to test duplicated supports errors
-        $supportType = new SupportType(null,'CD-ROM');
+        $supportType = new SupportType('CD-ROM');
         self::$supportTypeRepository->insert($supportType);
     }
 
@@ -37,7 +37,7 @@ final class SupportTypeRepositoryTest extends TestCase
 
     //INSERT TESTS
     public function testGoodInsert():void{                
-        $supportType = new SupportType(null,'FLOPPY');
+        $supportType = new SupportType('FLOPPY');
 
         self::$supportTypeRepository->insert($supportType);
 
@@ -47,7 +47,7 @@ final class SupportTypeRepositoryTest extends TestCase
         $this->expectException(RepositoryException::class);
 
         //SupportType already inserted in the setUp() method
-        $supportType = new SupportType(null,'CD-ROM');
+        $supportType = new SupportType('CD-ROM');
 
         self::$supportTypeRepository->insert($supportType);
     }
@@ -75,9 +75,9 @@ final class SupportTypeRepositoryTest extends TestCase
     
     
     public function testGoodSelectAll():void{
-        $supportType1 = new SupportType(null,'S1');
-        $supportType2 = new SupportType(null,'S2');
-        $supportType3 = new SupportType(null,'S3');
+        $supportType1 = new SupportType('S1');
+        $supportType2 = new SupportType('S2');
+        $supportType3 = new SupportType('S3');
         self::$supportTypeRepository->insert($supportType1);
         self::$supportTypeRepository->insert($supportType2);
         self::$supportTypeRepository->insert($supportType3);
@@ -90,7 +90,7 @@ final class SupportTypeRepositoryTest extends TestCase
     
     //UPDATE TESTS
     public function testGoodUpdate():void{
-        $supportType = new SupportType(1,'FLOPPY');
+        $supportType = new SupportType('FLOPPY',1);
         
         self::$supportTypeRepository->update($supportType);
         
