@@ -26,7 +26,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
 
     public function setUp():void{
         //PeripheralType inserted to test duplicated os errors
-        $peripheralType = new PeripheralType(null,'Mouse');
+        $peripheralType = new PeripheralType('Mouse');
         self::$peripheralTypeRepository->insert($peripheralType);
     }
 
@@ -37,7 +37,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
 
     //INSERT TESTS
     public function testGoodInsert():void{                
-        $peripheralType = new PeripheralType(null,'Keyboard');
+        $peripheralType = new PeripheralType('Keyboard');
 
         self::$peripheralTypeRepository->insert($peripheralType);
 
@@ -47,7 +47,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
         $this->expectException(RepositoryException::class);
 
         //PeripheralType already inserted in the setUp() method
-        $peripheralType = new PeripheralType(null,'Mouse');
+        $peripheralType = new PeripheralType('Mouse');
 
         self::$peripheralTypeRepository->insert($peripheralType);
     }
@@ -75,9 +75,9 @@ final class PeripheralTypeRepositoryTest extends TestCase
     
     
     public function testGoodSelectAll():void{
-        $peripheralType1 = new PeripheralType(null,'PT1');
-        $peripheralType2 = new PeripheralType(null,'PT2');
-        $peripheralType3 = new PeripheralType(null,'PT3');
+        $peripheralType1 = new PeripheralType('PT1');
+        $peripheralType2 = new PeripheralType('PT2');
+        $peripheralType3 = new PeripheralType('PT3');
         self::$peripheralTypeRepository->insert($peripheralType1);
         self::$peripheralTypeRepository->insert($peripheralType2);
         self::$peripheralTypeRepository->insert($peripheralType3);
@@ -90,7 +90,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
     
     //UPDATE TESTS
     public function testGoodUpdate():void{
-        $peripheralType = new PeripheralType(1,'Keyboard');
+        $peripheralType = new PeripheralType('Keyboard',1);
         
         self::$peripheralTypeRepository->update($peripheralType);
         

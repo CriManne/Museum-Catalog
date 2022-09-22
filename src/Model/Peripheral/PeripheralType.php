@@ -12,8 +12,8 @@ class PeripheralType {
     public ?string $Erased;
 
     public function __construct(
-        ?int $PeripheralTypeID,
         string $Name,
+        ?int $PeripheralTypeID=null,
         ?string $Erased = null
     ) {
         $this->PeripheralTypeID = $PeripheralTypeID;

@@ -41,7 +41,7 @@ final class PeripheralTypeServiceTest extends TestCase
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $peripheralType = new PeripheralType(null,'Mouse');
+        $peripheralType = new PeripheralType('Mouse');
         $this->peripheralTypeService->insert($peripheralType);
     }
 
@@ -70,7 +70,7 @@ final class PeripheralTypeServiceTest extends TestCase
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $peripheralType = new PeripheralType(1,"Keyboard");
+        $peripheralType = new PeripheralType("Keyboard",1);
         
         $this->sth->method('fetch')->willReturn(null);
         $this->peripheralTypeService->update($peripheralType);

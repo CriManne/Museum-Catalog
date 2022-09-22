@@ -32,7 +32,7 @@ final class PeripheralServiceTest extends TestCase
             "1",
             null,
             'Peripheral 1.0',
-            new PeripheralType(1, 'PeripheralType 1')
+            new PeripheralType('PeripheralType 1',1)
         );    
         
         $this->sampleObjectRaw = [
