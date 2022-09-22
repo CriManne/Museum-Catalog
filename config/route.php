@@ -65,7 +65,7 @@ return [
 
     //GET ARTIFACT
     ['GET','/api/artifacts',Controller\Api\Artifact\GetController::class],
-    ['GET','/api/artifacts/search',Controller\Api\Artifact\SearchController::class],
+    ['GET','/api/artifacts/search',Controller\Api\Artifact\SearchArtifactController::class],
 
     //UPDATE ARTIFACT
     ['PUT','/api/artifacts',[Controller\BasicAuthController::class,Controller\Api\Artifact\UpdateController::class]],    

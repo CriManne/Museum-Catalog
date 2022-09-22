@@ -26,7 +26,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class SearchController extends ControllerUtil implements ControllerInterface
+class SearchArtifactComponentController extends ControllerUtil implements ControllerInterface
 {
 
     public GenericObjectService $genericObjectService;
