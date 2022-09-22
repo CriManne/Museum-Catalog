@@ -40,16 +40,12 @@ class AuthorService {
     }
 
     /**
-     * Select author by fullname
-     * @param string $fullname  The fullname of the author
-     * @return Author The author selected
-     * @throws ServiceException If not found
+     * Select author by key
+     * @param string $key  The key to search
+     * @return array The authors selected
      */
-    public function selectByFullName(string $fullname): Author {
-        $author = $this->authorRepository->selectByFullName($fullname);
-        if ($author == null) throw new ServiceException("Author not found");
-
-        return $author;
+    public function selectByKey(string $key): array {
+        return $this->authorRepository->selectByKey($key);
     }
 
     /**

@@ -58,6 +58,15 @@ class OsService {
     }
 
     /**
+     * Select os by key
+     * @param string $key The key to search
+     * @return array The oss selected
+     */
+    public function selectByKey(string $key): array {
+        return $this->osRepository->selectByKey($key);
+    }
+
+    /**
      * Update a os
      * @param Os $os The os to update
      * @return Os The os updated

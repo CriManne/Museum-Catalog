@@ -58,6 +58,15 @@ class PeripheralTypeService {
     }
 
     /**
+     * Select by key
+     * @param string $key The key to search
+     * @return array The objects selected
+     */
+    public function selectByKey(string $key): array {
+        return $this->peripheralTypeRepository->selectByKey($key);        
+    }
+
+    /**
      * Update peripheral type
      * @param PeripheralType $pt The object to update
      * @return PeripheralType The object updated

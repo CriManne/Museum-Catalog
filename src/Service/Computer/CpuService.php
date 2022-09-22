@@ -58,6 +58,15 @@ class CpuService {
     }
 
     /**
+     * Select cpu by key
+     * @param string $key The key to search
+     * @return array The cpus selected 
+     */
+    public function selectByKey(string $key): array {
+        return $this->cpuRepository->selectByKey($key);        
+    }
+
+    /**
      * Update a cpu
      * @param Cpu $c The cpu to update
      * @return Cpu The cpu updated

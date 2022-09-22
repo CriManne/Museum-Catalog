@@ -58,6 +58,15 @@ class SupportTypeService {
     }
 
     /**
+     * Select by key
+     * @param string $key The key to search
+     * @return array The SupportTypes selected
+     */
+    public function selectByKey(string $key): array {
+        return $this->supportTypeRepository->selectByKey($key);
+    }
+
+    /**
      * Update SupportType
      * @param SupportType $s The SupportType to update
      * @return SupportType The SupportType updated

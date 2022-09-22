@@ -58,6 +58,15 @@ class RamService {
     }
 
     /**
+     * Select ram by key
+     * @param string $key The key to search
+     * @return array The Rams selected
+     */
+    public function selectByKey(string $key): array {
+        return $this->ramRepository->selectByKey($key);
+    }
+
+    /**
      * Update a ram
      * @param Ram $r The ram to update
      * @return Ram The ram updated

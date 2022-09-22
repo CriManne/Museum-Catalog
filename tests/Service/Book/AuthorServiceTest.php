@@ -53,13 +53,6 @@ final class AuthorServiceTest extends TestCase
         $this->authorService->selectById(2);
     }
     
-    public function testBadSelectByKey(): void
-    {
-        $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
-        $this->authorService->selectByKey("WRONG NAME");
-    }
-    
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);

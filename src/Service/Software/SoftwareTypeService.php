@@ -58,6 +58,15 @@ class SoftwareTypeService {
     }
 
     /**
+     * Select by key
+     * @param string $key The key to search
+     * @return array The SoftwareTypes selected
+     */
+    public function selectByKey(string $key): array {
+        return $this->softwareTypeRepository->selectByKey($key);        
+    }
+
+    /**
      * Update SoftwareType
      * @param SoftwareType $s The SoftwareType to update
      * @return SoftwareType The SoftwareType updated
