@@ -86,6 +86,29 @@ class RamRepository extends GenericRepository {
     }
 
     /**
+     * Select ram by key
+     * @param string $key     The key to search
+     * @param ?bool $showErased
+     * @return array     The rams selected
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM ram WHERE ModelName LIKE :key OR Size LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+        $arr_ram = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_ram;
+    }
+
+    /**
      * Select all rams
      * @param ?bool $showErased
      * @return ?array   The rams selected, null if no result

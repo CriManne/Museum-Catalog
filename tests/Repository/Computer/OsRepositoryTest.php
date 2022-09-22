@@ -74,6 +74,16 @@ final class OsRepositoryTest extends TestCase
     {
         $this->assertNull(self::$osRepository->selectByName("WRONG-OS-NAME"));
     }
+
+    public function testGoodSelectByKey(): void
+    {
+        $this->assertNotEmpty(self::$osRepository->selectByKey("indow"));
+    }
+    
+    public function testBadSelectByKey(): void
+    {
+        $this->assertEmpty(self::$osRepository->selectByKey("WRONG-OS-NAME"));
+    }
     
     
     public function testGoodSelectAll():void{

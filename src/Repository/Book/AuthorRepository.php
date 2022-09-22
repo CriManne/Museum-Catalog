@@ -63,26 +63,28 @@ class AuthorRepository extends GenericRepository {
     }
 
     /**
-     * Select by fullname
-     * @param string $fullname  The author fullname
+     * Select by key
+     * @param string $key  The key to search
      * @param ?bool $showErased If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
-     * @return ?Author  The selected Author, null if not found
+     * @return array  The selected Authors
      */
-    public function selectByFullName(string $fullname, ?bool $showErased = false): ?Author {
-        $query = "SELECT * FROM author WHERE Concat(firstname,' ',lastname) = :fullname OR Concat(lastname,' ',firstname) = :fullname";
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM author WHERE 
+        Concat(firstname,' ',lastname) LIKE :key OR 
+        Concat(lastname,' ',firstname) = :key";
 
         if (isset($showErased)) {
             $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
         }
 
+        $key = '%'.$key.'%';
+
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("fullname", $fullname, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
         $stmt->execute();
-        $author = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($author) {
-            return ORM::getNewInstance(Author::class, $author);
-        }
-        return null;
+        $arr_aut = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_aut;
     }
 
     /**

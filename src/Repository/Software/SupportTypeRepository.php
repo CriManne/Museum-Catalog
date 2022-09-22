@@ -86,6 +86,29 @@ class SupportTypeRepository extends GenericRepository {
     }
 
     /**
+     * Select by key
+     * @param string $key  The key to search
+     * @param ?bool $showErased
+     * @return array The support types selected
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM supporttype WHERE Name LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+        $supports = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $supports;
+    }
+
+    /**
      * Select all
      * @param ?bool $showErased
      * @return ?array   The support types selected, null if no results;

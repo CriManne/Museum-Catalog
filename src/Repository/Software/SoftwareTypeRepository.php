@@ -85,6 +85,29 @@ class SoftwareTypeRepository extends GenericRepository {
     }
 
     /**
+     * Select by key
+     * @param string $key  The key to search
+     * @param ?bool $showErased
+     * @return array The software types selected
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM softwaretype WHERE Name LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+        $arr_software = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_software;
+    }
+
+    /**
      * Select all
      * @param ?bool $showErased 
      * @return ?array   The software types selected, null if no result

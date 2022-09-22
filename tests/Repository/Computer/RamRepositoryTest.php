@@ -68,6 +68,16 @@ final class RamRepositoryTest extends TestCase
     {
         $this->assertNull(self::$ramRepository->selectByName("WRONG-RAM-NAME"));
     }
+
+    public function testGoodSelectByKey(): void
+    {
+        $this->assertNotEmpty(self::$ramRepository->selectByKey("256"));
+    }
+    
+    public function testBadSelectByKey(): void
+    {
+        $this->assertEmpty(self::$ramRepository->selectByKey("WRONG-RAM-NAME"));
+    }
     
     
     public function testGoodSelectAll():void{

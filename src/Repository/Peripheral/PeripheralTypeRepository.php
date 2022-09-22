@@ -86,6 +86,29 @@ class PeripheralTypeRepository extends GenericRepository {
     }
 
     /**
+     * Select p.type by key
+     * @param string $key The key to search
+     * @param ?bool $showErased
+     * @return array  The p.types selected
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM peripheraltype WHERE Name LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+        $arr_pt = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_pt;
+    }
+
+    /**
      * Select all p.type
      * @param ?bool $showErased
      * @return ?array   All the p.types, null if no result
@@ -99,9 +122,9 @@ class PeripheralTypeRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_os = $stmt->fetchAll(PDO::FETCH_CLASS);
+        $arr_pt = $stmt->fetchAll(PDO::FETCH_CLASS);
 
-        return $arr_os;
+        return $arr_pt;
     }
 
     /**

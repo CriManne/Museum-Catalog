@@ -85,6 +85,29 @@ class OsRepository extends GenericRepository {
     }
 
     /**
+     * Select os by key
+     * @param string $key  The key to search
+     * @param ?bool $showErased 
+     * @return array  The selected oss
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM os WHERE Name LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+        $arr_os = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_os;
+    }
+
+    /**
      * Select all os
      * @param ?bool $showErased
      * @return ?array   The list of os, null if no result

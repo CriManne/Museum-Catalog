@@ -85,6 +85,30 @@ class PublisherRepository extends GenericRepository {
     }
 
     /**
+     * Select publisher by key
+     * @param string $Key  The key to search
+     * @param ?bool $showErased
+     * @return array   The publishers selected
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM publisher WHERE Name LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%' . $key . '%';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+
+        $arr_pub = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_pub;
+    }
+
+    /**
      * Select all publishers
      * @param ?bool $showErased
      * @return ?array   The selected publishers, null if no result

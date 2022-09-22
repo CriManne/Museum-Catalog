@@ -73,6 +73,15 @@ final class SupportTypeRepositoryTest extends TestCase
         $this->assertNull(self::$supportTypeRepository->selectByName("WRONG-SUPPORT"));
     }
     
+    public function testGoodSelectByKey(): void
+    {
+        $this->assertNotEmpty(self::$supportTypeRepository->selectByKey("rom"));
+    }
+    
+    public function testBadSelectByKey(): void
+    {
+        $this->assertEmpty(self::$supportTypeRepository->selectByKey("WRONG-SUPPORT"));
+    }
     
     public function testGoodSelectAll():void{
         $supportType1 = new SupportType('S1');

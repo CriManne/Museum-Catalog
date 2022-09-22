@@ -86,6 +86,29 @@ class CpuRepository extends GenericRepository {
     }
 
     /**
+     * Select cpu by key
+     * @param string $key     The key to search
+     * @param ?bool $showErased
+     * @return array     The cpus selected
+     */
+    public function selectByKey(string $key, ?bool $showErased = false): array {
+        $query = "SELECT * FROM cpu WHERE ModelName LIKE :key OR Speed LIKE :key";
+
+        if (isset($showErased)) {
+            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
+        }
+
+        $key = '%'.$key.'%';
+
+        $stmt = $this->pdo->prepare($query);
+        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->execute();
+        $arr_cpu = $stmt->fetchAll(PDO::FETCH_CLASS);
+
+        return $arr_cpu;
+    }
+
+    /**
      * Select all cpus
      * @param ?bool $showErased
      * @return ?array   The cpus selected, null if no result

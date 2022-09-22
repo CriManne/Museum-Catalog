@@ -52,7 +52,7 @@ final class PublisherServiceTest extends TestCase
         $this->publisherService->selectById(2);
     }
     
-    public function testBadSelectByFullName(): void
+    public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
