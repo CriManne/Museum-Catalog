@@ -24,7 +24,8 @@ class ComputerService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Computer $c): Computer {
-        if ($this->computerRepository->selectByModelName($c->ModelName) != null)
+        $computer = $this->computerRepository->selectByModelName($c->ModelName);
+        if ($computer)
             throw new ServiceException("Computer already used!");
 
         return $this->computerRepository->insert($c);

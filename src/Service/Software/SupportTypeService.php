@@ -24,7 +24,8 @@ class SupportTypeService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(SupportType $s): void {
-        if ($this->supportTypeRepository->selectByName($s->Name) != null)
+        $sType = $this->supportTypeRepository->selectByName($s->Name);
+        if ($sType)
             throw new ServiceException("Support Type name already used!");
 
         $this->supportTypeRepository->insert($s);

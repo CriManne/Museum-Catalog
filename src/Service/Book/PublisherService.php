@@ -24,8 +24,8 @@ class PublisherService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Publisher $p): Publisher {
-        $publisher = $this->publisherRepository->selectById($p->PublisherID);
-        if ($publisher->Name == $p->Name)
+        $publisher = $this->publisherRepository->selectByName($p->Name);
+        if ($publisher)
             throw new ServiceException("Publisher name already used!");
 
         return $this->publisherRepository->insert($p);

@@ -24,8 +24,8 @@ class RamService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Ram $r): Ram {
-        $ram = $this->ramRepository->selectById($r->RamID);
-        if ($ram->ModelName == $r->ModelName && $ram->Size == $r->Size)
+        $ram = $this->ramRepository->selectByName($r->ModelName);
+        if ($ram && $ram->Size == $r->Size)
             throw new ServiceException("Ram name and size already used!");
 
         return $this->ramRepository->insert($r);

@@ -24,7 +24,8 @@ class PeripheralTypeService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(PeripheralType $pt): PeripheralType {
-        if ($this->peripheralTypeRepository->selectByName($pt->Name) != null)
+        $pType = $this->peripheralTypeRepository->selectByName($pt->Name);
+        if ($pType)
             throw new ServiceException("PeripheralType name already used!");
 
         return $this->peripheralTypeRepository->insert($pt);

@@ -24,7 +24,8 @@ class OsService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Os $os): Os {
-        if ($this->osRepository->selectByName($os->Name) != null)
+        $osFetch = $this->osRepository->selectByName($os->Name);
+        if ($osFetch)
             throw new ServiceException("Os name already used!");
 
         return $this->osRepository->insert($os);

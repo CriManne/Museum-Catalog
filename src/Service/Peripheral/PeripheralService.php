@@ -24,7 +24,8 @@ class PeripheralService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Peripheral $p): Peripheral {
-        if ($this->peripheralRepository->selectByModelName($p->ModelName) != null)
+        $peripheral = $this->peripheralRepository->selectByModelName($p->ModelName);
+        if ($peripheral)
             throw new ServiceException("Peripheral already used!");
 
         return $this->peripheralRepository->insert($p);

@@ -24,8 +24,8 @@ class CpuService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Cpu $c): Cpu {
-        $cpu = $this->cpuRepository->selectById($c->CpuID);
-        if ($cpu->ModelName == $c->ModelName && $cpu->Speed == $c->Speed)
+        $cpu = $this->cpuRepository->selectByName($c->ModelName);
+        if ($cpu && $cpu->Speed == $c->Speed)
             throw new ServiceException("Cpu name and speed already used!");
 
         return $this->cpuRepository->insert($c);

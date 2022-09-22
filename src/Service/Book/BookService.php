@@ -24,7 +24,8 @@ class BookService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Book $b): Book {
-        if ($this->bookRepository->selectByTitle($b->Title) != null)
+        $book = $this->bookRepository->selectByTitle($b->Title);
+        if ($book)
             throw new ServiceException("Book already used!");
 
         return $this->bookRepository->insert($b);

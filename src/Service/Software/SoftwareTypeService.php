@@ -24,7 +24,8 @@ class SoftwareTypeService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(SoftwareType $s): SoftwareType {
-        if ($this->softwareTypeRepository->selectByName($s->Name) != null)
+        $sType = $this->softwareTypeRepository->selectByName($s->Name);
+        if ($sType)
             throw new ServiceException("Software Type name already used!");
 
         return $this->softwareTypeRepository->insert($s);
