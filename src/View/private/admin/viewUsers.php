@@ -9,6 +9,7 @@
 }
 </style>
 <h3>Visualizza utenti</h3>
+<div id="alert-container"></div>
 <input type="text" class="form-control" placeholder="Search user" aria-label="User's search" id="user-search" required>
 
 <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="result-container">

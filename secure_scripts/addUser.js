@@ -1,4 +1,4 @@
-let urlUsers = "api/private/user";
+var urlUsers = "api/private/user";
 
 $(document).ready(function() {
 

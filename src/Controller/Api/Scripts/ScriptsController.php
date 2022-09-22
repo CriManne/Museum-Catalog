@@ -34,7 +34,7 @@ class ScriptsController extends ControllerUtil implements ControllerInterface {
             );    
         }
 
-        $filename = "scripts/".$params["filename"];
+        $filename = "secure_scripts/".$params["filename"];
 
         if(!file_exists($filename)){
             return new Response(
