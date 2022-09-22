@@ -79,8 +79,21 @@ class PostController extends ControllerUtil implements ControllerInterface {
 
                 unset($params["category"]);
                 $rawObject = $params;
-                
-                $instantiatedObject = ORM::getNewInstance($classPath,$rawObject);
+
+                $instantiatedObject = null;
+                if (in_array($category, $categories)) {
+                    //Repository full path
+                    $repoPath = "App\\Repository\\$singleCategory\\$category" . "Repository";
+
+                    /**
+                     * Get service class, throws an exception if not found
+                     */
+                    $this->artifactRepo = $this->container->get($repoPath);
+
+                    $instantiatedObject = $this->artifactRepo->returnMappedObject($rawObject);
+                } else {
+                    $instantiatedObject = ORM::getNewInstance($classPath, $rawObject);
+                }
 
                 $this->artifactService->insert($instantiatedObject);
 
@@ -91,12 +104,11 @@ class PostController extends ControllerUtil implements ControllerInterface {
                 );
             } catch (ServiceException $e) {
                 return new Response(
-                    404,
+                    400,
                     [],
-                    $this->getResponse($e->getMessage(), 404)
+                    $this->getResponse($e->getMessage(), 400)
                 );
-            } catch (Exception $e) {
-                var_dump($e->getMessage());
+            } catch (Exception) {
             }
         }
 
