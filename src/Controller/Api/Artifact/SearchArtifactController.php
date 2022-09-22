@@ -50,6 +50,11 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
 
             $keywords = explode(" ", $query);
 
+            if($category){
+                $category = ucwords($category);
+            }
+
+
             $result = $this->genericObjectService->selectByQuery(array_shift($keywords), $category);
 
             if (count($keywords) > 0) {

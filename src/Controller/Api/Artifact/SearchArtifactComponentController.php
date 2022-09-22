@@ -60,6 +60,15 @@ class SearchArtifactComponentController extends ControllerUtil implements Contro
 
         $categories = CategoriesController::$categories;
 
+        //If the category is in the main category list then redirect to the artifact search engine
+        if(in_array($category,$categories)){
+            return new Response(
+                300,
+                ["Location"=>"/api/artifacts/search?category=$category&q=$query"],
+                null
+            );
+        }
+
         foreach ($categories as $singleCategory) {
             try {
                 //Service full path
@@ -99,7 +108,7 @@ class SearchArtifactComponentController extends ControllerUtil implements Contro
                     return new Response(
                         404,
                         [],
-                        $this->getResponse("No object found", 404)
+                        $this->getResponse("No $category found", 404)
                     );
                 }
 
