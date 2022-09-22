@@ -9,8 +9,9 @@
  */
 
 declare(strict_types=1);
-namespace App\Controller\Api;
+namespace App\Controller\Api\Scripts;
 
+use App\Controller\ControllerUtil;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -19,22 +20,34 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class CategoriesController implements ControllerInterface {    
-
-    public static array $categories = [
-        'Computer',
-        'Peripheral',
-        'Book',
-        'Magazine',
-        'Software'            
-    ];
+class ScriptsController extends ControllerUtil implements ControllerInterface {    
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
                 
+        $params = $request->getQueryParams();
+
+        if(!isset($params["filename"])){
+            return new Response(
+                400,
+                [],
+                $this->getResponse("Bad request!",400)
+            );    
+        }
+
+        $filename = "scripts/".$params["filename"];
+
+        if(!file_exists($filename)){
+            return new Response(
+                404,
+                [],
+                $this->getResponse("File not found!",404)
+            ); 
+        }
+
         return new Response(
             200,
             [],
-            json_encode(self::$categories)
+            file_get_contents($filename)
         );
     }
 }

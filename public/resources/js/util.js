@@ -1,6 +1,3 @@
-//URL to fetch users
-var urlUsers = "api/private/user";
-
 //Create alert
 function createAlert(response, container = "#alert-container") {
     $(container).prepend(

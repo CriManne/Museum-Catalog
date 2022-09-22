@@ -1,3 +1,5 @@
+let urlUsers = "api/private/user";
+
 $(document).ready(function() {
 
     $("#add-user-form").on('submit', function(e) {

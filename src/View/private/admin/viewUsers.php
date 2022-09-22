@@ -35,7 +35,3 @@
         <option value="25">25</option>
     </select>
 </div>
-<?php $this->push('scripts') ?>
-asdkjash
-<script src="resources/js/viewUsers.js"></script>
-<?php $this->end() ?>

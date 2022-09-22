@@ -75,4 +75,7 @@ return [
     ['DELETE','/api/artifacts',Controller\Api\Artifact\DeleteController::class],    
 
 
+    ['GET','/api/scripts',[Controller\BasicAuthController::class,Controller\Api\Scripts\ScriptsController::class]]
+
+
 ];

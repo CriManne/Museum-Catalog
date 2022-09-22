@@ -48,6 +48,6 @@ if ($this->e($user->Privilege) === "1") {
 
 <?php $this->push('scripts') ?>
 <script src="/resources/js/util.js"></script>
-<script src="/resources/js/addUser.js"></script>
-<script src="resources/js/viewUsers.js"></script>
+<script src="/api/scripts?filename=addUsser.js"></script>
+<script src="/api/scripts?filename=viewUsers.js"></script>
 <?php $this->end() ?>

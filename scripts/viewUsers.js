@@ -1,17 +1,20 @@
 //Limit of records per page
-var limitPerPage = 5;
+let limitPerPage = 5;
 
 //Current page index
-var currentPage = 0;
+let currentPage = 0;
 
 //Amount of pages displayable
-var pages = 0;
+let pages = 0;
 
 //All the users fetched, since there will be not many users the app will fetch all the users in the db and it will store them locally
-var users = [];
+let users = [];
 
 //The filtered users which is a subset of the users array
-var filteredUsers = [];
+let filteredUsers = [];
+
+//URL to fetch users
+let urlUsers = "api/private/user";
 
 
 $(document).ready(function() {
@@ -29,7 +32,7 @@ $(document).ready(function() {
 
     //When the user type in the search bar
     $("#user-search").unbind().on('input copy paste cut', function() {
-        var key = this.value.toLowerCase();
+        let key = this.value.toLowerCase();
         //Create the subset array filtered by the key
         filteredUsers = users.filter(function(elem) {
             if (elem.firstname.toLowerCase().includes(key) ||
@@ -91,7 +94,7 @@ function loadPage() {
     }
 
     //Calculate the offset of the subset for pagination
-    var offset = currentPage * limitPerPage;
+    let offset = currentPage * limitPerPage;
 
     //Fill the table with the data
     fillTable(filteredUsers.slice(offset, offset + limitPerPage));
@@ -122,7 +125,7 @@ function createPaginationButtons() {
     }
 
     //Create all the pagination links
-    for (var i = currentPage - 1; i <= currentPage + 1; i++) {
+    for (let i = currentPage - 1; i <= currentPage + 1; i++) {
         if (i < 0 || i >= pages) {
             continue;
         }
@@ -171,10 +174,10 @@ function fillTable(data) {
 
     data.forEach(function(elem) {
 
-        var email = elem.Email;
-        var firstname = elem.firstname;
-        var lastname = elem.lastname;
-        var privilege = elem.Privilege;
+        let email = elem.Email;
+        let firstname = elem.firstname;
+        let lastname = elem.lastname;
+        let privilege = elem.Privilege;
 
         $("#table-result").append(
             '<tr><th scope="row">' + email +
@@ -191,9 +194,9 @@ function fillTable(data) {
 
     //Delete user button handler
     $(".delete-user").unbind().on('click', function() {
-        var email = $(this).data("id");
+        let email = $(this).data("id");
         if (confirm("Sei sicuro di voler eliminare l'utente {" + email + "}?")) {
-            var response = makeRequest(urlUsers + "?id=" + email, 'DELETE');
+            let response = makeRequest(urlUsers + "?id=" + email, 'DELETE');
             createAlert(response);
             initializePage();
         }
