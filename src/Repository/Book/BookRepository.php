@@ -274,14 +274,13 @@ class BookRepository extends GenericRepository {
             $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID));
         }
 
-
         return new Book(
             $rawBook["ObjectID"],
-            $rawBook["Note"],
-            $rawBook["Url"],
-            $rawBook["Tag"],
+            $rawBook["Note"] ?? null,
+            $rawBook["Url"] ?? null,
+            $rawBook["Tag"] ?? null,
             strval($rawBook["Active"]),
-            $rawBook["Erased"],
+            $rawBook["Erased"] ?? null,
             $rawBook["Title"],
             $this->publisherRepository->selectById(intval($rawBook["PublisherID"])),
             intval($rawBook["Year"]),

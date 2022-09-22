@@ -247,11 +247,11 @@ class PeripheralRepository extends GenericRepository {
     function returnMappedObject(array $rawPeripheral): Peripheral {
         return new Peripheral(
             $rawPeripheral["ObjectID"],
-            $rawPeripheral["Note"],
-            $rawPeripheral["Url"],
-            $rawPeripheral["Tag"],
+            $rawPeripheral["Note"] ?? null,
+            $rawPeripheral["Url"] ?? null,
+            $rawPeripheral["Tag"] ?? null,
             strval($rawPeripheral["Active"]),
-            $rawPeripheral["Erased"],
+            $rawPeripheral["Erased"] ?? null,
             $rawPeripheral["ModelName"],
             $this->peripheralTypeRepository->selectById(intval($rawPeripheral["PeripheralTypeID"]))
         );

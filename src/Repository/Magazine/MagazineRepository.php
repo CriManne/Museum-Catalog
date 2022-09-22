@@ -255,11 +255,11 @@ class MagazineRepository extends GenericRepository {
     function returnMappedObject(array $rawMagazine): Magazine {
         return new Magazine(
             $rawMagazine["ObjectID"],
-            $rawMagazine["Note"],
-            $rawMagazine["Url"],
-            $rawMagazine["Tag"],
+            $rawMagazine["Note"] ?? null,
+            $rawMagazine["Url"] ?? null,
+            $rawMagazine["Tag"] ?? null,
             strval($rawMagazine["Active"]),
-            $rawMagazine["Erased"],
+            $rawMagazine["Erased"] ?? null,
             $rawMagazine["Title"],
             intval($rawMagazine["Year"]),
             intval($rawMagazine["MagazineNumber"]),

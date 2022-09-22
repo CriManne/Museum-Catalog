@@ -260,11 +260,11 @@ class SoftwareRepository extends GenericRepository {
     function returnMappedObject(array $rawsoftware): Software {
         return new Software(
             $rawsoftware["ObjectID"],
-            $rawsoftware["Note"],
-            $rawsoftware["Url"],
-            $rawsoftware["Tag"],
+            $rawsoftware["Note"] ?? null,
+            $rawsoftware["Url"] ?? null,
+            $rawsoftware["Tag"] ?? null,
             strval($rawsoftware["Active"]),
-            $rawsoftware["Erased"],
+            $rawsoftware["Erased"] ?? null,
             $rawsoftware["Title"],
             $this->OsRepository->selectById(intval($rawsoftware["OsID"])),
             $this->softwareTypeRepository->selectById(intval($rawsoftware["SoftwareTypeID"])),

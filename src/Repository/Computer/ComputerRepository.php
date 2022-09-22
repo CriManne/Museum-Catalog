@@ -273,11 +273,11 @@ class ComputerRepository extends GenericRepository {
     function returnMappedObject(array $rawComputer): Computer {
         return new Computer(
             $rawComputer["ObjectID"],
-            $rawComputer["Note"],
-            $rawComputer["Url"],
-            $rawComputer["Tag"],
+            $rawComputer["Note"] ?? null,
+            $rawComputer["Url"] ?? null,
+            $rawComputer["Tag"] ?? null,
             strval($rawComputer["Active"]),
-            $rawComputer["Erased"],
+            $rawComputer["Erased"] ?? null,
             $rawComputer["ModelName"],
             intval($rawComputer["Year"]),
             $rawComputer["HddSize"],
