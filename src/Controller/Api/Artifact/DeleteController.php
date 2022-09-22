@@ -36,11 +36,9 @@ use TypeError;
 
 class DeleteController extends ControllerUtil implements ControllerInterface {
 
-    protected PDO $pdo;
     protected Container $container;
 
-    public function __construct(PDO $pdo, ContainerBuilder $builder) {
-        $this->pdo = $pdo;
+    public function __construct(ContainerBuilder $builder) {
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
     }
