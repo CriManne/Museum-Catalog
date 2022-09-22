@@ -41,7 +41,7 @@ final class OsServiceTest extends TestCase
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $os = new Os(null,'Windows');
+        $os = new Os('Windows');
         $this->osService->insert($os);
     }
 
@@ -70,7 +70,7 @@ final class OsServiceTest extends TestCase
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $os = new Os(1,"Linux");
+        $os = new Os("Linux",1);
         
         $this->sth->method('fetch')->willReturn(null);
         $this->osService->update($os);

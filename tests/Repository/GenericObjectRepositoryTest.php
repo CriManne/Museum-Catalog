@@ -95,9 +95,9 @@ final class GenericObjectRepositoryTest extends TestCase {
             self::$magazineRepository            
         );         
 
-        $cpu = new Cpu(1, "I7", "4GHZ");
-        $ram = new Ram(1, "Ram 1", "64GB");
-        $os = new Os(1, "Windows 10");
+        $cpu = new Cpu("I7", "4GHZ",1);
+        $ram = new Ram("Ram 1", "64GB",1);
+        $os = new Os("Windows 10",1);
         $publisher = new Publisher("Einaudi",1);
 
         self::$cpuRepository->insert($cpu);

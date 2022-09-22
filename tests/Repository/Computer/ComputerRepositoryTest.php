@@ -49,19 +49,16 @@ final class ComputerRepositoryTest extends TestCase
             self::$osRepository
         );        
         
-        self::$sampleOs = new Os(
-            null,
+        self::$sampleOs = new Os(            
             "Windows"
         );
 
         self::$sampleCpu = new Cpu(
-            null,
             'Cpu 1.0',
             "2GHZ"
         );              
 
         self::$sampleRam = new Ram(
-            null,
             "RAM 1.0",
             "4GB"
         );

@@ -42,7 +42,7 @@ final class CpuServiceTest extends TestCase
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $cpu = new Cpu(1,'Cpu 1.0','4GHZ');
+        $cpu = new Cpu('Cpu 1.0','4GHZ',1);
         $this->cpuService->insert($cpu);
     }
 
@@ -71,7 +71,7 @@ final class CpuServiceTest extends TestCase
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $cpu = new Cpu(1,"Cpu 2.5","4GHZ");
+        $cpu = new Cpu("Cpu 2.5","4GHZ",1);
         
         $this->sth->method('fetch')->willReturn(null);
         $this->cpuService->update($cpu);

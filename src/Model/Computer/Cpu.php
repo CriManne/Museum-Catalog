@@ -12,9 +12,9 @@ class Cpu {
     public ?string $Erased;
 
     public function __construct(
-        ?int $CpuID,
         string $ModelName,
         string $Speed,
+        ?int $CpuID=null,
         ?string $Erased = null
     ) {
         $this->CpuID = $CpuID;

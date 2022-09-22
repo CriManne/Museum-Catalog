@@ -42,7 +42,7 @@ final class RamServiceTest extends TestCase
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $ram = new Ram(1,'Ram 1.0','512KB');
+        $ram = new Ram('Ram 1.0','512KB',1);
         $this->ramService->insert($ram);
     }
 
@@ -71,7 +71,7 @@ final class RamServiceTest extends TestCase
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
-        $ram = new Ram(1,"Ram 2.5","512KB");
+        $ram = new Ram("Ram 2.5","512KB",1);
         
         $this->sth->method('fetch')->willReturn(null);
         $this->ramService->update($ram);

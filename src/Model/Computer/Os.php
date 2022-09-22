@@ -10,8 +10,8 @@ class Os {
     public ?string $Erased;
 
     public function __construct(
-        ?int $OsID,
         string $Name,
+        ?int $OsID=null,
         ?string $Erased = null
     ) {
         $this->OsID = $OsID;

@@ -11,9 +11,9 @@ class Ram {
     public ?string $Erased;
 
     public function __construct(
-        ?int $RamID,
         string $ModelName,
         string $Size,
+        ?int $RamID=null,
         ?string $Erased = null
     ) {
         $this->RamID = $RamID;

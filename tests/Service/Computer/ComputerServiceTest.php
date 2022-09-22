@@ -36,9 +36,9 @@ final class ComputerServiceTest extends TestCase
             'Computer 1',
             2005,
             "1TB",            
-            new Cpu(1, 'Cpu 1.0','2GHZ'),
-            new Ram(1, 'Ram 1.0','64GB'),
-            new Os(1, 'Windows'),
+            new Cpu('Cpu 1.0','2GHZ',1),
+            new Ram('Ram 1.0','64GB',1),
+            new Os('Windows',1),
         );    
         
         $this->sampleObjectRaw = [
