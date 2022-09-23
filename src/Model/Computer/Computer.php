@@ -20,8 +20,6 @@ class Computer extends GenericObject {
         string $Note = null,
         string $Url = null,
         string $Tag = null,
-        string $Active,
-        string $Erased = null,
         string $ModelName,
         int $Year,
         ?string $HddSize,
@@ -29,7 +27,7 @@ class Computer extends GenericObject {
         Ram $Ram,
         ?Os $Os
     ) {
-        parent::__construct($ObjectID, $Note, $Url, $Tag, $Active, $Erased);
+        parent::__construct($ObjectID, $Note, $Url, $Tag);
         $this->ModelName = $ModelName;
         $this->Year = $Year;
         $this->Cpu = $Cpu;

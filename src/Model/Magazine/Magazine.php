@@ -19,14 +19,12 @@ class Magazine extends GenericObject {
         string $Note = null,
         string $Url = null,
         string $Tag = null,
-        string $Active,
-        string $Erased = null,
         string $Title,
         int $Year,
         int $MagazineNumber,
         Publisher $Publisher
     ) {
-        parent::__construct($ObjectID, $Note, $Url, $Tag, $Active, $Erased);
+        parent::__construct($ObjectID, $Note, $Url, $Tag);
         $this->Title = $Title;
         $this->Publisher = $Publisher;
         $this->Year = $Year;

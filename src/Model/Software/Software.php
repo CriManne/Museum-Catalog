@@ -19,14 +19,12 @@ class Software extends GenericObject {
         string $Note = null,
         string $Url = null,
         string $Tag = null,
-        string $Active,
-        string $Erased = null,
         string $Title,
         Os $Os,
         SoftwareType $SoftwareType,
         SupportType $SupportType
     ) {
-        parent::__construct($ObjectID, $Note, $Url, $Tag, $Active, $Erased);
+        parent::__construct($ObjectID, $Note, $Url, $Tag);
         $this->Title = $Title;
         $this->Os = $Os;
         $this->SoftwareType = $SoftwareType;

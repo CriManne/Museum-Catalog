@@ -21,8 +21,6 @@ class Book extends GenericObject {
         string $Note = null,
         string $Url = null,
         string $Tag = null,
-        string $Active,
-        string $Erased = null,
         string $Title,
         Publisher $Publisher,
         int $Year,
@@ -30,7 +28,7 @@ class Book extends GenericObject {
         int $Pages,
         array $Authors
     ) {
-        parent::__construct($ObjectID, $Note, $Url, $Tag, $Active, $Erased);
+        parent::__construct($ObjectID, $Note, $Url, $Tag);
         $this->Title = $Title;
         $this->Publisher = $Publisher;
         $this->Year = $Year;

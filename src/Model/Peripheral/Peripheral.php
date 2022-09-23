@@ -16,12 +16,10 @@ class Peripheral extends GenericObject {
         string $Note = null,
         string $Url = null,
         string $Tag = null,
-        string $Active,
-        string $Erased = null,
         string $ModelName,
         PeripheralType $PeripheralType
     ) {
-        parent::__construct($ObjectID, $Note, $Url, $Tag, $Active, $Erased);
+        parent::__construct($ObjectID, $Note, $Url, $Tag);
         $this->ModelName = $ModelName;
         $this->PeripheralType = $PeripheralType;
     }
