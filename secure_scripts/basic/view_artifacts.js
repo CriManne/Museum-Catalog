@@ -1,3 +1,9 @@
+$(document).ready(function() {
+    
+    $("#loading-container").remove();
+    $("#main-container").removeClass("d-none");
+});
+
 function loadHeader() {
 
     $("#tb-container").append(

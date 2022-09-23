@@ -35,21 +35,21 @@ $this->layout('layouts::layout', ['title' => 'Login'])
           if ($this->e($user->Privilege) === "1") {
           ?>
             <div class="sb-sidenav-menu-heading">Gestione utenti</div>
-            <div class="nav-link" role="button" id="viewUsers">
+            <div class="nav-link" role="button" id="view_users">
               <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
               Visualizza utenti
             </div>
-            <div class="nav-link" role="button" id="addUser">
+            <div class="nav-link" role="button" id="add_user">
               <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
               Aggiungi utente
             </div>
           <?php } ?>
           <div class="sb-sidenav-menu-heading">Gestione reperti</div>
-          <div class="nav-link" role="button" id="viewArtifacts">
+          <div class="nav-link" role="button" id="view_artifacts">
             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
             Visualizza reperti
           </div>
-          <div class="nav-link" role="button">
+          <div class="nav-link" role="button" id="add_artifact">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
             Aggiungi reperto
           </div>
@@ -61,14 +61,14 @@ $this->layout('layouts::layout', ['title' => 'Login'])
     <main>
       <div class="container-fluid px-4" id="left-container">
         <h1 class="mt-4">Dashboard<?= " di " . $this->e($user->firstname) . "!"; ?></h1>
-        <?php if ($this->e($user->Privilege) === "1" && isset($_GET['viewUsers'])) {
-          $this->insert('p_admin::viewUsers');
-        } else if ($this->e($user->Privilege) === "1" && isset($_GET['addUser'])) {
-          $this->insert('p_admin::addUser');
-        } else if (isset($_GET['viewArtifacts'])) {
-          $this->insert('p_artifact::viewArtifacts');
-        } else if (isset($_GET['addArtifacts'])) {
-          $this->insert('p_artifact::addArtifacts');
+        <?php if ($this->e($user->Privilege) === "1" && isset($_GET['view_users'])) {
+          $this->insert('p_admin::view_users');
+        } else if ($this->e($user->Privilege) === "1" && isset($_GET['add_user'])) {
+          $this->insert('p_admin::add_user');
+        } else if (isset($_GET['view_artifacts'])) {
+          $this->insert('p_artifact::view_artifacts');
+        } else if (isset($_GET['add_artifact'])) {
+          $this->insert('p_artifact::add_artifacts');
         } else {
           echo "<div class='w-100 text-lg-center'><h3>Seleziona una voce dal menu!</h3></div>";
         }
@@ -83,12 +83,12 @@ $this->layout('layouts::layout', ['title' => 'Login'])
 <?php $this->push('scripts') ?>
 <script src="/resources/js/util.js"></script>
 <script src="/api/scripts?filename=home.js"></script>
-<script src="/api/scripts?filename=menu-toggle.js"></script>
-<?php if ($this->e($user->Privilege) === "1" && isset($_GET['viewUsers'])) { ?>
-  <script src="/api/adv/scripts?filename=viewUsers.js"></script>
+<script src="/api/scripts?filename=menu_toggle.js"></script>
+<?php if ($this->e($user->Privilege) === "1" && isset($_GET['view_users'])) { ?>
+  <script src="/api/adv/scripts?filename=view_users.js"></script>
 <?php } ?>
-<?php if ($this->e($user->Privilege) === "1" && isset($_GET['addUser'])) { ?>
-  <script src="/api/adv/scripts?filename=addUser.js"></script>
+<?php if ($this->e($user->Privilege) === "1" && isset($_GET['add_user'])) { ?>
+  <script src="/api/adv/scripts?filename=add_user.js"></script>
 <?php } ?>
 
 <?php $this->end() ?>

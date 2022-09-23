@@ -2,20 +2,20 @@ var urlHome = "/private";
 
 $(document).ready(function() {
 
-    $("#viewUsers").on('click',function(){
-        window.location.href =urlHome+"?viewUsers";
+    $("#view_users").on('click',function(){
+        window.location.href =urlHome+"?view_users";
     });
 
-    $("#addUser").on('click',function(){
-        window.location.href =urlHome+"?addUser";
+    $("#add_user").on('click',function(){
+        window.location.href =urlHome+"?add_user";
     });
 
-    $("#viewArtifacts").on('click',function(){
-        window.location.href =urlHome+"?viewArtifacts";
+    $("#view_artifacts").on('click',function(){
+        window.location.href =urlHome+"?view_artifacts";
     });
 
-    $("#addUser").on('click',function(){
-        window.location.href =urlHome+"?addUser";
+    $("#add_user").on('click',function(){
+        window.location.href =urlHome+"?add_user";
     });
 
 });
