@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Pages\Private;
 
+use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Service\UserService;
 use League\Plates\Engine;
@@ -21,12 +22,11 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
 
-class HomeController implements ControllerInterface {
-    protected Engine $plates;
+class HomeController extends ControllerUtil implements ControllerInterface {
     protected UserService $userService;
 
     public function __construct(Engine $plates, UserService $userService) {
-        $this->plates = $plates;
+        parent::__construct($plates);
         $this->userService = $userService;
     }
 
@@ -49,8 +49,12 @@ class HomeController implements ControllerInterface {
                 [],
                 $this->plates->render('private::home',['user'=>$user])
             );
-        }catch(ServiceException){
-
+        }catch(ServiceException $e){
+            return new Response(
+                400,
+                [],
+                $this->displayError(400,$e->getMessage())
+            );
         }
     }
 }
