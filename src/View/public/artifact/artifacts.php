@@ -1,6 +1,6 @@
 <?php $this->layout('layouts::layout', ['title' => 'Artifact']) ?>
 
-<?php $this->insert('reusable::viewArtifacts'); ?>
+<?php $this->insert('reusable::view_artifacts'); ?>
 
 <?php $this->push('scripts') ?>
 <script src="/resources/js/util.js"></script>
