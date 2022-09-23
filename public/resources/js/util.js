@@ -1,7 +1,7 @@
 //Create alert
 function createAlert(response, container = "#alert-container") {
     $(container).prepend(
-        '<div class="alert alert-warning alert-dismissible fade show" role="alert" id="alert">' +
+        '<div class="alert alert-'+(response.status_code == "200" ? "success" : "danger")+' alert-dismissible fade show" role="alert" id="alert">' +
         '<p><strong>' + (response.status_code == "200" ? "Success!" : "Error!") + '</strong></p>' + response.message +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
     );
