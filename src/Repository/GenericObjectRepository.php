@@ -93,6 +93,8 @@ class GenericObjectRepository extends GenericRepository {
             }
         }
 
+        //SORT BY OBJECT ID
+        usort($result,function($a,$b){return strcmp($a->ObjectID,$b->ObjectID);});
         return $result;
     }
 
@@ -122,6 +124,8 @@ class GenericObjectRepository extends GenericRepository {
             }
         }
 
+        //SORT BY OBJECT ID
+        usort($result,function($a,$b){return strcmp($a->ObjectID,$b->ObjectID);});
         return $result;
     }
 
