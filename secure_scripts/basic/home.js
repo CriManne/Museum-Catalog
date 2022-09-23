@@ -10,4 +10,12 @@ $(document).ready(function() {
         window.location.href =urlHome+"?addUser";
     });
 
+    $("#viewArtifacts").on('click',function(){
+        window.location.href =urlHome+"?viewArtifacts";
+    });
+
+    $("#addUser").on('click',function(){
+        window.location.href =urlHome+"?addUser";
+    });
+
 });

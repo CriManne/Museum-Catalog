@@ -45,13 +45,13 @@ $this->layout('layouts::layout', ['title' => 'Login'])
             </div>
           <?php } ?>
           <div class="sb-sidenav-menu-heading">Gestione reperti</div>
-          <div class="nav-link" role="button">
+          <div class="nav-link" role="button" id="viewArtifacts">
             <div class="sb-nav-link-icon"><i class="fas fa-book-open"></i></div>
             Visualizza reperti
           </div>
           <div class="nav-link" role="button">
             <div class="sb-nav-link-icon"><i class="fas fa-tachometer-alt"></i></div>
-            Aggiungi reperti
+            Aggiungi reperto
           </div>
         </div>
       </div>
@@ -66,9 +66,9 @@ $this->layout('layouts::layout', ['title' => 'Login'])
         } else if ($this->e($user->Privilege) === "1" && isset($_GET['addUser'])) {
           $this->insert('p_admin::addUser');
         } else if (isset($_GET['viewArtifacts'])) {
-          $this->insert('p_admin::viewUsers');
+          $this->insert('p_artifact::viewArtifacts');
         } else if (isset($_GET['addArtifacts'])) {
-          $this->insert('p_admin::viewUsers');
+          $this->insert('p_artifact::addArtifacts');
         } else {
           echo "<div class='w-100 text-lg-center'><h3>Seleziona una voce dal menu!</h3></div>";
         }
@@ -82,7 +82,7 @@ $this->layout('layouts::layout', ['title' => 'Login'])
 
 <?php $this->push('scripts') ?>
 <script src="/resources/js/util.js"></script>
-<script src="/api/adv/scripts?filename=home.js"></script>
+<script src="/api/scripts?filename=home.js"></script>
 <script src="/api/scripts?filename=menu-toggle.js"></script>
 <?php if ($this->e($user->Privilege) === "1" && isset($_GET['viewUsers'])) { ?>
   <script src="/api/adv/scripts?filename=viewUsers.js"></script>
