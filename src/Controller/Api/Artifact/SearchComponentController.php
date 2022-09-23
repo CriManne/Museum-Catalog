@@ -60,12 +60,12 @@ class SearchComponentController extends ControllerUtil implements ControllerInte
 
         $categories = CategoriesController::$categories;
 
-        //If the category is in the main category list then redirect to the artifact search engine
+        //If the category is in the main category list then return not found
         if(in_array($category,$categories)){
             return new Response(
-                300,
-                ["Location"=>"/api/artifacts/search?category=$category&q=$query"],
-                null
+                404,
+                [],
+                $this->getResponse("Category not found!", 404)
             );
         }
 
