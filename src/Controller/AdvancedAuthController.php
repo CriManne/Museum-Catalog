@@ -28,10 +28,18 @@ class AdvancedAuthController extends ControllerUtil implements ControllerInterfa
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
         if(!isset($_SESSION['privilege']) || $_SESSION['privilege']!==1){
+            $requestUrl = $request->getRequestTarget();    
+            $error_message = "";
+            if(explode('/',$requestUrl)[1] == 'api'){
+                $error_message = $this->getResponse("Unauthorized access",401);
+            }else{
+                $error_message = $this->displayError(401,"Unauthorized access");
+            }
+
             return new HaltResponse(
                 401,
                 [],
-                $this->displayError(401,"Unauthorized access")   
+                $error_message
             );
         }
         return $response;

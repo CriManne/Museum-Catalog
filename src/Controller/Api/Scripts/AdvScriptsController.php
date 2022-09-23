@@ -20,7 +20,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class ScriptsController extends ControllerUtil implements ControllerInterface {    
+class AdvScriptsController extends ControllerUtil implements ControllerInterface {    
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
                 
@@ -34,7 +34,7 @@ class ScriptsController extends ControllerUtil implements ControllerInterface {
             );    
         }
 
-        $filename = "secure_scripts/basic/".$params["filename"];
+        $filename = "secure_scripts/adv/".$params["filename"];
 
         if(!file_exists($filename)){
             return new Response(

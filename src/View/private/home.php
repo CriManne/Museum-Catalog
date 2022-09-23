@@ -60,10 +60,18 @@ $this->layout('layouts::layout', ['title' => 'Login'])
     <main>
       <div class="container-fluid px-4" id="left-container">
         <h1 class="mt-4">Dashboard<?= " di " . $this->e($user->firstname) . "!"; ?></h1>
-            <?php if($this->e($user->Privilege) === "1" && isset($_GET['viewUsers'])){$this->insert('p_admin::viewUsers');}?>
-            <?php if($this->e($user->Privilege) === "1" && isset($_GET['addUser'])){$this->insert('p_admin::addUser');}?>
-            <?php if(isset($_GET['viewArtifacts'])){$this->insert('p_admin::viewUsers');}?>
-            <?php if(isset($_GET['addArtifacts'])){$this->insert('p_admin::viewUsers');}?>
+        <?php if ($this->e($user->Privilege) === "1" && isset($_GET['viewUsers'])) {
+          $this->insert('p_admin::viewUsers');
+        } ?>
+        <?php if ($this->e($user->Privilege) === "1" && isset($_GET['addUser'])) {
+          $this->insert('p_admin::addUser');
+        } ?>
+        <?php if (isset($_GET['viewArtifacts'])) {
+          $this->insert('p_admin::viewUsers');
+        } ?>
+        <?php if (isset($_GET['addArtifacts'])) {
+          $this->insert('p_admin::viewUsers');
+        } ?>
       </div>
     </main>
   </div>
@@ -73,6 +81,9 @@ $this->layout('layouts::layout', ['title' => 'Login'])
 
 <?php $this->push('scripts') ?>
 <script src="/resources/js/util.js"></script>
-<script src="/api/scripts?filename=addUser.js"></script>
-<script src="/api/scripts?filename=viewUsers.js"></script>
+
+<?php if ($this->e($user->Privilege) === "1") { ?>
+  <script src="/api/adv/scripts?filename=addUser.js"></script>
+  <script src="/api/adv/scripts?filename=viewUsers.js"></script>
+<?php } ?>
 <?php $this->end() ?>

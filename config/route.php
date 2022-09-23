@@ -73,8 +73,11 @@ return [
     //DELETE ARTIFACT
     ['DELETE','/api/artifacts',Controller\Api\Artifact\DeleteController::class],    
 
-
-    ['GET','/api/scripts',[Controller\BasicAuthController::class,Controller\Api\Scripts\ScriptsController::class]]
+    //GET PRIVATE BASIC SCRIPTS
+    ['GET','/api/scripts',[Controller\BasicAuthController::class,Controller\Api\Scripts\ScriptsController::class]],
+    
+    //GET PRIVATE ADVANCED SCRIPTS
+    ['GET','/api/adv/scripts',[Controller\BasicAuthController::class, Controller\AdvancedAuthController::class,Controller\Api\Scripts\AdvScriptsController::class]]
 
 
 ];

@@ -27,12 +27,20 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
         parent::__construct($plates);
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {   
         if(!isset($_SESSION['user_email'])){
+            $requestUrl = $request->getRequestTarget();    
+            $error_message = "";
+            if(explode('/',$requestUrl)[1] == 'api'){
+                $error_message = $this->getResponse("Unauthorized access",401);
+            }else{
+                $error_message = $this->displayError(401,"Unauthorized access");
+            }
+
             return new HaltResponse(
                 401,
                 [],
-                $this->displayError(401,"Unauthorized access")   
+                $error_message
             );
         }
         return $response;
