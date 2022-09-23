@@ -3,6 +3,7 @@
 </div>
 <div class="container-fluid p-0 gap-2 align-items-center w-100 d-none" id="main-container">
     <h3 class="text-center">Aggiungi utente</h3>
+    <div id="alert-container"></div>
     <form id='add-user-form'>
         <div class="form-outline mb-4">
             <label class="form-label" for="Email">Email address</label>

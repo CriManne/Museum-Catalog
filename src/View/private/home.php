@@ -70,7 +70,7 @@ $this->layout('layouts::layout', ['title' => 'Login'])
         } else if (isset($_GET['addArtifacts'])) {
           $this->insert('p_admin::viewUsers');
         } else {
-          echo "<div class='w-100 text-center'><h3>Seleziona una voce dal menu!</h3></div>";
+          echo "<div class='w-100 text-lg-center'><h3>Seleziona una voce dal menu!</h3></div>";
         }
         ?>
       </div>
