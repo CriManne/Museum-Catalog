@@ -16,8 +16,11 @@ let filteredUsers = [];
 //URL to fetch users
 var urlUsers = "api/private/user";
 
-
 $(document).ready(function() {
+    
+    $("#loading-container").remove();
+    $("#main-container").removeClass("d-none");
+    
 
     initializePage();
 

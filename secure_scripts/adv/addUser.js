@@ -2,6 +2,9 @@ var urlUsers = "api/private/user";
 
 $(document).ready(function() {
 
+    $("#loading-container").remove();
+    $("#main-container").removeClass("d-none");
+
     $("#add-user-form").on('submit', function(e) {
         e.preventDefault();
         var data = $("#add-user-form").serializeArray();

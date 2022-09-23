@@ -1,18 +1,20 @@
 <style>
-.table-scrollable {
-  overflow-x: auto;
-  max-width: 100vw;
-  box-shadow: inset 0 0 5px rgba(150, 150 ,150,0.35);
-  margin: auto;
-  padding:0;
-  padding-top:10px;
-}
+    .table-scrollable {
+        overflow-x: auto;
+        max-width: 100vw;
+        box-shadow: inset 0 0 5px rgba(150, 150, 150, 0.35);
+        margin: auto;
+        padding: 0;
+        padding-top: 10px;
+    }
 </style>
-<h3>Visualizza utenti</h3>
-<div id="alert-container"></div>
-<input type="text" class="form-control" placeholder="Search user" aria-label="User's search" id="user-search" required>
-
-<div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="result-container">
+<div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="loading-container">
+    <div class="spinner-border mx-auto" role="status"></div>
+</div>
+<div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center d-none" id="main-container">
+    <h3>Visualizza utenti</h3>
+    <div id="alert-container"></div>
+    <input type="text" class="form-control" placeholder="Search user" aria-label="User's search" id="user-search" required>
     <div class="container-fluid table-scrollable" id="tb-container"></div>
     <nav id="navigation">
         <ul class="pagination">
