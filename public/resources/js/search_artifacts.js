@@ -14,7 +14,7 @@ $(document).ready(function() {
     $("#category-select").on('change', function() {
         let value = this.value;
         category = value;
-        loadResult("?category=" + category);
+        loadResult("?category=" + category+"&q="+$("#artifact-search").val());
     })
 
     $("#artifact-search-form").on('submit', function(e) {
