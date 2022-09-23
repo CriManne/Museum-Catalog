@@ -49,9 +49,9 @@ class ComputerRepository extends GenericRepository {
 
         $queryObject =
             "INSERT INTO genericobject
-                (ObjectID,Note,Url,Tag,Active,Erased)
+                (ObjectID,Note,Url,Tag)
                 VALUES
-                (:ObjectID,:Note,:Url,:Tag,:Active,:Erased)";
+                (:ObjectID,:Note,:Url,:Tag)";
         try {
             $this->pdo->beginTransaction();
 
@@ -60,8 +60,6 @@ class ComputerRepository extends GenericRepository {
             $stmt->bindValue(':Note', $computer->Note, PDO::PARAM_STR);
             $stmt->bindValue(':Url', $computer->Url, PDO::PARAM_STR);
             $stmt->bindValue(':Tag', $computer->Tag, PDO::PARAM_STR);
-            $stmt->bindValue(':Active', $computer->Active, PDO::PARAM_STR);
-            $stmt->bindValue(':Erased', $computer->Erased, PDO::PARAM_STR);
 
             $stmt->execute();
 
@@ -87,17 +85,12 @@ class ComputerRepository extends GenericRepository {
     /**
      * Select computer by id
      * @param string $ObjectID  The object id to select
-     * @param ?bool $showErased
      * @return ?Computer    The computer selected, null if not found
      */
-    public function selectById(string $ObjectID, ?bool $showErased = false): ?Computer {
+    public function selectById(string $ObjectID): ?Computer {
         $query = "SELECT * FROM computer b 
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
             WHERE g.ObjectID = :ObjectID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
@@ -112,17 +105,12 @@ class ComputerRepository extends GenericRepository {
     /**
      * Select computer by model name
      * @param string $ModelName     The computer model name to select
-     * @param ?bool $showErased
      * @return ?Computer    The computer selected, null if not found
      */
-    public function selectByModelName(string $ModelName, ?bool $showErased = false): ?Computer {
+    public function selectByModelName(string $ModelName): ?Computer {
         $query = "SELECT * FROM computer b
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
             WHERE ModelName LIKE Concat('%',:ModelName,'%')";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);
@@ -137,10 +125,9 @@ class ComputerRepository extends GenericRepository {
     /**
      * Select by key
      * @param string $key The key given
-     * @param ?bool $showErased
      * @return array   All computers, empty if no result
      */
-    public function selectByKey(string $key,?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,c.* FROM computer c
             INNER JOIN genericobject g ON g.ObjectID = c.ObjectID
             INNER JOIN cpu cp ON c.CpuID = cp.CpuID
@@ -157,10 +144,7 @@ class ComputerRepository extends GenericRepository {
             g.Note LIKE :key OR
             g.Tag LIKE :key";
 
-        if (isset($showErased)) {
-            $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
-        $key = '%'.$key.'%';
+        $key = '%' . $key . '%';
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("key", $key, PDO::PARAM_STR);
         $stmt->execute();
@@ -172,16 +156,11 @@ class ComputerRepository extends GenericRepository {
 
     /**
      * Select all computers
-     * @param ?bool $showErased
      * @return ?array   All computers, null if no result
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM computer b
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -211,9 +190,7 @@ class ComputerRepository extends GenericRepository {
             "UPDATE genericobject
             SET Note = :Note,
             Url = :Url,
-            Tag = :Tag,
-            Active = :Active,
-            Erased = :Erased
+            Tag = :Tag
             WHERE ObjectID = :ObjectID";
 
         try {
@@ -233,8 +210,6 @@ class ComputerRepository extends GenericRepository {
             $stmt->bindParam("Note", $b->Note, PDO::PARAM_STR);
             $stmt->bindParam("Url", $b->Url, PDO::PARAM_STR);
             $stmt->bindParam("Tag", $b->Tag, PDO::PARAM_STR);
-            $stmt->bindParam("Active", $b->Active, PDO::PARAM_STR);
-            $stmt->bindParam("Erased", $b->Erased, PDO::PARAM_STR);
             $stmt->bindParam("ObjectID", $b->ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -251,16 +226,24 @@ class ComputerRepository extends GenericRepository {
      * @throws RepositoryException  If the delete fails
      */
     public function delete(string $ObjectID): void {
-        $query =
-            "UPDATE genericobject
-            SET Erased = NOW()
-            WHERE ObjectID = :ObjectID;";
-
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
         try {
+            $this->pdo->beginTransaction();
+
+            $query = "DELETE FROM computer 
+            WHERE ObjectID = :ObjectID";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
             $stmt->execute();
-        } catch (PDOException) {
+
+            $query = "DELETE FROM genericobject 
+            WHERE ObjectID = :ObjectID";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $this->pdo->commit();
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
             throw new RepositoryException("Error while deleting the computer with id: {" . $ObjectID . "}");
         }
     }
@@ -276,8 +259,6 @@ class ComputerRepository extends GenericRepository {
             $rawComputer["Note"] ?? null,
             $rawComputer["Url"] ?? null,
             $rawComputer["Tag"] ?? null,
-            strval($rawComputer["Active"]),
-            $rawComputer["Erased"] ?? null,
             $rawComputer["ModelName"],
             intval($rawComputer["Year"]),
             $rawComputer["HddSize"],

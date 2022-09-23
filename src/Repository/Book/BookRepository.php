@@ -47,9 +47,9 @@ class BookRepository extends GenericRepository {
 
         $queryObject =
             "INSERT INTO genericobject
-                (ObjectID,Note,Url,Tag,Active,Erased)
+                (ObjectID,Note,Url,Tag)
                 VALUES
-                (:ObjectID,:Note,:Url,:Tag,:Active,:Erased)";
+                (:ObjectID,:Note,:Url,:Tag)";
         try {
             $this->pdo->beginTransaction();
 
@@ -58,8 +58,6 @@ class BookRepository extends GenericRepository {
             $stmt->bindValue(':Note', $book->Note, PDO::PARAM_STR);
             $stmt->bindValue(':Url', $book->Url, PDO::PARAM_STR);
             $stmt->bindValue(':Tag', $book->Tag, PDO::PARAM_STR);
-            $stmt->bindValue(':Active', $book->Active, PDO::PARAM_STR);
-            $stmt->bindValue(':Erased', $book->Erased, PDO::PARAM_STR);
 
             $stmt->execute();
 
@@ -88,17 +86,12 @@ class BookRepository extends GenericRepository {
     /**
      * Select book by id
      * @param string $ObjectID  The object id to select
-     * @param ?bool $showErased
      * @return ?Book    The book selected, null if not found
      */
-    public function selectById(string $ObjectID, ?bool $showErased = false): ?Book {
+    public function selectById(string $ObjectID): ?Book {
         $query = "SELECT * FROM book b 
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
             WHERE g.ObjectID = :ObjectID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
@@ -113,17 +106,12 @@ class BookRepository extends GenericRepository {
     /**
      * Select book by title
      * @param string $Title     The book title to select
-     * @param ?bool $showErased
      * @return ?Book    The book selected, null if not found
      */
-    public function selectByTitle(string $Title, ?bool $showErased = false): ?Book {
+    public function selectByTitle(string $Title): ?Book {
         $query = "SELECT * FROM book b
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
             WHERE Title LIKE Concat('%',:Title,'%')";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Title", $Title, PDO::PARAM_STR);
@@ -138,10 +126,9 @@ class BookRepository extends GenericRepository {
     /**
      * Select book by key
      * @param string $key     The key given
-     * @param ?bool $showErased
      * @return array    The books selected, empty array if no result
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,b.* FROM book b
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
             INNER JOIN publisher p ON b.PublisherID = p.PublisherID
@@ -155,15 +142,11 @@ class BookRepository extends GenericRepository {
             g.Note LIKE :key OR
             g.Tag LIKE :key";
 
-        if (isset($showErased)) {
-            $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
-
-        $key = '%'.$key.'%';
+        $key = '%' . $key . '%';
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("key", $key, PDO::PARAM_STR);
         $stmt->execute();
-        
+
         $arr_book = $stmt->fetchAll(PDO::FETCH_CLASS);
 
         return $arr_book;
@@ -171,16 +154,11 @@ class BookRepository extends GenericRepository {
 
     /**
      * Select all books
-     * @param ?bool $showErased
      * @return ?array   All books, null if no result
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM book b
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -209,9 +187,7 @@ class BookRepository extends GenericRepository {
             "UPDATE genericobject
             SET Note = :Note,
             Url = :Url,
-            Tag = :Tag,
-            Active = :Active,
-            Erased = :Erased
+            Tag = :Tag
             WHERE ObjectID = :ObjectID";
 
         try {
@@ -230,8 +206,6 @@ class BookRepository extends GenericRepository {
             $stmt->bindParam("Note", $b->Note, PDO::PARAM_STR);
             $stmt->bindParam("Url", $b->Url, PDO::PARAM_STR);
             $stmt->bindParam("Tag", $b->Tag, PDO::PARAM_STR);
-            $stmt->bindParam("Active", $b->Active, PDO::PARAM_STR);
-            $stmt->bindParam("Erased", $b->Erased, PDO::PARAM_STR);
             $stmt->bindParam("ObjectID", $b->ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -248,13 +222,36 @@ class BookRepository extends GenericRepository {
      * @throws RepositoryException  If the delete fails
      */
     public function delete(string $ObjectID): void {
-        $query =
-            "UPDATE genericobject
-            SET Erased = NOW()
-            WHERE ObjectID = :ObjectID;";
+        try {
+            $this->pdo->beginTransaction();
 
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $query =
+                "DELETE FROM bookauthor
+            WHERE BookID = :ObjectID;";            
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $query =
+                "DELETE FROM book
+            WHERE ObjectID = :ObjectID;";            
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $query =
+                "DELETE FROM genericobject
+            WHERE ObjectID = :ObjectID;";
+            $stmt = $this->pdo->prepare($query);
+            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $this->pdo->commit();
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
+            throw new RepositoryException("Error while deleting the book with id: {" . $ObjectID . "}");
+        }
+
         try {
             $stmt->execute();
         } catch (PDOException) {
@@ -279,8 +276,6 @@ class BookRepository extends GenericRepository {
             $rawBook["Note"] ?? null,
             $rawBook["Url"] ?? null,
             $rawBook["Tag"] ?? null,
-            strval($rawBook["Active"]),
-            $rawBook["Erased"] ?? null,
             $rawBook["Title"],
             $this->publisherRepository->selectById(intval($rawBook["PublisherID"])),
             intval($rawBook["Year"]),

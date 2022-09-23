@@ -29,7 +29,7 @@ final class GenericObjectServiceTest extends TestCase
                 "Desc1"=>"Val1",
                 "Desc2"=>"Val2"
             ],
-            null,
+            "Category",
             null,
             null
         );           

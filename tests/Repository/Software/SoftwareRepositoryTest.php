@@ -69,8 +69,6 @@ final class SoftwareRepositoryTest extends TestCase
             null,
             null,
             null,
-            "1",
-            null,
             'Paint',
             self::$sampleOs,
             self::$sampleSoftwareType,

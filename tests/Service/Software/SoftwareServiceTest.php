@@ -31,8 +31,6 @@ final class SoftwareServiceTest extends TestCase
             null,
             null,
             null,
-            "1",
-            null,
             'Paint',
             new Os('Windows',1),
             new SoftwareType('Office',1),

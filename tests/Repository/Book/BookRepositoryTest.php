@@ -62,8 +62,6 @@ final class BookRepositoryTest extends TestCase
             null,
             null,
             null,
-            "",
-            null,
             "1984",
             self::$samplePublisher,
             1984,

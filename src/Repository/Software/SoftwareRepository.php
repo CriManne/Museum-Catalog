@@ -46,9 +46,9 @@ class SoftwareRepository extends GenericRepository {
 
         $queryObject =
             "INSERT INTO genericobject
-                (ObjectID,Note,Url,Tag,Active,Erased)
+                (ObjectID,Note,Url,Tag)
                 VALUES
-                (:ObjectID,:Note,:Url,:Tag,:Active,:Erased)";
+                (:ObjectID,:Note,:Url,:Tag)";
         try {
             $this->pdo->beginTransaction();
 
@@ -57,8 +57,6 @@ class SoftwareRepository extends GenericRepository {
             $stmt->bindValue(':Note', $software->Note, PDO::PARAM_STR);
             $stmt->bindValue(':Url', $software->Url, PDO::PARAM_STR);
             $stmt->bindValue(':Tag', $software->Tag, PDO::PARAM_STR);
-            $stmt->bindValue(':Active', $software->Active, PDO::PARAM_STR);
-            $stmt->bindValue(':Erased', $software->Erased, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($querySoftware);
@@ -81,17 +79,12 @@ class SoftwareRepository extends GenericRepository {
     /**
      * Select software by id
      * @param string $ObjectID  The object id to select
-     * @param ?bool $showErased
      * @return ?Software    The software selected, null if not found
      */
-    public function selectById(string $ObjectID, ?bool $showErased = false): ?Software {
+    public function selectById(string $ObjectID): ?Software {
         $query = "SELECT * FROM software 
             INNER JOIN genericobject g ON g.ObjectID = software.ObjectID 
             WHERE g.ObjectID = :ObjectID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
@@ -106,17 +99,12 @@ class SoftwareRepository extends GenericRepository {
     /**
      * Select software by title
      * @param string $Title     The software title to select
-     * @param ?bool $showErased
      * @return ?Software    The software selected, null if not found
      */
-    public function selectByTitle(string $Title, ?bool $showErased = false): ?Software {
+    public function selectByTitle(string $Title): ?Software {
         $query = "SELECT * FROM software 
             INNER JOIN genericobject g ON g.ObjectID = software.ObjectID 
             WHERE Title = :Title";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Title", $Title, PDO::PARAM_STR);
@@ -131,10 +119,9 @@ class SoftwareRepository extends GenericRepository {
     /**
      * Select software by key
      * @param string $key     The key given
-     * @param ?bool $showErased
      * @return array    Software(s) selected, empty array if no result
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,s.* FROM software s
             INNER JOIN genericobject g ON g.ObjectID = s.ObjectID 
             INNER JOIN os o ON s.OsID = o.OsID
@@ -146,10 +133,6 @@ class SoftwareRepository extends GenericRepository {
             supt.Name LIKE :key OR
             g.Note LIKE :key OR
             g.Tag LIKE :key";
-
-        if (isset($showErased)) {
-            $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%'.$key.'%';
 
@@ -163,16 +146,11 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Select all software
-     * @param ?bool $showErased
      * @return ?array   All software, null if no results
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM software
             INNER JOIN genericobject g ON g.ObjectID = software.ObjectID";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -200,9 +178,7 @@ class SoftwareRepository extends GenericRepository {
             "UPDATE genericobject
             SET Note = :Note,
             Url = :Url,
-            Tag = :Tag,
-            Active = :Active,
-            Erased = :Erased
+            Tag = :Tag
             WHERE ObjectID = :ObjectID";
 
         try {
@@ -220,8 +196,6 @@ class SoftwareRepository extends GenericRepository {
             $stmt->bindParam("Note", $s->Note, PDO::PARAM_STR);
             $stmt->bindParam("Url", $s->Url, PDO::PARAM_STR);
             $stmt->bindParam("Tag", $s->Tag, PDO::PARAM_STR);
-            $stmt->bindParam("Active", $s->Active, PDO::PARAM_STR);
-            $stmt->bindParam("Erased", $s->Erased, PDO::PARAM_STR);
             $stmt->bindParam("ObjectID", $s->ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -238,16 +212,24 @@ class SoftwareRepository extends GenericRepository {
      * @throws RepositoryException  If the delete fails
      */
     public function delete(string $ObjectID): void {
-        $query =
-            "UPDATE genericobject
-            SET Erased = NOW()
-            WHERE ObjectID = :ObjectID;";
-
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
         try {
+            $this->pdo->beginTransaction();
+
+            $query = "DELETE FROM software
+            WHERE ObjectID = :ObjectID;";
+            $stmt = $this->pdo->prepare($query);            
+            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
             $stmt->execute();
-        } catch (PDOException) {
+
+            $query = "DELETE FROM genericobject
+            WHERE ObjectID = :ObjectID;";
+            $stmt = $this->pdo->prepare($query);            
+            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $this->pdo->commit();
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
             throw new RepositoryException("Error while deleting the software with id: {" . $ObjectID . "}");
         }
     }
@@ -263,8 +245,6 @@ class SoftwareRepository extends GenericRepository {
             $rawsoftware["Note"] ?? null,
             $rawsoftware["Url"] ?? null,
             $rawsoftware["Tag"] ?? null,
-            strval($rawsoftware["Active"]),
-            $rawsoftware["Erased"] ?? null,
             $rawsoftware["Title"],
             $this->OsRepository->selectById(intval($rawsoftware["OsID"])),
             $this->softwareTypeRepository->selectById(intval($rawsoftware["SoftwareTypeID"])),

@@ -1,11 +1,11 @@
 -- POPULATE GENERICOBJECT
 
-INSERT INTO genericobject(ObjectID,Note,Url,Tag,Active) VALUES
-("OBJ1","Computer del 1945",null,"Computer 1945 antico",null),
-("OBJ2","Software del 1956 sulla gestione dei computer",null,"Software computer 1956 antico",null),
-("OBJ3","Libro sulla TDD",null,"Libro programmazione tdd",null),
-("OBJ4","Rivista programmazione",null,null,null),
-("OBJ5","Scherm",null,null,null);
+INSERT INTO genericobject(ObjectID,Note,Url,Tag) VALUES
+("OBJ1","Computer del 1945",null,"Computer 1945 antico"),
+("OBJ2","Software del 1956 sulla gestione dei computer",null,"Software computer 1956 antico"),
+("OBJ3","Libro sulla TDD",null,"Libro programmazione tdd"),
+("OBJ4","Rivista programmazione",null,null),
+("OBJ5","Scherm",null,null);
 
 -- POPULATE AUTHOR
 

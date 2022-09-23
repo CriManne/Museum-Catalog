@@ -68,8 +68,6 @@ final class ComputerRepositoryTest extends TestCase
             null,
             null,
             null,
-            "",
-            null,
             "Computer 1.0",
             2005,
             "1TB",

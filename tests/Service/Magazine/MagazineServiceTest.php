@@ -29,8 +29,6 @@ final class MagazineServiceTest extends TestCase
             null,
             null,
             null,
-            "1",
-            null,
             'Magazine Title',   
             2005,
             205,

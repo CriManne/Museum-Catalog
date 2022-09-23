@@ -41,9 +41,9 @@ class PeripheralRepository extends GenericRepository {
 
         $queryObject =
             "INSERT INTO genericobject
-                (ObjectID,Note,Url,Tag,Active,Erased)
+                (ObjectID,Note,Url,Tag)
                 VALUES
-                (:ObjectID,:Note,:Url,:Tag,:Active,:Erased)";
+                (:ObjectID,:Note,:Url,:Tag)";
         try {
             $this->pdo->beginTransaction();
 
@@ -52,8 +52,6 @@ class PeripheralRepository extends GenericRepository {
             $stmt->bindValue(':Note', $peripheral->Note, PDO::PARAM_STR);
             $stmt->bindValue(':Url', $peripheral->Url, PDO::PARAM_STR);
             $stmt->bindValue(':Tag', $peripheral->Tag, PDO::PARAM_STR);
-            $stmt->bindValue(':Active', $peripheral->Active, PDO::PARAM_STR);
-            $stmt->bindValue(':Erased', $peripheral->Erased, PDO::PARAM_STR);
 
             $stmt->execute();
 
@@ -75,17 +73,12 @@ class PeripheralRepository extends GenericRepository {
     /**
      * Select peripheral by id
      * @param string $ObjectID  The object id to select
-     * @param ?bool $showErased
      * @return ?Peripheral    The peripheral selected, null if not found
      */
-    public function selectById(string $ObjectID, ?bool $showErased = false): ?Peripheral {
+    public function selectById(string $ObjectID): ?Peripheral {
         $query = "SELECT * FROM peripheral p 
             INNER JOIN genericobject g ON g.ObjectID = p.ObjectID 
             WHERE g.ObjectID = :ObjectID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
@@ -100,17 +93,12 @@ class PeripheralRepository extends GenericRepository {
     /**
      * Select peripheral by ModelName
      * @param string $ModelName     The peripheral ModelName to select
-     * @param ?bool $showErased
      * @return ?Peripheral    The peripheral selected, null if not found
      */
-    public function selectByModelName(string $ModelName, ?bool $showErased = false): ?Peripheral {
+    public function selectByModelName(string $ModelName): ?Peripheral {
         $query = "SELECT * FROM peripheral p
             INNER JOIN genericobject g ON g.ObjectID = p.ObjectID 
             WHERE ModelName LIKE Concat('%',:ModelName,'%')";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);
@@ -125,10 +113,9 @@ class PeripheralRepository extends GenericRepository {
     /**
      * Select by key
      * @param string $key     The key given
-     * @param ?bool $showErased
      * @return array The peripherals, empty array if no result
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,p.* FROM peripheral p
             INNER JOIN genericobject g ON g.ObjectID = p.ObjectID
             INNER JOIN peripheraltype pt ON p.PeripheralTypeID = pt.PeripheralTypeID
@@ -136,10 +123,6 @@ class PeripheralRepository extends GenericRepository {
             pt.Name LIKE :key OR
             g.Note LIKE :key OR
             g.Tag LIKE :key";
-
-        if (isset($showErased)) {
-            $query .= " AND g.Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%'.$key.'%';
 
@@ -154,16 +137,11 @@ class PeripheralRepository extends GenericRepository {
 
     /**
      * Select all peripherals
-     * @param ?bool $showErased
      * @return ?array   All peripherals, null if no result
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM peripheral p
             INNER JOIN genericobject g ON g.ObjectID = p.ObjectID";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -189,9 +167,7 @@ class PeripheralRepository extends GenericRepository {
             "UPDATE genericobject
             SET Note = :Note,
             Url = :Url,
-            Tag = :Tag,
-            Active = :Active,
-            Erased = :Erased
+            Tag = :Tag
             WHERE ObjectID = :ObjectID";
 
         try {
@@ -207,8 +183,6 @@ class PeripheralRepository extends GenericRepository {
             $stmt->bindParam("Note", $p->Note, PDO::PARAM_STR);
             $stmt->bindParam("Url", $p->Url, PDO::PARAM_STR);
             $stmt->bindParam("Tag", $p->Tag, PDO::PARAM_STR);
-            $stmt->bindParam("Active", $p->Active, PDO::PARAM_STR);
-            $stmt->bindParam("Erased", $p->Erased, PDO::PARAM_STR);
             $stmt->bindParam("ObjectID", $p->ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -225,16 +199,24 @@ class PeripheralRepository extends GenericRepository {
      * @throws RepositoryException  If the delete fails
      */
     public function delete(string $ObjectID): void {
-        $query =
-            "UPDATE genericobject
-            SET Erased = NOW()
-            WHERE ObjectID = :ObjectID;";
-
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
         try {
+            $this->pdo->beginTransaction();
+
+            $query = "DELETE FROM peripheral
+            WHERE ObjectID = :ObjectID";
+            $stmt = $this->pdo->prepare($query);            
+            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
             $stmt->execute();
-        } catch (PDOException) {
+
+            $query = "DELETE FROM genericobject
+            WHERE ObjectID = :ObjectID";
+            $stmt = $this->pdo->prepare($query);            
+            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->execute();
+
+            $this->pdo->commit();
+        } catch (PDOException $e) {
+            $this->pdo->rollBack();
             throw new RepositoryException("Error while deleting the peripheral with id: {" . $ObjectID . "}");
         }
     }
@@ -250,8 +232,6 @@ class PeripheralRepository extends GenericRepository {
             $rawPeripheral["Note"] ?? null,
             $rawPeripheral["Url"] ?? null,
             $rawPeripheral["Tag"] ?? null,
-            strval($rawPeripheral["Active"]),
-            $rawPeripheral["Erased"] ?? null,
             $rawPeripheral["ModelName"],
             $this->peripheralTypeRepository->selectById(intval($rawPeripheral["PeripheralTypeID"]))
         );

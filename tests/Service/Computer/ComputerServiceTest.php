@@ -31,8 +31,6 @@ final class ComputerServiceTest extends TestCase
             null,
             null,
             null,
-            "1",
-            null,
             'Computer 1',
             2005,
             "1TB",            

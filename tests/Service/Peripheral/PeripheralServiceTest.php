@@ -29,8 +29,6 @@ final class PeripheralServiceTest extends TestCase
             null,
             null,
             null,
-            "1",
-            null,
             'Peripheral 1.0',
             new PeripheralType('PeripheralType 1',1)
         );    

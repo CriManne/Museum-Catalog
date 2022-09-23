@@ -31,8 +31,6 @@ final class BookServiceTest extends TestCase
             null,
             null,
             null,
-            "1",
-            null,
             '1984',
             new Publisher("Mondadori",1),
             1945,

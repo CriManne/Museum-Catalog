@@ -45,8 +45,6 @@ final class PeripheralRepositoryTest extends TestCase
             null,
             null,
             null,
-            "",
-            null,
             "Peripheral 1.0",
             self::$samplePeripheralType
         );

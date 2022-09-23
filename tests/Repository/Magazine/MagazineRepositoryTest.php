@@ -45,8 +45,6 @@ final class MagazineRepositoryTest extends TestCase
             null,
             null,
             null,
-            "",
-            null,
             "Magazine 1.0",            
             2005,
             10492,
