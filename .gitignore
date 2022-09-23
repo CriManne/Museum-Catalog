@@ -6,3 +6,4 @@ clover.xml
 .vscode/
 composer.lock
 .phpunit.result.cache
+composer.lock
