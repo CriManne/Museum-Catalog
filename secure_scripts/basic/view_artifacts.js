@@ -7,6 +7,8 @@ function loadHeader() {
         "<th scope='col'>Title</th>" +
         "<th scope='col'>Description</th>" +
         "<th scope='col'>Category</th>" +
+        "<th scope='col' class='text-center'>Update</th>" +
+        "<th scope='col' class='text-center'>Delete</th>" +
         "</tr></thead><tbody>"
     );
 
@@ -27,6 +29,8 @@ function displayResult(result) {
             "</th><td>" + elem.Title +
             "</td><td>" + description.join(" | ") +
             "</td><td>" + elem.Category +
+            "</td><td class='text-center'><button class='btn btn-primary'>Update</button>" +
+            "</td><td class='text-center'><button class='btn btn-primary'>Delete</button>" +
             "</td>" +
             "</tr>"
         );

@@ -4,6 +4,7 @@
 
 <?php $this->push('scripts') ?>
 <script src="/resources/js/util.js"></script>
+<script src="/resources/js/search_artifacts.js"></script>
 <script src="/resources/js/artifacts.js"></script>
 <script>
 function setSelectWidth() {
