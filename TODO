@@ -2,10 +2,7 @@
 
 - add tags and generic object fields in the search by key
 
-- REMEMBER TO HANDLE THE ACTIVE FIELD OF GENERIC OBJECT:
-    because the erased field is used to delete softly a record to avoid integrity fails
-    the active field could be used to disable an object so is not show in the catalog but still available
-    and it can be reactivated
+- ADD MONOLOG IN CONTROLLERS
 
 - REFACTOR CODE, FIX COPY AND PASTE TYPOS AND RENAME $s PARAMETERS AND REMOVE UNUSED IMPORTS
 

@@ -9,8 +9,6 @@ CREATE TABLE GenericObject(
     Note TEXT,
     Url VARCHAR(100),
     Tag VARCHAR(300),
-    Active SMALLINT DEFAULT 1,
-    Erased DATE NULL,
     PRIMARY KEY (ObjectID)
 );
 
