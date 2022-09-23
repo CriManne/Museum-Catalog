@@ -12,6 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Artifact;
 
+use App\Controller\Api\CategoriesController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Model\Response\GenericObjectResponse;
@@ -45,6 +46,14 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
         $category = $params["category"] ?? null;
 
         $result = [];
+
+        if($category && !in_array($category,CategoriesController::$categories)){
+            return new Response(
+                404,
+                [],
+                $this->getResponse("Category not found!", 404)
+            );
+        }
 
         if (isset($params["q"])) {
 

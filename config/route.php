@@ -64,9 +64,12 @@ return [
     [['POST','PUT'],'/api/artifacts',Controller\Api\Artifact\PostController::class],    
 
     //GET ARTIFACT
+    //ex: /api/artifacts?id=ABC
     ['GET','/api/artifacts',Controller\Api\Artifact\GetController::class],
+    //ex: /api/artifacts/search  | api/artifacts/search?category=ABC&q=abc
     ['GET','/api/artifacts/search',Controller\Api\Artifact\SearchArtifactController::class],
-    ['GET','/api/artifacts/component/search',Controller\Api\Artifact\SearchArtifactComponentController::class],
+    //ex: /api/component/search  | api/component/search?category=ABC&q=abc
+    ['GET','/api/component/search',Controller\Api\Artifact\SearchComponentController::class],
 
     
 

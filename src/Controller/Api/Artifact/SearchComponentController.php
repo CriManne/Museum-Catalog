@@ -30,7 +30,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class SearchArtifactComponentController extends ControllerUtil implements ControllerInterface {
+class SearchComponentController extends ControllerUtil implements ControllerInterface {
 
     protected Container $container;
 
@@ -133,9 +133,9 @@ class SearchArtifactComponentController extends ControllerUtil implements Contro
         }
 
         return new Response(
-            400,
+            404,
             [],
-            $this->getResponse("Bad request", 400)
+            $this->getResponse("Category not found!", 404)
         );
     }
 }
