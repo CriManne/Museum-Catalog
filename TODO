@@ -1,5 +1,3 @@
-- https://stackoverflow.com/questions/4262350/how-do-i-get-the-type-of-constructor-parameter-via-reflection
-
 - Change the request type to a json object to be a correct rest api
 
 - add tags and generic object fields in the search by key

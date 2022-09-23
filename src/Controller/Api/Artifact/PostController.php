@@ -49,6 +49,8 @@ class PostController extends ControllerUtil implements ControllerInterface {
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         $params = $request->getParsedBody();
+        
+        $method = $request->getMethod();
 
         $category = $params["category"] ?? null;
 
@@ -95,7 +97,11 @@ class PostController extends ControllerUtil implements ControllerInterface {
                     $instantiatedObject = ORM::getNewInstance($classPath, $rawObject);
                 }
 
-                $this->artifactService->insert($instantiatedObject);
+                if($method=="POST"){
+                    $this->artifactService->insert($instantiatedObject);
+                }else{
+                    $this->artifactService->update($instantiatedObject);
+                }
 
                 return new Response(
                     200,
