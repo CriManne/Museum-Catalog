@@ -146,6 +146,7 @@ class GenericObjectRepository extends GenericRepository {
                 'Pages' => $obj->Pages,
                 'Authors' => implode(", ", $authors)
             ],
+            "Book",
             $obj->Note,
             $obj->Url,
             $obj->Tag
@@ -168,6 +169,7 @@ class GenericObjectRepository extends GenericRepository {
                 'Cpu' => $obj->Cpu->ModelName . ' ' . $obj->Cpu->Speed,
                 'Ram' => $obj->Ram->ModelName . ' ' . $obj->Ram->Size
             ],
+            "Computer",
             $obj->Note,
             $obj->Url,
             $obj->Tag
@@ -188,6 +190,7 @@ class GenericObjectRepository extends GenericRepository {
                 'Publisher' => $obj->Publisher->Name,
                 'Year' => $obj->Year
             ],
+            "Magazine",
             $obj->Note,
             $obj->Url,
             $obj->Tag
@@ -206,6 +209,7 @@ class GenericObjectRepository extends GenericRepository {
             [
                 'Peripheral type' => $obj->PeripheralType->Name
             ],
+            "Peripheral",
             $obj->Note,
             $obj->Url,
             $obj->Tag
@@ -226,6 +230,7 @@ class GenericObjectRepository extends GenericRepository {
                 'Software Type' => $obj->SoftwareType->Name,
                 'Support Type' => $obj->SupportType->Name
             ],
+            "Software",
             $obj->Note,
             $obj->Url,
             $obj->Tag

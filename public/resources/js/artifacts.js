@@ -68,6 +68,7 @@ function loadHeader() {
         "<th scope='col'>ID</th>" +
         "<th scope='col'>Title</th>" +
         "<th scope='col'>Description</th>" +
+        "<th scope='col'>Category</th>" +
         "</tr></thead><tbody>"
     );
 
@@ -87,6 +88,7 @@ function displayResult(result) {
             "<tr role='button' class='artifact-row' data-id='" + elem.ObjectID + "'><th scope='row' class='text-decoration-underline'>" + elem.ObjectID +
             "</th><td>" + elem.Title +
             "</td><td>" + description.join(" | ") +
+            "</td><td>" + elem.Category +
             "</td>" +
             "</tr>"
         );
