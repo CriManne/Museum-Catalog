@@ -18,7 +18,7 @@ use App\Exception\ServiceException;
 use App\Model\Response\GenericObjectResponse;
 use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
-use App\Service\GenericObjectService;
+use App\SearchEngine\SearchArtifactEngine;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -30,12 +30,12 @@ use SimpleMVC\Response\HaltResponse;
 class SearchArtifactController extends ControllerUtil implements ControllerInterface
 {
 
-    public GenericObjectService $genericObjectService;
+    public SearchArtifactEngine $searchArtifactEngine;
 
     public function __construct(
-        GenericObjectService $genericObjectService
+        SearchArtifactEngine $searchArtifactEngine
     ) {
-        $this->genericObjectService = $genericObjectService;
+        $this->searchArtifactEngine = $searchArtifactEngine;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -47,6 +47,14 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
 
         $result = [];
 
+        if($category){
+            $category = ucwords($category);
+        }
+
+        if($query===""){
+            $query = null;
+        }
+
         if($category && !in_array($category,CategoriesController::$categories)){
             return new Response(
                 404,
@@ -55,21 +63,16 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
             );
         }
 
-        if (isset($params["q"])) {
+        if ($query) {
 
             $keywords = explode(" ", $query);
 
-            if($category){
-                $category = ucwords($category);
-            }
-
-
-            $result = $this->genericObjectService->selectByQuery(array_shift($keywords), $category);
+            $result = $this->searchArtifactEngine->select($category,array_shift($keywords));
 
             if (count($keywords) > 0) {
                 $resultsKeyword = [$result];
                 foreach ($keywords as $keyword) {
-                    $resultsKeyword[] = $this->genericObjectService->selectByQuery($keyword, $category);
+                    $resultsKeyword[] = $this->searchArtifactEngine->select($category,$keyword);
                 }
 
                 $result = array_uintersect(...$resultsKeyword, ...[function ($a, $b) {
@@ -80,7 +83,7 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
                 }]);
             }
         } else {
-            $result = $this->genericObjectService->selectAll($category);
+            $result = $this->searchArtifactEngine->select($category);
         }
 
         if (count($result) < 1) {

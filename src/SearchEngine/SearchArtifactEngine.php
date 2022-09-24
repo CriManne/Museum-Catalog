@@ -2,8 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Repository;
+namespace App\SearchEngine;
 
+use App\Controller\Api\CategoriesController;
 use App\Exception\RepositoryException;
 use PDO;
 use App\Model\Software\Software;
@@ -20,27 +21,22 @@ use App\Repository\Peripheral\PeripheralRepository;
 use App\Repository\Software\SoftwareRepository;
 use PDOException;
 use App\Util\ORM;
+use DI\Container;
+use DI\ContainerBuilder;
+use DI\NotFoundException;
 
-class GenericObjectRepository extends GenericRepository {
+class SearchArtifactEngine
+{
 
-    public array $Repositories;
+    private Container $container;
+    private array $repositories;
 
     public function __construct(
-        PDO $pdo,
-        SoftwareRepository $softwareRepository,
-        ComputerRepository $computerRepository,
-        BookRepository $bookRepository,
-        PeripheralRepository $peripheralRepository,
-        MagazineRepository $magazineRepository
+        ContainerBuilder $builder
     ) {
-        parent::__construct($pdo);
-        $this->Repositories = [
-            'Software' => $softwareRepository,
-            'Computer' => $computerRepository,
-            'Book' => $bookRepository,
-            'Peripheral' => $peripheralRepository,
-            'Magazine' => $magazineRepository
-        ];
+        $builder->addDefinitions("config/container.php");
+        $this->container = $builder->build();
+        $this->repositories = CategoriesController::$categories;
     }
 
     /**
@@ -48,84 +44,64 @@ class GenericObjectRepository extends GenericRepository {
      * @param string $ObjectID     The ObjectID to select
      * @return ?GenericObjectResponse            The Object selected, null if not found
      */
-    public function selectById(string $ObjectID): ?GenericObjectResponse {
+    public function selectById(string $ObjectID): ?GenericObjectResponse
+    {
+        foreach ($this->repositories as $repoName) {
 
-        $obj = null;
-        $repoName = null;
+            $artifactServicePath = "App\\Service\\$repoName\\$repoName" . "Service";
 
-        foreach ($this->Repositories as $RepoName => $Repo) {
-            $result = $Repo->selectById($ObjectID);
+            $artifactService = $this->container->get($artifactServicePath);
+
+            $result = $artifactService->selectById($ObjectID);
 
             if ($result) {
-                $obj = $result;
-                $repoName = $RepoName;
+                return $this->$repoName($result);
             }
-        }
-
-        if ($obj) {
-            return $this->$repoName($obj);
         }
         return null;
     }
 
     /**
-     * Select all objects
+     * Select objects
      * @param ?string $category  The category to search in
+     * @param ?string $query The eventual query
      * @return array            The result array
      */
-    public function selectAll(?string $category): array {
-
+    public function select(?string $category,?string $query=null): array
+    {
         $result = [];
 
-        foreach ($this->Repositories as $RepoName => $Repo) {
-            if ($category && $RepoName !== $category) {
+        foreach ($this->repositories as $repoName) {
+            if ($category && $repoName !== $category) {
                 continue;
             }
 
-            $unmappedResult = $Repo->selectAll();
+            $artifactServicePath = "App\\Service\\$repoName\\$repoName" . "Service";
+
+            $artifactService = $this->container->get($artifactServicePath); 
+
+            $artifactRepoName = strtolower($repoName)."Repository";
+
+            $unmappedResult = null;
+            if($query){
+                $unmappedResult = $artifactService->selectByQuery($query);
+            }else{
+                $unmappedResult = $artifactService->selectAll();
+            }
             if (count($unmappedResult) > 0) {
 
                 foreach ($unmappedResult as $item) {
-                    $mappedObject = $Repo->returnMappedObject(json_decode(json_encode($item), true));
+                    $mappedObject = $artifactService->$artifactRepoName->returnMappedObject(json_decode(json_encode($item), true));
 
-                    $result[] = $this->$RepoName($mappedObject);
+                    $result[] = $this->$repoName($mappedObject);
                 }
             }
         }
 
         //SORT BY OBJECT ID
-        usort($result,function($a,$b){return strcmp($a->ObjectID,$b->ObjectID);});
-        return $result;
-    }
-
-    /**
-     * Select objects by query
-     * @param string $query     The query given
-     * @param ?string $category  The category to search in
-     * @return array            The result array
-     */
-    public function selectByQuery(string $query, ?string $category): array {
-
-        $result = [];
-
-        foreach ($this->Repositories as $RepoName => $Repo) {
-            if ($category && $RepoName !== $category) {
-                continue;
-            }
-
-            $unmappedResult = $Repo->selectByKey($query);
-            if (count($unmappedResult) > 0) {
-
-                foreach ($unmappedResult as $item) {
-                    $mappedObject = $Repo->returnMappedObject(json_decode(json_encode($item), true));
-
-                    $result[] = $this->$RepoName($mappedObject);
-                }
-            }
-        }
-
-        //SORT BY OBJECT ID
-        usort($result,function($a,$b){return strcmp($a->ObjectID,$b->ObjectID);});
+        usort($result, function ($a, $b) {
+            return strcmp($a->ObjectID, $b->ObjectID);
+        });
         return $result;
     }
 
@@ -134,10 +110,11 @@ class GenericObjectRepository extends GenericRepository {
      * @param Book $obj The book object
      * @return GenericObjectResponse The object mapped
      */
-    public function Book(Book $obj): GenericObjectResponse {
+    public function Book(Book $obj): GenericObjectResponse
+    {
         $authors = [];
         foreach ($obj->Authors as $author) {
-            $authors[] = $author->firstname[0]." ".$author->lastname;
+            $authors[] = $author->firstname[0] . " " . $author->lastname;
         }
 
         return new GenericObjectResponse(
@@ -162,7 +139,8 @@ class GenericObjectRepository extends GenericRepository {
      * @param Computer $obj The computer object
      * @return GenericObjectResponse The object mapped
      */
-    public function Computer(Computer $obj): GenericObjectResponse {
+    public function Computer(Computer $obj): GenericObjectResponse
+    {
         return new GenericObjectResponse(
             $obj->ObjectID,
             $obj->ModelName,
@@ -185,7 +163,8 @@ class GenericObjectRepository extends GenericRepository {
      * @param Magazine $obj The magazine object
      * @return GenericObjectResponse The object mapped
      */
-    public function Magazine(Magazine $obj): GenericObjectResponse {
+    public function Magazine(Magazine $obj): GenericObjectResponse
+    {
         return new GenericObjectResponse(
             $obj->ObjectID,
             $obj->Title,
@@ -206,7 +185,8 @@ class GenericObjectRepository extends GenericRepository {
      * @param Peripheral $obj The peripheral object
      * @return GenericObjectResponse The object mapped
      */
-    public function Peripheral(Peripheral $obj): GenericObjectResponse {
+    public function Peripheral(Peripheral $obj): GenericObjectResponse
+    {
         return new GenericObjectResponse(
             $obj->ObjectID,
             $obj->ModelName,
@@ -225,7 +205,8 @@ class GenericObjectRepository extends GenericRepository {
      * @param Software $obj The software object
      * @return GenericObjectResponse The object mapped
      */
-    public function Software(Software $obj): GenericObjectResponse {
+    public function Software(Software $obj): GenericObjectResponse
+    {
         return new GenericObjectResponse(
             $obj->ObjectID,
             $obj->Title,

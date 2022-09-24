@@ -77,7 +77,7 @@ class SearchComponentController extends ControllerUtil implements ControllerInte
                 /**
                  * Get service class, throws an exception if not found
                  */
-                $this->artifactService = $this->container->get($servicePath);
+                $this->componentService = $this->container->get($servicePath);
 
                 $result = [];
 
@@ -85,12 +85,12 @@ class SearchComponentController extends ControllerUtil implements ControllerInte
 
                     $keywords = explode(" ", $query);
 
-                    $result = $this->artifactService->selectByKey(array_shift($keywords));
+                    $result = $this->componentService->selectByKey(array_shift($keywords));
 
                     if (count($keywords) > 0) {
                         $resultsKeyword = [$result];
                         foreach ($keywords as $keyword) {
-                            $resultsKeyword[] = $this->artifactService->selectByKey($keyword);
+                            $resultsKeyword[] = $this->componentService->selectByKey($keyword);
                         }
 
                         $result = array_uintersect(...$resultsKeyword, ...[function ($a, $b) {
@@ -101,7 +101,7 @@ class SearchComponentController extends ControllerUtil implements ControllerInte
                         }]);
                     }
                 } else {
-                    $result = $this->artifactService->selectAll();
+                    $result = $this->componentService->selectAll();
                 }
 
                 if (count($result) < 1) {
