@@ -67,6 +67,14 @@ class SoftwareService {
     }
 
     /**
+     * Select all
+     * @return array All the Software(s)
+     */
+    public function selectAll():array {
+        return $this->softwareRepository->selectall();
+    }
+
+    /**
      * Update a Software
      * @param Software $s The Software to update
      * @return Software The software updated

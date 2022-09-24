@@ -67,6 +67,14 @@ class ComputerService {
     }
 
     /**
+     * Select all
+     * @return array All of the computers
+     */
+    public function selectAll(): array {
+        return $this->computerRepository->selectAll();
+    }
+
+    /**
      * Update a Computer
      * @param Computer $c The Computer to update
      * @return Computer The computer updated

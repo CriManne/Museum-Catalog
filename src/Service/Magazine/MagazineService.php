@@ -67,6 +67,14 @@ class MagazineService {
     }
 
     /**
+     * Select all
+     * @return array All the magazines
+     */
+    public function selectAll():array {
+        return $this->magazineRepository->selectAll();
+    }
+
+    /**
      * Update a Magazine
      * @param Magazine $m The Magazine to update
      * @return Magazine The magazine updated

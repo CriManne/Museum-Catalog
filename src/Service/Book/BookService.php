@@ -67,6 +67,14 @@ class BookService {
     }
 
     /**
+     * Select all
+     * @return array All the books
+     */
+    public function selectAll(): array {
+        return $this->bookRepository->selectAll();
+    }
+
+    /**
      * Update a Book
      * @param Book $b The Book to update
      * @return Book The book updated

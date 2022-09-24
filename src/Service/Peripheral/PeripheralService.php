@@ -67,6 +67,14 @@ class PeripheralService {
     }
 
     /**
+     * Select all
+     * @return array All the pheriperals
+     */
+    public function selectAll():array {
+        return $this->peripheralRepository->selectAll();
+    }
+
+    /**
      * Update a Peripheral
      * @param Peripheral $p The Peripheral to update
      * @return Peripheral The peripheral updated
