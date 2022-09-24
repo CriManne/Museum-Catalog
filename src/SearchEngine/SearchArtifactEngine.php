@@ -6,6 +6,7 @@ namespace App\SearchEngine;
 
 use App\Controller\Api\CategoriesController;
 use App\Exception\RepositoryException;
+use App\Exception\ServiceException;
 use PDO;
 use App\Model\Software\Software;
 use App\Model\Book\Book;
@@ -32,9 +33,10 @@ class SearchArtifactEngine
     private array $repositories;
 
     public function __construct(
-        ContainerBuilder $builder
+        string $containerPath = "config/container.php"
     ) {
-        $builder->addDefinitions("config/container.php");
+        $builder = new ContainerBuilder();
+        $builder->addDefinitions($containerPath);
         $this->container = $builder->build();
         $this->repositories = CategoriesController::$categories;
     }
@@ -52,8 +54,12 @@ class SearchArtifactEngine
 
             $artifactService = $this->container->get($artifactServicePath);
 
-            $result = $artifactService->selectById($ObjectID);
+            $result = null;
 
+            try {
+                $result = $artifactService->selectById($ObjectID);
+            } catch (ServiceException) {
+            }
             if ($result) {
                 return $this->$repoName($result);
             }
@@ -67,7 +73,7 @@ class SearchArtifactEngine
      * @param ?string $query The eventual query
      * @return array            The result array
      */
-    public function select(?string $category,?string $query=null): array
+    public function select(?string $category = null, ?string $query = null): array
     {
         $result = [];
 
@@ -78,14 +84,14 @@ class SearchArtifactEngine
 
             $artifactServicePath = "App\\Service\\$repoName\\$repoName" . "Service";
 
-            $artifactService = $this->container->get($artifactServicePath); 
+            $artifactService = $this->container->get($artifactServicePath);
 
-            $artifactRepoName = strtolower($repoName)."Repository";
+            $artifactRepoName = strtolower($repoName) . "Repository";
 
             $unmappedResult = null;
-            if($query){
-                $unmappedResult = $artifactService->selectByQuery($query);
-            }else{
+            if ($query) {
+                $unmappedResult = $artifactService->selectByKey($query);
+            } else {
                 $unmappedResult = $artifactService->selectAll();
             }
             if (count($unmappedResult) > 0) {
