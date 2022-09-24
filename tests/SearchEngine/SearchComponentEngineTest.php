@@ -71,7 +71,7 @@ final class SearchComponentEngineTest extends TestCase
 
     public function testGoodSelectAll(): void
     {
-        $this->assertEquals(count(self::$searchComponentEngine->select("Cpu")), 2);
+        $this->assertEquals(count(self::$searchComponentEngine->select("Cpu")), 3);
     }
 
     public function testBadSelectAll(): void

@@ -67,6 +67,14 @@ class SoftwareTypeService {
     }
 
     /**
+     * Select all
+     * @return array All the softtype
+     */
+    public function selectAll(): array {
+        return $this->softwareTypeRepository->selectAll();
+    }
+
+    /**
      * Update SoftwareType
      * @param SoftwareType $s The SoftwareType to update
      * @return SoftwareType The SoftwareType updated

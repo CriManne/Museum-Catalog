@@ -67,6 +67,14 @@ class CpuService {
     }
 
     /**
+     * Select all
+     * @return array All the cpus
+     */
+    public function selectAll(): array {
+        return $this->cpuRepository->selectAll();
+    }
+
+    /**
      * Update a cpu
      * @param Cpu $c The cpu to update
      * @return Cpu The cpu updated

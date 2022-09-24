@@ -67,6 +67,14 @@ class PublisherService {
     }
 
     /**
+     * Select all
+     * @return array All the publisher
+     */
+    public function selectAll(): array {
+        return $this->publisherRepository->selectAll();
+    }
+
+    /**
      * Update a publisher
      * @param Publisher $p  The publisher to update
      * @return Publisher The publisher updated

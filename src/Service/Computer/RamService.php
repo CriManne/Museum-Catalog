@@ -67,6 +67,14 @@ class RamService {
     }
 
     /**
+     * Select all
+     * @return array All the rams 
+     */
+    public function selectAll(): array {
+        return $this->ramRepository->selectAll();
+    }
+
+    /**
      * Update a ram
      * @param Ram $r The ram to update
      * @return Ram The ram updated

@@ -67,6 +67,14 @@ class PeripheralTypeService {
     }
 
     /**
+     * Select all
+     * @return array All the ptype
+     */
+    public function selectAll(): array {
+        return $this->peripheralTypeRepository->selectAll();
+    }
+
+    /**
      * Update peripheral type
      * @param PeripheralType $pt The object to update
      * @return PeripheralType The object updated

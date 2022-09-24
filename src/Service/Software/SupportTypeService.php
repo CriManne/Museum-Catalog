@@ -67,6 +67,14 @@ class SupportTypeService {
     }
 
     /**
+     * Select all
+     * @return array All the supptype
+     */
+    public function selectAll(): array {
+        return $this->supportTypeRepository->selectAll();
+    }
+
+    /**
      * Update SupportType
      * @param SupportType $s The SupportType to update
      * @return SupportType The SupportType updated

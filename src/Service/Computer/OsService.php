@@ -67,6 +67,14 @@ class OsService {
     }
 
     /**
+     * Select all
+     * @return array All the oss
+     */
+    public function selectAll(): array {
+        return $this->osRepository->selectAll();
+    }
+
+    /**
      * Update a os
      * @param Os $os The os to update
      * @return Os The os updated
