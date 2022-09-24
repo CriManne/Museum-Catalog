@@ -47,10 +47,6 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
 
         $result = [];
 
-        if($category){
-            $category = ucwords($category);
-        }
-
         if($query===""){
             $query = null;
         }

@@ -58,9 +58,6 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             );
         }
 
-        //category title case
-        $category = ucwords($category);
-
         $categories = ArtifactsListController::$categories;
 
         foreach ($categories as $singleCategory) {
