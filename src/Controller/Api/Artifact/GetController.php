@@ -13,12 +13,8 @@ namespace App\Controller\Api\Artifact;
 
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
-use App\Repository\GenericObjectRepository;
-use App\Repository\GenericRepository;
-use App\Service\GenericObjectService;
-use League\Plates\Engine;
+use App\SearchEngine\SearchArtifactEngine;
 use Nyholm\Psr7\Response;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
@@ -26,13 +22,13 @@ use SimpleMVC\Response\HaltResponse;
 
 class GetController extends ControllerUtil implements ControllerInterface{ 
 
-    public GenericObjectService $genericObjectService;
+    public SearchArtifactEngine $searchArtifactEngine;
     
     public function __construct(
-        GenericObjectService $genericObjectService
+        SearchArtifactEngine $searchArtifactEngine
     )
     {
-        $this->genericObjectService = $genericObjectService;
+        $this->searchArtifactEngine = $searchArtifactEngine;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
@@ -42,7 +38,7 @@ class GetController extends ControllerUtil implements ControllerInterface{
         if(isset($params["id"])){
             try{
                 $query = $params["id"];
-                $obj = $this->genericObjectService->selectById($query);
+                $obj = $this->searchArtifactEngine->selectById($query);
 
                 return new Response(
                     200,
