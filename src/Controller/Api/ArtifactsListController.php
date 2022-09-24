@@ -19,7 +19,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class CategoriesController implements ControllerInterface {    
+class ArtifactsListController implements ControllerInterface {    
 
     public static array $categories = [
         'Computer',

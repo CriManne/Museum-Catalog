@@ -12,7 +12,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Artifact;
 
-use App\Controller\Api\CategoriesController;
+use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
@@ -61,7 +61,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
         //category title case
         $category = ucwords($category);
 
-        $categories = CategoriesController::$categories;
+        $categories = ArtifactsListController::$categories;
 
         foreach ($categories as $singleCategory) {
             try {

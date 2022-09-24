@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace App\SearchEngine;
 
-use App\Controller\Api\CategoriesController;
-use App\Exception\RepositoryException;
+use App\Controller\Api\ArtifactsListController;
 use App\Exception\ServiceException;
 use PDO;
 use App\Model\Software\Software;
@@ -13,24 +12,16 @@ use App\Model\Book\Book;
 use App\Model\Magazine\Magazine;
 use App\Model\Peripheral\Peripheral;
 use App\Model\Computer\Computer;
-use App\Model\Response\GenericObjectResponse;
+use App\Model\Response\GenericArtifactResponse;
 
-use App\Repository\Book\BookRepository;
-use App\Repository\Computer\ComputerRepository;
-use App\Repository\Magazine\MagazineRepository;
-use App\Repository\Peripheral\PeripheralRepository;
-use App\Repository\Software\SoftwareRepository;
-use PDOException;
-use App\Util\ORM;
 use DI\Container;
 use DI\ContainerBuilder;
-use DI\NotFoundException;
 
 class SearchArtifactEngine
 {
 
     private Container $container;
-    private array $repositories;
+    private array $categories;
 
     public function __construct(
         string $containerPath = "config/container.php"
@@ -38,19 +29,19 @@ class SearchArtifactEngine
         $builder = new ContainerBuilder();
         $builder->addDefinitions($containerPath);
         $this->container = $builder->build();
-        $this->repositories = CategoriesController::$categories;
+        $this->categories = ArtifactsListController::$categories;
     }
 
     /**
      * Select an object
      * @param string $ObjectID     The ObjectID to select
-     * @return ?GenericObjectResponse            The Object selected, null if not found
+     * @return ?GenericArtifactResponse            The Object selected, null if not found
      */
-    public function selectById(string $ObjectID): ?GenericObjectResponse
+    public function selectById(string $ObjectID): ?GenericArtifactResponse
     {
-        foreach ($this->repositories as $repoName) {
+        foreach ($this->categories as $categoryName) {
 
-            $artifactServicePath = "App\\Service\\$repoName\\$repoName" . "Service";
+            $artifactServicePath = "App\\Service\\$categoryName\\$categoryName" . "Service";
 
             $artifactService = $this->container->get($artifactServicePath);
 
@@ -61,7 +52,7 @@ class SearchArtifactEngine
             } catch (ServiceException) {
             }
             if ($result) {
-                return $this->$repoName($result);
+                return $this->$categoryName($result);
             }
         }
         return null;
@@ -77,16 +68,16 @@ class SearchArtifactEngine
     {
         $result = [];
 
-        foreach ($this->repositories as $repoName) {
-            if ($category && $repoName !== $category) {
+        foreach ($this->categories as $categoryName) {
+            if ($category && $categoryName !== $category) {
                 continue;
             }
 
-            $artifactServicePath = "App\\Service\\$repoName\\$repoName" . "Service";
+            $artifactServicePath = "App\\Service\\$categoryName\\$categoryName" . "Service";
 
             $artifactService = $this->container->get($artifactServicePath);
 
-            $artifactRepoName = strtolower($repoName) . "Repository";
+            $artifactRepoName = strtolower($categoryName) . "Repository";
 
             $unmappedResult = null;
             if ($query) {
@@ -99,7 +90,7 @@ class SearchArtifactEngine
                 foreach ($unmappedResult as $item) {
                     $mappedObject = $artifactService->$artifactRepoName->returnMappedObject(json_decode(json_encode($item), true));
 
-                    $result[] = $this->$repoName($mappedObject);
+                    $result[] = $this->$categoryName($mappedObject);
                 }
             }
         }
@@ -114,16 +105,16 @@ class SearchArtifactEngine
     /**
      * Map a book object to a generic object
      * @param Book $obj The book object
-     * @return GenericObjectResponse The object mapped
+     * @return GenericArtifactResponse The object mapped
      */
-    public function Book(Book $obj): GenericObjectResponse
+    public function Book(Book $obj): GenericArtifactResponse
     {
         $authors = [];
         foreach ($obj->Authors as $author) {
             $authors[] = $author->firstname[0] . " " . $author->lastname;
         }
 
-        return new GenericObjectResponse(
+        return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->Title,
             [
@@ -143,11 +134,11 @@ class SearchArtifactEngine
     /**
      * Map a computer object to a generic object
      * @param Computer $obj The computer object
-     * @return GenericObjectResponse The object mapped
+     * @return GenericArtifactResponse The object mapped
      */
-    public function Computer(Computer $obj): GenericObjectResponse
+    public function Computer(Computer $obj): GenericArtifactResponse
     {
-        return new GenericObjectResponse(
+        return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->ModelName,
             [
@@ -167,11 +158,11 @@ class SearchArtifactEngine
     /**
      * Map a magazine object to a generic object
      * @param Magazine $obj The magazine object
-     * @return GenericObjectResponse The object mapped
+     * @return GenericArtifactResponse The object mapped
      */
-    public function Magazine(Magazine $obj): GenericObjectResponse
+    public function Magazine(Magazine $obj): GenericArtifactResponse
     {
-        return new GenericObjectResponse(
+        return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->Title,
             [
@@ -189,11 +180,11 @@ class SearchArtifactEngine
     /**
      * Map a peripheral object to a generic object
      * @param Peripheral $obj The peripheral object
-     * @return GenericObjectResponse The object mapped
+     * @return GenericArtifactResponse The object mapped
      */
-    public function Peripheral(Peripheral $obj): GenericObjectResponse
+    public function Peripheral(Peripheral $obj): GenericArtifactResponse
     {
-        return new GenericObjectResponse(
+        return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->ModelName,
             [
@@ -209,11 +200,11 @@ class SearchArtifactEngine
     /**
      * Map a software object to a generic object
      * @param Software $obj The software object
-     * @return GenericObjectResponse The object mapped
+     * @return GenericArtifactResponse The object mapped
      */
-    public function Software(Software $obj): GenericObjectResponse
+    public function Software(Software $obj): GenericArtifactResponse
     {
-        return new GenericObjectResponse(
+        return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->Title,
             [

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Model\Book;
 
 use App\Model\GenericObject;
-use App\Model\Response\GenericObjectResponse;
+use App\Model\Response\GenericArtifactResponse;
 
 class Book extends GenericObject {
 

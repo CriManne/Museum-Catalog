@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Artifact;
 
-use App\Controller\Api\CategoriesController;
+use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
-use App\Model\Response\GenericObjectResponse;
+use App\Model\Response\GenericArtifactResponse;
 use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
 use App\Service\GenericObjectService;
@@ -58,7 +58,7 @@ class SearchComponentController extends ControllerUtil implements ControllerInte
         //category title case
         $category = ucwords($category);
 
-        $categories = CategoriesController::$categories;
+        $categories = ArtifactsListController::$categories;
 
         //If the category is in the main category list then return not found
         if(in_array($category,$categories)){

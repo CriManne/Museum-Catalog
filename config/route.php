@@ -41,7 +41,8 @@ return [
     /* API */
 
     //UTIL ENDPOINT TO RETURN ALL THE ARTIFACT'S CATEGORIES
-    ['GET', '/api/categories', Controller\Api\CategoriesController::class],
+    ['GET', '/api/list/artifacts', Controller\Api\ArtifactsListController::class],
+    ['GET', '/api/list/components', Controller\Api\ComponentsListController::class],
 
     /* USER */
 

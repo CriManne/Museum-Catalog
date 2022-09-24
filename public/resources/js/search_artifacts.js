@@ -1,5 +1,5 @@
 const urlSearch = '/api/artifacts/search';
-const urlCategories = "/api/categories";
+const urlListArtifacts = "/api/list/artifacts";
 let category = "";
 
 $(document).ready(function() {
@@ -61,7 +61,7 @@ function loadResult(search) {
 }
 
 function loadSelect() {
-    let data = makeRequest(urlCategories);
+    let data = makeRequest(urlListArtifacts);
     if (data) {
         data.forEach(function(elem) {
             $("#category-select").append($('<option>', {

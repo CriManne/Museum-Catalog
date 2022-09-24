@@ -12,10 +12,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Artifact;
 
-use App\Controller\Api\CategoriesController;
+use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
-use App\Model\Response\GenericObjectResponse;
+use App\Model\Response\GenericArtifactResponse;
 use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
 use App\SearchEngine\SearchArtifactEngine;
@@ -55,7 +55,7 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
             $query = null;
         }
 
-        if($category && !in_array($category,CategoriesController::$categories)){
+        if($category && !in_array($category,ArtifactsListController::$categories)){
             return new Response(
                 404,
                 [],

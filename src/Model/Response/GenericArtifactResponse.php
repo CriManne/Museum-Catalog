@@ -6,7 +6,7 @@ namespace App\Model\Response;
 
 use App\Model\GenericObject;
 
-class GenericObjectResponse extends GenericObject {
+class GenericArtifactResponse extends GenericObject {
 
     public string $ObjectID;
     public string $Title;
@@ -22,8 +22,7 @@ class GenericObjectResponse extends GenericObject {
         string $Url = null,
         string $Tag = null
     ) {
-        //TODO: FIX ACTIVE FIELD
-        parent::__construct($ObjectID,$Note,$Url,$Tag,"");        
+        parent::__construct($ObjectID,$Note,$Url,$Tag);        
         $this->Title = $Title;
         $this->Descriptors = $Descriptors;      
         $this->Category = $Category;  
