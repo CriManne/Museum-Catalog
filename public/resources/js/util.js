@@ -1,8 +1,8 @@
 //Create alert
 function createAlert(response, container = "#alert-container") {
     $(container).prepend(
-        '<div class="alert alert-'+(response.status_code == "200" ? "success" : "danger")+' alert-dismissible fade show" role="alert" id="alert">' +
-        '<p><strong>' + (response.status_code == "200" ? "Success!" : "Error!") + '</strong></p>' + response.message +
+        '<div class="alert alert-'+(response.status == "200" ? "success" : "danger")+' alert-dismissible fade show" role="alert" id="alert">' +
+        '<p><strong>' + (response.status == "200" ? "Success!" : "Error!") + '</strong></p>' + response.message +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
     );
     $("#alert").fadeTo(3000, 0).slideUp(500, function() {
@@ -11,7 +11,7 @@ function createAlert(response, container = "#alert-container") {
 }
 
 //Make a request and return a json response
-function makeRequest(url, method = 'GET', headers = [], params = []) {
+function makeRequest(url, method = 'GET', headers = [], params = [],dataType = "text") {
     var returnData = {};
     $.ajax({
         url: url,
@@ -19,16 +19,18 @@ function makeRequest(url, method = 'GET', headers = [], params = []) {
         async: false,
         headers: headers,
         data: params,
+        processData: false,
+        contentType: false,
+        dataType:dataType,
         xhrFields: {
             withCredentials: true
         },
         success: function(data, textStatus, xhr) {
             returnData = JSON.parse(data);
-            returnData.status_code = xhr.status;
         },
         error: function(xhr, status, error) {
             returnData.message = JSON.parse(xhr.responseText).message;
-            returnData.status_code = xhr.status;
+            returnData.status = xhr.status;
         }
     });
     return returnData;

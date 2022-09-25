@@ -10,6 +10,7 @@ use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\User;
 use App\Repository\UserRepository;
+use App\SearchEngine\ArtifactSearchEngine;
 use App\Service\UserService;
 use App\Util\ORM;
 use DI\Container;
@@ -25,17 +26,20 @@ use ReflectionClass;
 use ReflectionFunction;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
+use Throwable;
 use TypeError;
 
 class PostController extends ControllerUtil implements ControllerInterface {
 
     protected PDO $pdo;
     protected Container $container;
+    protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(PDO $pdo, ContainerBuilder $builder) {
+    public function __construct(PDO $pdo, ContainerBuilder $builder,ArtifactSearchEngine $artifactSearchEngine) {
         $this->pdo = $pdo;
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
+        $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
@@ -50,7 +54,7 @@ class PostController extends ControllerUtil implements ControllerInterface {
             return new Response(
                 400,
                 [],
-                $this->getResponse("Invalid request!", 400)
+                $this->getResponse("Bad request!", 400)
             );
         }
 
@@ -72,7 +76,7 @@ class PostController extends ControllerUtil implements ControllerInterface {
                 $rawObject = $params;
 
                 $instantiatedObject = null;
-                if (in_array($category, $categories)) {
+                if (in_array(ucwords($category), $categories)) {
                     //Repository full path
                     $repoPath = "App\\Repository\\$singleCategory\\$category" . "Repository";
 
@@ -87,23 +91,51 @@ class PostController extends ControllerUtil implements ControllerInterface {
                 }
 
                 if($method=="POST"){
+                    try{
+                        $this->artifactSearchEngine->selectById($instantiatedObject->ObjectID);
+
+                        return new Response(
+                            400,
+                            [],
+                            $this->getResponse("Object id already used!",400)
+                        );
+                    }catch(ServiceException){}
+
                     $this->artifactService->insert($instantiatedObject);
+
+                    //Delete remained old files
+                    self::deleteFiles($instantiatedObject->ObjectID);
+
+                    //Upload new files
+                    //try{
+                        $this->uploadFiles($instantiatedObject->ObjectID,'images');
+                    // }catch(Exception $e){
+                    //     return new Response(
+                    //         400,
+                    //         [],
+                    //         $this->getResponse("Error while uploading the images ".$e->getMessage()."! The $category is successfully inserted.",400)
+                    //     );    
+                    // }
+                    return new Response(
+                        200,
+                        [],
+                        $this->getResponse("$category inserted successfully!")
+                    );
                 }else{
                     $this->artifactService->update($instantiatedObject);
+                    return new Response(
+                        200,
+                        [],
+                        $this->getResponse("$category updated successfully!")
+                    );
                 }
-
-                return new Response(
-                    200,
-                    [],
-                    $this->getResponse("$category inserted successfully!")
-                );
             } catch (ServiceException $e) {
                 return new Response(
                     400,
                     [],
                     $this->getResponse($e->getMessage(), 400)
                 );
-            } catch (Exception) {
+            } catch (Throwable | Exception) {
             }
         }
 
@@ -112,5 +144,41 @@ class PostController extends ControllerUtil implements ControllerInterface {
             [],
             $this->getResponse("Bad request!", 400)
         );
+    }
+
+    public static function deleteFiles(string $ObjectID){
+
+        $dir =$_SERVER['DOCUMENT_ROOT']."/assets/artifacts/";
+
+        $files = scandir($dir);
+
+        $regex = '/^'.$ObjectID.'_\d/';
+
+        $files = array_map('strval', preg_filter('/^/', $dir, preg_grep($regex, $files)));
+
+        foreach($files as $file){
+            unlink($file);
+        }
+    }
+
+    public function uploadFiles(string $ObjectID,string $name){
+
+        $files = $_FILES[$name];
+
+        // if(isset($files['error'])){
+        //     throw new Exception();
+        // }  
+
+        $path = $_SERVER['DOCUMENT_ROOT']."/assets/artifacts/";
+
+        $index = 1;
+
+        foreach($files['tmp_name'] as $tmp_name){  
+            $splittedName = explode('.',$files['name'][$index-1]);
+            $fileextension = end($splittedName);          
+            $filename = $path.$ObjectID."_".$index.".".$fileextension;
+            move_uploaded_file($tmp_name,$filename);
+            $index++;
+        }
     }
 }

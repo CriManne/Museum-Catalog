@@ -4,6 +4,7 @@ $(document).ready(function() {
     $("#main-container").removeClass("d-none");
 });
 
+
 function loadHeader() {
 
     $("#tb-container").append(
@@ -31,12 +32,13 @@ function displayResult(result) {
         }
 
         $("#table-result").append(
-            "<tr role='button' class='artifact-row' data-id='" + elem.ObjectID + "'><th scope='row' class='text-decoration-underline'>" + elem.ObjectID +
+            "<tr>"+
+            "<th scope='row' class='text-decoration-underline artifact-row' role='button' data-id='" + elem.ObjectID + "'>" + elem.ObjectID +
             "</th><td>" + elem.Title +
             "</td><td>" + description.join(" | ") +
             "</td><td>" + elem.Category +
             "</td><td class='text-center'><button class='btn btn-primary'>Update</button>" +
-            "</td><td class='text-center'><button class='btn btn-primary'>Delete</button>" +
+            "</td><td class='text-center'><button class='btn btn-primary btn-del' data-id='"+elem.ObjectID+"' data-category='"+elem.Category+"'>Delete</button>" +
             "</td>" +
             "</tr>"
         );
@@ -44,6 +46,18 @@ function displayResult(result) {
 
     $(".artifact-row").unbind().on('click', function() {
         window.location.href = '/artifact?id=' + $(this).attr('data-id');
+    });
+
+    $(".btn-del").unbind().on('click',function(){
+        let id = $(this).attr('data-id');
+        let category = $(this).attr('data-category');
+        if (confirm("Sei sicuro di voler eliminare il reperto {" + id + "}?")) {
+            let response = makeRequest(urlArtifacts + "?id=" + id+"&category="+category, 'DELETE');
+            if(response.status=="200"){
+                loadResult("");
+            }
+            createAlert(response);
+        }
     });
 
 }

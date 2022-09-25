@@ -71,6 +71,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
 
                 if ($methodType === "string") {
                     $this->artifactService->delete($id);
+                    PostController::deleteFiles($id);
                 } elseif ($methodType === "int") {
                     if (!is_numeric($id)) {
                         return new Response(
@@ -81,7 +82,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
                     }
                     $this->artifactService->delete(intval($id));
                 }
-
+                
                 return new Response(
                     200,
                     [],

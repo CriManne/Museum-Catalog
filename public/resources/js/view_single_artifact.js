@@ -1,4 +1,5 @@
 const urlObject = "/api/artifacts";
+const urlImagesNames = "/api/images";
 
 $(document).ready(function() {
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -12,6 +13,27 @@ $(document).ready(function() {
         $("#error-alert").append(object.message);
     }else{
         $("#artifact").removeClass("d-none");
+
+        let images = makeRequest(urlImagesNames+"?id="+objectID);
+
+        if(images.length==1){
+            $("#single-img").attr("src",images[0]);
+        }
+
+        if(images.length > 1){
+            $("#single-img").remove();
+            $("#carousel").removeClass("d-none");
+            let active = false;
+            images.forEach(function(img){
+                $("#carousel-images").append(
+                    '<div class="carousel-item '+(!active ? 'active' : '')+'">'+
+                    '       <img src="'+img+'" class="d-block w-100" style="height:40vh;" alt="...">'+
+                    '    </div>'
+                );
+                active = true;
+            });
+        }
+
     }
 
     // $("#debug-container").append(JSON.stringify(object));
@@ -32,3 +54,14 @@ $(document).ready(function() {
         $("object-note").append("Note: "+object.Note);
     }
 });
+
+function imageExists(image_url){
+
+    var http = new XMLHttpRequest();
+
+    http.open('HEAD', image_url, false);
+    http.send();
+
+    return http.status != 404;
+
+}

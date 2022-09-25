@@ -1,4 +1,5 @@
 var urlHome = "/private";
+var urlArtifacts = "/api/artifacts";
 
 $(document).ready(function() {
 

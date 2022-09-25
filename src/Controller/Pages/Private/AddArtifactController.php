@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller\Pages\Private;
 
+use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Service\UserService;
@@ -27,47 +28,32 @@ class AddArtifactController extends ControllerUtil implements ControllerInterfac
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        try {
+        $params = $request->getQueryParams();
 
-            if (isset($request->getQueryParams()['logout-btn'])) {
-                unset($_SESSION);
-                session_destroy();
-                return new Response(
-                    302,
-                    ['Location' => '/login']
-                );
-            }
+        $category = ucwords($params["category"]) ?? null;
 
-            $user = $this->userService->selectById($_SESSION['user_email']);
-
-            $pageRequested = $request->getQueryParams()['page'] ?? null;
-
-            if (!$pageRequested) {
-                return new Response(
-                    200,
-                    [],
-                    $this->plates->render('private::home', ['title' => "Dashboard user", 'user' => $user])
-                );
-            }
-            try {
-                return new Response(
-                    200,
-                    [],
-                    $this->plates->render('private::' . $pageRequested, ['title' => "Dashboard user", 'user' => $user])
-                );
-            } catch (Exception) {
-                return new Response(
-                    404,
-                    [],
-                    $this->displayError(404, "Unkown page requested!")
-                );
-            }
-        } catch (ServiceException $e) {
+        if(!$category){
             return new Response(
                 400,
                 [],
-                $this->displayError(400, $e->getMessage())
+                $this->displayError(400,"Bad request!")
             );
         }
+
+        if(!in_array($category,ArtifactsListController::$categories)){
+            return new Response(
+                404,
+                [],
+                $this->displayError(404,"Category not found!")
+            );
+        }
+
+        $user = $this->userService->selectById($_SESSION['user_email']);
+
+        return new Response(
+            200,
+            [],
+            $this->plates->render("artifact_forms::$category",['user'=>$user])
+        );
     }
 }

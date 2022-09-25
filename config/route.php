@@ -34,8 +34,11 @@ return [
 
     /* API */
 
-    //UTIL ENDPOINT TO RETURN ALL THE ARTIFACT'S CATEGORIES
+    //ENDPOINT TO RETURN ALL THE ARTIFACT'S CATEGORIES
     ['GET', '/api/list/artifacts', Controller\Api\ArtifactsListController::class],
+
+    //GET ALL THE IMAGES BY THE ID
+    ['GET','/api/images',Controller\Api\ArtifactImagesController::class],
 
     /* USER */
 

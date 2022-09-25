@@ -2,7 +2,7 @@
 Choose artifact category
 
 <select class="input-select" id="category-select">
-    <option selected value="">Tutte le categorie</option>
+    <option selected hidden>Scegli una categoria</option>
 </select>
 <?php $this->push('scripts') ?>
 <script src="/api/scripts?filename=choose_artifact_category.js"></script>

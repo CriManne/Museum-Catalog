@@ -7,13 +7,13 @@ $(document).ready(function() {
 
     $("#add-user-form").on('submit', function(e) {
         e.preventDefault();
-        var data = $("#add-user-form").serializeArray();
-        var object = {};
+        let data = $("#add-user-form").serializeArray();
+        let object = {};
         data.forEach(element => {
             object[element.name] = element.value;
         });
 
-        var response = makeRequest(
+        let response = makeRequest(
             urlUsers,
             'POST',
             headers = {
