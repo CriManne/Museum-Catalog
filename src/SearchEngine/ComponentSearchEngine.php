@@ -34,7 +34,7 @@ use DI\ContainerBuilder;
 use DI\NotFoundException;
 use Exception;
 
-class SearchComponentEngine
+class ComponentSearchEngine
 {
 
     private Container $container;

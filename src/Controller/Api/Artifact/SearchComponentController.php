@@ -19,7 +19,7 @@ use App\Exception\ServiceException;
 use App\Model\Response\GenericArtifactResponse;
 use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
-use App\SearchEngine\SearchComponentEngine;
+use App\SearchEngine\ComponentSearchEngine;
 use App\Service\GenericObjectService;
 use DI\Container;
 use DI\ContainerBuilder;
@@ -35,12 +35,12 @@ use SimpleMVC\Response\HaltResponse;
 class SearchComponentController extends ControllerUtil implements ControllerInterface
 {
 
-    public SearchComponentEngine $searchComponentEngine;
+    public ComponentSearchEngine $componentSearchEngine;
 
     public function __construct(
-        SearchComponentEngine $searchComponentEngine
+        ComponentSearchEngine $componentSearchEngine
     ) {
-        $this->searchComponentEngine = $searchComponentEngine;
+        $this->componentSearchEngine = $componentSearchEngine;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -73,12 +73,12 @@ class SearchComponentController extends ControllerUtil implements ControllerInte
 
                 $keywords = explode(" ", $query);
 
-                $result = $this->searchComponentEngine->select($category, array_shift($keywords));
+                $result = $this->componentSearchEngine->select($category, array_shift($keywords));
 
                 if (count($keywords) > 0) {
                     $resultsKeyword = [$result];
                     foreach ($keywords as $keyword) {
-                        $resultsKeyword[] = $this->searchComponentEngine->select($category, $keyword);
+                        $resultsKeyword[] = $this->componentSearchEngine->select($category, $keyword);
                     }
 
                     $result = array_uintersect(...$resultsKeyword, ...[function ($a, $b) {
@@ -89,7 +89,7 @@ class SearchComponentController extends ControllerUtil implements ControllerInte
                     }]);
                 }
             } else {
-                $result = $this->searchComponentEngine->select($category);
+                $result = $this->componentSearchEngine->select($category);
             }
         } catch (RepositoryException $e) {
             return new Response(

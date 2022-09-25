@@ -18,7 +18,7 @@ use App\Exception\ServiceException;
 use App\Model\Response\GenericArtifactResponse;
 use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
-use App\SearchEngine\SearchArtifactEngine;
+use App\SearchEngine\ArtifactSearchEngine;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -30,12 +30,12 @@ use SimpleMVC\Response\HaltResponse;
 class SearchArtifactController extends ControllerUtil implements ControllerInterface
 {
 
-    public SearchArtifactEngine $searchArtifactEngine;
+    public ArtifactSearchEngine $artifactSearchEngine;
 
     public function __construct(
-        SearchArtifactEngine $searchArtifactEngine
+        ArtifactSearchEngine $artifactSearchEngine
     ) {
-        $this->searchArtifactEngine = $searchArtifactEngine;
+        $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -63,12 +63,12 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
 
             $keywords = explode(" ", $query);
 
-            $result = $this->searchArtifactEngine->select($category,array_shift($keywords));
+            $result = $this->artifactSearchEngine->select($category,array_shift($keywords));
 
             if (count($keywords) > 0) {
                 $resultsKeyword = [$result];
                 foreach ($keywords as $keyword) {
-                    $resultsKeyword[] = $this->searchArtifactEngine->select($category,$keyword);
+                    $resultsKeyword[] = $this->artifactSearchEngine->select($category,$keyword);
                 }
 
                 $result = array_uintersect(...$resultsKeyword, ...[function ($a, $b) {
@@ -79,7 +79,7 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
                 }]);
             }
         } else {
-            $result = $this->searchArtifactEngine->select($category);
+            $result = $this->artifactSearchEngine->select($category);
         }
 
         if (count($result) < 1) {

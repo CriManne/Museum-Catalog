@@ -6,7 +6,7 @@ namespace App\Test\Repository;
 
 use PDO;
 use PHPUnit\Framework\TestCase;
-use App\SearchEngine\SearchComponentEngine;
+use App\SearchEngine\ComponentSearchEngine;
 use App\Exception\RepositoryException;
 use App\Model\Book\Publisher;
 use App\Model\Computer\Computer;
@@ -30,9 +30,9 @@ use App\Repository\Software\SoftwareTypeRepository;
 use App\Repository\Software\SupportTypeRepository;
 use App\Util\DIC;
 
-final class SearchComponentEngineTest extends TestCase
+final class ComponentSearchEngineTest extends TestCase
 {
-    public static SearchComponentEngine $searchComponentEngine;
+    public static ComponentSearchEngine $componentSearchEngine;
     public static OsRepository $osRepository;
     public static CpuRepository $cpuRepository;
     public static RamRepository $ramRepository;
@@ -64,37 +64,37 @@ final class SearchComponentEngineTest extends TestCase
         self::$cpuRepository->insert($cpu3);
         self::$ramRepository->insert($ram3);
 
-        self::$searchComponentEngine = new SearchComponentEngine(
+        self::$componentSearchEngine = new ComponentSearchEngine(
             "config/test_container.php"
         );
     }
 
     public function testGoodSelectAll(): void
     {
-        $this->assertEquals(count(self::$searchComponentEngine->select("Cpu")), 3);
+        $this->assertEquals(count(self::$componentSearchEngine->select("Cpu")), 3);
     }
 
     public function testBadSelectAll(): void
     {
         $this->expectException(RepositoryException::class);
-        self::$searchComponentEngine->select("Bad category");
+        self::$componentSearchEngine->select("Bad category");
     }
 
     public function testGoodSelectByQuery(): void
     {
-        $result = self::$searchComponentEngine->select("Ram", "gb");
+        $result = self::$componentSearchEngine->select("Ram", "gb");
         $this->assertEquals(3, count($result));
     }
 
     public function testGoodSelectByQuery2(): void
     {
-        $result = self::$searchComponentEngine->select("Cpu", "hz");
+        $result = self::$componentSearchEngine->select("Cpu", "hz");
         $this->assertEquals(3, count($result));
     }
 
     public function testBadSelectByQuery(): void
     {
-        $result = self::$searchComponentEngine->select("Cpu", "WRONG_SEARCH");
+        $result = self::$componentSearchEngine->select("Cpu", "WRONG_SEARCH");
         $this->assertEquals(0, count($result));
     }
 

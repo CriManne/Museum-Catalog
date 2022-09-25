@@ -13,7 +13,7 @@ namespace App\Controller\Api\Artifact;
 
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
-use App\SearchEngine\SearchArtifactEngine;
+use App\SearchEngine\ArtifactSearchEngine;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -22,13 +22,13 @@ use SimpleMVC\Response\HaltResponse;
 
 class GetController extends ControllerUtil implements ControllerInterface{ 
 
-    public SearchArtifactEngine $searchArtifactEngine;
+    public ArtifactSearchEngine $artifactSearchEngine;
     
     public function __construct(
-        SearchArtifactEngine $searchArtifactEngine
+        ArtifactSearchEngine $artifactSearchEngine
     )
     {
-        $this->searchArtifactEngine = $searchArtifactEngine;
+        $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
@@ -38,7 +38,7 @@ class GetController extends ControllerUtil implements ControllerInterface{
         if(isset($params["id"])){
             try{
                 $query = $params["id"];
-                $obj = $this->searchArtifactEngine->selectById($query);
+                $obj = $this->artifactSearchEngine->selectById($query);
 
                 return new Response(
                     200,

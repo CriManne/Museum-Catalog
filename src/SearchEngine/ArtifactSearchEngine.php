@@ -17,7 +17,7 @@ use App\Model\Response\GenericArtifactResponse;
 use DI\Container;
 use DI\ContainerBuilder;
 
-class SearchArtifactEngine
+class ArtifactSearchEngine
 {
 
     private Container $container;
