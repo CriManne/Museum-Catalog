@@ -35,6 +35,8 @@ return [
     //PRIVATE HOME
     ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
 
+    //ADD ARTIFACT
+    ['GET','/private/artifact/add_artifact',[Controller\BasicAuthController::class,Controller\Pages\Private\AddArtifactController::class],
 
     // ______________________________________________________ //
 
