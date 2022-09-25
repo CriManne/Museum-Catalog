@@ -18,7 +18,6 @@
         <select id="template" style="display:none;">
             <option id="templateOption"></option>
         </select>
-        <!-- this is our "real" template that will be re-sized -->
         <select class="input-select" id="category-select">
             <option selected value="">Tutte le categorie</option>            
         </select>
