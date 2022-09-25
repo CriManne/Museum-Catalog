@@ -3,19 +3,27 @@ var urlHome = "/private";
 $(document).ready(function() {
 
     $("#view_users").on('click',function(){
-        window.location.href =urlHome+"?view_users";
+        window.location.href =urlHome+"?page=view_users";
     });
 
     $("#add_user").on('click',function(){
-        window.location.href =urlHome+"?add_user";
+        window.location.href =urlHome+"?page=add_user";
     });
 
     $("#view_artifacts").on('click',function(){
-        window.location.href =urlHome+"?view_artifacts";
+        window.location.href =urlHome+"?page=view_artifacts";
     });
 
-    $("#add_user").on('click',function(){
-        window.location.href =urlHome+"?add_user";
+    $("#add_artifact").on('click',function(){
+        window.location.href =urlHome+"?page=add_artifact";
+    });
+
+    $("#view_components").on('click',function(){
+        window.location.href =urlHome+"?page=view_components";
+    });
+
+    $("#add_component").on('click',function(){
+        window.location.href =urlHome+"?page=add_component";
     });
 
 });

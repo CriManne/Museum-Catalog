@@ -46,7 +46,7 @@ class ArtifactController extends ControllerUtil implements ControllerInterface {
         return new Response(
             200,
             [],
-            $this->plates->render('artifact::artifact')
+            $this->plates->render('artifact::single_artifact')
         );
     }
 }

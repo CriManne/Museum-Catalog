@@ -1,3 +1,4 @@
+<?php $this->layout('layouts::dashboard_layout', ['title' => 'Add user','user'=>$user]) ?>
 <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="loading-container">
     <div class="spinner-border mx-auto" role="status"></div>
 </div>
@@ -32,3 +33,6 @@
         <input type='submit' class='btn btn-primary' id='btn-submit'>
     </form>
 </div>
+<?php $this->push('scripts') ?>
+<script src="/api/adv/scripts?filename=add_user.js"></script>
+<?php $this->end() ?>

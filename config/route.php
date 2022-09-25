@@ -42,7 +42,6 @@ return [
 
     //UTIL ENDPOINT TO RETURN ALL THE ARTIFACT'S CATEGORIES
     ['GET', '/api/list/artifacts', Controller\Api\ArtifactsListController::class],
-    ['GET', '/api/list/components', Controller\Api\ComponentsListController::class],
 
     /* USER */
 

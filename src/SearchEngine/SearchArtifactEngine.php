@@ -55,7 +55,7 @@ class SearchArtifactEngine
                 return $this->$categoryName($result);
             }
         }
-        return null;
+        throw new ServiceException("Artifact with id [$ObjectID] not found!");
     }
 
     /**

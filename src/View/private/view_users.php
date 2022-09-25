@@ -1,3 +1,4 @@
+<?php $this->layout('layouts::dashboard_layout', ['title' => 'Users','user'=>$user]) ?>
 <style>
     .table-scrollable {
         overflow-x: auto;
@@ -38,3 +39,6 @@
         <option value="25">25</option>
     </select>
 </div>
+<?php $this->push('scripts') ?>
+<script src="/api/adv/scripts?filename=view_users.js"></script>
+<?php $this->end() ?>
