@@ -12,8 +12,8 @@ class Book extends GenericObject {
     public string $Title;
     public Publisher $Publisher;
     public int $Year;
-    public string $ISBN;
-    public int $Pages;
+    public ?string $ISBN;
+    public ?int $Pages;
     public array $Authors;
 
     public function __construct(
@@ -24,8 +24,8 @@ class Book extends GenericObject {
         string $Title,
         Publisher $Publisher,
         int $Year,
-        string $ISBN,
-        int $Pages,
+        ?string $ISBN=null,
+        ?int $Pages=null,
         array $Authors
     ) {
         parent::__construct($ObjectID, $Note, $Url, $Tag);

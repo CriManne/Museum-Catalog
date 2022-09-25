@@ -36,7 +36,3 @@ mock the pdo because the low level db interaction is already being tested in int
 - REMOVE DEBUG CONTAINERS IN PAGES
 
 - SEARCH IN THE PROJECT FOR //TODO s
-____
-
-Book model
-Authors can be stored as an array of Author and if the book has no known author it can have an Author with name "Unknown"

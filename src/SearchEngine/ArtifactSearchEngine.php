@@ -110,8 +110,10 @@ class ArtifactSearchEngine
     public function Book(Book $obj): GenericArtifactResponse
     {
         $authors = [];
-        foreach ($obj->Authors as $author) {
-            $authors[] = $author->firstname[0] . " " . $author->lastname;
+        if($obj->Authors){
+            foreach ($obj->Authors as $author) {
+                $authors[] = $author->firstname[0] . " " . $author->lastname;
+            }
         }
 
         return new GenericArtifactResponse(
@@ -120,9 +122,9 @@ class ArtifactSearchEngine
             [
                 'Publisher' => $obj->Publisher->Name,
                 'Year' => $obj->Year,
-                'ISBN' => $obj->ISBN,
-                'Pages' => $obj->Pages,
-                'Authors' => implode(", ", $authors)
+                'ISBN' => $obj->ISBN ?? "-",
+                'Pages' => $obj->Pages ?? "-",
+                'Authors' => count($authors)>0 ? implode(", ", $authors) : "Unknown"
             ],
             "Book",
             $obj->Note,

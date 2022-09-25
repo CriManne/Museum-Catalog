@@ -267,8 +267,10 @@ class BookRepository extends GenericRepository {
     function returnMappedObject(array $rawBook): Book {
         $bookAuthors = $this->bookAuthorRepository->selectByBookId($rawBook["ObjectID"]);
         $authors = [];
-        foreach ($bookAuthors as $bookAuthor) {
-            $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID));
+        if($bookAuthors){
+            foreach ($bookAuthors as $bookAuthor) {
+                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID));
+            }
         }
 
         return new Book(
@@ -279,8 +281,8 @@ class BookRepository extends GenericRepository {
             $rawBook["Title"],
             $this->publisherRepository->selectById(intval($rawBook["PublisherID"])),
             intval($rawBook["Year"]),
-            $rawBook["ISBN"],
-            intval($rawBook["Pages"]),
+            $rawBook["ISBN"] ?? null,
+            $rawBook["Pages"] ? intval($rawBook["Pages"]) : null,
             $authors
         );
     }
