@@ -8,6 +8,7 @@ use PDO;
 use PHPUnit\Framework\TestCase;
 use App\SearchEngine\SearchArtifactEngine;
 use App\Exception\RepositoryException;
+use App\Exception\ServiceException;
 use App\Model\Book\Publisher;
 use App\Model\Computer\Computer;
 use App\Model\Computer\Cpu;
@@ -147,7 +148,8 @@ final class SearchArtifactEngineTest extends TestCase
 
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$searchArtifactEngine->selectById("wrong"));
+        $this->expectException(ServiceException::class);
+        self::$searchArtifactEngine->selectById("wrong");
     }
 
     public function testGoodSelectAll(): void
