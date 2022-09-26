@@ -177,7 +177,7 @@ class ComponentSearchEngine
     {
         return new GenericComponentResponse(
             $obj->PeripheralTypeID,
-            $obj->firstname . $obj->lastname,
+            $obj->Name,
             "PeripheralType"
         );
     }
