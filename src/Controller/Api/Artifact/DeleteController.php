@@ -46,7 +46,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             return new Response(
                 400,
                 [],
-                $this->getResponse("Invalid request!", 400)
+                $this->getResponse("Bad request!", 400)
             );
         }
 

@@ -37,7 +37,7 @@ function displayResult(result) {
             "</th><td>" + elem.Title +
             "</td><td>" + description.join(" | ") +
             "</td><td>" + elem.Category +
-            "</td><td class='text-center'><button class='btn btn-primary'>Update</button>" +
+            "</td><td class='text-center'><button class='btn btn-primary btn-upd' data-id='"+elem.ObjectID+"' data-category='"+elem.Category+"'>Update</button>" +
             "</td><td class='text-center'><button class='btn btn-primary btn-del' data-id='"+elem.ObjectID+"' data-category='"+elem.Category+"'>Delete</button>" +
             "</td>" +
             "</tr>"
