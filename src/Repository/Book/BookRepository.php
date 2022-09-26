@@ -11,6 +11,7 @@ use App\Model\Book\BookAuthor;
 use App\Repository\Book\AuthorRepository;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\Book\BookAuthorRepository;
+use App\Util\ORM;
 use PDO;
 use PDOException;
 
@@ -265,7 +266,20 @@ class BookRepository extends GenericRepository {
      * @return Book The new instance of book with the fk filled with the result of selects
      */
     function returnMappedObject(array $rawBook): Book {
-        $bookAuthors = $this->bookAuthorRepository->selectByBookId($rawBook["ObjectID"]);
+        $bookAuthors = [];
+        /**
+         * This method can be called both when fetching the book and when inserting the book
+         * So when a book is inserted it has no relation with bookauthor so we can't fetch it
+         * from the bookauthor repository but we need to create BookAuthor entity inside the
+         * book entity so in the insert method of BookRepository it will add the columns in bookauthor
+         */
+        if(isset($rawBook["newAuthors"])){
+            foreach($rawBook["newAuthors"] as $key=>$value){
+                $bookAuthors[] = ORM::getNewInstance(BookAuthor::class,[$rawBook["ObjectID"],$value]);
+            }
+        }else{
+            $bookAuthors = $this->bookAuthorRepository->selectByBookId($rawBook["ObjectID"]);
+        }
         $authors = [];
         if($bookAuthors){
             foreach ($bookAuthors as $bookAuthor) {

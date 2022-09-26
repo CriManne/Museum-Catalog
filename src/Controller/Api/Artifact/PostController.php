@@ -29,23 +29,26 @@ use SimpleMVC\Response\HaltResponse;
 use Throwable;
 use TypeError;
 
-class PostController extends ControllerUtil implements ControllerInterface {
+class PostController extends ControllerUtil implements ControllerInterface
+{
 
     protected PDO $pdo;
     protected Container $container;
     protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(PDO $pdo, ContainerBuilder $builder,ArtifactSearchEngine $artifactSearchEngine) {
+    public function __construct(PDO $pdo, ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine)
+    {
         $this->pdo = $pdo;
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
 
         $params = $request->getParsedBody();
-        
+
         $method = $request->getMethod();
 
         $category = $params["category"] ?? null;
@@ -90,16 +93,18 @@ class PostController extends ControllerUtil implements ControllerInterface {
                     $instantiatedObject = ORM::getNewInstance($classPath, $rawObject);
                 }
 
-                if($method=="POST"){
-                    try{
+
+                if ($method == "POST") {
+                    try {
                         $this->artifactSearchEngine->selectById($instantiatedObject->ObjectID);
 
                         return new Response(
                             400,
                             [],
-                            $this->getResponse("Object id already used!",400)
+                            $this->getResponse("Object id already used!", 400)
                         );
-                    }catch(ServiceException){}
+                    } catch (ServiceException) {
+                    }
 
                     $this->artifactService->insert($instantiatedObject);
 
@@ -108,7 +113,7 @@ class PostController extends ControllerUtil implements ControllerInterface {
 
                     //Upload new files
                     //try{
-                        $this->uploadFiles($instantiatedObject->ObjectID,'images');
+                    $this->uploadFiles($instantiatedObject->ObjectID, 'images');
                     // }catch(Exception $e){
                     //     return new Response(
                     //         400,
@@ -121,7 +126,7 @@ class PostController extends ControllerUtil implements ControllerInterface {
                         [],
                         $this->getResponse("$category inserted successfully!")
                     );
-                }else{
+                } else {
                     $this->artifactService->update($instantiatedObject);
                     return new Response(
                         200,
@@ -146,22 +151,24 @@ class PostController extends ControllerUtil implements ControllerInterface {
         );
     }
 
-    public static function deleteFiles(string $ObjectID){
+    public static function deleteFiles(string $ObjectID)
+    {
 
-        $dir =$_SERVER['DOCUMENT_ROOT']."/assets/artifacts/";
+        $dir = $_SERVER['DOCUMENT_ROOT'] . "/assets/artifacts/";
 
         $files = scandir($dir);
 
-        $regex = '/^'.$ObjectID.'_\d/';
+        $regex = '/^' . $ObjectID . '_\d/';
 
         $files = array_map('strval', preg_filter('/^/', $dir, preg_grep($regex, $files)));
 
-        foreach($files as $file){
+        foreach ($files as $file) {
             unlink($file);
         }
     }
 
-    public function uploadFiles(string $ObjectID,string $name){
+    public function uploadFiles(string $ObjectID, string $name)
+    {
 
         $files = $_FILES[$name];
 
@@ -169,15 +176,15 @@ class PostController extends ControllerUtil implements ControllerInterface {
         //     throw new Exception();
         // }  
 
-        $path = $_SERVER['DOCUMENT_ROOT']."/assets/artifacts/";
+        $path = $_SERVER['DOCUMENT_ROOT'] . "/assets/artifacts/";
 
         $index = 1;
 
-        foreach($files['tmp_name'] as $tmp_name){  
-            $splittedName = explode('.',$files['name'][$index-1]);
-            $fileextension = end($splittedName);          
-            $filename = $path.$ObjectID."_".$index.".".$fileextension;
-            move_uploaded_file($tmp_name,$filename);
+        foreach ($files['tmp_name'] as $tmp_name) {
+            $splittedName = explode('.', $files['name'][$index - 1]);
+            $fileextension = end($splittedName);
+            $filename = $path . $ObjectID . "_" . $index . "." . $fileextension;
+            move_uploaded_file($tmp_name, $filename);
             $index++;
         }
     }

@@ -1,8 +1,10 @@
 <?php $this->layout('layouts::dashboard_layout', ['title' => 'Add peripheral', 'user' => $user]) ?>
 
 <div class="container-fluid p-0 gap-2 align-items-center w-100" id="main-container">
-    <p><a href="/private?page=add_artifact">
-            <- Go back</a>
+    <p>
+        <a href="/private?page=add_artifact" class="btn btn-primary">
+            <i class="fa-solid fa-arrow-left mx-2"></i>Go back
+        </a>
     </p>
     <h3 class="text-center">Aggiungi periferica</h3>
     <div id="alert-container"></div>
@@ -34,7 +36,7 @@
         </div>
         <div class="mb-3">
             <label for="images" class="form-label">Immagini del reperto</label>
-            <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">            
+            <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">
         </div>
         <input type='hidden' name='category' value='Peripheral'>
         <input type='submit' class='btn btn-primary' id='btn-submit'>
@@ -44,7 +46,7 @@
 <script src="/api/scripts?filename=fill_select_component.js"></script>
 <script>
     let urlPeripheralType = "/api/component/search?category=peripheraltype";
-    loadSelect(urlPeripheralType, "#PeripheralTypeID");    
+    loadSelect(urlPeripheralType, "#PeripheralTypeID");
     const urlAdd = urlArtifacts;
 </script>
 <script src="/api/scripts?filename=add_artifact.js"></script>
