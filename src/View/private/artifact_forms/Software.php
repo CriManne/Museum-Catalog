@@ -6,7 +6,7 @@
     </p>
     <h3 class="text-center">Aggiungi software</h3>
     <div id="alert-container"></div>
-    <form id='add-software-form' method="POST" action="/api/artifacts" enctype="multipart/form-data">
+    <form id='add-form' method="POST" action="/api/artifacts" enctype="multipart/form-data">
         <div class="form-outline mb-4">
             <label class="form-label" for="ObjectID">IDENTIFICATIVO CATALOGO</label>
             <input type="text" minlength="20" maxlength="20" name="ObjectID" id="ObjectID" class="form-control" required />
@@ -59,6 +59,7 @@
     loadSelect(urlSoftwareType, "#SoftwareTypeID");
     let urlSupportType = "/api/component/search?category=supporttype";
     loadSelect(urlSupportType, "#SupportTypeID");
+    const urlAdd = urlArtifacts;
 </script>
-<script src="/api/scripts?filename=software/add_software.js"></script>
+<script src="/api/scripts?filename=add_artifact.js"></script>
 <?php $this->end() ?>
