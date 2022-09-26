@@ -26,7 +26,7 @@ class MagazineService {
     public function insert(Magazine $m): Magazine {
         $magazine = $this->magazineRepository->selectByTitle($m->Title);
         if ($magazine)
-            throw new ServiceException("Magazine already used!");
+            throw new ServiceException("Magazine title already used!");
 
         return $this->magazineRepository->insert($m);
     }
