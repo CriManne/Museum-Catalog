@@ -50,18 +50,22 @@ class ComponentSearchEngine
     }
 
     /**
-     * Select specific object by id and category
+     * Select specific component by id and category
+     * @param int $id The id to select
+     * @param string $servicePath The path of the service class to use
+     * @return object The object fetched
+     * @throws ServiceException If not found
      */
-    public function selectSpecificByIdAndCategory(string $ObjectID,string $servicePath): ?object
+    public function selectSpecificByIdAndCategory(int $id,string $servicePath): object
     {
         try{
 
             $componentService = $this->container->get($servicePath);
 
-            return $componentService->selectById($ObjectID);
+            return $componentService->selectById($id);
 
         }catch(Exception | ServiceException){}
-        return null;
+        throw new ServiceException("Component with id [$id] not found!");
     }
 
     /**
@@ -103,7 +107,7 @@ class ComponentSearchEngine
         }
 
         if (!$classFound) {
-            throw new RepositoryException("Category {$category} not found!");
+            throw new ServiceException("Category {$category} not found!");
         }
 
         //SORT BY OBJECT ID

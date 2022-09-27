@@ -35,8 +35,12 @@ class ArtifactSearchEngine
 
     /**
      * Select specific object by id and category
+     * @param string $ObjectID The id to select
+     * @param string $category The category to search in
+     * @return object The object fetched
+     * @throws ServiceException If no object is found
      */
-    public function selectSpecificByIdAndCategory(string $ObjectID,string $category): ?object
+    public function selectSpecificByIdAndCategory(string $ObjectID,string $category): object
     {
         try{
             $artifactServicePath = "App\\Service\\$category\\$category" . "Service";
@@ -46,16 +50,17 @@ class ArtifactSearchEngine
             return $artifactService->selectById($ObjectID);
 
         }catch(Exception | ServiceException){}
-        return null;
+        throw new ServiceException("Artifact with id [$ObjectID] in category [$category] not found!");
     }
 
 
     /**
      * Select generic object by id
      * @param string $ObjectID     The ObjectID to select
-     * @return ?GenericArtifactResponse            The Object selected, null if not found
+     * @return GenericArtifactResponse            The Object selected
+     * @throws ServiceException If not found
      */
-    public function selectGenericById(string $ObjectID): ?GenericArtifactResponse
+    public function selectGenericById(string $ObjectID): GenericArtifactResponse
     {
         foreach ($this->categories as $categoryName) {
 

@@ -129,9 +129,9 @@ final class ArtifactSearchEngineTest extends TestCase
     }
 
     //SELECT TESTS
-    public function testGoodSelectByIdComputer(): void
+    public function testGoodSelectGenericById(): void
     {
-        $obj = self::$artifactSearchEngine->selectById("OBJ1");
+        $obj = self::$artifactSearchEngine->selectGenericById("OBJ1");
         $this->assertEquals(
             [
                 "Year" => "2018",
@@ -146,38 +146,57 @@ final class ArtifactSearchEngineTest extends TestCase
     }
 
 
-    public function testBadSelectById(): void
+    public function testBadSelectGenericById(): void
     {
         $this->expectException(ServiceException::class);
-        self::$artifactSearchEngine->selectById("wrong");
+        self::$artifactSearchEngine->selectGenericById("wrong");
+    }
+
+    public function testGoodSelectSpecificByIdAndCategory(): void
+    {
+        $obj = self::$artifactSearchEngine->selectSpecificByIdAndCategory("OBJ1","Computer");
+        $this->assertEquals(2018,$obj->Year);
+        $this->assertEquals("Computer1", $obj->ModelName);
+    }
+
+    public function testBadSelectSpecificByIdAndCategory(): void
+    {
+        $this->expectException(ServiceException::class);
+        self::$artifactSearchEngine->selectSpecificByIdAndCategory("OBJ1","wrong-category");
+    }
+
+    public function testBadSelectSpecificByIdAndCategory2(): void
+    {
+        $this->expectException(ServiceException::class);
+        self::$artifactSearchEngine->selectSpecificByIdAndCategory("wrong","Computer");
     }
 
     public function testGoodSelectAll(): void
     {
-        $this->assertEquals(count(self::$artifactSearchEngine->select()), 2);
+        $this->assertEquals(count(self::$artifactSearchEngine->selectGenerics()), 2);
     }
 
     public function testGoodSelectByQuery(): void
     {
-        $result = self::$artifactSearchEngine->select(null, "cOmP");
+        $result = self::$artifactSearchEngine->selectGenerics(null, "cOmP");
         $this->assertEquals(2, count($result));
     }
 
     public function testGoodSelectByQueryWithCategory(): void
     {
-        $result = self::$artifactSearchEngine->select("Computer", "cOmP");
+        $result = self::$artifactSearchEngine->selectGenerics("Computer", "cOmP");
         $this->assertEquals(1, count($result));
     }
 
     public function testBadSelectByQuery(): void
     {
-        $result = self::$artifactSearchEngine->select("WRONG", null);
+        $result = self::$artifactSearchEngine->selectGenerics("WRONG", null);
         $this->assertEquals(0, count($result));
     }
 
     public function testBadSelectByQueryWithWrongCategory(): void
     {
-        $result = self::$artifactSearchEngine->select("magazine", "comp");
+        $result = self::$artifactSearchEngine->selectGenerics("magazine", "comp");
         $this->assertEquals(0, count($result));
     }
 

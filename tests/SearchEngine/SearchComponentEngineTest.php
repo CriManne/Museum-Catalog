@@ -8,6 +8,7 @@ use PDO;
 use PHPUnit\Framework\TestCase;
 use App\SearchEngine\ComponentSearchEngine;
 use App\Exception\RepositoryException;
+use App\Exception\ServiceException;
 use App\Model\Book\Publisher;
 use App\Model\Computer\Computer;
 use App\Model\Computer\Cpu;
@@ -69,32 +70,43 @@ final class ComponentSearchEngineTest extends TestCase
         );
     }
 
+    public function testGoodSelectSpecificByIdAndCategory():void{
+        $obj = self::$componentSearchEngine->selectSpecificByIdAndCategory(1,"App\\Service\\Computer\\CpuService");
+        $this->assertEquals("4GHZ",$obj->Speed);
+    }
+
+    public function testBadSelectSpecificByIdAndCategory(): void
+    {
+        $this->expectException(ServiceException::class);
+        self::$componentSearchEngine->selectSpecificByIdAndCategory(1,"App\\Service\\Computer\\WRONG");
+    }    
+
     public function testGoodSelectAll(): void
     {
-        $this->assertEquals(count(self::$componentSearchEngine->select("Cpu")), 3);
+        $this->assertEquals(count(self::$componentSearchEngine->selectGenerics("Cpu")), 3);
     }
 
     public function testBadSelectAll(): void
     {
-        $this->expectException(RepositoryException::class);
-        self::$componentSearchEngine->select("Bad category");
+        $this->expectException(ServiceException::class);
+        self::$componentSearchEngine->selectGenerics("Bad category");
     }
 
     public function testGoodSelectByQuery(): void
     {
-        $result = self::$componentSearchEngine->select("Ram", "gb");
+        $result = self::$componentSearchEngine->selectGenerics("Ram", "gb");
         $this->assertEquals(3, count($result));
     }
 
     public function testGoodSelectByQuery2(): void
     {
-        $result = self::$componentSearchEngine->select("Cpu", "hz");
+        $result = self::$componentSearchEngine->selectGenerics("Cpu", "hz");
         $this->assertEquals(3, count($result));
     }
 
     public function testBadSelectByQuery(): void
     {
-        $result = self::$componentSearchEngine->select("Cpu", "WRONG_SEARCH");
+        $result = self::$componentSearchEngine->selectGenerics("Cpu", "WRONG_SEARCH");
         $this->assertEquals(0, count($result));
     }
 
