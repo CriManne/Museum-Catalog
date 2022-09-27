@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\Artifact;
+namespace App\Controller\Api\Component;
 
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
@@ -10,7 +10,7 @@ use App\Exception\ServiceException;
 use App\Model\Response\GenericArtifactResponse;
 use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
-use App\SearchEngine\ArtifactSearchEngine;
+use App\SearchEngine\ComponentSearchEngine;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -19,15 +19,15 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class SearchArtifactController extends ControllerUtil implements ControllerInterface
+class GetGenericsController extends ControllerUtil implements ControllerInterface
 {
 
-    public ArtifactSearchEngine $artifactSearchEngine;
+    public ComponentSearchEngine $componentSearchEngine;
 
     public function __construct(
-        ArtifactSearchEngine $artifactSearchEngine
+        ComponentSearchEngine $componentSearchEngine
     ) {
-        $this->artifactSearchEngine = $artifactSearchEngine;
+        $this->componentSearchEngine = $componentSearchEngine;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
@@ -43,7 +43,7 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
             $query = null;
         }
 
-        if($category && !in_array($category,ArtifactsListController::$categories)){
+        if(!$category || in_array($category,ArtifactsListController::$categories)){
             return new Response(
                 404,
                 [],
@@ -55,12 +55,12 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
 
             $keywords = explode(" ", $query);
 
-            $result = $this->artifactSearchEngine->select($category,array_shift($keywords));
+            $result = $this->componentSearchEngine->selectGenerics($category,array_shift($keywords));
 
             if (count($keywords) > 0) {
                 $resultsKeyword = [$result];
                 foreach ($keywords as $keyword) {
-                    $resultsKeyword[] = $this->artifactSearchEngine->select($category,$keyword);
+                    $resultsKeyword[] = $this->componentSearchEngine->selectGenerics($category,$keyword);
                 }
 
                 $result = array_uintersect(...$resultsKeyword, ...[function ($a, $b) {
@@ -71,14 +71,14 @@ class SearchArtifactController extends ControllerUtil implements ControllerInter
                 }]);
             }
         } else {
-            $result = $this->artifactSearchEngine->select($category);
+            $result = $this->componentSearchEngine->selectGenerics($category);
         }
 
         if (count($result) < 1) {
             return new Response(
                 404,
                 [],
-                $this->getResponse("No object found", 404)
+                $this->getResponse("No component found", 404)
             );
         }
 

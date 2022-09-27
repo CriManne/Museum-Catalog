@@ -50,12 +50,27 @@ class ComponentSearchEngine
     }
 
     /**
-     * Select objects
+     * Select specific object by id and category
+     */
+    public function selectSpecificByIdAndCategory(string $ObjectID,string $servicePath): ?object
+    {
+        try{
+
+            $componentService = $this->container->get($servicePath);
+
+            return $componentService->selectById($ObjectID);
+
+        }catch(Exception | ServiceException){}
+        return null;
+    }
+
+    /**
+     * Select generic objects
      * @param string $category  The category to search in
      * @param ?string $query The eventual query
      * @return array            The result array
      */
-    public function select(string $category, ?string $query = null): array
+    public function selectGenerics(string $category, ?string $query = null): array
     {
         $result = [];
         $classFound = false;

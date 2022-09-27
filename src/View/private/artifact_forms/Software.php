@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::dashboard_layout', ['title' => 'Add software', 'user' => $user]) ?>
+<?php $this->layout('layouts::dashboard_layout', ['title' => 'Update software', 'user' => $user]) ?>
 
 <div class="container-fluid p-0 gap-2 align-items-center w-100" id="main-container">
     <p>
@@ -49,6 +49,11 @@
             <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">
         </div>
         <input type='hidden' name='category' value='Software'>
+        <?php
+        if (isset($object)) {
+            echo "<input type='hidden' id='object' value='" . json_encode($object) . "'>";
+        }
+        ?>
         <input type='submit' class='btn btn-primary' id='btn-submit'>
     </form>
 </div>
@@ -61,7 +66,13 @@
     loadSelect(urlSoftwareType, "#SoftwareTypeID");
     let urlSupportType = "/api/component/search?category=supporttype";
     loadSelect(urlSupportType, "#SupportTypeID");
-    const urlAdd = urlArtifacts;
+    const urlAdd = urlArtifacts;        
 </script>
 <script src="/api/scripts?filename=add_artifact.js"></script>
+<?php
+if (isset($object)) {
+    echo "<script src='/api/scripts?filename=fill_update_form.js'></script>";
+    echo "<script>fillUpdateForm();</script>";
+}
+?>
 <?php $this->end() ?>

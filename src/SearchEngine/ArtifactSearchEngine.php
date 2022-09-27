@@ -16,6 +16,7 @@ use App\Model\Response\GenericArtifactResponse;
 
 use DI\Container;
 use DI\ContainerBuilder;
+use Exception;
 
 class ArtifactSearchEngine
 {
@@ -33,11 +34,28 @@ class ArtifactSearchEngine
     }
 
     /**
-     * Select an object
+     * Select specific object by id and category
+     */
+    public function selectSpecificByIdAndCategory(string $ObjectID,string $category): ?object
+    {
+        try{
+            $artifactServicePath = "App\\Service\\$category\\$category" . "Service";
+
+            $artifactService = $this->container->get($artifactServicePath);
+
+            return $artifactService->selectById($ObjectID);
+
+        }catch(Exception | ServiceException){}
+        return null;
+    }
+
+
+    /**
+     * Select generic object by id
      * @param string $ObjectID     The ObjectID to select
      * @return ?GenericArtifactResponse            The Object selected, null if not found
      */
-    public function selectById(string $ObjectID): ?GenericArtifactResponse
+    public function selectGenericById(string $ObjectID): ?GenericArtifactResponse
     {
         foreach ($this->categories as $categoryName) {
 
@@ -59,12 +77,12 @@ class ArtifactSearchEngine
     }
 
     /**
-     * Select objects
+     * Select generics objects
      * @param ?string $category  The category to search in
      * @param ?string $query The eventual query
      * @return array            The result array
      */
-    public function select(?string $category = null, ?string $query = null): array
+    public function selectGenerics(?string $category = null, ?string $query = null): array
     {
         $result = [];
 

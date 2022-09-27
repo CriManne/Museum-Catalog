@@ -60,4 +60,10 @@ function displayResult(result) {
         }
     });
 
+    $(".btn-upd").unbind().on('click',function(){
+        let id = $(this).attr('data-id');
+        let category = $(this).attr('data-category');
+        window.location.href = "/private/artifact/update_artifact?category="+category+"&id="+id;
+    });
+
 }

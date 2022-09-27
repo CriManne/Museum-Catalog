@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Api\Artifact;
+namespace App\Controller\Api\Component;
 
 use App\Controller\Api\ArtifactsListController;
-use App\Controller\Api\Images\DeleteController as ImagesDeleteController;
 use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
@@ -45,7 +44,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
 
         $categories = ArtifactsListController::$categories;
 
-        if (!$category || !$id || !in_array($category, $categories)) {
+        if (!$category || !$id || in_array($category, $categories) || !is_numeric($id)) {
             return new Response(
                 400,
                 [],
@@ -53,35 +52,37 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             );
         }
 
-        //Service full path
-        $servicePath = "App\\Service\\$category\\$category" . "Service";
+        foreach ($categories as $genericCategory) {            
+            //Service full path
+            $servicePath = "App\\Service\\$genericCategory\\$category" . "Service";
 
-        try {
-            /**
-             * Get service class, throws an exception if not found
-             */
-            $this->artifactService = $this->container->get($servicePath);
+            try {
+                /**
+                 * Get service class, throws an exception if not found
+                 */
+                $this->componentService = $this->container->get($servicePath);
 
-            $this->artifactService->delete($id);
-            ImagesDeleteController::deleteImages($id);            
+                $this->componentService->delete(intval($id));
 
-            return new Response(
-                200,
-                [],
-                $this->getResponse('Artifact with id {' . $id . '} deleted!')
-            );
-        } catch (ServiceException $e) {
-            return new Response(
-                404,
-                [],
-                $this->getResponse($e->getMessage(), 404)
-            );
-        } catch (Exception) {
-            return new Response(
-                400,
-                [],
-                $this->getResponse("Bad request!", 400)
-            );
+                return new Response(
+                    200,
+                    [],
+                    $this->getResponse("$category deleted successfully!")
+                );
+            }catch(ServiceException $e){
+                return new Response(
+                    400,
+                    [],
+                    $this->getResponse($e->getMessage(), 400)
+                );
+            } catch (Exception) {
+            }
         }
+        
+        return new Response(
+            400,
+            [],
+            $this->getResponse("Bad request!", 400)
+        );
     }
 }

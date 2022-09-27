@@ -1,22 +1,24 @@
 <?php
 
 declare(strict_types=1);
-namespace App\Controller\Api;
+namespace App\Controller\Api\Images;
 
 use App\Controller\ControllerUtil;
-use League\Plates\Engine;
+use App\Exception\ServiceException;
+use App\SearchEngine\ArtifactSearchEngine;
 use Nyholm\Psr7\Response;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class ArtifactImagesController extends ControllerUtil implements ControllerInterface {    
+class GetController extends ControllerUtil implements ControllerInterface{ 
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
-          
-        $id = $request->getQueryParams()['id'] ?? null;
+
+        $params = $request->getQueryParams();
+
+        $id = $params["id"] ?? null;
 
         if(!$id){
             return new Response(
@@ -25,12 +27,12 @@ class ArtifactImagesController extends ControllerUtil implements ControllerInter
                 $this->getResponse("Bad request!",400)
             );
         }
-
-        $dir =$_SERVER['DOCUMENT_ROOT']."/assets/artifacts/";
+        
+        $dir = $_SERVER['DOCUMENT_ROOT'] . "/assets/artifacts/";
 
         $files = scandir($dir);
 
-        $regex = '/^'.$id.'_*/';
+        $regex = '/^' . $id . '_\d/';
 
         $files = array_map('strval', preg_filter('/^/', $dir, preg_grep($regex, $files)));
 
@@ -47,7 +49,7 @@ class ArtifactImagesController extends ControllerUtil implements ControllerInter
         return new Response(
             200,
             [],
-            json_encode($new_arr)
+            $this->getResponse(json_encode($new_arr))
         );
     }
 }

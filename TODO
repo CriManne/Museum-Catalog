@@ -1,5 +1,11 @@
 - Check nullable fields
 
+- Make a method in search artifact engine selectByIdAndCategory to return a specific object and not a 
+generic one. You cant change the selectById because its used in the single artifact page so it needs a generic
+model
+
+- add comments to controllers
+
 - Change the request type to a json object to be a correct rest api
 
 - add tags and generic object fields in the search by key
