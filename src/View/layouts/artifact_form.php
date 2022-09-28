@@ -15,7 +15,23 @@
             </a>
         <?php } ?>
     </p>
-    <?= $this->section('content'); ?>
+    <h3 class="text-center"><?= $title ?></h3>
+    <div id="alert-container"></div>
+    <form id='artifact-form' method="POST" enctype="multipart/form-data">
+        <div class="form-outline mb-4">
+            <label class="form-label" for="ObjectID">IDENTIFICATIVO CATALOGO</label>
+            <input type="text" minlength="20" maxlength="20" name="ObjectID" id="ObjectID" class="form-control" 
+            <?php if (!isset($_GET['id'])) { ?>
+                required 
+            <?php }else{ ?>
+                readonly="readonly"            
+            <?php } ?>
+            />
+        </div>
+        <?= $this->section('content'); ?>
+        <input type='submit' class='btn btn-primary' id='btn-submit'>
+        <input type='reset' class='btn btn-info' id='btn-reset'>
+    </form>
 </div>
 
 <?php $this->push('scripts') ?>

@@ -3,8 +3,6 @@ const urlImageDelete = '/api/images/delete';
 
 $(document).ready(function(){
 
-    fillUpdateForm();
-
     $("artifact-form").on("reset",function(e){
         e.preventDefault();        
         fillUpdateForm();
@@ -20,7 +18,7 @@ $(document).ready(function(){
         createAlert(response);        
 
         if($("#images-container").html()==''){
-            $("#images-outer-container").remove();
+            $("#images-outer-container").hide();
         }
     });
 });
@@ -68,6 +66,7 @@ function fillUpdateForm(){
 
         if(images.length>0){
             $("#images-outer-container").empty();
+            $("#images-outer-container").show();
             $("#images-outer-container").append(
                 '<label class="form-label">Immagini già presenti</label>'+
                 '<div class="d-flex flex-row gap-2 p-0" id="images-container">'

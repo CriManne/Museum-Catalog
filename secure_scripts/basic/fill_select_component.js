@@ -3,7 +3,7 @@ function loadSelect(urlFetch,idSelect) {
     if (data) {
         data.forEach(function(elem) {
             $(idSelect).append($('<option>', {
-                value: elem.Id,
+                value: elem.ID,
                 text: elem.Name
             }));
         });
