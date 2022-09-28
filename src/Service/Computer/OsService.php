@@ -77,15 +77,14 @@ class OsService {
     /**
      * Update a os
      * @param Os $os The os to update
-     * @return Os The os updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Os $os): Os {
+    public function update(Os $os): void {
         if ($this->osRepository->selectById($os->OsID) == null)
             throw new ServiceException("Os not found!");
 
-        return $this->osRepository->update($os);
+        $this->osRepository->update($os);
     }
 
     /**

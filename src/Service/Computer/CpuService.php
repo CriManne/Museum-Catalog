@@ -77,15 +77,14 @@ class CpuService {
     /**
      * Update a cpu
      * @param Cpu $c The cpu to update
-     * @return Cpu The cpu updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Cpu $c): Cpu {
+    public function update(Cpu $c): void {
         if ($this->cpuRepository->selectById($c->CpuID) == null)
             throw new ServiceException("Cpu not found!");
 
-        return $this->cpuRepository->update($c);
+        $this->cpuRepository->update($c);
     }
 
     /**

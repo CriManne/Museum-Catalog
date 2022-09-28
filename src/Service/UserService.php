@@ -76,15 +76,14 @@ class UserService {
     /**
      * Update a user
      * @param User $u The user to update
-     * @return User The user updated
      * @throws ServiceException If the user is not found
      * @throws RepositoryException If the update fails
      */
-    public function update(User $u): User {
+    public function update(User $u): void {
         if ($this->userRepository->selectById($u->Email) == null)
             throw new ServiceException("User not found!");
 
-        return $this->userRepository->update($u);
+        $this->userRepository->update($u);
     }
 
     /**

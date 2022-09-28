@@ -77,15 +77,14 @@ class RamService {
     /**
      * Update a ram
      * @param Ram $r The ram to update
-     * @return Ram The ram updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Ram $r): Ram {
+    public function update(Ram $r): void {
         if ($this->ramRepository->selectById($r->RamID) == null)
             throw new ServiceException("Ram not found!");
 
-        return $this->ramRepository->update($r);
+        $this->ramRepository->update($r);
     }
 
     /**

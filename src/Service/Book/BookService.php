@@ -77,15 +77,14 @@ class BookService {
     /**
      * Update a Book
      * @param Book $b The Book to update
-     * @return Book The book updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Book $b): Book {
+    public function update(Book $b): void {
         if ($this->bookRepository->selectById($b->ObjectID) == null)
             throw new ServiceException("Book not found!");
 
-        return $this->bookRepository->update($b);
+        $this->bookRepository->update($b);
     }
 
     /**

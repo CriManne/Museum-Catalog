@@ -77,15 +77,14 @@ class ComputerService {
     /**
      * Update a Computer
      * @param Computer $c The Computer to update
-     * @return Computer The computer updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Computer $c): Computer {
+    public function update(Computer $c): void {
         if ($this->computerRepository->selectById($c->ObjectID) == null)
             throw new ServiceException("Computer not found!");
 
-        return $this->computerRepository->update($c);
+        $this->computerRepository->update($c);
     }
 
     /**

@@ -77,15 +77,14 @@ class SoftwareService {
     /**
      * Update a Software
      * @param Software $s The Software to update
-     * @return Software The software updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Software $s): Software {
+    public function update(Software $s): void {
         if ($this->softwareRepository->selectById($s->ObjectID) == null)
             throw new ServiceException("Software not found!");
 
-        return $this->softwareRepository->update($s);
+        $this->softwareRepository->update($s);
     }
 
     /**

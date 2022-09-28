@@ -77,15 +77,14 @@ class SoftwareTypeService {
     /**
      * Update SoftwareType
      * @param SoftwareType $s The SoftwareType to update
-     * @return SoftwareType The SoftwareType updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(SoftwareType $s): SoftwareType {
+    public function update(SoftwareType $s): void {
         if ($this->softwareTypeRepository->selectById($s->SoftwareTypeID) == null)
             throw new ServiceException("Software Type not found!");
 
-        return $this->softwareTypeRepository->update($s);
+        $this->softwareTypeRepository->update($s);
     }
 
     /**

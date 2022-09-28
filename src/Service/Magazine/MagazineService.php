@@ -77,15 +77,14 @@ class MagazineService {
     /**
      * Update a Magazine
      * @param Magazine $m The Magazine to update
-     * @return Magazine The magazine updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Magazine $m): Magazine {
+    public function update(Magazine $m): void {
         if ($this->magazineRepository->selectById($m->ObjectID) == null)
             throw new ServiceException("Magazine not found!");
 
-        return $this->magazineRepository->update($m);
+        $this->magazineRepository->update($m);
     }
 
     /**

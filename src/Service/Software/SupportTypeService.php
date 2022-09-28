@@ -77,15 +77,14 @@ class SupportTypeService {
     /**
      * Update SupportType
      * @param SupportType $s The SupportType to update
-     * @return SupportType The SupportType updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(SupportType $s): SupportType {
+    public function update(SupportType $s): void {
         if ($this->supportTypeRepository->selectById($s->SupportTypeID) == null)
             throw new ServiceException("Support Type not found!");
 
-        return $this->supportTypeRepository->update($s);
+        $this->supportTypeRepository->update($s);
     }
 
     /**

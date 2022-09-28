@@ -77,15 +77,14 @@ class PublisherService {
     /**
      * Update a publisher
      * @param Publisher $p  The publisher to update
-     * @return Publisher The publisher updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Publisher $p): Publisher {
+    public function update(Publisher $p): void {
         if ($this->publisherRepository->selectById($p->PublisherID) == null)
             throw new ServiceException("Publisher not found!");
 
-        return $this->publisherRepository->update($p);
+        $this->publisherRepository->update($p);
     }
 
     /**

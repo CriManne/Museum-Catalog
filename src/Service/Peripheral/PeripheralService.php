@@ -77,15 +77,14 @@ class PeripheralService {
     /**
      * Update a Peripheral
      * @param Peripheral $p The Peripheral to update
-     * @return Peripheral The peripheral updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Peripheral $p): Peripheral {
+    public function update(Peripheral $p): void {
         if ($this->peripheralRepository->selectById($p->ObjectID) == null)
             throw new ServiceException("Peripheral not found!");
 
-        return $this->peripheralRepository->update($p);
+        $this->peripheralRepository->update($p);
     }
 
     /**

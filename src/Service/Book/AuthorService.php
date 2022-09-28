@@ -59,15 +59,14 @@ class AuthorService {
     /**
      * Update author
      * @param Author $a The author to update
-     * @return Author The author updated
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Author $a): Author {
+    public function update(Author $a): void {
         if ($this->authorRepository->selectById($a->AuthorID) == null)
             throw new ServiceException("Author not found!");
 
-        return $this->authorRepository->update($a);
+        $this->authorRepository->update($a);
     }
 
     /**
