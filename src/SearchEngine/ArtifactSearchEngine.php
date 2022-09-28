@@ -68,14 +68,11 @@ class ArtifactSearchEngine
 
             $artifactService = $this->container->get($artifactServicePath);
 
-            $result = null;
-
             try {
                 $result = $artifactService->selectById($ObjectID);
-            } catch (ServiceException) {
-            }
-            if ($result) {
+                
                 return $this->$categoryName($result);
+            } catch (ServiceException) {
             }
         }
         throw new ServiceException("Artifact with id [$ObjectID] not found!");
