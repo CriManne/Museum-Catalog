@@ -2,9 +2,7 @@
 
 
 
-<?php $this->push('styles') ?>
-<link rel="stylesheet" href="/resources/css/image-overlay.css">
-<?php $this->end() ?>
+<?php $this->push('styles') ?><?php $this->end() ?>
 <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="loading-container">
     <div class="spinner-border mx-auto" role="status"></div>
 </div>
