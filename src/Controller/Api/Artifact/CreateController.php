@@ -8,6 +8,7 @@ use App\Controller\Api\ArtifactsListController;
 use App\Controller\Api\Images\DeleteController;
 use App\Controller\Api\Images\UploadController;
 use App\Controller\ControllerUtil;
+use App\Exception\ImageUploadException;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\User;
@@ -31,18 +32,21 @@ use SimpleMVC\Response\HaltResponse;
 use Throwable;
 use TypeError;
 
-class CreateController extends ControllerUtil implements ControllerInterface {
+class CreateController extends ControllerUtil implements ControllerInterface
+{
 
     protected Container $container;
     protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine) {
+    public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine)
+    {
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
 
         $params = $request->getParsedBody();
 
@@ -82,29 +86,23 @@ class CreateController extends ControllerUtil implements ControllerInterface {
              */
             $this->artifactRepo = $this->container->get($repoPath);
 
+            
             $instantiatedObject = $this->artifactRepo->returnMappedObject($params);
-
+            
             $this->artifactService->insert($instantiatedObject);
 
             //Delete remained old files
             DeleteController::deleteImages($instantiatedObject->ObjectID);
 
-            //Upload new files
-            try {                
-                UploadController::uploadFiles($instantiatedObject->ObjectID,$_FILES['images']);
-            } catch (Exception $e) {
-                return new Response(
-                    400,
-                    [],
-                    $this->getResponse("Error while uploading the images " . $e->getMessage() . "! The $category is successfully inserted.", 400)
-                );
-            }
+            //Upload new files           
+            UploadController::uploadFiles($instantiatedObject->ObjectID, 'images');
+
             return new Response(
                 200,
                 [],
                 $this->getResponse("$category inserted successfully!")
             );
-        } catch (ServiceException $e) {
+        }catch (ServiceException $e) {
             return new Response(
                 400,
                 [],
@@ -117,6 +115,5 @@ class CreateController extends ControllerUtil implements ControllerInterface {
                 $this->getResponse("Bad request!", 400)
             );
         }
-
     }
 }

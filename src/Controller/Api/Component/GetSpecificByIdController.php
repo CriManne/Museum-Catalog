@@ -1,12 +1,14 @@
 <?php
 
 declare(strict_types=1);
-namespace App\Controller\Api\Artifact;
+namespace App\Controller\Api\Component;
 
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\SearchEngine\ComponentSearchEngine;
+use DI\Container;
+use DI\ContainerBuilder;
 use Exception;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -17,12 +19,16 @@ use SimpleMVC\Response\HaltResponse;
 class GetSpecificByIdController extends ControllerUtil implements ControllerInterface{ 
 
     public ComponentSearchEngine $componentSearchEngine;
+    protected Container $container;
     
     public function __construct(
-        ComponentSearchEngine $componentSearchEngine
+        ComponentSearchEngine $componentSearchEngine,
+        ContainerBuilder $builder
     )
     {
         $this->componentSearchEngine = $componentSearchEngine;
+        $builder->addDefinitions('config/container.php');
+        $this->container = $builder->build();
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
@@ -40,7 +46,7 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
         /**
          * Return bad request response if no category is set or a wrong one
          */
-        if (!$category || in_array($category, $categories)) {
+        if (!$category || !is_numeric($id) || in_array($category, $categories)) {
             return new Response(
                 400,
                 [],
@@ -58,7 +64,7 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
                  */
                 $this->componentService = $this->container->get($servicePath);
 
-                $object = $this->componentSearchEngine->selectSpecificByIdAndCategory($id,$servicePath);
+                $object = $this->componentSearchEngine->selectSpecificByIdAndCategory(intval($id),$servicePath);
 
                 return new Response(
                     200,

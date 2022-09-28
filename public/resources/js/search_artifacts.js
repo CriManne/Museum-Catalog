@@ -1,5 +1,3 @@
-const urlSearch = '/api/artifacts/search';
-const urlListArtifacts = "/api/list/artifacts";
 let category = "";
 
 $(document).ready(function() {

@@ -8,7 +8,7 @@
     </p>
     <h3 class="text-center">Aggiungi software</h3>
     <div id="alert-container"></div>
-    <form id='add-form' method="POST" action="/api/artifacts" enctype="multipart/form-data">
+    <form id='artifact-form' method="POST" action="/api/artifacts" enctype="multipart/form-data">
         <div class="form-outline mb-4">
             <label class="form-label" for="ObjectID">IDENTIFICATIVO CATALOGO</label>
             <input type="text" minlength="20" maxlength="20" name="ObjectID" id="ObjectID" class="form-control" required />
@@ -60,15 +60,20 @@
 <?php $this->push('scripts') ?>
 <script src="/api/scripts?filename=fill_select_component.js"></script>
 <script>
-    let urlOs = "/api/component/search?category=os";
+    let urlOs = "/api/generic/components?category=Os";
     loadSelect(urlOs, "#OsID");
-    let urlSoftwareType = "/api/component/search?category=softwaretype";
+    let urlSoftwareType = "/api/generic/components?category=SoftwareType";
     loadSelect(urlSoftwareType, "#SoftwareTypeID");
-    let urlSupportType = "/api/component/search?category=supporttype";
+    let urlSupportType = "/api/generic/components?category=SupportType";
     loadSelect(urlSupportType, "#SupportTypeID");
     const urlAdd = urlArtifacts;        
 </script>
-<script src="/api/scripts?filename=add_artifact.js"></script>
+<?php if(!isset($_GET['ObjectID'])){ ?>
+    <script> const urlForm = urlArtifactCreate; </script>
+<?php }else{ ?>
+<script> const urlForm = urlArtifactUpdate; </script>
+<?php } ?>
+<script src="/api/scripts?filename=artifact_form.js"></script>
 <?php
 if (isset($object)) {
     echo "<script src='/api/scripts?filename=fill_update_form.js'></script>";

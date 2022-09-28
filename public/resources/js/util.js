@@ -1,3 +1,6 @@
+const urlSearch = '/api/generic/artifacts';
+const urlListArtifacts = "/api/list/artifacts";
+
 //Create alert
 function createAlert(response, container = "#alert-container") {
     $(container).prepend(

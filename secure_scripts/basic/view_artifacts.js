@@ -52,7 +52,7 @@ function displayResult(result) {
         let id = $(this).attr('data-id');
         let category = $(this).attr('data-category');
         if (confirm("Sei sicuro di voler eliminare il reperto {" + id + "}?")) {
-            let response = makeRequest(urlArtifacts + "?id=" + id+"&category="+category, 'DELETE');
+            let response = makeRequest(urlArtifactDelete + "?id=" + id+"&category="+category, 'DELETE');
             if(response.status=="200"){
                 loadResult("");
             }

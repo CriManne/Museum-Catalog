@@ -1,6 +1,6 @@
 $(document).ready(function () {
 
-    $("#add-form").on("submit", handleSubmit);
+    $("#artifact-form").on("submit", handleSubmit);
 
 });
 
@@ -9,7 +9,7 @@ function handleSubmit(e) {
     let formData = new FormData(this);
 
     let response = makeRequest(
-        urlAdd,
+        urlForm,
         'POST',
         headers = {
             "mimeType": "multipart/form-data",

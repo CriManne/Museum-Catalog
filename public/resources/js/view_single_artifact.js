@@ -1,4 +1,4 @@
-const urlObject = "/api/artifacts";
+const urlObject = "/api/generic/artifact";
 const urlImagesNames = "/api/images";
 
 $(document).ready(function() {

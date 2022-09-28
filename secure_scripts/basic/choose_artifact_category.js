@@ -1,5 +1,3 @@
-var urlListArtifacts = "/api/list/artifacts";
-var urlAddPages = "/private/artifact/add_artifact?category=";
 $(document).ready(function(){
     loadSelect();
 

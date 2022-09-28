@@ -8,7 +8,7 @@
     </p>
     <h3 class="text-center">Aggiungi computer</h3>
     <div id="alert-container"></div>
-    <form id='add-form' method="POST" action="/api/artifacts" enctype="multipart/form-data">
+    <form id='artifact-form' method="POST" action="/api/artifacts" enctype="multipart/form-data">
         <div class="form-outline mb-4">
             <label class="form-label" for="ObjectID">IDENTIFICATIVO CATALOGO</label>
             <input type="text" minlength="20" maxlength="20" name="ObjectID" id="ObjectID" class="form-control" required />
@@ -56,20 +56,25 @@
             <label for="images" class="form-label">Immagini del reperto</label>
             <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">
         </div>
-        <input type='hidden' name='category' value='computer'>
+        <input type='hidden' name='category' value='Computer'>
         <input type='submit' class='btn btn-primary' id='btn-submit'>
     </form>
 </div>
 <?php $this->push('scripts') ?>
 <script src="/api/scripts?filename=fill_select_component.js"></script>
 <script>
-    let urlCpu = "/api/component/search?category=cpu";
+    let urlCpu = "/api/generic/components?category=Cpu";
     loadSelect(urlCpu, "#CpuID");
-    let urlRam = "/api/component/search?category=ram";
+    let urlRam = "/api/generic/components?category=Ram";
     loadSelect(urlRam, "#RamID");
-    let urlOs = "/api/component/search?category=os";
+    let urlOs = "/api/generic/components?category=Os";
     loadSelect(urlOs, "#OsID");
     const urlAdd = urlArtifacts;
 </script>
-<script src="/api/scripts?filename=add_artifact.js"></script>
+<?php if(!isset($_GET['ObjectID'])){ ?>
+    <script> const urlForm = urlArtifactCreate; </script>
+<?php }else{ ?>
+<script> const urlForm = urlArtifactUpdate; </script>
+<?php } ?>
+<script src="/api/scripts?filename=artifact_form.js"></script>
 <?php $this->end() ?>
