@@ -1,8 +1,12 @@
 const urlSearch = '/api/generic/artifacts';
 const urlListArtifacts = "/api/list/artifacts";
+const urlImagesNames = "/api/images";
 
 //Create alert
 function createAlert(response, container = "#alert-container") {
+    $("html, body").animate({
+        scrollTop: 0
+    }, 50);
     $(container).prepend(
         '<div class="alert alert-'+(response.status == "200" ? "success" : "danger")+' alert-dismissible fade show" role="alert" id="alert">' +
         '<p><strong>' + (response.status == "200" ? "Success!" : "Error!") + '</strong></p>' + response.message +

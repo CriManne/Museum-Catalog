@@ -1,5 +1,8 @@
 <?php $this->layout('layouts::dashboard_layout', ['title' => 'Update software', 'user' => $user]) ?>
 
+<?php $this->push('styles') ?>
+<link rel="stylesheet" href="/resources/css/image-overlay.css">
+<?php $this->end() ?>
 <div class="container-fluid p-0 gap-2 align-items-center w-100" id="main-container">
     <p>
         <a href="/private?page=add_artifact" class="btn btn-primary">
@@ -44,6 +47,7 @@
             <label class="form-label" for="Tag">Tag</label>
             <input type="text" name="Tag" id="Tag" class="form-control" />
         </div>
+        <div class="form-outline mb-4" id="images-outer-container"></div>
         <div class="mb-3">
             <label for="images" class="form-label">Immagini del reperto</label>
             <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">
@@ -54,7 +58,8 @@
             echo "<input type='hidden' id='object' value='" . json_encode($object) . "'>";
         }
         ?>
-        <input type='submit' class='btn btn-primary' id='btn-submit'>
+        <input type='submit' class='btn btn-primary' id='btn-submit'>        
+        <input type='reset' class='btn btn-info' id='btn-reset'>
     </form>
 </div>
 <?php $this->push('scripts') ?>
@@ -72,6 +77,8 @@
     <script> const urlForm = urlArtifactCreate; </script>
 <?php }else{ ?>
 <script> const urlForm = urlArtifactUpdate; </script>
+<script src="/api/scripts?filename=fill_update_form.js"></script>
+<script> fillUpdateForm(); </script>
 <?php } ?>
 <script src="/api/scripts?filename=artifact_form.js"></script>
 <?php

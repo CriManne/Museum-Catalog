@@ -85,11 +85,11 @@ class UpdateController extends ControllerUtil implements ControllerInterface
             $this->artifactRepo = $this->container->get($repoPath);
 
             $instantiatedObject = $this->artifactRepo->returnMappedObject($params);
-
+            
             $this->artifactService->update($instantiatedObject);
 
             //Upload new files
-            UploadController::uploadFiles($instantiatedObject->ObjectID, $_FILES['images']);
+            //UploadController::uploadFiles($instantiatedObject->ObjectID, 'images');
 
             return new Response(
                 200,
@@ -102,7 +102,9 @@ class UpdateController extends ControllerUtil implements ControllerInterface
                 [],
                 $this->getResponse($e->getMessage(), 400)
             );
-        } catch (Throwable) {
+        } catch (Throwable $e) {
+            var_dump($e->getMessage());
+            die();
         }
 
         return new Response(

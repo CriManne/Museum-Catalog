@@ -61,6 +61,10 @@ class UploadController extends ControllerUtil implements ControllerInterface
             $splittedName = explode('.', $files['name'][$index - 1]);
             $fileextension = end($splittedName);
             $filename = $path . $ObjectID . "_" . $index . "." . $fileextension;
+            while(file_exists($filename)){
+                $index++;
+                $filename = $path . $ObjectID . "_" . $index . "." . $fileextension;
+            }
             move_uploaded_file($tmp_name, $filename);
             $index++;
         }

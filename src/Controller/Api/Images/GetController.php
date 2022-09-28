@@ -49,7 +49,7 @@ class GetController extends ControllerUtil implements ControllerInterface{
         return new Response(
             200,
             [],
-            $this->getResponse(json_encode($new_arr))
+            json_encode($new_arr)
         );
     }
 }

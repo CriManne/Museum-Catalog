@@ -1,5 +1,4 @@
 const urlObject = "/api/generic/artifact";
-const urlImagesNames = "/api/images";
 
 $(document).ready(function() {
     const urlSearchParams = new URLSearchParams(window.location.search);
