@@ -1,3 +1,6 @@
+- If a component is deleted (softly) it cant be recreated because it will throw a duplicated name error.
+Solution: add Erased field and show it in the table when visualizing it
+
 - Check nullable fields
 
 - Make a method in search artifact engine selectByIdAndCategory to return a specific object and not a 
