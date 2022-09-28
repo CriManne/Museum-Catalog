@@ -89,7 +89,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface
             $this->artifactService->update($instantiatedObject);
 
             //Upload new files
-            //UploadController::uploadFiles($instantiatedObject->ObjectID, 'images');
+            UploadController::uploadFiles($instantiatedObject->ObjectID, 'images');
 
             return new Response(
                 200,

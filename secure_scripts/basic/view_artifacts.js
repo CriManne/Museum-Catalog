@@ -32,8 +32,8 @@ function displayResult(result) {
         }
 
         $("#table-result").append(
-            "<tr>"+
-            "<th scope='row' class='text-decoration-underline artifact-row' role='button' data-id='" + elem.ObjectID + "'>" + elem.ObjectID +
+            "<tr role='button' class='artifact-row' data-id='" + elem.ObjectID + "' data-category='"+elem.Category+"'>"+
+            "<th scope='row' class='text-decoration-underline' >" + elem.ObjectID +
             "</th><td>" + elem.Title +
             "</td><td>" + description.join(" | ") +
             "</td><td>" + elem.Category +
@@ -45,10 +45,14 @@ function displayResult(result) {
     });
 
     $(".artifact-row").unbind().on('click', function() {
-        window.location.href = '/artifact?id=' + $(this).attr('data-id');
+        let id = $(this).attr('data-id');
+        let category = $(this).attr('data-category');
+        window.location.href = '/private/artifact/update_artifact?id=' + id+"&category="+category;
     });
 
-    $(".btn-del").unbind().on('click',function(){
+    $(".btn-del").unbind().on('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
         let id = $(this).attr('data-id');
         let category = $(this).attr('data-category');
         if (confirm("Sei sicuro di voler eliminare il reperto {" + id + "}?")) {
@@ -60,7 +64,9 @@ function displayResult(result) {
         }
     });
 
-    $(".btn-upd").unbind().on('click',function(){
+    $(".btn-upd").unbind().on('click',function(e){
+        e.preventDefault();
+        e.stopPropagation();
         let id = $(this).attr('data-id');
         let category = $(this).attr('data-category');
         window.location.href = "/private/artifact/update_artifact?category="+category+"&id="+id;

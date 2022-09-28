@@ -5,11 +5,20 @@
 <?php $this->push('styles') ?>
 <link rel="stylesheet" href="/resources/css/image-overlay.css">
 <?php $this->end() ?>
-<div class="container-fluid p-0 gap-2 align-items-center w-100" id="main-container">
+<div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="loading-container">
+    <div class="spinner-border mx-auto" role="status"></div>
+</div>
+<div class="container-fluid p-0 gap-2 align-items-center w-100 d-none" id="main-container">
     <p>
-        <a href="/private?page=add_artifact" class="btn btn-primary">
-            <i class="fa-solid fa-arrow-left mx-2"></i>Go back
-        </a>
+        <?php if (!isset($_GET["id"])) { ?>
+            <a href="/private?page=add_artifact" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-left mx-2"></i>Go back
+            </a>
+        <?php } else { ?>
+            <a href="/private?page=view_artifacts" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-left mx-2"></i>Go back
+            </a>
+        <?php } ?>
     </p>
     <h3 class="text-center">Aggiungi computer</h3>
     <div id="alert-container"></div>
@@ -63,7 +72,7 @@
             <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">
         </div>
         <input type='hidden' name='category' value='Computer'>
-        <input type='submit' class='btn btn-primary' id='btn-submit'>        
+        <input type='submit' class='btn btn-primary' id='btn-submit'>
         <input type='reset' class='btn btn-info' id='btn-reset'>
     </form>
 </div>
@@ -78,12 +87,18 @@
     loadSelect(urlOs, "#OsID");
     const urlAdd = urlArtifacts;
 </script>
-<?php if(!isset($_GET['id'])){ ?>
-    <script> const urlForm = urlArtifactCreate; </script>
-<?php }else{ ?>
-<script> const urlForm = urlArtifactUpdate; </script>
-<script src="/api/scripts?filename=fill_update_form.js"></script>
-<script> fillUpdateForm(); </script>
+<?php if (!isset($_GET['id'])) { ?>
+    <script>
+        const urlForm = urlArtifactCreate;
+    </script>
+<?php } else { ?>
+    <script>
+        const urlForm = urlArtifactUpdate;
+    </script>
+    <script src="/api/scripts?filename=fill_update_form.js"></script>
+    <script>
+        fillUpdateForm();
+    </script>
 <?php } ?>
 <script src="/api/scripts?filename=artifact_form.js"></script>
 <?php $this->end() ?>

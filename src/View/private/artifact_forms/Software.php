@@ -3,11 +3,20 @@
 <?php $this->push('styles') ?>
 <link rel="stylesheet" href="/resources/css/image-overlay.css">
 <?php $this->end() ?>
-<div class="container-fluid p-0 gap-2 align-items-center w-100" id="main-container">
+<div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="loading-container">
+    <div class="spinner-border mx-auto" role="status"></div>
+</div>
+<div class="container-fluid p-0 gap-2 align-items-center w-100 d-none" id="main-container">
     <p>
-        <a href="/private?page=add_artifact" class="btn btn-primary">
-            <i class="fa-solid fa-arrow-left mx-2"></i>Go back
-        </a>
+        <?php if (!isset($_GET["id"])) { ?>
+            <a href="/private?page=add_artifact" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-left mx-2"></i>Go back
+            </a>
+        <?php } else { ?>
+            <a href="/private?page=view_artifacts" class="btn btn-primary">
+                <i class="fa-solid fa-arrow-left mx-2"></i>Go back
+            </a>
+        <?php } ?>
     </p>
     <h3 class="text-center">Aggiungi software</h3>
     <div id="alert-container"></div>
@@ -58,7 +67,7 @@
             echo "<input type='hidden' id='object' value='" . json_encode($object) . "'>";
         }
         ?>
-        <input type='submit' class='btn btn-primary' id='btn-submit'>        
+        <input type='submit' class='btn btn-primary' id='btn-submit'>
         <input type='reset' class='btn btn-info' id='btn-reset'>
     </form>
 </div>
@@ -71,20 +80,20 @@
     loadSelect(urlSoftwareType, "#SoftwareTypeID");
     let urlSupportType = "/api/generic/components?category=SupportType";
     loadSelect(urlSupportType, "#SupportTypeID");
-    const urlAdd = urlArtifacts;        
+    const urlAdd = urlArtifacts;
 </script>
-<?php if(!isset($_GET['ObjectID'])){ ?>
-    <script> const urlForm = urlArtifactCreate; </script>
-<?php }else{ ?>
-<script> const urlForm = urlArtifactUpdate; </script>
-<script src="/api/scripts?filename=fill_update_form.js"></script>
-<script> fillUpdateForm(); </script>
+<?php if (!isset($_GET['id'])) { ?>
+    <script>
+        const urlForm = urlArtifactCreate;
+    </script>
+<?php } else { ?>
+    <script>
+        const urlForm = urlArtifactUpdate;
+    </script>
+    <script src="/api/scripts?filename=fill_update_form.js"></script>
+    <script>
+        fillUpdateForm();
+    </script>
 <?php } ?>
 <script src="/api/scripts?filename=artifact_form.js"></script>
-<?php
-if (isset($object)) {
-    echo "<script src='/api/scripts?filename=fill_update_form.js'></script>";
-    echo "<script>fillUpdateForm();</script>";
-}
-?>
 <?php $this->end() ?>

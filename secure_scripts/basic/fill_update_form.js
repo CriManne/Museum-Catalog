@@ -34,11 +34,17 @@ function fillUpdateForm(){
     }else{               
         for(const key in object){
             if(object[key]!=null && typeof object[key] == 'object'){
-                let innerObject = object[key];
-                for(const key2 in innerObject){                    
-                    if(key2.includes("ID")){
-                        $("#"+key2).val(innerObject[key2]);
-                        $("#"+key2+" option[value='"+innerObject[key2]+"']").attr("selected",true);                        
+                let innerObject = object[key];                
+                if(!innerObject.hasOwnProperty(length)){
+                    innerObject = [innerObject];
+                }                
+                for(const item of innerObject){
+                    console.log(item);
+                    for(const key2 in item){     
+                        if(key2.includes("ID")){           
+                            // $("#"+key2).val(item[key2]); SEEMS TO WORK EVEN WITHOUT THIS
+                            $("#"+key2+" option[value='"+item[key2]+"']").attr("selected",true);                        
+                        }
                     }
                 }
             }else if(object[key]!=null){
@@ -52,6 +58,7 @@ function fillUpdateForm(){
         let images = makeRequest(urlImagesNames+"?id="+objectID);
 
         if(images.length>0){
+            $("#images-outer-container").empty();
             $("#images-outer-container").append(
                 '<label class="form-label">Immagini già presenti</label>'+
                 '<div class="d-flex flex-row gap-2 p-0" id="images-container">'
