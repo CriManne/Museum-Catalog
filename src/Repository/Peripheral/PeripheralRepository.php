@@ -232,7 +232,7 @@ class PeripheralRepository extends GenericRepository {
             $rawPeripheral["Url"] ?? null,
             $rawPeripheral["Tag"] ?? null,
             $rawPeripheral["ModelName"],
-            $this->peripheralTypeRepository->selectById(intval($rawPeripheral["PeripheralTypeID"]))
+            $this->peripheralTypeRepository->selectById(intval($rawPeripheral["PeripheralTypeID"]),true)
         );
     }
 }

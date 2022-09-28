@@ -8,10 +8,6 @@ User story 2:
 As an employee, I want to order the list of objects by any of the fields available.
 I want to create, update or delete any of the objects.
 
-User story 3:
-As an employee, I want to disable an objects so it cannot be viewed by the users but just for the employees, and I want to be able to reenable it
-whenever I want.
-
 User story 4:
 As an employee, I want to make a search which will search any object by any fields.
 I want to apply filters and ordering conditions.
