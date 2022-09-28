@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::dashboard_layout', ['title' => 'Artifacts','user'=>$user]) ?>
+<?php $this->layout('layouts::dashboard_layout', ['title' => 'Reperti','user'=>$user]) ?>
 
 <?php $this->insert('reusable::view_artifacts'); ?>
 

@@ -16,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
 
-class AddArtifactController extends ControllerUtil implements ControllerInterface
+class AddComponentController extends ControllerUtil implements ControllerInterface
 {
     protected UserService $userService;
 
@@ -53,7 +53,7 @@ class AddArtifactController extends ControllerUtil implements ControllerInterfac
         return new Response(
             200,
             [],
-            $this->plates->render("artifact_forms::$category",['user'=>$user,'title'=>"Add $category"])
+            $this->plates->render("components_forms::$category",['user'=>$user,'title'=>"Add $category"])
         );
     }
 }

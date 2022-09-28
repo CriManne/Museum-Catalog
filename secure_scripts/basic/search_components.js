@@ -1,4 +1,6 @@
-let category = "";
+const urlSearchComponents = '/api/generic/components';
+const urlSearchParams = new URLSearchParams(window.location.search);
+let category = Object.fromEntries(urlSearchParams.entries())['category'];
 
 $(document).ready(function() {
 
@@ -12,12 +14,12 @@ $(document).ready(function() {
     $("#category-select").on('change', function() {
         let value = this.value;
         category = value;
-        loadResult("?category=" + category+"&q="+$("#artifact-search").val());
+        loadResult("&q="+$("#component-search").val());
     })
 
-    $("#artifact-search-form").on('submit', function(e) {
+    $("#component-search-form").on('submit', function(e) {
         e.preventDefault();
-        let q = $("#artifact-search").val();
+        let q = $("#component-search").val();
 
         let search = "";
 
@@ -40,7 +42,7 @@ $(document).ready(function() {
 });
 
 function loadResult(search) {
-    var result = makeRequest(urlSearchArtifacts + search);
+    var result = makeRequest(urlSearchComponents + "?category="+category+search);
 
     $("#tb-container").empty();
     $("#error-alert").empty();
@@ -59,12 +61,13 @@ function loadResult(search) {
 }
 
 function loadSelect() {
-    let data = makeRequest(urlListArtifacts);
+    let data = makeRequest(urlListComponents);
     if (data) {
         data.forEach(function(elem) {
             $("#category-select").append($('<option>', {
                 value: elem,
-                text: elem
+                text: elem,
+                selected: elem === category
             }));
         });
     }

@@ -14,7 +14,9 @@ let users = [];
 let filteredUsers = [];
 
 //URL to fetch users
-var urlUsers = "api/private/user";
+const urlUsers = "/api/private/user";
+
+const urlDeleteUser = "/api/private/user/delete";
 
 $(document).ready(function() {
     
@@ -199,7 +201,7 @@ function fillTable(data) {
     $(".delete-user").unbind().on('click', function() {
         let email = $(this).data("id");
         if (confirm("Sei sicuro di voler eliminare l'utente {" + email + "}?")) {
-            let response = makeRequest(urlUsers + "?id=" + email, 'DELETE');
+            let response = makeRequest(urlDeleteUser + "?id=" + email, 'DELETE');
             createAlert(response);
             initializePage();
         }

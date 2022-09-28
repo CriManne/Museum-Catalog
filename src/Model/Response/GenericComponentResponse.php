@@ -6,16 +6,16 @@ namespace App\Model\Response;
 
 class GenericComponentResponse {
 
-    public int $Id;
+    public int $ID;
     public string $Name;
     public string $Category;
 
     public function __construct(
-        int $Id,
+        int $ID,
         string $Name,
         string $Category
     ) {        
-        $this->Id = $Id;
+        $this->ID = $ID;
         $this->Name = $Name;      
         $this->Category = $Category;  
     }

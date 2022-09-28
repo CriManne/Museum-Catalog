@@ -26,12 +26,21 @@ return [
 
     //PRIVATE HOME
     ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
+    ['GET', '/private/users/', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
+    ['GET', '/private/artifact/', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
+    ['GET', '/private/component/', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
 
     //ADD ARTIFACT
     ['GET', '/private/artifact/add_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\AddArtifactController::class]],
 
     //UPDATE ARTIFACT
     ['GET', '/private/artifact/update_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\UpdateArtifactController::class]],
+
+    //ADD COMPONENT
+    ['GET', '/private/component/add_component', [Controller\BasicAuthController::class, Controller\Pages\Private\AddComponentController::class]],
+
+    //UPDATE COMPONENT
+    ['GET', '/private/component/update_component', [Controller\BasicAuthController::class, Controller\Pages\Private\UpdateComponentController::class]],
 
     // ______________________________________________________ //
 
@@ -43,10 +52,10 @@ return [
     ['GET', '/api/private/user', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\GetController::class]],
 
     //POST USER
-    ['POST', '/api/private/user', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\PostController::class]],
+    ['POST', '/api/private/user/create', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\PostController::class]],
 
     //DELETE USER
-    ['DELETE', '/api/private/user', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\DeleteController::class]],
+    ['DELETE', '/api/private/user/delete', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\DeleteController::class]],
 
     /* /USER */
 
@@ -84,7 +93,7 @@ return [
     ['DELETE', '/api/component/delete', [Controller\BasicAuthController::class, Controller\Api\Component\DeleteController::class]],
 
     //SELECT ALL GENERIC COMPONENTS BY CATEGORY
-    ['GET', '/api/generic/components', Controller\Api\Component\GetGenericsController::class],
+    ['GET', '/api/generic/components',[Controller\BasicAuthController::class,Controller\Api\Component\GetGenericsController::class]],
 
     //SELECT SPECIFIC COMPONENT BY ID AND CATEGORY
     ['GET', '/api/specific/component', [Controller\BasicAuthController::class, Controller\Api\Component\GetSpecificByIdController::class]],
@@ -113,6 +122,9 @@ return [
 
     //GET ALL THE ARTIFACT'S CATEGORIES
     ['GET', '/api/list/artifacts', Controller\Api\ArtifactsListController::class],
+
+    //GET ALL THE COMPONENTS'S CATEGORIES
+    ['GET', '/api/list/components', Controller\Api\ComponentsListController::class],
 
     /* /MISC */
 

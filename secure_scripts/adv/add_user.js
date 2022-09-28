@@ -1,4 +1,4 @@
-var urlUsers = "api/private/user";
+const urlCreateUser = "/api/private/user/create";
 
 $(document).ready(function() {
 

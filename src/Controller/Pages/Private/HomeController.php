@@ -50,6 +50,7 @@ class HomeController extends ControllerUtil implements ControllerInterface
                 );
             }
             try {
+            
                 return new Response(
                     200,
                     [],

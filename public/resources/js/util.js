@@ -1,4 +1,4 @@
-const urlSearch = '/api/generic/artifacts';
+const urlSearchArtifacts = '/api/generic/artifacts';
 const urlListArtifacts = "/api/list/artifacts";
 const urlListComponents = "/api/list/components";
 const urlImagesNames = "/api/images";

@@ -1,17 +1,29 @@
 $(document).ready(function(){
     loadSelect();
 
-    $("#category-select").on('change', function() {
-        let value = this.value;
-        window.location.href= urlAddComponentPages+value;
-    })
+    $("#component-category-select").unbind().on('change', function() {
+        const urlSearchParams = new URLSearchParams(window.location.search);
+        const next = Object.fromEntries(urlSearchParams.entries())['next'];
+
+        if(next !== undefined && (next === "add" || next === "view")){
+            let value = this.value;
+            if(next === "add"){
+                window.location.href= urlAddComponentPages+value;
+            }else{
+                window.location.href= urlViewComponents+value;
+            }
+            return;
+        }
+
+        alert("Wrong url! Please go back!");                   
+    });
 });
 
 function loadSelect() {
-    let data = makeRequest(urlListComponent);
+    let data = makeRequest(urlListComponents);
     if (data) {
         data.forEach(function(elem) {
-            $("#category-select").append($('<option>', {
+            $("#component-category-select").append($('<option>', {
                 value: elem,
                 text: elem
             }));
