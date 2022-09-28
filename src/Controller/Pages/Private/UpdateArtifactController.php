@@ -59,7 +59,7 @@ class UpdateArtifactController extends ControllerUtil implements ControllerInter
         return new Response(
             200,
             [],
-            $this->plates->render("artifact_forms::$category", ['user' => $user])
+            $this->plates->render("artifact_forms::$category", ['user' => $user,'title'=>"Update $category"])
         );
     }
 }

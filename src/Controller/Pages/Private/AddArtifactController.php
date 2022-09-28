@@ -53,7 +53,7 @@ class AddArtifactController extends ControllerUtil implements ControllerInterfac
         return new Response(
             200,
             [],
-            $this->plates->render("artifact_forms::$category",['user'=>$user])
+            $this->plates->render("artifact_forms::$category",['user'=>$user,'title'=>"Add $category"])
         );
     }
 }
