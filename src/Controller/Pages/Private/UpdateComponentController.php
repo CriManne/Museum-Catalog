@@ -8,6 +8,7 @@ use App\Controller\Api\ArtifactsListController;
 use App\Controller\Api\ComponentsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
+use App\SearchEngine\ComponentSearchEngine;
 use App\Service\UserService;
 use Exception;
 use League\Plates\Engine;
@@ -17,44 +18,49 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
 
-class AddComponentController extends ControllerUtil implements ControllerInterface
-{
+class UpdateComponentController extends ControllerUtil implements ControllerInterface {
     protected UserService $userService;
+    public ComponentSearchEngine $componentSearchEngine;
 
-    public function __construct(Engine $plates, UserService $userService)
-    {
+    public function __construct(
+        Engine $plates,
+        UserService $userService,
+        ComponentSearchEngine $componentSearchEngine
+    ) {
         parent::__construct($plates);
         $this->userService = $userService;
+        $this->componentSearchEngine = $componentSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
+
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $params = $request->getQueryParams();
 
         $category = $params["category"] ?? null;
+        $id = $params["id"] ?? null;
 
-        if(!$category){
+        if (!$category || !$id) {
             return new Response(
                 400,
                 [],
-                $this->displayError(400,"Bad request!")
+                $this->displayError(400, "Bad request!")
             );
         }
 
-        if(!in_array($category,ComponentsListController::$categories)){
+        if (!in_array($category, ComponentsListController::$categories)) {
             return new Response(
                 404,
                 [],
-                $this->displayError(404,"Category not found!")
+                $this->displayError(404, "Category not found!")
             );
-        }
+        } 
 
         $user = $this->userService->selectById($_SESSION['user_email']);
 
         return new Response(
             200,
             [],
-            $this->plates->render("component_forms::$category",['user'=>$user,'title'=>"Add $category"])
+            $this->plates->render("component_forms::$category", ['user' => $user,'title'=>"Update $category"])
         );
     }
 }

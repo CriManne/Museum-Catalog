@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::dashboard_layout', ['title' => 'Users','user'=>$user]) ?>
+<?php $this->layout('layouts::dashboard_layout', ['title' => 'Users', 'user' => $user]) ?>
 <style>
     .table-scrollable {
         overflow-x: auto;
@@ -13,8 +13,10 @@
     <div class="spinner-border mx-auto" role="status"></div>
 </div>
 <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center d-none" id="main-container">
-    <h3>Visualizza utenti</h3>
-    <div id="alert-container"></div>
+    <div class="w-100">
+        <h3>Visualizza utenti</h3>
+        <div id="alert-container" class="w-100"></div>
+    </div>
     <input type="text" class="form-control" placeholder="Search user" aria-label="User's search" id="user-search" required>
     <div class="container-fluid table-scrollable" id="tb-container"></div>
     <nav id="navigation">

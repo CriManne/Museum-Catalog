@@ -49,7 +49,7 @@
     <input type='reset' class='btn btn-info' id='btn-reset'>
 </form>
 
-<?php $this->push('scripts') ?>
+<?php $this->push('scripts_inner') ?>
 <script>
     let urlOs = "/api/generic/components?category=Os";
     loadSelect(urlOs, "#OsID");

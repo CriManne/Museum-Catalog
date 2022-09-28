@@ -30,7 +30,7 @@ class AddArtifactController extends ControllerUtil implements ControllerInterfac
     {
         $params = $request->getQueryParams();
 
-        $category = ucwords($params["category"]) ?? null;
+        $category = $params["category"] ?? null;
 
         if(!$category){
             return new Response(

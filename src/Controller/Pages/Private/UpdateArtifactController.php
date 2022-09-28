@@ -35,7 +35,7 @@ class UpdateArtifactController extends ControllerUtil implements ControllerInter
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $params = $request->getQueryParams();
 
-        $category = ucwords($params["category"]) ?? null;
+        $category = $params["category"] ?? null;
         $id = $params["id"] ?? null;
 
         if (!$category || !$id) {

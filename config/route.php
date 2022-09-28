@@ -26,9 +26,9 @@ return [
 
     //PRIVATE HOME
     ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
-    ['GET', '/private/users/', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
-    ['GET', '/private/artifact/', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
-    ['GET', '/private/component/', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
+    ['GET', '/private/user', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
+    ['GET', '/private/artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
+    ['GET', '/private/component', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
 
     //ADD ARTIFACT
     ['GET', '/private/artifact/add_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\AddArtifactController::class]],

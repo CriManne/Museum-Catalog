@@ -2,6 +2,9 @@ const urlSpecificArtifact = '/api/specific/artifact';
 const urlImageDelete = '/api/images/delete';
 
 $(document).ready(function(){
+
+    fillUpdateForm();
+
     $("artifact-form").on("reset",function(e){
         e.preventDefault();        
         fillUpdateForm();
