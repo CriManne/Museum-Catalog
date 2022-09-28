@@ -3,7 +3,8 @@ const urlArtifacts = "/api/generic/artifacts";
 const urlArtifactCreate = "/api/artifact/create";
 const urlArtifactUpdate = "/api/artifact/update";
 const urlArtifactDelete = "/api/artifact/delete";
-const urlAddPages = "/private/artifact/add_artifact?category=";
+const urlAddArtifactPages = "/private/artifact/add_artifact?category=";
+const urlAddComponentPages = "/private/component/add_component?category=";
 
 
 

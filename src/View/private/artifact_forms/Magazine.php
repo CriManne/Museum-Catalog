@@ -50,6 +50,5 @@
 <script>
     let urlPublisher = "/api/generic/components?category=Publisher";
     loadSelect(urlPublisher, "#PublisherID");
-    const urlAdd = urlArtifacts;
 </script>
 <?php $this->end() ?>

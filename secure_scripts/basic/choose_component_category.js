@@ -3,7 +3,7 @@ $(document).ready(function(){
 
     $("#category-select").on('change', function() {
         let value = this.value;
-        window.location.href= urlAddPages+value;
+        window.location.href= urlAddComponentPages+value;
     })
 });
 

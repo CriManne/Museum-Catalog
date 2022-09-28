@@ -42,6 +42,5 @@
 <script>
     let urlPeripheralType = "/api/generic/components?category=PeripheralType";
     loadSelect(urlPeripheralType, "#PeripheralTypeID");
-    const urlAdd = urlArtifacts;
 </script>
 <?php $this->end() ?>

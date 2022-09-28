@@ -64,6 +64,5 @@
     loadSelect(urlRam, "#RamID");
     let urlOs = "/api/generic/components?category=Os";
     loadSelect(urlOs, "#OsID");
-    const urlAdd = urlArtifacts;
 </script>
 <?php $this->end() ?>

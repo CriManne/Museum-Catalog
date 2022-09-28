@@ -45,11 +45,6 @@
         <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">
     </div>
     <input type='hidden' name='category' value='Software'>
-    <?php
-    if (isset($object)) {
-        echo "<input type='hidden' id='object' value='" . json_encode($object) . "'>";
-    }
-    ?>
     <input type='submit' class='btn btn-primary' id='btn-submit'>
     <input type='reset' class='btn btn-info' id='btn-reset'>
 </form>
@@ -62,5 +57,5 @@
     loadSelect(urlSoftwareType, "#SoftwareTypeID");
     let urlSupportType = "/api/generic/components?category=SupportType";
     loadSelect(urlSupportType, "#SupportTypeID");
-    const urlAdd = urlArtifacts;
 </script>
+<?php $this->end(); ?>
