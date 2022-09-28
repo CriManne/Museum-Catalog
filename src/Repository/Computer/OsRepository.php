@@ -129,10 +129,9 @@ class OsRepository extends GenericRepository {
     /**
      * Update a os
      * @param Os $os    The os to update
-     * @return Os       The os updated
      * @throws RepositoryException  If the update fails
      */
-    public function update(Os $os): Os {
+    public function update(Os $os): void {
         $query =
             "UPDATE os 
             SET Name = :Name            
@@ -143,7 +142,6 @@ class OsRepository extends GenericRepository {
         $stmt->bindParam("OsID", $os->OsID, PDO::PARAM_INT);
         try {
             $stmt->execute();
-            return $os;
         } catch (PDOException $e) {
             throw new RepositoryException("Error while updating the os  with id: {" . $os->OsID . "}");
         }

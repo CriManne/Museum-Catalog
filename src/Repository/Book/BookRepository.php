@@ -171,7 +171,6 @@ class BookRepository extends GenericRepository {
     /**
      * Update a book
      * @param Book $s   The book to update
-     * @return Book     The book updated
      * @throws RepositoryException  If the update fails
      */
     public function update(Book $b): void {

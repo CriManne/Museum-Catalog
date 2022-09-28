@@ -130,10 +130,9 @@ class PeripheralTypeRepository extends GenericRepository {
     /**
      * Update p.type
      * @param PeripheralType $pt    The p.type to update
-     * @return PeripheralType       The p.type updated
      * @throws RepositoryException  If the update fails
      */
-    public function update(PeripheralType $pt): PeripheralType {
+    public function update(PeripheralType $pt): void {
         $query =
             "UPDATE peripheraltype 
             SET Name = :Name            
@@ -144,7 +143,6 @@ class PeripheralTypeRepository extends GenericRepository {
         $stmt->bindParam("PeripheralTypeID", $pt->PeripheralTypeID, PDO::PARAM_INT);
         try {
             $stmt->execute();
-            return $pt;
         } catch (PDOException $e) {
             throw new RepositoryException("Error while updating the peripheraltype  with id: {" . $pt->PeripheralTypeID . "}");
         }

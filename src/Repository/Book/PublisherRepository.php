@@ -130,10 +130,9 @@ class PublisherRepository extends GenericRepository {
     /**
      * Update a publisher
      * @param Publisher $p  The publisher to update
-     * @return Publisher The publisher updated
      * @throws RepositoryException  If the update fails
      */
-    public function update(Publisher $p): Publisher {
+    public function update(Publisher $p): void {
         $query =
             "UPDATE publisher 
             SET Name = :name
@@ -144,7 +143,6 @@ class PublisherRepository extends GenericRepository {
         $stmt->bindParam("PublisherID", $p->PublisherID, PDO::PARAM_INT);
         try {
             $stmt->execute();
-            return $p;
         } catch (PDOException $e) {
             throw new RepositoryException("Error while updating the publisher with id: {" . $p->PublisherID . "}");
         }

@@ -130,7 +130,6 @@ class SupportTypeRepository extends GenericRepository {
     /**
      * Update support type
      * @param SupportType $s    The support type to update
-     * @return SupportType  The support type updated
      * @throws RepositoryException  If the update fails
      */
     public function update(SupportType $s): void {

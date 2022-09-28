@@ -109,10 +109,9 @@ class AuthorRepository extends GenericRepository {
     /**
      * Update an author
      * @param Author $a     The author to update
-     * @return Author       The author updated
      * @throws RepositoryException  If the update fails
      */
-    public function update(Author $author): Author {
+    public function update(Author $author): void {
         $query =
             "UPDATE author 
             SET firstname = :firstname,
@@ -125,7 +124,6 @@ class AuthorRepository extends GenericRepository {
         $stmt->bindParam("AuthorID", $author->AuthorID, PDO::PARAM_INT);
         try {
             $stmt->execute();
-            return $author;
         } catch (PDOException $e) {
             throw new RepositoryException("Error while updating the author with id: {" . $author->AuthorID . "}");
         }

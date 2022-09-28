@@ -162,7 +162,6 @@ class SoftwareRepository extends GenericRepository {
     /**
      * Update a software
      * @param Software $s   The software to update
-     * @return Software     The software updated
      * @throws RepositoryException  If the update fails
      */
     public function update(Software $s): void {

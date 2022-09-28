@@ -130,7 +130,6 @@ class RamRepository extends GenericRepository {
     /**
      * Update a ram
      * @param Ram $ram  The ram to update
-     * @return Ram      The ram updated
      * @throws RepositoryException  If the update fails
      */
     public function update(Ram $ram): void {

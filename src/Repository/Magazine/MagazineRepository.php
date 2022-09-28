@@ -157,7 +157,6 @@ class MagazineRepository extends GenericRepository {
     /**
      * Update a magazine
      * @param Magazine $s   The magazine to update
-     * @return Magazine     The magazine updated
      * @throws RepositoryException  If the update fails
      */
     public function update(Magazine $m): void {

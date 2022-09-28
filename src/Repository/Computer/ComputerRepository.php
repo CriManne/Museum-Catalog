@@ -172,7 +172,6 @@ class ComputerRepository extends GenericRepository {
     /**
      * Update a computer
      * @param Computer $s   The computer to update
-     * @return Computer     The computer updated
      * @throws RepositoryException  If the update fails
      */
     public function update(Computer $b): void {

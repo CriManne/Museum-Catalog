@@ -153,7 +153,6 @@ class PeripheralRepository extends GenericRepository {
     /**
      * Update a peripheral
      * @param Peripheral $p   The peripheral to update
-     * @return Peripheral     The peripheral updated
      * @throws RepositoryException  If the update fails
      */
     public function update(Peripheral $p): void {

@@ -129,10 +129,9 @@ class SoftwareTypeRepository extends GenericRepository {
     /**
      * Update a software type
      * @param SoftwareType  The software type to update
-     * @return SoftwareType The software type updated
      * @throws RepositoryException  If the update fails
      */
-    public function update(SoftwareType $s): SoftwareType {
+    public function update(SoftwareType $s): void {
         $query =
             "UPDATE softwaretype 
             SET Name = :name            
@@ -143,7 +142,6 @@ class SoftwareTypeRepository extends GenericRepository {
         $stmt->bindParam("id", $s->SoftwareTypeID, PDO::PARAM_INT);
         try {
             $stmt->execute();
-            return $s;
         } catch (PDOException $e) {
             throw new RepositoryException("Error while updating the software type with id: {" . $s->SoftwareTypeID . "}");
         }

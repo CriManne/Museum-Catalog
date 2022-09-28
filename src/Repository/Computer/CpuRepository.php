@@ -130,10 +130,9 @@ class CpuRepository extends GenericRepository {
     /**
      * Update a cpu
      * @param Cpu $c    The cpu to update
-     * @return Cpu      The cpu updated
      * @throws RepositoryException If the update fails
      */
-    public function update(Cpu $c): Cpu {
+    public function update(Cpu $c): void {
         $query =
             "UPDATE cpu 
             SET ModelName = :ModelName,
@@ -146,7 +145,6 @@ class CpuRepository extends GenericRepository {
         $stmt->bindParam("CpuID", $c->CpuID, PDO::PARAM_INT);
         try {
             $stmt->execute();
-            return $c;
         } catch (PDOException $e) {
             throw new RepositoryException("Error while updating the cpu with id: {" . $c->CpuID . "}");
         }

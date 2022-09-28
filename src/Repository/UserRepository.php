@@ -99,10 +99,9 @@ class UserRepository extends GenericRepository {
     /**
      * Update a user
      * @param User $u   The user to update
-     * @return User     The user updated
      * @throws RepositoryException  If the update fails
      */
-    public function update(User $u): User {
+    public function update(User $u): void {
         $query =
             "UPDATE user 
             SET Password = :Password,
@@ -119,7 +118,6 @@ class UserRepository extends GenericRepository {
         $stmt->bindParam("Email", $u->Email, PDO::PARAM_STR);
         try {
             $stmt->execute();
-            return $u;
         } catch (PDOException $e) {
             throw new RepositoryException("Error while updating the user with Email: {" . $u->Email . "}");
         }
