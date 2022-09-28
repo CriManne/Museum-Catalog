@@ -1,6 +1,6 @@
 <?php $this->layout('layouts::dashboard_layout', ['title' => $title, 'user' => $user]) ?>
 
-<div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="loading-container">
+<div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center my-5" id="loading-container">
     <div class="spinner-border mx-auto" role="status"></div>
 </div>
 <div class="container-fluid p-0 gap-2 align-items-center w-100 d-none" id="main-container">
