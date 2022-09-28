@@ -77,7 +77,7 @@
     <script>
         const urlForm = urlArtifactUpdate;
     </script>
-    <script src="/api/scripts?filename=fill_update_form.js"></script>
+    <script src="/api/scripts?filename=update_form.js"></script>
     <script>
         fillUpdateForm();
     </script>
