@@ -3,7 +3,7 @@ $(document).ready(function () {
     $("#artifact-form").on("submit", handleSubmit);
     $("#loading-container").remove();
     $("#main-container").removeClass("d-none");
-    
+   
 });
 
 function handleSubmit(e) {

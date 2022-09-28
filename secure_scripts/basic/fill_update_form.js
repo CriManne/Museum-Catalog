@@ -32,27 +32,33 @@ function fillUpdateForm(){
     if (object.status_code == "404") {
         createAlert(object);
     }else{               
-        for(const key in object){
-            if(object[key]!=null && typeof object[key] == 'object'){
-                let innerObject = object[key];                
+        for(const property in object){
+            if(object[property]!=null && typeof object[property] == 'object'){
+                let innerObject = object[property]; 
+                
+                //IF IS NOT AN ARRAY THEN TURN IT INTO AN ARRAY
                 if(!innerObject.hasOwnProperty(length)){
                     innerObject = [innerObject];
                 }                
-                for(const item of innerObject){
-                    console.log(item);
-                    for(const key2 in item){     
-                        if(key2.includes("ID")){           
-                            // $("#"+key2).val(item[key2]); SEEMS TO WORK EVEN WITHOUT THIS
-                            $("#"+key2+" option[value='"+item[key2]+"']").attr("selected",true);                        
+                let selectResetted = false;
+                for(const item of innerObject){                                        
+                    for(const property2 in item){                             
+                        if(property2.includes("ID")){ 
+                            if(!selectResetted){
+                                $("#"+property2+" option").attr("selected",false);          
+                                selectResetted = true;
+                            }
+                            $("#"+property2+" option[value='"+item[property2]+"']").attr("selected",true);                        
                         }
                     }
                 }
-            }else if(object[key]!=null){
-                $("#"+key).val(object[key]);
-                $("#"+key).prop("defaultValue",object[key]);
+            //IF THE VALUE OF THE PROPERTY IS NOT AN OBJECT AND IS NOT NULL
+            }else if(object[property]!=null){
+                $("#"+property).val(object[property]);
+                $("#"+property).prop("defaultValue",object[property]);
             }else{
-                $("#"+key).val("");
-                $("#"+key).prop("defaultValue","");
+                $("#"+property).val("");
+                $("#"+property).prop("defaultValue","");
             }
         }
         let images = makeRequest(urlImagesNames+"?id="+objectID);

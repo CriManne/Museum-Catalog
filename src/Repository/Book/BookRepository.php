@@ -209,6 +209,12 @@ class BookRepository extends GenericRepository {
             $stmt->bindParam("ObjectID", $b->ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
+            $this->bookAuthorRepository->deleteById($b->ObjectID);
+
+            foreach ($b->Authors as $author) {
+                $this->bookAuthorRepository->insert(new BookAuthor($b->ObjectID, $author->AuthorID));
+            }
+
             $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();

@@ -121,23 +121,20 @@ class BookAuthorRepository extends GenericRepository {
     /**
      * Delete by id
      * @param string $BookID The book id
-     * @param int $AuthorID The author id
-     * @throws
+     * @throws PDOException If the delete fails
      */
-    public function deleteById(string $BookID, int $AuthorID): void {
+    public function deleteById(string $BookID): void {
         $query =
             "DELETE FROM bookauthor                      
             WHERE 
-            BookID = :BookID AND
-            AuthorID = :AuthorID;";
+            BookID = :BookID";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("BookID", $BookID, PDO::PARAM_STR);
-        $stmt->bindParam("AuthorID", $AuthorID, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while deleting the book author with ids: {" . $AuthorID . "}");
+            throw new RepositoryException("Error while deleting the book author with id: {" . $BookID . "}");
         }
     }
 }
