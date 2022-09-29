@@ -14,7 +14,7 @@ let users = [];
 let filteredUsers = [];
 
 //URL to fetch users
-const urlUsers = "/api/private/user";
+const urlFetchUsers = "/api/private/user";
 
 const urlDeleteUser = "/api/private/user/delete";
 
@@ -73,7 +73,7 @@ $(document).ready(function() {
 
 
 function initializePage() {
-    users = filteredUsers = makeRequest(urlUsers);
+    users = filteredUsers = makeRequest(urlFetchUsers);
 
     loadPage();
 

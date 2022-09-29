@@ -24,6 +24,7 @@ use ReflectionClass;
 use ReflectionFunction;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
+use Throwable;
 use TypeError;
 
 class DeleteController extends ControllerUtil implements ControllerInterface {

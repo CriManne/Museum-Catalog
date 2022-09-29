@@ -7,24 +7,15 @@ $(document).ready(function() {
 
     $("#add-user-form").on('submit', function(e) {
         e.preventDefault();
-        let data = $("#add-user-form").serializeArray();
-        let object = {};
-        data.forEach(element => {
-            object[element.name] = element.value;
-        });
-
+        let formData = new FormData(this);       
         let response = makeRequest(
-            urlUsers,
+            urlCreateUser,
             'POST',
             headers = {
                 "mimeType": "multipart/form-data",
             },
-            params = object);
+            params = formData);
         createAlert(response);
-
-        if (response.status == "200") {
-            initializePage();
-        }
     });
 
 });

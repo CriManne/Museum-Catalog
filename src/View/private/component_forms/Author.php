@@ -13,7 +13,7 @@
     <?php } ?>
     <div class="form-outline mb-4">
         <label class="form-label" for="firstname">Nome autore</label>
-        <input type="text" name="lastname" id="ModelName" class="form-control" required />
+        <input type="text" name="firstname" id="firstname" class="form-control" required />
     </div>    
     <div class="form-outline mb-4">
         <label class="form-label" for="lastname">Cognome autore</label>
