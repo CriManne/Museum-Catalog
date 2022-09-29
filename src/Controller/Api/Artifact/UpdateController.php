@@ -84,7 +84,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface
              */
             $this->artifactRepo = $this->container->get($repoPath);
 
-            $instantiatedObject = $this->artifactRepo->returnMappedObject($params);
+            $instantiatedObject = $this->artifactRepo->returnMappedObject($params);            
             
             $this->artifactService->update($instantiatedObject);
 
@@ -103,14 +103,12 @@ class UpdateController extends ControllerUtil implements ControllerInterface
                 $this->getResponse($e->getMessage(), 400)
             );
         } catch (Throwable $e) {
-            var_dump($e->getMessage());
-            die();
+            return new Response(
+                400,
+                [],
+                $this->getResponse("Bad request!", 400)
+            );
         }
 
-        return new Response(
-            400,
-            [],
-            $this->getResponse("Bad request!", 400)
-        );
     }
 }

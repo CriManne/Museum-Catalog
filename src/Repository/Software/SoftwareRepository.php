@@ -245,9 +245,9 @@ class SoftwareRepository extends GenericRepository {
             $rawsoftware["Url"] ?? null,
             $rawsoftware["Tag"] ?? null,
             $rawsoftware["Title"],
-            $this->OsRepository->selectById(intval($rawsoftware["OsID"]),true),
-            $this->softwareTypeRepository->selectById(intval($rawsoftware["SoftwareTypeID"]),true),
-            $this->supportTypeRepository->selectById(intval($rawsoftware["SupportTypeID"]),true)
+            $this->OsRepository->selectById(intval($rawsoftware["OsID"]),null),
+            $this->softwareTypeRepository->selectById(intval($rawsoftware["SoftwareTypeID"]),null),
+            $this->supportTypeRepository->selectById(intval($rawsoftware["SupportTypeID"]),null)
         );
     }
 }

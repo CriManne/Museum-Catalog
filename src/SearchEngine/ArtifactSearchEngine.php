@@ -40,16 +40,16 @@ class ArtifactSearchEngine
      * @return object The object fetched
      * @throws ServiceException If no object is found
      */
-    public function selectSpecificByIdAndCategory(string $ObjectID,string $category): object
+    public function selectSpecificByIdAndCategory(string $ObjectID, string $category): object
     {
-        try{
+        try {
             $artifactServicePath = "App\\Service\\$category\\$category" . "Service";
 
             $artifactService = $this->container->get($artifactServicePath);
 
             return $artifactService->selectById($ObjectID);
-
-        }catch(Exception | ServiceException){}
+        } catch (Exception | ServiceException) {
+        }
         throw new ServiceException("Artifact with id [$ObjectID] in category [$category] not found!");
     }
 
@@ -70,7 +70,7 @@ class ArtifactSearchEngine
 
             try {
                 $result = $artifactService->selectById($ObjectID);
-                
+
                 return $this->$categoryName($result);
             } catch (ServiceException) {
             }
@@ -130,7 +130,7 @@ class ArtifactSearchEngine
     public function Book(Book $obj): GenericArtifactResponse
     {
         $authors = [];
-        if($obj->Authors){
+        if ($obj->Authors) {
             foreach ($obj->Authors as $author) {
                 $authors[] = $author->firstname[0] . " " . $author->lastname;
             }
@@ -144,7 +144,7 @@ class ArtifactSearchEngine
                 'Year' => $obj->Year,
                 'ISBN' => $obj->ISBN ?? "-",
                 'Pages' => $obj->Pages ?? "-",
-                'Authors' => count($authors)>0 ? implode(", ", $authors) : "Unknown"
+                'Authors' => count($authors) > 0 ? implode(", ", $authors) : "Unknown"
             ],
             "Book",
             $obj->Note,

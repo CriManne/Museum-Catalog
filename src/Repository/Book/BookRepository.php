@@ -278,7 +278,7 @@ class BookRepository extends GenericRepository {
          * from the bookauthor repository but we need to create BookAuthor entity inside the
          * book entity so in the insert method of BookRepository it will add the columns in bookauthor
          */
-        if(isset($rawBook["newAuthors"])){
+        if(isset($rawBook["newAuthors"])){            
             foreach($rawBook["newAuthors"] as $key=>$value){
                 $bookAuthors[] = ORM::getNewInstance(BookAuthor::class,[$rawBook["ObjectID"],$value]);
             }
@@ -288,7 +288,7 @@ class BookRepository extends GenericRepository {
         $authors = [];
         if($bookAuthors){
             foreach ($bookAuthors as $bookAuthor) {
-                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID),true);
+                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID),null);
             }
         }
 
@@ -298,7 +298,7 @@ class BookRepository extends GenericRepository {
             $rawBook["Url"] ?? null,
             $rawBook["Tag"] ?? null,
             $rawBook["Title"],
-            $this->publisherRepository->selectById(intval($rawBook["PublisherID"]),true),
+            $this->publisherRepository->selectById(intval($rawBook["PublisherID"]),null),
             intval($rawBook["Year"]),
             $rawBook["ISBN"] ?? null,
             $rawBook["Pages"] ? intval($rawBook["Pages"]) : null,
