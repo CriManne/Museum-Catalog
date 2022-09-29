@@ -94,7 +94,7 @@ class CreateController extends ControllerUtil implements ControllerInterface {
                     [],
                     $this->getResponse($e->getMessage(), 400)
                 );
-            } catch (Exception) {
+            } catch (Throwable) {
             }
         }
 

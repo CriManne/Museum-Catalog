@@ -6,11 +6,11 @@
 <div class="container-fluid p-0 gap-2 align-items-center w-100 d-none" id="main-container">
     <p>
         <?php if (!isset($_GET["id"])) { ?>
-            <a href="/private/component/?page=choose_component_category&next=add" class="btn btn-primary">
+            <a href="/private/component?page=choose_component_category&next=add" class="btn btn-primary">
                 <i class="fa-solid fa-arrow-left mx-2"></i>Go back
             </a>
         <?php } else { ?>
-            <a href="/private/component/?page=choose_component_category&next=view" class="btn btn-primary">
+            <a href="/private/component?page=choose_component_category&next=view" class="btn btn-primary">
                 <i class="fa-solid fa-arrow-left mx-2"></i>Go back
             </a>
         <?php } ?>
