@@ -32,7 +32,9 @@ function handleSubmit(e) {
     );
 
     createAlert(response);
-    fillUpdateForm();
+    if(response.status=="200"){
+        fillUpdateForm();
+    }
 }
 
 function isEmptyOrSpaces(str){
