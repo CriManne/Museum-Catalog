@@ -22,7 +22,7 @@ $(document).ready(function() {
             params = object);
         createAlert(response);
 
-        if (response.status_code == "200") {
+        if (response.status == "200") {
             initializePage();
         }
     });

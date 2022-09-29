@@ -30,7 +30,7 @@ function fillUpdateForm(){
 
     const object = makeRequest(urlSpecificArtifact + "?id=" + objectID+"&category="+category);
 
-    if (object.status_code == "404") {
+    if (object.status == "404") {
         createAlert(object);
     }else{               
         for(const property in object){

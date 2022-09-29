@@ -47,7 +47,7 @@ function loadResult(search) {
     $("#tb-container").empty();
     $("#error-alert").empty();
 
-    if (result.status_code == "404") {
+    if (result.status == "404") {
         $("#error-alert").show();
         $("#tb-container").hide();
         $("#error-alert").append(result.message);

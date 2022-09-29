@@ -14,8 +14,8 @@ function fillUpdateForm(){
     const category = Object.fromEntries(urlSearchParams.entries())['category'];
 
     const object = makeRequest(urlSpecificComponent + "?id=" + id+"&category="+category);
-
-    if (object.status_code == "404") {
+    console.log(object);
+    if (object.status == "404") {
         createAlert(object);
     }else{               
         for(const property in object){

@@ -15,6 +15,7 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
+use Throwable;
 
 class GetSpecificByIdController extends ControllerUtil implements ControllerInterface{ 
 
@@ -73,11 +74,11 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
                 );
             }catch(ServiceException $e){
                 return new Response(
-                    400,
+                    404,
                     [],
-                    $this->getResponse($e->getMessage(), 400)
+                    $this->getResponse($e->getMessage(), 404)
                 );
-            } catch (Exception) {
+            } catch (Throwable) {
             }
         }
 

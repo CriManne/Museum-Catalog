@@ -6,7 +6,7 @@ $(document).ready(function() {
 
     const object = makeRequest(urlObject + "?id=" + objectID);
 
-    if (object.status_code == "404") {
+    if (object.status == "404") {
         $("#artifact").hide();
         $("#error-alert").removeClass("d-none");
         $("#error-alert").append(object.message);

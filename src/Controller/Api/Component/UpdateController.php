@@ -89,11 +89,11 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
                 );
             }catch(ServiceException $e){
                 return new Response(
-                    400,
+                    404,
                     [],
-                    $this->getResponse($e->getMessage(), 400)
+                    $this->getResponse($e->getMessage(), 404)
                 );
-            } catch (Exception) {
+            } catch (Throwable) {
             }
         }
         
