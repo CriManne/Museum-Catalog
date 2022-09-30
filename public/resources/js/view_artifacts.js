@@ -39,7 +39,7 @@ function displayResult(result) {
     });
 
     $(".artifact-row").unbind().on('click', function() {
-        window.location.href = '/artifact?id=' + $(this).attr('data-id');
+        window.location.href = '/view_artifact?id=' + $(this).attr('data-id');
     });
 
 }

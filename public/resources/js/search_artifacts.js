@@ -1,4 +1,4 @@
-let category = "";
+let category;
 
 $(document).ready(function() {
 
@@ -7,7 +7,7 @@ $(document).ready(function() {
 
     loadSelect();
 
-    loadResult("");
+    loadResult();
 
     $("#category-select").on('change', function() {
         let value = this.value;
@@ -39,7 +39,7 @@ $(document).ready(function() {
     });
 });
 
-function loadResult(search) {
+function loadResult(search="") {
     var result = makeRequest(urlSearchArtifacts + search);
 
     $("#tb-container").empty();

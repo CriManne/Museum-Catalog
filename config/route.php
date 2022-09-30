@@ -25,19 +25,42 @@ return [
     /* PRIVATE AREA */
 
     //PRIVATE HOME
-    ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],    
+    ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
+
+    //------------USERS--------------
+
+    //VIEW USERS    
+    ['GET', '/private/user/view_users', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Pages\Private\User\ViewUsersController::class]],
+
+    //ADD USER
+    ['GET', '/private/user/add_user', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Pages\Private\User\AddController::class]],
+
+    //------------ARTIFACTS--------------
+
+    //VIEW ARTIFACTS
+    ['GET', '/private/artifact/view_artifacts', [Controller\BasicAuthController::class, Controller\Pages\Private\Artifact\ViewArtifactsController::class]],
+
+    //CHOOSE CATEGORY
+    ['GET', '/private/artifact/choose_artifact_category', [Controller\BasicAuthController::class, Controller\Pages\Private\Artifact\ChooseCategoryController::class]],
 
     //ADD ARTIFACT
-    ['GET', '/private/artifact/add_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\AddArtifactController::class]],
+    ['GET', '/private/artifact/add_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\Artifact\AddController::class]],
 
     //UPDATE ARTIFACT
-    ['GET', '/private/artifact/update_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\UpdateArtifactController::class]],
+    ['GET', '/private/artifact/update_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\Artifact\UpdateController::class]],
+
+    //------------COMPONENTS--------------
+    //VIEW COMPONENTS
+    ['GET', '/private/component/view_components', [Controller\BasicAuthController::class, Controller\Pages\Private\Component\ViewComponentsController::class]],
+
+    //CHOOSE CATEGORY
+    ['GET', '/private/component/choose_component_category', [Controller\BasicAuthController::class, Controller\Pages\Private\Component\ChooseCategoryController::class]],
 
     //ADD COMPONENT
-    ['GET', '/private/component/add_component', [Controller\BasicAuthController::class, Controller\Pages\Private\AddComponentController::class]],
+    ['GET', '/private/component/add_component', [Controller\BasicAuthController::class, Controller\Pages\Private\Component\AddController::class]],
 
     //UPDATE COMPONENT
-    ['GET', '/private/component/update_component', [Controller\BasicAuthController::class, Controller\Pages\Private\UpdateComponentController::class]],
+    ['GET', '/private/component/update_component', [Controller\BasicAuthController::class, Controller\Pages\Private\Component\UpdateController::class]],
 
     // ______________________________________________________ //
 
@@ -90,7 +113,7 @@ return [
     ['DELETE', '/api/component/delete', [Controller\BasicAuthController::class, Controller\Api\Component\DeleteController::class]],
 
     //SELECT ALL GENERIC COMPONENTS BY CATEGORY
-    ['GET', '/api/generic/components',[Controller\BasicAuthController::class,Controller\Api\Component\GetGenericsController::class]],
+    ['GET', '/api/generic/components', [Controller\BasicAuthController::class, Controller\Api\Component\GetGenericsController::class]],
 
     //SELECT SPECIFIC COMPONENT BY ID AND CATEGORY
     ['GET', '/api/specific/component', [Controller\BasicAuthController::class, Controller\Api\Component\GetSpecificByIdController::class]],
@@ -100,10 +123,10 @@ return [
     /* IMAGES */
 
     //GET ALL THE IMAGES BY ID
-    ['GET','/api/images',Controller\Api\Images\GetController::class],
+    ['GET', '/api/images', Controller\Api\Images\GetController::class],
 
     //DELETE ALL THE IMAGES BY ID
-    ['DELETE','/api/images/delete',Controller\Api\Images\DeleteController::class],
+    ['DELETE', '/api/images/delete', Controller\Api\Images\DeleteController::class],
 
 
     /* /IMAGES */

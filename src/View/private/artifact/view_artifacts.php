@@ -4,5 +4,5 @@
 
 <?php $this->push('scripts') ?>
 <script src="/resources/js/search_artifacts.js"></script>
-<script src="/api/scripts?filename=view_artifacts.js"></script>
+<script src="/api/scripts?filename=/artifact/view_artifacts.js"></script>
 <?php $this->end() ?>

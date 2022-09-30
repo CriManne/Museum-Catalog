@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Pages\Private;
+namespace App\Controller\Pages\Private\Artifact;
 
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
@@ -17,7 +17,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
 
-class UpdateArtifactController extends ControllerUtil implements ControllerInterface {
+class UpdateController extends ControllerUtil implements ControllerInterface {
     protected UserService $userService;
     public ArtifactSearchEngine $artifactSearchEngine;
 

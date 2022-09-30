@@ -5,6 +5,8 @@ namespace App\Controller;
 session_start();
 
 use App\Controller\ControllerUtil;
+use App\Exception\ServiceException;
+use App\Service\UserService;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -15,8 +17,11 @@ use SimpleMVC\Response\HaltResponse;
 
 class BasicAuthController extends ControllerUtil implements ControllerInterface {    
 
-    public function __construct(Engine $plates) {
-        parent::__construct($plates);
+    protected UserService $userService;
+
+    public function __construct(Engine $plates,UserService $userService) {
+        parent::__construct($plates);        
+        $this->userService = $userService;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {   
@@ -35,6 +40,16 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
                 $error_message
             );
         }
-        return $response;
+
+        try{
+            $this->userService->selectById($_SESSION['user_email']);
+            return $response;
+        }catch(ServiceException){
+            return new HaltResponse(
+                401,
+                [],
+                $this->displayError(401,"Unauthorized access")
+            );            
+        }
     }
 }

@@ -5,7 +5,7 @@ $(document).ready(function(){
 
     $("artifact-form").on("reset",function(e){
         e.preventDefault();        
-        fillUpdateForm();
+        //fillUpdateForm();
     });
 
     $(".image-del").on("click",function(){

@@ -44,13 +44,17 @@ $(document).ready(function() {
     }
 
     if(object.Tag!==""){
-        $("object-tags").append("Tags: "+object.Tag);
+        $("#object-tags").append("Tags: "+object.Tag);
     }
     if(object.Url!==""){
-        $("object-url").append("Url: "+object.Url);
+        const conditions = ["http://","https://"];
+        if(!conditions.some(el => object.Url.includes(el))){
+            object.Url = "https://"+object.Url;
+        }
+        $("#object-url").append("Url: <a href='"+object.Url+"'>Segui il link</a>");
     }
     if(object.Note!==""){
-        $("object-note").append("Note: "+object.Note);
+        $("#object-note").append("Note: "+object.Note);
     }
 });
 

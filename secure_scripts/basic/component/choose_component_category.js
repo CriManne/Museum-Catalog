@@ -8,9 +8,9 @@ $(document).ready(function(){
         if(next !== undefined && (next === "add" || next === "view")){
             let value = this.value;
             if(next === "add"){
-                window.location.href= urlAddComponentPages+value;
+                window.location.href= urlAddComponentPages+"?category="+value;
             }else{
-                window.location.href= urlViewComponents+value;
+                window.location.href= urlViewComponents+"?category="+value;
             }
             return;
         }

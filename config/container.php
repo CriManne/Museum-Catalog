@@ -12,8 +12,12 @@ return [
         $engine = new Engine($c->get('view_path'));
         $engine->addFolder('layouts', $c->get('view_path') . '/layouts');
         $engine->addFolder('private', $c->get('view_path') . '/private');
-        $engine->addFolder('artifact_forms', $c->get('view_path') . '/private/artifact_forms');
-        $engine->addFolder('component_forms', $c->get('view_path') . '/private/component_forms');
+        $engine->addFolder('artifact_forms', $c->get('view_path') . '/private/artifact/artifact_forms');
+        $engine->addFolder('p_artifact', $c->get('view_path') . '/private/artifact');
+        $engine->addFolder('p_component', $c->get('view_path') . '/private/component');
+        $engine->addFolder('p_user', $c->get('view_path') . '/private/user');
+
+        $engine->addFolder('component_forms', $c->get('view_path') . '/private/component/component_forms');
         $engine->addFolder('reusable', $c->get('view_path') . '/reusable');
         $engine->addFolder('public', $c->get('view_path') . '/public');
         $engine->addFolder('artifact', $c->get('view_path') . '/public/artifact');

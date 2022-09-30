@@ -33,6 +33,6 @@
 </div>
 
 <?php $this->push('scripts') ?>
-<script src="/api/scripts?filename=search_components.js"></script>
-<script src="/api/scripts?filename=view_components.js"></script>
+<script src="/api/scripts?filename=/component/search_components.js"></script>
+<script src="/api/scripts?filename=/component/view_components.js"></script>
 <?php $this->end() ?>

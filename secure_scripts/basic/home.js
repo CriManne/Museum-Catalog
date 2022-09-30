@@ -1,43 +1,53 @@
 const urlHome = "/private";
-const urlArtifacts = "/api/generic/artifacts";
+
+//ARTIFACTS API
 const urlArtifactCreate = "/api/artifact/create";
 const urlArtifactUpdate = "/api/artifact/update";
 const urlArtifactDelete = "/api/artifact/delete";
 
+//COMPONENTS API
 const urlComponentCreate = "/api/component/create";
 const urlComponentUpdate = "/api/component/update";
 const urlComponentDelete = "/api/component/delete";
 
-const urlAddArtifactPages = "/private/artifact/add_artifact?category=";
-const urlViewComponents = "/private/component?page=view_components&category=";
-const urlAddComponentPages = "/private/component/add_component?category=";
+//USERS
+const urlViewUsers = urlHome+"/user/view_users";
+const urlAddUser = urlHome+"/user/add_user";;
 
+//ARTIFACTS
+const urlViewArtifacts = urlHome+"/artifact/view_artifacts";
+const urlChooseArtifactCategory = urlHome+"/artifact/choose_artifact_category";
+const urlAddArtifactPage = urlHome + "/artifact/add_artifact";
 
+//COMPONENTS
+const urlChooseComponentsCategory = urlHome+"/component/choose_component_category";
+const urlViewComponents = urlHome+"/component/view_components";
+const urlAddComponentPages = urlHome+"/component/add_component";
 
 $(document).ready(function() {
 
     $("#view_users").on('click',function(){
-        window.location.href =urlHome+"/user?page=view_users";
+        window.location.href = urlViewUsers;
     });
 
     $("#add_user").on('click',function(){
-        window.location.href =urlHome+"/user?page=add_user";
+        window.location.href = urlAddUser
     });
 
     $("#view_artifacts").on('click',function(){
-        window.location.href =urlHome+"/artifact?page=view_artifacts";
+        window.location.href = urlViewArtifacts;
     });
 
     $("#add_artifact").on('click',function(){
-        window.location.href =urlHome+"/artifact?page=choose_artifact_category";
+        window.location.href = urlChooseArtifactCategory;
     });
 
     $("#view_components").on('click',function(){
-        window.location.href =urlHome+"/component?page=choose_component_category&next=view";
+        window.location.href = urlChooseComponentsCategory+"?next=view";
     });
 
     $("#add_component").on('click',function(){
-        window.location.href =urlHome+"/component?page=choose_component_category&next=add";
+        window.location.href = urlChooseComponentsCategory+"?next=add";
     });
 
 });

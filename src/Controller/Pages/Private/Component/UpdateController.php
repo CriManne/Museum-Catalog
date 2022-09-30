@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Pages\Private;
+namespace App\Controller\Pages\Private\Component;
 
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\Api\ComponentsListController;
@@ -18,7 +18,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
 
-class UpdateComponentController extends ControllerUtil implements ControllerInterface {
+class UpdateController extends ControllerUtil implements ControllerInterface {
     protected UserService $userService;
     public ComponentSearchEngine $componentSearchEngine;
 

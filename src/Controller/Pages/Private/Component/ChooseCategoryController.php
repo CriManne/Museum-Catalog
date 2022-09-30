@@ -2,10 +2,9 @@
 
 declare(strict_types=1);
 
-namespace App\Controller\Pages\Private;
+namespace App\Controller\Pages\Private\Component;
 
 use App\Controller\Api\ArtifactsListController;
-use App\Controller\Api\ComponentsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Service\UserService;
@@ -17,7 +16,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
 
-class AddComponentController extends ControllerUtil implements ControllerInterface
+class ChooseCategoryController extends ControllerUtil implements ControllerInterface
 {
     protected UserService $userService;
 
@@ -29,32 +28,12 @@ class AddComponentController extends ControllerUtil implements ControllerInterfa
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = $request->getQueryParams();
-
-        $category = $params["category"] ?? null;
-
-        if(!$category){
-            return new Response(
-                400,
-                [],
-                $this->displayError(400,"Bad request!")
-            );
-        }
-
-        if(!in_array($category,ComponentsListController::$categories)){
-            return new Response(
-                404,
-                [],
-                $this->displayError(404,"Category not found!")
-            );
-        }
-
         $user = $this->userService->selectById($_SESSION['user_email']);
 
         return new Response(
             200,
             [],
-            $this->plates->render("component_forms::$category",['user'=>$user,'title'=>"Add $category"])
+            $this->plates->render("p_component::choose_component_category",['user'=>$user,'title'=>"Choose component category"])
         );
     }
 }

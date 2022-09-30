@@ -29,6 +29,8 @@ model
 
 - CHECK BAD INSERTS TEST FOR MODEL WITH UNIQUE NAMES
 
+- USER SELECT RETURN RESPONSE OBJECT WITHOUT PASSWORD
+
 - USE mysql_real_escape_string TO CLEAN INPUTS
 
 - Implement documentation for the showErased and isAdmin PARAMETER

@@ -7,5 +7,5 @@
     </select>
 </div>
 <?php $this->push('scripts') ?>
-<script src="/api/scripts?filename=choose_component_category.js"></script>
+<script src="/api/scripts?filename=/component/choose_component_category.js"></script>
 <?php $this->end() ?>

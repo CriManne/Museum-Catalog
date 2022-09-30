@@ -3,7 +3,7 @@ $(document).ready(function(){
 
     $("#artifact-category-select").on('change', function() {
         let value = this.value;
-        window.location.href= urlAddArtifactPages+value;
+        window.location.href= urlAddArtifactPage+"?category="+value;
     })
 });
 
