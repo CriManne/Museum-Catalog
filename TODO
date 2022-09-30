@@ -21,8 +21,6 @@ model
 
 - REFACTOR CODE, FIX COPY AND PASTE TYPOS AND RENAME $s PARAMETERS AND REMOVE UNUSED IMPORTS
 
-- IN USER SERVICE IF THE USER WITH THE EMAIL X ALREADY EXISTS DO AN UPDATE(?)
-
 - DIVIDE DELETE (SOFT) AND DELETE PERMANENTLY
 
 - XSS SECURITY CHECKS
@@ -35,16 +33,9 @@ model
 
 - Implement documentation for the showErased and isAdmin PARAMETER
 
-- On insert when returning the object inserted fill the ids
-
 - REMOVE REPOSITORIES AND SERVICES METHODS NOT USED
 
-- REMINDER: In Services unit tests just mock the repository is being used because the you dont need to
-mock the pdo because the low level db interaction is already being tested in integration tests
-
 - CHECK FORMATTING AND THE ERRORS MADE IN THE OTHER PROJECTS
-
-- REMOVE AUTHORIZED CROSS ORIGIN HEADER FROM CONTROLLERS
 
 - REMOVE GET COUNT METHOD FROM USER
 
