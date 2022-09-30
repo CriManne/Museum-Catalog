@@ -15,20 +15,17 @@ return [
     [['GET', 'POST'], '/login', Controller\Pages\Public\LoginController::class],
 
     //SINGLE ARTIFACT
-    ['GET', '/artifact', Controller\Pages\Public\Artifact\ArtifactController::class],
+    ['GET', '/view_artifact', Controller\Pages\Public\Artifact\ArtifactController::class],
 
-    //ARTIFACTS 
-    ['GET', '/artifacts', Controller\Pages\Public\Artifact\ArtifactsController::class],
+    //ALL THE ARTIFACTS 
+    ['GET', '/catalog', Controller\Pages\Public\Artifact\ArtifactsController::class],
 
     // ______________________________________________________ //
 
     /* PRIVATE AREA */
 
     //PRIVATE HOME
-    ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
-    ['GET', '/private/user', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
-    ['GET', '/private/artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
-    ['GET', '/private/component', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
+    ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],    
 
     //ADD ARTIFACT
     ['GET', '/private/artifact/add_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\AddArtifactController::class]],
