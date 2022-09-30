@@ -16,10 +16,9 @@ class RamRepository extends GenericRepository {
     /**
      * Insert a ram
      * @param Ram $ram  The ram to insert
-     * @return Ram      The ram inserted
      * @throws RepositoryException  If the insert fails
      */
-    public function insert(Ram $ram): Ram {
+    public function insert(Ram $ram): void {
 
         $query =
             "INSERT INTO ram 
@@ -32,8 +31,6 @@ class RamRepository extends GenericRepository {
 
         try {
             $stmt->execute();
-            $ram->RamID = intval($this->pdo->lastInsertId());
-            return $ram;
         } catch (PDOException) {
             throw new RepositoryException("Error while inserting the ram with name: {" . $ram->ModelName . "}");
         }

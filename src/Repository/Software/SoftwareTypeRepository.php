@@ -16,10 +16,9 @@ class SoftwareTypeRepository extends GenericRepository {
     /**
      * Insert softwaretype
      * @param SoftwareType  $softwareType   The software type to insert
-     * @return SoftwareType     The software type inserted
      * @throws RepositoryException If the insert fails
      */
-    public function insert(SoftwareType $softwareType): SoftwareType {
+    public function insert(SoftwareType $softwareType): void {
 
         $query =
             "INSERT INTO softwaretype 
@@ -31,8 +30,6 @@ class SoftwareTypeRepository extends GenericRepository {
 
         try {
             $stmt->execute();
-            $softwareType->SoftwareTypeID = intval($this->pdo->lastInsertId());
-            return $softwareType;
         } catch (PDOException) {
             throw new RepositoryException("Error while inserting the software type with name: {" . $softwareType->Name . "}");
         }

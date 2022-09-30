@@ -50,17 +50,20 @@ final class ComputerRepositoryTest extends TestCase
         );        
         
         self::$sampleOs = new Os(            
-            "Windows"
+            "Windows",
+            1
         );
 
         self::$sampleCpu = new Cpu(
             'Cpu 1.0',
-            "2GHZ"
+            "2GHZ",
+            1
         );              
 
         self::$sampleRam = new Ram(
             "RAM 1.0",
-            "4GB"
+            "4GB",
+            1
         );
 
         self::$sampleComputer = new Computer(

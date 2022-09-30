@@ -15,10 +15,9 @@ class UserRepository extends GenericRepository {
     /**
      * Insert a user
      * @param User $u   The user to insert
-     * @return User     The user inserted
      * @throws RepositoryException  If the insert fails
      */
-    public function insert(User $u): User {
+    public function insert(User $u): void {
 
         $query =
             "INSERT INTO user 
@@ -34,7 +33,6 @@ class UserRepository extends GenericRepository {
 
         try {
             $stmt->execute();
-            return $u;
         } catch (PDOException) {
             throw new RepositoryException("Error while inserting the user with Email: {" . $u->Email . "}");
         }

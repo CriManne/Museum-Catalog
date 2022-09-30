@@ -16,10 +16,9 @@ class CpuRepository extends GenericRepository {
     /**
      * Insert a cpu
      * @param Cpu $cpu  The cpu to insert
-     * @return Cpu  The cpu inserted
      * @throws RepositoryException  If the insert fails
      */
-    public function insert(Cpu $cpu): Cpu {
+    public function insert(Cpu $cpu): void {
 
         $query =
             "INSERT INTO cpu 
@@ -32,8 +31,6 @@ class CpuRepository extends GenericRepository {
 
         try {
             $stmt->execute();
-            $cpu->CpuID = intval($this->pdo->lastInsertId());
-            return $cpu;
         } catch (PDOException $e) {
             throw new RepositoryException("Error while inserting the cpu with name: {" . $cpu->ModelName . "}");
         }

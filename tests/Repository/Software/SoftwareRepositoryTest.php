@@ -51,7 +51,8 @@ final class SoftwareRepositoryTest extends TestCase
         );        
         
         self::$sampleOs = new Os(
-            "Windows"
+            "Windows",
+            1
         );
 
         self::$sampleSoftwareType = new SoftwareType(

@@ -37,7 +37,8 @@ final class PeripheralRepositoryTest extends TestCase
         );        
         
         self::$samplePeripheralType = new PeripheralType(            
-            "Mouse"            
+            "Mouse",
+            1          
         );
 
         self::$samplePeripheral = new Peripheral(

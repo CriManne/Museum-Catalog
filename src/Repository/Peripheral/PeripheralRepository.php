@@ -29,10 +29,9 @@ class PeripheralRepository extends GenericRepository {
     /**
      * Insert Peripheral
      * @param Peripheral $peripheral    The peripheral to insert
-     * @return Peripheral         The peripheral inserted
-     * @throws RepositoryException  If the insert fails         * 
+     * @throws RepositoryException  If the insert fails          
      */
-    public function insert(Peripheral $peripheral): Peripheral {
+    public function insert(Peripheral $peripheral): void {
 
         $queryPeripheral =
             "INSERT INTO peripheral
@@ -63,7 +62,6 @@ class PeripheralRepository extends GenericRepository {
             $stmt->execute();
 
             $this->pdo->commit();
-            return $peripheral;
         } catch (PDOException) {
             $this->pdo->rollBack();
             throw new RepositoryException("Error while inserting the peripheral with id: {" . $peripheral->ObjectID . "}");

@@ -16,10 +16,9 @@ class OsRepository extends GenericRepository {
     /**
      * Insert a os
      * @param Os $os    The os to insert
-     * @return Os       The os inserted
      * @throws RepositoryException  If the insert fails
      */
-    public function insert(Os $os): Os {
+    public function insert(Os $os): void {
 
         $query =
             "INSERT INTO os 
@@ -31,8 +30,6 @@ class OsRepository extends GenericRepository {
 
         try {
             $stmt->execute();
-            $os->OsID = intval($this->pdo->lastInsertId());
-            return $os;
         } catch (PDOException) {
             throw new RepositoryException("Error while inserting the os with name: {" . $os->Name . "}");
         }

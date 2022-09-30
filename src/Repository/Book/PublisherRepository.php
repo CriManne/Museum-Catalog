@@ -16,10 +16,9 @@ class PublisherRepository extends GenericRepository {
     /**
      * Insert a publisher
      * @param Publisher $publisher  The publisher to insert
-     * @return Publisher    The publisher inserted
      * @throws RepositoryException  If the insert fails
      */
-    public function insert(Publisher $publisher): Publisher {
+    public function insert(Publisher $publisher): void {
 
         $query =
             "INSERT INTO publisher 
@@ -31,8 +30,6 @@ class PublisherRepository extends GenericRepository {
 
         try {
             $stmt->execute();
-            $publisher->PublisherID = intval($this->pdo->lastInsertId());
-            return $publisher;
         } catch (PDOException) {
             throw new RepositoryException("Error while inserting the publisher with name: {" . $publisher->Name . "}");
         }

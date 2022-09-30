@@ -16,10 +16,9 @@ class AuthorRepository extends GenericRepository {
     /**
      * Insert an author
      * @param Author $author    The author to insert
-     * @return Author           The author inserted
      * @throws RepositoryException  If the insert fails
      */
-    public function insert(Author $author): Author {
+    public function insert(Author $author): void {
 
         $query =
             "INSERT INTO author 
@@ -32,8 +31,6 @@ class AuthorRepository extends GenericRepository {
 
         try {
             $stmt->execute();
-            $author->AuthorID = intval($this->pdo->lastInsertId());
-            return $author;
         } catch (PDOException) {
             throw new RepositoryException("Error while inserting the author with name: {" . $author->firstname . "}");
         }

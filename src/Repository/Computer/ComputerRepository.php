@@ -37,10 +37,9 @@ class ComputerRepository extends GenericRepository {
     /**
      * Insert Computer
      * @param Computer $computer    The computer to insert
-     * @return Computer         The computer inserted
      * @throws RepositoryException  If the insert fails         * 
      */
-    public function insert(Computer $computer): Computer {
+    public function insert(Computer $computer): void {
 
         $queryComputer =
             "INSERT INTO computer
@@ -75,7 +74,6 @@ class ComputerRepository extends GenericRepository {
             $stmt->execute();
 
             $this->pdo->commit();
-            return $computer;
         } catch (PDOException) {
             $this->pdo->rollBack();
             throw new RepositoryException("Error while inserting the computer with id: {" . $computer->ObjectID . "}");

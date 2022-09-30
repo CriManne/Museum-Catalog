@@ -50,11 +50,13 @@ final class BookRepositoryTest extends TestCase
         
         self::$sampleAuthor = new Author(            
             "George",
-            "Orwell"
+            "Orwell",
+            1
         );
 
         self::$samplePublisher = new Publisher(
-            'Einaudi'
+            'Einaudi',
+            1
         );              
 
         self::$sampleBook = new Book(

@@ -16,10 +16,9 @@ class SupportTypeRepository extends GenericRepository {
     /**
      * Insert support type
      * @param SupportType $supportType  The support type to insert
-     * @return SupportType  The support type inserted
      * @throws RepositoryException  If the insert fails
      */
-    public function insert(SupportType $supportType): SupportType {
+    public function insert(SupportType $supportType): void {
 
         $query =
             "INSERT INTO supporttype 
@@ -31,8 +30,6 @@ class SupportTypeRepository extends GenericRepository {
 
         try {
             $stmt->execute();
-            $supportType->SupportTypeID = intval($this->pdo->lastInsertId());
-            return $supportType;
         } catch (PDOException) {
             throw new RepositoryException("Error while inserting the support type with name: {" . $supportType->Name . "}");
         }

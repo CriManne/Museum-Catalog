@@ -36,10 +36,9 @@ class BookRepository extends GenericRepository {
     /**
      * Insert Book
      * @param Book $book    The book to insert
-     * @return Book         The book inserted
      * @throws RepositoryException  If the insert fails         * 
      */
-    public function insert(Book $book): Book {
+    public function insert(Book $book): void {
 
         $queryBook =
             "INSERT INTO book
@@ -71,13 +70,11 @@ class BookRepository extends GenericRepository {
             $stmt->bindParam("ISBN", $book->ISBN, PDO::PARAM_STR);
 
             $stmt->execute();
-
             foreach ($book->Authors as $author) {
                 $this->bookAuthorRepository->insert(new BookAuthor($book->ObjectID, $author->AuthorID));
             }
 
             $this->pdo->commit();
-            return $book;
         } catch (PDOException) {
             $this->pdo->rollBack();
             throw new RepositoryException("Error while inserting the book with id: {" . $book->ObjectID . "}");

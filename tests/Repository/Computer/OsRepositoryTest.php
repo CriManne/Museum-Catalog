@@ -39,11 +39,11 @@ final class OsRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $os = new Os('Linux');
 
-        $insertResult = self::$osRepository->insert($os);
+        self::$osRepository->insert($os);
 
         $selectResult = self::$osRepository->selectById(2);
 
-        $this->assertEquals($insertResult->Name,$selectResult->Name);
+        $this->assertEquals($os->Name,$selectResult->Name);
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
