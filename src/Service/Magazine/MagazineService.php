@@ -19,16 +19,15 @@ class MagazineService {
     /**
      * Insert magazine
      * @param Magazine $m The magazine to insert
-     * @return Magazine The magazine inserted
      * @throws ServiceException If the Title is already used
      * @throws RepositoryException If the insert fails
      */
-    public function insert(Magazine $m): Magazine {
+    public function insert(Magazine $m): void {
         $magazine = $this->magazineRepository->selectByTitle($m->Title);
         if ($magazine)
             throw new ServiceException("Magazine title already used!");
 
-        return $this->magazineRepository->insert($m);
+        $this->magazineRepository->insert($m);
     }
 
     /**
@@ -90,16 +89,14 @@ class MagazineService {
     /**
      * Delete a Magazine
      * @param string $id The id to delete
-     * @return Magazine The magazine deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $id): Magazine {
+    public function delete(string $id): void {
         $m = $this->magazineRepository->selectById($id);
         if ($m == null)
             throw new ServiceException("Magazine not found!");
 
         $this->magazineRepository->delete($id);
-        return $m;
     }
 }

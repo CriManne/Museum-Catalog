@@ -19,16 +19,15 @@ class BookService {
     /**
      * Insert book
      * @param Book $b The book to insert
-     * @return Book The book inserted
      * @throws ServiceException If the title is already used
      * @throws RepositoryException If the insert fails
      */
-    public function insert(Book $b): Book {
+    public function insert(Book $b): void {
         $book = $this->bookRepository->selectByTitle($b->Title);
         if ($book)
             throw new ServiceException("Book title already used!");
 
-        return $this->bookRepository->insert($b);
+        $this->bookRepository->insert($b);
     }
 
     /**
@@ -90,16 +89,14 @@ class BookService {
     /**
      * Delete a Book
      * @param string $id The id to delete
-     * @return Book The book deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $id): Book {
+    public function delete(string $id): void {
         $b = $this->bookRepository->selectById($id);
         if ($b == null)
             throw new ServiceException("Book not found!");
 
         $this->bookRepository->delete($id);
-        return $b;
     }
 }

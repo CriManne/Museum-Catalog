@@ -19,16 +19,15 @@ class OsService {
     /**
      * Insert os
      * @param Os $os The os to insert
-     * @return Os The os inserted
      * @throws ServiceException If the os name is already used
      * @throws RepositoryException If the insert fails
      */
-    public function insert(Os $os): Os {
+    public function insert(Os $os): void {
         $osFetch = $this->osRepository->selectByName($os->Name);
         if ($osFetch)
             throw new ServiceException("Os name already used!");
 
-        return $this->osRepository->insert($os);
+        $this->osRepository->insert($os);
     }
 
     /**
@@ -90,16 +89,14 @@ class OsService {
     /**
      * Delete an os
      * @param int $id The id to delete
-     * @return Os The os deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): Os {
+    public function delete(int $id): void {
         $os = $this->osRepository->selectById($id);
         if ($os == null)
             throw new ServiceException("Os not found!");
 
         $this->osRepository->delete($id);
-        return $os;
     }
 }

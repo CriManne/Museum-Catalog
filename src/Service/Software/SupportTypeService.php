@@ -19,7 +19,6 @@ class SupportTypeService {
     /**
      * Insert SupportType
      * @param SupportType $s The SupportType to insert
-     * @return SupportType The SupportType inserted
      * @throws ServiceException If the name is already used
      * @throws RepositoryException If the insert fails
      */
@@ -90,16 +89,14 @@ class SupportTypeService {
     /**
      * Delete SupportType
      * @param int $id The id to delete
-     * @return SupportType The SupportType deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): SupportType {
+    public function delete(int $id): void {
         $supportType = $this->supportTypeRepository->selectById($id);
         if ($supportType == null)
             throw new ServiceException("Support Type not found!");
 
         $this->supportTypeRepository->delete($id);
-        return $supportType;
     }
 }

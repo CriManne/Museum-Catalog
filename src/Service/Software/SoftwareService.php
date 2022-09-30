@@ -19,16 +19,15 @@ class SoftwareService {
     /**
      * Insert software
      * @param Software $s The software to insert
-     * @return Software The software inserted
      * @throws ServiceException If the title is already used
      * @throws RepositoryException If the insert fails
      */
-    public function insert(Software $s): Software {
+    public function insert(Software $s): void {
         $software = $this->softwareRepository->selectByTitle($s->Title);
         if ($software)
             throw new ServiceException("Software title already used!");
 
-        return $this->softwareRepository->insert($s);
+        $this->softwareRepository->insert($s);
     }
 
     /**
@@ -90,16 +89,14 @@ class SoftwareService {
     /**
      * Delete a Software
      * @param string $id The id to delete
-     * @return Software The software deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $id): Software {
+    public function delete(string $id): void {
         $s = $this->softwareRepository->selectById($id);
         if ($s == null)
             throw new ServiceException("Software not found!");
 
         $this->softwareRepository->delete($id);
-        return $s;
     }
 }

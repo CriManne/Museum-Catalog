@@ -19,16 +19,15 @@ class PeripheralService {
     /**
      * Insert peripheral
      * @param Peripheral $p The peripheral to insert
-     * @return Peripheral The peripheral inserted
      * @throws ServiceException If the ModelName is already used
      * @throws RepositoryException If the insert fails
      */
-    public function insert(Peripheral $p): Peripheral {
+    public function insert(Peripheral $p): void {
         $peripheral = $this->peripheralRepository->selectByModelName($p->ModelName);
         if ($peripheral)
             throw new ServiceException("Peripheral model name already used!");
 
-        return $this->peripheralRepository->insert($p);
+        $this->peripheralRepository->insert($p);
     }
 
     /**
@@ -90,16 +89,14 @@ class PeripheralService {
     /**
      * Delete a Peripheral
      * @param string $id The id to delete
-     * @return Peripheral The peripheral deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $id): Peripheral {
+    public function delete(string $id): void {
         $p = $this->peripheralRepository->selectById($id);
         if ($p == null)
             throw new ServiceException("Peripheral not found!");
 
         $this->peripheralRepository->delete($id);
-        return $p;
     }
 }

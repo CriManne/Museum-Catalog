@@ -19,11 +19,10 @@ class AuthorService {
     /**
      * Insert an author
      * @param Author $a The author to insert
-     * @return Author The author inserted
      * @throws RepositoryException If the insert fails         * 
      */
-    public function insert(Author $a): Author {
-        return $this->authorRepository->insert($a);
+    public function insert(Author $a): void {
+        $this->authorRepository->insert($a);
     }
 
     /**
@@ -72,16 +71,14 @@ class AuthorService {
     /**
      * Delete author
      * @param int $id The id to delete
-     * @return Author The author deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): Author {
+    public function delete(int $id): void {
         $a = $this->authorRepository->selectById($id);
-        if ($a == null)
+        if (!$a)
             throw new ServiceException("Author not found!");
 
         $this->authorRepository->delete($id);
-        return $a;
     }
 }

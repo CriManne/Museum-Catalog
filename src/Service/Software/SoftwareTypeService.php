@@ -19,16 +19,15 @@ class SoftwareTypeService {
     /**
      * Insert SoftwareType
      * @param SoftwareType $s The SoftwareType to insert
-     * @return SoftwareType The SoftwareType inserted
      * @throws ServiceException If the name is already used
      * @throws RepositoryException If the insert fails
      */
-    public function insert(SoftwareType $s): SoftwareType {
+    public function insert(SoftwareType $s): void {
         $sType = $this->softwareTypeRepository->selectByName($s->Name);
         if ($sType)
             throw new ServiceException("Software Type name already used!");
 
-        return $this->softwareTypeRepository->insert($s);
+        $this->softwareTypeRepository->insert($s);
     }
 
     /**
@@ -90,16 +89,14 @@ class SoftwareTypeService {
     /**
      * Delete SoftwareType
      * @param int $id The id to delete
-     * @return SoftwareType The SoftwareType deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): SoftwareType {
+    public function delete(int $id): void {
         $s = $this->softwareTypeRepository->selectById($id);
         if ($s == null)
             throw new ServiceException("Software Type not found!");
 
         $this->softwareTypeRepository->delete($id);
-        return $s;
     }
 }

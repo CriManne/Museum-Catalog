@@ -19,15 +19,14 @@ class UserService {
     /**
      * Insert user
      * @param User $u   The user to insert
-     * @return User     The user inserted
      * @throws RepositoryException  If the insert fails
      * @throws ServiceException     If the email is already user
      */
-    public function insert(User $u): User {
+    public function insert(User $u): void {
         if ($this->userRepository->selectById($u->Email) != null)
             throw new ServiceException("Email already used!");
 
-        return $this->userRepository->insert($u);
+        $this->userRepository->insert($u);
     }
 
     /**
@@ -89,16 +88,14 @@ class UserService {
     /**
      * Delete a User by email
      * @param string $email The email to delete
-     * @return User The user deleted
      * @throws ServiceException If the user is not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $email): User {
+    public function delete(string $email): void {
         $user = $this->userRepository->selectById($email);
         if ($user == null)
             throw new ServiceException("User not found!");
 
         $this->userRepository->delete($email);
-        return $user;
     }
 }

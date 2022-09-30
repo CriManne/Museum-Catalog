@@ -19,16 +19,15 @@ class CpuService {
     /**
      * Insert a cpu
      * @param Cpu $c The cpu to insert
-     * @return Cpu The cpu inserted
      * @throws ServiceException If the cpu name is already inserted
      * @throws RepositoryException If the insert fails
      */
-    public function insert(Cpu $c): Cpu {
+    public function insert(Cpu $c): void {
         $cpu = $this->cpuRepository->selectByName($c->ModelName);
         if ($cpu && $cpu->Speed == $c->Speed)
             throw new ServiceException("Cpu name and speed already used!");
 
-        return $this->cpuRepository->insert($c);
+        $this->cpuRepository->insert($c);
     }
 
     /**
@@ -90,16 +89,14 @@ class CpuService {
     /**
      * Delete a cpu
      * @param int $id The id to delete
-     * @return Cpu The cpu deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): Cpu {
+    public function delete(int $id): void {
         $c = $this->cpuRepository->selectById($id);
         if ($c == null)
             throw new ServiceException("Cpu not found!");
 
         $this->cpuRepository->delete($id);
-        return $c;
     }
 }

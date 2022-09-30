@@ -19,16 +19,15 @@ class PublisherService {
     /**
      * Insert a publisher
      * @param Publisher $p  The publisher to insert
-     * @return Publisher The publisher inserted
      * @throws ServiceException If the publisher name already exists
      * @throws RepositoryException If the insert fails
      */
-    public function insert(Publisher $p): Publisher {
+    public function insert(Publisher $p): void {
         $publisher = $this->publisherRepository->selectByName($p->Name);
         if ($publisher)
             throw new ServiceException("Publisher name already used!");
 
-        return $this->publisherRepository->insert($p);
+        $this->publisherRepository->insert($p);
     }
 
     /**
@@ -90,16 +89,14 @@ class PublisherService {
     /**
      * Delete publisher
      * @param int $id The id to delete
-     * @return Publisher The publisher deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): Publisher {
+    public function delete(int $id): void {
         $p = $this->publisherRepository->selectById($id);
         if ($p == null)
             throw new ServiceException("Publisher not found!");
 
         $this->publisherRepository->delete($id);
-        return $p;
     }
 }

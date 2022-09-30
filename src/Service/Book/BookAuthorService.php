@@ -19,11 +19,10 @@ class BookAuthorService {
     /**
      * Insert an bookAuthor
      * @param BookAuthor $a The bookAuthor to insert
-     * @return BookAuthor The bookAuthor inserted
-     * @throws RepositoryException If the insert fails         * 
+     * @throws RepositoryException If the insert fails
      */
-    public function insert(BookAuthor $a): BookAuthor {
-        return $this->bookAuthorRepository->insert($a);
+    public function insert(BookAuthor $a): void {
+        $this->bookAuthorRepository->insert($a);
     }
 
     /**
@@ -35,7 +34,7 @@ class BookAuthorService {
      */
     public function selectById(string $BookID, int $AuthorID): BookAuthor {
         $bookAuthor = $this->bookAuthorRepository->selectById($BookID, $AuthorID);
-        if ($bookAuthor == null) throw new ServiceException("BookAuthor not found");
+        if (!$bookAuthor) throw new ServiceException("BookAuthor not found");
 
         return $bookAuthor;
     }
@@ -48,7 +47,7 @@ class BookAuthorService {
      */
     public function selectByBookID(string $BookID): BookAuthor {
         $bookAuthor = $this->bookAuthorRepository->selectByBookID($BookID);
-        if ($bookAuthor == null) throw new ServiceException("Book Author not found");
+        if (!$bookAuthor) throw new ServiceException("Book Author not found");
 
         return $bookAuthor;
     }
@@ -57,16 +56,14 @@ class BookAuthorService {
      * Delete bookAuthor
      * @param string $BookID The book id
      * @param int $AuthorID   The author id
-     * @return BookAuthor The bookAuthor deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $BookID, int $AuthorID): BookAuthor {
+    public function delete(string $BookID, int $AuthorID): void {
         $a = $this->bookAuthorRepository->selectById($BookID, $AuthorID);
-        if ($a == null)
+        if (!$a)
             throw new ServiceException("Author not found!");
 
         $this->bookAuthorRepository->deleteById($BookID, $AuthorID);
-        return $a;
     }
 }

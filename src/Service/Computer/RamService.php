@@ -19,16 +19,15 @@ class RamService {
     /**
      * Insert ram
      * @param Ram $r The ram to insert
-     * @return Ram The ram inserted
      * @throws ServiceException If the same ram is already inserted
      * @throws RepositoryException If the insert fails
      */
-    public function insert(Ram $r): Ram {
+    public function insert(Ram $r): void {
         $ram = $this->ramRepository->selectByName($r->ModelName);
         if ($ram && $ram->Size == $r->Size)
             throw new ServiceException("Ram name and size already used!");
 
-        return $this->ramRepository->insert($r);
+        $this->ramRepository->insert($r);
     }
 
     /**
@@ -90,16 +89,14 @@ class RamService {
     /**
      * Delete ram
      * @param int $id The id to delete
-     * @return Ram The ram deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): Ram {
+    public function delete(int $id): void {
         $r = $this->ramRepository->selectById($id);
         if ($r == null)
             throw new ServiceException("Ram not found!");
 
         $this->ramRepository->delete($id);
-        return $r;
     }
 }
