@@ -2,10 +2,6 @@
 
 - add comments to controllers
 
-- IN SERVICES AND OTHERS CHANGE if(* == null) to if(!*)
-
-- add tags and generic object fields in the search by key also OBJECT ID
-
 - ADD MONOLOG: handle two level of logging: minimum (just employees logs), max (every controller log)
   Add page in the admin dashboard to choose between the two modes and to open a file of logs.
   (artifact_logs,component_logs,user_logs,public_logs,)

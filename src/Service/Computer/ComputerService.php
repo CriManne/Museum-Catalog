@@ -19,16 +19,15 @@ class ComputerService {
     /**
      * Insert computer
      * @param Computer $c The computer to insert
-     * @return Computer The computer inserted
      * @throws ServiceException If the ModelName is already used
      * @throws RepositoryException If the insert fails
      */
-    public function insert(Computer $c): Computer {
+    public function insert(Computer $c): void {
         $computer = $this->computerRepository->selectByModelName($c->ModelName);
         if ($computer)
             throw new ServiceException("Computer model name already used!");
 
-        return $this->computerRepository->insert($c);
+        $this->computerRepository->insert($c);
     }
 
     /**
@@ -96,17 +95,15 @@ class ComputerService {
     /**
      * Delete a Computer
      * @param string $id The id to delete
-     * @return Computer The computer deleted
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $id): Computer {
+    public function delete(string $id): void {
         $c = $this->computerRepository->selectById($id);
         if (is_null($c)){
             throw new ServiceException("Computer not found!");
         }
 
         $this->computerRepository->delete($id);
-        return $c;
     }
 }

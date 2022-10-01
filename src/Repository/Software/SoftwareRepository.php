@@ -130,7 +130,8 @@ class SoftwareRepository extends GenericRepository {
             st.Name LIKE :key OR
             supt.Name LIKE :key OR
             g.Note LIKE :key OR
-            g.Tag LIKE :key";
+            g.Tag LIKE :key OR
+            g.ObjectID LIKE :key";
 
         $key = '%'.$key.'%';
 

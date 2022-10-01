@@ -140,7 +140,8 @@ class ComputerRepository extends GenericRepository {
             r.Size LIKE :key OR
             o.Name LIKE :key OR
             g.Note LIKE :key OR
-            g.Tag LIKE :key";
+            g.Tag LIKE :key OR
+            g.ObjectID LIKE :key";
 
         $key = '%' . $key . '%';
         $stmt = $this->pdo->prepare($query);

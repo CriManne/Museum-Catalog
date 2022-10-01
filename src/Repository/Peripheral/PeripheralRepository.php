@@ -120,7 +120,8 @@ class PeripheralRepository extends GenericRepository {
             WHERE p.ModelName LIKE :key OR
             pt.Name LIKE :key OR
             g.Note LIKE :key OR
-            g.Tag LIKE :key";
+            g.Tag LIKE :key OR
+            g.ObjectID LIKE :key";
 
         $key = '%'.$key.'%';
 
