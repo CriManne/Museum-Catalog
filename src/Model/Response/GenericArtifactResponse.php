@@ -10,7 +10,7 @@ class GenericArtifactResponse extends GenericObject {
 
     public string $ObjectID;
     public string $Title;
-    public array $Descriptors; 
+    public array $Descriptors;
     public string $Category;
 
     public function __construct(
@@ -22,9 +22,9 @@ class GenericArtifactResponse extends GenericObject {
         string $Url = null,
         string $Tag = null
     ) {
-        parent::__construct($ObjectID,$Note,$Url,$Tag);        
+        parent::__construct($ObjectID, $Note, $Url, $Tag);
         $this->Title = $Title;
-        $this->Descriptors = $Descriptors;      
-        $this->Category = $Category;  
+        $this->Descriptors = $Descriptors;
+        $this->Category = $Category;
     }
 }

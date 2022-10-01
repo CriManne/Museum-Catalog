@@ -133,7 +133,7 @@ class SoftwareRepository extends GenericRepository {
             g.Tag LIKE :key OR
             g.ObjectID LIKE :key";
 
-        $key = '%'.$key.'%';
+        $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("key", $key, PDO::PARAM_STR);
@@ -215,13 +215,13 @@ class SoftwareRepository extends GenericRepository {
 
             $query = "DELETE FROM software
             WHERE ObjectID = :ObjectID;";
-            $stmt = $this->pdo->prepare($query);            
+            $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
             $query = "DELETE FROM genericobject
             WHERE ObjectID = :ObjectID;";
-            $stmt = $this->pdo->prepare($query);            
+            $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -244,9 +244,9 @@ class SoftwareRepository extends GenericRepository {
             $rawsoftware["Url"] ?? null,
             $rawsoftware["Tag"] ?? null,
             $rawsoftware["Title"],
-            $this->OsRepository->selectById(intval($rawsoftware["OsID"]),null),
-            $this->softwareTypeRepository->selectById(intval($rawsoftware["SoftwareTypeID"]),null),
-            $this->supportTypeRepository->selectById(intval($rawsoftware["SupportTypeID"]),null)
+            $this->OsRepository->selectById(intval($rawsoftware["OsID"]), null),
+            $this->softwareTypeRepository->selectById(intval($rawsoftware["SoftwareTypeID"]), null),
+            $this->supportTypeRepository->selectById(intval($rawsoftware["SupportTypeID"]), null)
         );
     }
 }

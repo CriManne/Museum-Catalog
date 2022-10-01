@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\Controller;
 
 use App\Controller\ControllerUtil;
@@ -12,20 +13,20 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class AdvancedAuthController extends ControllerUtil implements ControllerInterface {    
+class AdvancedAuthController extends ControllerUtil implements ControllerInterface {
 
     public function __construct(Engine $plates) {
         parent::__construct($plates);
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
-        if(!isset($_SESSION['privilege']) || $_SESSION['privilege']!==1){
-            $requestUrl = $request->getRequestTarget();    
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+        if (!isset($_SESSION['privilege']) || $_SESSION['privilege'] !== 1) {
+            $requestUrl = $request->getRequestTarget();
             $error_message = "";
-            if(explode('/',$requestUrl)[1] == 'api'){
-                $error_message = $this->getResponse("Unauthorized access",401);
-            }else{
-                $error_message = $this->displayError(401,"Unauthorized access");
+            if (explode('/', $requestUrl)[1] == 'api') {
+                $error_message = $this->getResponse("Unauthorized access", 401);
+            } else {
+                $error_message = $this->displayError(401, "Unauthorized access");
             }
 
             return new HaltResponse(

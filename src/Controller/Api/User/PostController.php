@@ -29,37 +29,38 @@ class PostController extends ControllerUtil implements ControllerInterface {
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         try {
-            $params = $request->getParsedBody();  
-                         
-            if(!isset($params['Email']) ||
-            !isset($params['Password']) ||
-            !isset($params['firstname']) ||
-            !isset($params['lastname'])            
-            ){
+            $params = $request->getParsedBody();
+
+            if (
+                !isset($params['Email']) ||
+                !isset($params['Password']) ||
+                !isset($params['firstname']) ||
+                !isset($params['lastname'])
+            ) {
                 return new HaltResponse(
                     400,
                     [],
-                    $this->getResponse("Bad request!",400)
+                    $this->getResponse("Bad request!", 400)
                 );
             }
 
-            if(isset($params["Privilege"])){
+            if (isset($params["Privilege"])) {
                 $params["Privilege"] = 1;
             }
 
-            $user = ORM::getNewInstance(User::class,$params);
+            $user = ORM::getNewInstance(User::class, $params);
             $this->userService->insert($user);
 
             return new Response(
                 200,
                 [],
-                $this->getResponse('User with email {'.$params['Email'].'} inserted successfully!')
+                $this->getResponse('User with email {' . $params['Email'] . '} inserted successfully!')
             );
         } catch (ServiceException $e) {
             return new HaltResponse(
                 400,
                 [],
-                $this->getResponse($e->getMessage(),400)
+                $this->getResponse($e->getMessage(), 400)
             );
         }
     }

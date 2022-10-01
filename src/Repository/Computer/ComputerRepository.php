@@ -260,9 +260,9 @@ class ComputerRepository extends GenericRepository {
             $rawComputer["ModelName"],
             intval($rawComputer["Year"]),
             $rawComputer["HddSize"],
-            $this->cpuRepository->selectById(intval($rawComputer["CpuID"]),null),
-            $this->ramRepository->selectById(intval($rawComputer["RamID"]),null),
-            $this->osRepository->selectById(intval($rawComputer["OsID"]),null)
+            $this->cpuRepository->selectById(intval($rawComputer["CpuID"]), null),
+            $this->ramRepository->selectById(intval($rawComputer["RamID"]), null),
+            $this->osRepository->selectById(intval($rawComputer["OsID"]), null)
         );
     }
 }

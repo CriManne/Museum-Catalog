@@ -78,7 +78,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
 
                 unset($params["category"]);
 
-                $instantiatedObject = ORM::getNewInstance($classPath,$params);
+                $instantiatedObject = ORM::getNewInstance($classPath, $params);
 
                 $this->componentService->update($instantiatedObject);
 
@@ -87,7 +87,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
                     [],
                     $this->getResponse("$category updated successfully!")
                 );
-            }catch(ServiceException $e){
+            } catch (ServiceException $e) {
                 return new Response(
                     404,
                     [],
@@ -96,7 +96,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
             } catch (Throwable) {
             }
         }
-        
+
         return new Response(
             400,
             [],

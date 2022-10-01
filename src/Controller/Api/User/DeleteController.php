@@ -28,13 +28,13 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         try {
-            $params = $request->getQueryParams();            
+            $params = $request->getQueryParams();
 
-            if(!isset($params['id'])){
+            if (!isset($params['id'])) {
                 return new Response(
                     400,
                     [],
-                    $this->getResponse("Invalid request!",400)
+                    $this->getResponse("Invalid request!", 400)
                 );
             }
 
@@ -43,13 +43,13 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             return new Response(
                 200,
                 [],
-                $this->getResponse('User with id {'.$params['id'].'} deleted!')
+                $this->getResponse('User with id {' . $params['id'] . '} deleted!')
             );
         } catch (ServiceException $e) {
             return new Response(
                 400,
                 [],
-                $this->getResponse($e->getMessage(),400)
+                $this->getResponse($e->getMessage(), 400)
             );
         }
     }

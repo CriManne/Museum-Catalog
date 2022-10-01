@@ -15,11 +15,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class UploadController extends ControllerUtil implements ControllerInterface
-{
+class UploadController extends ControllerUtil implements ControllerInterface {
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         $params = $request->getQueryParams();
 
@@ -48,8 +46,7 @@ class UploadController extends ControllerUtil implements ControllerInterface
      * @param string $ObjectID The id to use to give images names
      * @param string $name The name of the $_FILES array index
      */
-    public static function uploadFiles(string $ObjectID, string $name)
-    {
+    public static function uploadFiles(string $ObjectID, string $name) {
 
         $files = $_FILES[$name];
 
@@ -61,7 +58,7 @@ class UploadController extends ControllerUtil implements ControllerInterface
             $splittedName = explode('.', $files['name'][$index - 1]);
             $fileextension = end($splittedName);
             $filename = $path . $ObjectID . "_" . $index . "." . $fileextension;
-            while(file_exists($filename)){
+            while (file_exists($filename)) {
                 $index++;
                 $filename = $path . $ObjectID . "_" . $index . "." . $fileextension;
             }

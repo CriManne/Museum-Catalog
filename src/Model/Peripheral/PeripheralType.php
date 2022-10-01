@@ -12,7 +12,7 @@ class PeripheralType {
 
     public function __construct(
         string $Name,
-        ?int $PeripheralTypeID=null
+        ?int $PeripheralTypeID = null
     ) {
         $this->PeripheralTypeID = $PeripheralTypeID;
         $this->Name = $Name;

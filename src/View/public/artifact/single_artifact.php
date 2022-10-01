@@ -6,7 +6,7 @@
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">
             <div class="col-md-6">
-                <div class="carousel slide d-none" id="carousel" data-bs-ride="carousel">                    
+                <div class="carousel slide d-none" id="carousel" data-bs-ride="carousel">
                     <div class="carousel-inner" id="carousel-images">
                     </div>
                     <button class="carousel-control-prev" type="button" data-bs-target="#carousel" data-bs-slide="prev">

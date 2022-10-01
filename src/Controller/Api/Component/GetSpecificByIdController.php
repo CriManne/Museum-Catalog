@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\Controller\Api\Component;
 
 use App\Controller\Api\ArtifactsListController;
@@ -17,22 +18,21 @@ use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 use Throwable;
 
-class GetSpecificByIdController extends ControllerUtil implements ControllerInterface{ 
+class GetSpecificByIdController extends ControllerUtil implements ControllerInterface {
 
     public ComponentSearchEngine $componentSearchEngine;
     protected Container $container;
-    
+
     public function __construct(
         ComponentSearchEngine $componentSearchEngine,
         ContainerBuilder $builder
-    )
-    {
+    ) {
         $this->componentSearchEngine = $componentSearchEngine;
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         $params = $request->getQueryParams();
 
@@ -55,7 +55,7 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
             );
         }
 
-        foreach ($categories as $genericCategory) {            
+        foreach ($categories as $genericCategory) {
             //Service full path
             $servicePath = "App\\Service\\$genericCategory\\$category" . "Service";
 
@@ -65,14 +65,14 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
                  */
                 $this->componentService = $this->container->get($servicePath);
 
-                $object = $this->componentSearchEngine->selectSpecificByIdAndCategory(intval($id),$servicePath);
+                $object = $this->componentSearchEngine->selectSpecificByIdAndCategory(intval($id), $servicePath);
 
                 return new Response(
                     200,
                     [],
                     json_encode($object)
                 );
-            }catch(ServiceException $e){
+            } catch (ServiceException $e) {
                 return new Response(
                     404,
                     [],

@@ -61,11 +61,11 @@ class UserService {
      * @return array All the users
      * @throws ServiceException If no results
      */
-    public function selectAll():array{
+    public function selectAll(): array {
 
         $users = $this->userRepository->selectAll();
 
-        if($users){
+        if ($users) {
             return $users;
         }
 
@@ -80,7 +80,7 @@ class UserService {
      */
     public function update(User $u): void {
         $user = $this->userRepository->selectById($u->Email);
-        if (is_null($user)){
+        if (is_null($user)) {
             throw new ServiceException("User not found!");
         }
 
@@ -95,7 +95,7 @@ class UserService {
      */
     public function delete(string $email): void {
         $user = $this->userRepository->selectById($email);
-        if (is_null($user)){
+        if (is_null($user)) {
             throw new ServiceException("User not found!");
         }
 

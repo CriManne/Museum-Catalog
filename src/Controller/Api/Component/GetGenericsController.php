@@ -19,8 +19,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class GetGenericsController extends ControllerUtil implements ControllerInterface
-{
+class GetGenericsController extends ControllerUtil implements ControllerInterface {
 
     public ComponentSearchEngine $componentSearchEngine;
 
@@ -30,8 +29,7 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         $this->componentSearchEngine = $componentSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $params = $request->getQueryParams();
 
         $query = $params["q"] ?? null;
@@ -39,11 +37,11 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
 
         $result = [];
 
-        if($query===""){
+        if ($query === "") {
             $query = null;
         }
 
-        if(!$category || in_array($category,ArtifactsListController::$categories)){
+        if (!$category || in_array($category, ArtifactsListController::$categories)) {
             return new Response(
                 404,
                 [],
@@ -55,12 +53,12 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
 
             $keywords = explode(" ", $query);
 
-            $result = $this->componentSearchEngine->selectGenerics($category,array_shift($keywords));
+            $result = $this->componentSearchEngine->selectGenerics($category, array_shift($keywords));
 
             if (count($keywords) > 0) {
                 $resultsKeyword = [$result];
                 foreach ($keywords as $keyword) {
-                    $resultsKeyword[] = $this->componentSearchEngine->selectGenerics($category,$keyword);
+                    $resultsKeyword[] = $this->componentSearchEngine->selectGenerics($category, $keyword);
                 }
 
                 $result = array_uintersect(...$resultsKeyword, ...[function ($a, $b) {

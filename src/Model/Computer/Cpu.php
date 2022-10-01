@@ -13,7 +13,7 @@ class Cpu {
     public function __construct(
         string $ModelName,
         string $Speed,
-        ?int $CpuID=null
+        ?int $CpuID = null
     ) {
         $this->CpuID = $CpuID;
         $this->ModelName = $ModelName;

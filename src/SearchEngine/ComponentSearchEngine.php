@@ -34,8 +34,7 @@ use DI\ContainerBuilder;
 use DI\NotFoundException;
 use Exception;
 
-class ComponentSearchEngine
-{
+class ComponentSearchEngine {
 
     private Container $container;
     private array $categories;
@@ -56,15 +55,14 @@ class ComponentSearchEngine
      * @return object The object fetched
      * @throws ServiceException If not found
      */
-    public function selectSpecificByIdAndCategory(int $id,string $servicePath): object
-    {
-        try{
+    public function selectSpecificByIdAndCategory(int $id, string $servicePath): object {
+        try {
 
             $componentService = $this->container->get($servicePath);
 
             return $componentService->selectById($id);
-
-        }catch(Exception | ServiceException){}
+        } catch (Exception | ServiceException) {
+        }
         throw new ServiceException("Component with id [$id] not found!");
     }
 
@@ -74,8 +72,7 @@ class ComponentSearchEngine
      * @param ?string $query The eventual query
      * @return array            The result array
      */
-    public function selectGenerics(string $category, ?string $query = null): array
-    {
+    public function selectGenerics(string $category, ?string $query = null): array {
         $result = [];
         $classFound = false;
 
@@ -122,8 +119,7 @@ class ComponentSearchEngine
      * @param Author $obj The author object
      * @return GenericComponentResponse The object mapped
      */
-    public function Author(Author $obj): GenericComponentResponse
-    {
+    public function Author(Author $obj): GenericComponentResponse {
         return new GenericComponentResponse(
             $obj->AuthorID,
             $obj->firstname . " " . $obj->lastname,
@@ -136,8 +132,7 @@ class ComponentSearchEngine
      * @param Publisher $obj The publisher object
      * @return GenericComponentResponse The object mapped
      */
-    public function Publisher(Publisher $obj): GenericComponentResponse
-    {
+    public function Publisher(Publisher $obj): GenericComponentResponse {
         return new GenericComponentResponse(
             $obj->PublisherID,
             $obj->Name,
@@ -150,8 +145,7 @@ class ComponentSearchEngine
      * @param Cpu $obj The cpu object
      * @return GenericComponentResponse The object mapped
      */
-    public function Cpu(Cpu $obj): GenericComponentResponse
-    {
+    public function Cpu(Cpu $obj): GenericComponentResponse {
         return new GenericComponentResponse(
             $obj->CpuID,
             $obj->ModelName . " " . $obj->Speed,
@@ -164,8 +158,7 @@ class ComponentSearchEngine
      * @param Os $obj The os object
      * @return GenericComponentResponse The object mapped
      */
-    public function Os(Os $obj): GenericComponentResponse
-    {
+    public function Os(Os $obj): GenericComponentResponse {
         return new GenericComponentResponse(
             $obj->OsID,
             $obj->Name,
@@ -178,8 +171,7 @@ class ComponentSearchEngine
      * @param Ram $obj The ram object
      * @return GenericComponentResponse The object mapped
      */
-    public function Ram(Ram $obj): GenericComponentResponse
-    {
+    public function Ram(Ram $obj): GenericComponentResponse {
         return new GenericComponentResponse(
             $obj->RamID,
             $obj->ModelName . " " . $obj->Size,
@@ -192,8 +184,7 @@ class ComponentSearchEngine
      * @param PeripheralType $obj The ptype object
      * @return GenericComponentResponse The object mapped
      */
-    public function PeripheralType(PeripheralType $obj): GenericComponentResponse
-    {
+    public function PeripheralType(PeripheralType $obj): GenericComponentResponse {
         return new GenericComponentResponse(
             $obj->PeripheralTypeID,
             $obj->Name,
@@ -206,8 +197,7 @@ class ComponentSearchEngine
      * @param SoftwareType $obj The softtype object
      * @return GenericComponentResponse The object mapped
      */
-    public function SoftwareType(SoftwareType $obj): GenericComponentResponse
-    {
+    public function SoftwareType(SoftwareType $obj): GenericComponentResponse {
         return new GenericComponentResponse(
             $obj->SoftwareTypeID,
             $obj->Name,
@@ -220,8 +210,7 @@ class ComponentSearchEngine
      * @param SupportType $obj The suptype object
      * @return GenericComponentResponse The object mapped
      */
-    public function SupportType(SupportType $obj): GenericComponentResponse
-    {
+    public function SupportType(SupportType $obj): GenericComponentResponse {
         return new GenericComponentResponse(
             $obj->SupportTypeID,
             $obj->Name,

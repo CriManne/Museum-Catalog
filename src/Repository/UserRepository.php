@@ -86,7 +86,7 @@ class UserRepository extends GenericRepository {
      */
     public function selectAll(): ?array {
         $query = "SELECT * FROM user ORDER BY Email ASC";
-        
+
         $stmt = $this->pdo->query($query);
 
         $users = $stmt->fetchAll(PDO::FETCH_CLASS);

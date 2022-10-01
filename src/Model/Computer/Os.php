@@ -10,7 +10,7 @@ class Os {
 
     public function __construct(
         string $Name,
-        ?int $OsID=null
+        ?int $OsID = null
     ) {
         $this->OsID = $OsID;
         $this->Name = $Name;

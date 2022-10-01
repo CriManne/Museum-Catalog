@@ -11,7 +11,7 @@ class SoftwareType {
 
     public function __construct(
         string $Name,
-        ?int $SoftwareTypeID=null
+        ?int $SoftwareTypeID = null
     ) {
         $this->SoftwareTypeID = $SoftwareTypeID;
         $this->Name = $Name;

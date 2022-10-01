@@ -64,7 +64,7 @@ class AuthorRepository extends GenericRepository {
         Concat(firstname,' ',lastname) LIKE :key OR 
         Concat(lastname,' ',firstname) = :key";
 
-        $key = '%'.$key.'%';
+        $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("key", $key, PDO::PARAM_STR);

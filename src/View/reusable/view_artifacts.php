@@ -15,5 +15,3 @@
             </div>
         </form>
         <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="result-container">
-            
-        

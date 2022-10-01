@@ -42,5 +42,3 @@ $this->layout('layouts::homepage', ['title' => $title]);
         </main>
     </div>
 </div>
-
-

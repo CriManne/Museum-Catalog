@@ -79,7 +79,7 @@ class CreateController extends ControllerUtil implements ControllerInterface {
 
                 unset($params["category"]);
 
-                $instantiatedObject = ORM::getNewInstance($classPath,$params);
+                $instantiatedObject = ORM::getNewInstance($classPath, $params);
 
                 $this->componentService->insert($instantiatedObject);
 
@@ -88,7 +88,7 @@ class CreateController extends ControllerUtil implements ControllerInterface {
                     [],
                     $this->getResponse("$category inserted successfully!")
                 );
-            }catch(ServiceException $e){
+            } catch (ServiceException $e) {
                 return new Response(
                     404,
                     [],

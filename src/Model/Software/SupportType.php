@@ -11,7 +11,7 @@ class SupportType {
 
     public function __construct(
         string $Name,
-        ?int $SupportTypeID=null
+        ?int $SupportTypeID = null
     ) {
         $this->SupportTypeID = $SupportTypeID;
         $this->Name = $Name;

@@ -123,7 +123,7 @@ class PeripheralRepository extends GenericRepository {
             g.Tag LIKE :key OR
             g.ObjectID LIKE :key";
 
-        $key = '%'.$key.'%';
+        $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("key", $key, PDO::PARAM_STR);
@@ -202,13 +202,13 @@ class PeripheralRepository extends GenericRepository {
 
             $query = "DELETE FROM peripheral
             WHERE ObjectID = :ObjectID";
-            $stmt = $this->pdo->prepare($query);            
+            $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
             $query = "DELETE FROM genericobject
             WHERE ObjectID = :ObjectID";
-            $stmt = $this->pdo->prepare($query);            
+            $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -231,7 +231,7 @@ class PeripheralRepository extends GenericRepository {
             $rawPeripheral["Url"] ?? null,
             $rawPeripheral["Tag"] ?? null,
             $rawPeripheral["ModelName"],
-            $this->peripheralTypeRepository->selectById(intval($rawPeripheral["PeripheralTypeID"]),null)
+            $this->peripheralTypeRepository->selectById(intval($rawPeripheral["PeripheralTypeID"]), null)
         );
     }
 }

@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\Controller\Api;
 
 use League\Plates\Engine;
@@ -11,18 +12,18 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class ArtifactsListController implements ControllerInterface {    
+class ArtifactsListController implements ControllerInterface {
 
     public static array $categories = [
         'Computer',
         'Peripheral',
         'Book',
         'Magazine',
-        'Software'            
+        'Software'
     ];
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
-                
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+
         return new Response(
             200,
             [],

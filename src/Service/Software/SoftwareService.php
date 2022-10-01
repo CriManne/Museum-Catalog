@@ -38,9 +38,9 @@ class SoftwareService {
      */
     public function selectById(string $id): Software {
         $software = $this->softwareRepository->selectById($id);
-        if (is_null($software)){
+        if (is_null($software)) {
             throw new ServiceException("Software not found");
-        } 
+        }
 
         return $software;
     }
@@ -53,9 +53,9 @@ class SoftwareService {
      */
     public function selectByTitle(string $title): Software {
         $software = $this->softwareRepository->selectByTitle($title);
-        if (is_null($software)){
+        if (is_null($software)) {
             throw new ServiceException("Software not found");
-        } 
+        }
 
         return $software;
     }
@@ -65,7 +65,7 @@ class SoftwareService {
      * @param string $key The key given
      * @return array Software(s) selected, empty array if no result
      */
-    public function selectByKey(string $key):array {
+    public function selectByKey(string $key): array {
         return $this->softwareRepository->selectByKey($key);
     }
 
@@ -73,7 +73,7 @@ class SoftwareService {
      * Select all
      * @return array All the Software(s)
      */
-    public function selectAll():array {
+    public function selectAll(): array {
         return $this->softwareRepository->selectall();
     }
 
@@ -85,10 +85,10 @@ class SoftwareService {
      */
     public function update(Software $s): void {
         $soft = $this->softwareRepository->selectById($s->ObjectID);
-        
-        if (is_null($soft)){
+
+        if (is_null($soft)) {
             throw new ServiceException("Software not found!");
-        }            
+        }
 
         $this->softwareRepository->update($s);
     }
@@ -101,7 +101,7 @@ class SoftwareService {
      */
     public function delete(string $id): void {
         $s = $this->softwareRepository->selectById($id);
-        if (is_null($s)){
+        if (is_null($s)) {
             throw new ServiceException("Software not found!");
         }
 

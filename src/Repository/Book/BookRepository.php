@@ -231,14 +231,14 @@ class BookRepository extends GenericRepository {
 
             $query =
                 "DELETE FROM bookauthor
-            WHERE BookID = :ObjectID;";            
+            WHERE BookID = :ObjectID;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
             $query =
                 "DELETE FROM book
-            WHERE ObjectID = :ObjectID;";            
+            WHERE ObjectID = :ObjectID;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
             $stmt->execute();
@@ -276,17 +276,17 @@ class BookRepository extends GenericRepository {
          * from the bookauthor repository but we need to create BookAuthor entity inside the
          * book entity so in the insert method of BookRepository it will add the columns in bookauthor
          */
-        if(isset($rawBook["newAuthors"])){            
-            foreach($rawBook["newAuthors"] as $key=>$value){
-                $bookAuthors[] = ORM::getNewInstance(BookAuthor::class,[$rawBook["ObjectID"],$value]);
+        if (isset($rawBook["newAuthors"])) {
+            foreach ($rawBook["newAuthors"] as $key => $value) {
+                $bookAuthors[] = ORM::getNewInstance(BookAuthor::class, [$rawBook["ObjectID"], $value]);
             }
-        }else{
+        } else {
             $bookAuthors = $this->bookAuthorRepository->selectByBookId($rawBook["ObjectID"]);
         }
         $authors = [];
-        if($bookAuthors){
+        if ($bookAuthors) {
             foreach ($bookAuthors as $bookAuthor) {
-                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID),null);
+                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID), null);
             }
         }
 
@@ -296,7 +296,7 @@ class BookRepository extends GenericRepository {
             $rawBook["Url"] ?? null,
             $rawBook["Tag"] ?? null,
             $rawBook["Title"],
-            $this->publisherRepository->selectById(intval($rawBook["PublisherID"]),null),
+            $this->publisherRepository->selectById(intval($rawBook["PublisherID"]), null),
             intval($rawBook["Year"]),
             $rawBook["ISBN"] ?? null,
             $rawBook["Pages"] ? intval($rawBook["Pages"]) : null,

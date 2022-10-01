@@ -12,7 +12,7 @@ class Ram {
     public function __construct(
         string $ModelName,
         string $Size,
-        ?int $RamID=null
+        ?int $RamID = null
     ) {
         $this->RamID = $RamID;
         $this->ModelName = $ModelName;

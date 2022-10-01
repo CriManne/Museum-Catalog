@@ -38,9 +38,9 @@ class OsService {
      */
     public function selectById(int $id): Os {
         $os = $this->osRepository->selectById($id);
-        if (is_null($os)){
+        if (is_null($os)) {
             throw new ServiceException("Os not found");
-        } 
+        }
 
         return $os;
     }
@@ -53,9 +53,9 @@ class OsService {
      */
     public function selectByName(string $name): Os {
         $os = $this->osRepository->selectByName($name);
-        if (is_null($os)){
+        if (is_null($os)) {
             throw new ServiceException("Os not found");
-        } 
+        }
 
         return $os;
     }
@@ -85,7 +85,7 @@ class OsService {
      */
     public function update(Os $os): void {
         $o = $this->osRepository->selectById($os->OsID);
-        if (is_null($o)){
+        if (is_null($o)) {
             throw new ServiceException("Os not found!");
         }
 
@@ -100,7 +100,7 @@ class OsService {
      */
     public function delete(int $id): void {
         $os = $this->osRepository->selectById($id);
-        if (is_null($os)){
+        if (is_null($os)) {
             throw new ServiceException("Os not found!");
         }
 

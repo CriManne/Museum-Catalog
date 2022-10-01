@@ -32,21 +32,18 @@ use SimpleMVC\Response\HaltResponse;
 use Throwable;
 use TypeError;
 
-class CreateController extends ControllerUtil implements ControllerInterface
-{
+class CreateController extends ControllerUtil implements ControllerInterface {
 
     protected Container $container;
     protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine)
-    {
+    public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine) {
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         $params = $request->getParsedBody();
 
@@ -86,9 +83,9 @@ class CreateController extends ControllerUtil implements ControllerInterface
              */
             $this->artifactRepo = $this->container->get($repoPath);
 
-            
+
             $instantiatedObject = $this->artifactRepo->returnMappedObject($params);
-            
+
             $this->artifactService->insert($instantiatedObject);
 
             //Delete remained old files
@@ -102,7 +99,7 @@ class CreateController extends ControllerUtil implements ControllerInterface
                 [],
                 $this->getResponse("$category inserted successfully!")
             );
-        }catch (ServiceException $e) {
+        } catch (ServiceException $e) {
             return new Response(
                 400,
                 [],

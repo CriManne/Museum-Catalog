@@ -33,9 +33,9 @@ class AuthorService {
      */
     public function selectById(int $id): Author {
         $author = $this->authorRepository->selectById($id);
-        if (is_null($author)){
+        if (is_null($author)) {
             throw new ServiceException("Author not found");
-        } 
+        }
 
         return $author;
     }
@@ -65,7 +65,7 @@ class AuthorService {
      */
     public function update(Author $a): void {
         $author = $this->authorRepository->selectById($a->AuthorID);
-        if (is_null($author)){
+        if (is_null($author)) {
             throw new ServiceException("Author not found!");
         }
 

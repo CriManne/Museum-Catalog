@@ -14,9 +14,9 @@ class GenericComponentResponse {
         int $ID,
         string $Name,
         string $Category
-    ) {        
+    ) {
         $this->ID = $ID;
-        $this->Name = $Name;      
-        $this->Category = $Category;  
+        $this->Name = $Name;
+        $this->Category = $Category;
     }
 }

@@ -33,21 +33,21 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             );
         }
 
-        if($imgName){    
-            try{
+        if ($imgName) {
+            try {
                 $this->deleteImage($imgName);
                 return new Response(
                     200,
                     [],
                     $this->getResponse("Image deleted!")
                 );
-            }catch(Exception $e){
+            } catch (Exception $e) {
                 return new Response(
                     400,
                     [],
-                    $this->getResponse($e->getMessage(),400)
+                    $this->getResponse($e->getMessage(), 400)
                 );
-            }           
+            }
         }
 
 
@@ -59,10 +59,10 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
     }
 
     public function deleteImage(string $imgName) {
-        $file = $_SERVER['DOCUMENT_ROOT'] ."/assets/artifacts/". $imgName;
-        
-        if(file_exists($file)){
-            unlink($file);            
+        $file = $_SERVER['DOCUMENT_ROOT'] . "/assets/artifacts/" . $imgName;
+
+        if (file_exists($file)) {
+            unlink($file);
             return;
         }
 

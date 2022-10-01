@@ -63,7 +63,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             $this->artifactService = $this->container->get($servicePath);
 
             $this->artifactService->delete($id);
-            ImagesDeleteController::deleteImages($id);            
+            ImagesDeleteController::deleteImages($id);
 
             return new Response(
                 200,

@@ -53,7 +53,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             );
         }
 
-        foreach ($categories as $genericCategory) {            
+        foreach ($categories as $genericCategory) {
             //Service full path
             $servicePath = "App\\Service\\$genericCategory\\$category" . "Service";
 
@@ -70,22 +70,22 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
                     [],
                     $this->getResponse("$category deleted successfully!")
                 );
-            }catch(ServiceException $e){
+            } catch (ServiceException $e) {
                 return new Response(
                     404,
                     [],
                     $this->getResponse($e->getMessage(), 404)
                 );
-            } catch(RepositoryException){
+            } catch (RepositoryException) {
                 return new Response(
                     400,
                     [],
                     $this->getResponse("There are artifacts that are using this component, update them before deleting this!", 40)
                 );
-            }catch (Throwable) {
+            } catch (Throwable) {
             }
         }
-        
+
         return new Response(
             400,
             [],

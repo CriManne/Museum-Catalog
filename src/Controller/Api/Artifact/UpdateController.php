@@ -30,21 +30,18 @@ use SimpleMVC\Response\HaltResponse;
 use Throwable;
 use TypeError;
 
-class UpdateController extends ControllerUtil implements ControllerInterface
-{
+class UpdateController extends ControllerUtil implements ControllerInterface {
 
     protected Container $container;
     protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine)
-    {
+    public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine) {
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
-    {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         $params = $request->getParsedBody();
 
@@ -84,8 +81,8 @@ class UpdateController extends ControllerUtil implements ControllerInterface
              */
             $this->artifactRepo = $this->container->get($repoPath);
 
-            $instantiatedObject = $this->artifactRepo->returnMappedObject($params);            
-            
+            $instantiatedObject = $this->artifactRepo->returnMappedObject($params);
+
             $this->artifactService->update($instantiatedObject);
 
             //Upload new files
@@ -109,6 +106,5 @@ class UpdateController extends ControllerUtil implements ControllerInterface
                 $this->getResponse("Bad request!", 400)
             );
         }
-
     }
 }

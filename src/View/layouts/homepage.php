@@ -17,7 +17,7 @@
                     <li class="nav-item"><a class="nav-link active" href="/catalog">Catalogo</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/#contacts">Contatti</a></li>
                     <li class="nav-item"><a class="nav-link active" href="/login">Area dipendenti<i class="fa fa-user mx-2" aria-hidden="true"></i></a></li>
-                    
+
                 </ul>
             </div>
         </div>

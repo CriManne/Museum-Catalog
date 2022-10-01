@@ -80,7 +80,7 @@ class RamRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT * FROM ram WHERE ModelName LIKE :key OR Size LIKE :key";
 
-        $key = '%'.$key.'%';
+        $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("key", $key, PDO::PARAM_STR);

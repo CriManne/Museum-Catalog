@@ -38,9 +38,9 @@ class MagazineService {
      */
     public function selectById(string $id): Magazine {
         $magazine = $this->magazineRepository->selectById($id);
-        if (is_null($magazine)){
+        if (is_null($magazine)) {
             throw new ServiceException("Magazine not found");
-        } 
+        }
 
         return $magazine;
     }
@@ -53,9 +53,9 @@ class MagazineService {
      */
     public function selectByTitle(string $Title): Magazine {
         $magazine = $this->magazineRepository->selectByTitle($Title);
-        if (is_null($magazine)){
+        if (is_null($magazine)) {
             throw new ServiceException("Magazine not found");
-        } 
+        }
 
         return $magazine;
     }
@@ -65,7 +65,7 @@ class MagazineService {
      * @param string $key The key given
      * @return array Magazines selected, empty array if no result
      */
-    public function selectByKey(string $key):array {
+    public function selectByKey(string $key): array {
         return $this->magazineRepository->selectByKey($key);
     }
 
@@ -73,7 +73,7 @@ class MagazineService {
      * Select all
      * @return array All the magazines
      */
-    public function selectAll():array {
+    public function selectAll(): array {
         return $this->magazineRepository->selectAll();
     }
 
@@ -85,10 +85,10 @@ class MagazineService {
      */
     public function update(Magazine $m): void {
         $mag = $this->magazineRepository->selectById($m->ObjectID);
-        
-        if (is_null($mag)){
+
+        if (is_null($mag)) {
             throw new ServiceException("Magazine not found!");
-        }            
+        }
 
         $this->magazineRepository->update($m);
     }
@@ -101,8 +101,8 @@ class MagazineService {
      */
     public function delete(string $id): void {
         $m = $this->magazineRepository->selectById($id);
-        
-        if (is_null($m)){
+
+        if (is_null($m)) {
             throw new ServiceException("Magazine not found!");
         }
 

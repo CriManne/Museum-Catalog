@@ -18,8 +18,7 @@ use DI\Container;
 use DI\ContainerBuilder;
 use Exception;
 
-class ArtifactSearchEngine
-{
+class ArtifactSearchEngine {
 
     private Container $container;
     private array $categories;
@@ -40,8 +39,7 @@ class ArtifactSearchEngine
      * @return object The object fetched
      * @throws ServiceException If no object is found
      */
-    public function selectSpecificByIdAndCategory(string $ObjectID, string $category): object
-    {
+    public function selectSpecificByIdAndCategory(string $ObjectID, string $category): object {
         try {
             $artifactServicePath = "App\\Service\\$category\\$category" . "Service";
 
@@ -60,8 +58,7 @@ class ArtifactSearchEngine
      * @return GenericArtifactResponse            The Object selected
      * @throws ServiceException If not found
      */
-    public function selectGenericById(string $ObjectID): GenericArtifactResponse
-    {
+    public function selectGenericById(string $ObjectID): GenericArtifactResponse {
         foreach ($this->categories as $categoryName) {
 
             $artifactServicePath = "App\\Service\\$categoryName\\$categoryName" . "Service";
@@ -84,8 +81,7 @@ class ArtifactSearchEngine
      * @param ?string $query The eventual query
      * @return array            The result array
      */
-    public function selectGenerics(?string $category = null, ?string $query = null): array
-    {
+    public function selectGenerics(?string $category = null, ?string $query = null): array {
         $result = [];
 
         foreach ($this->categories as $categoryName) {
@@ -127,8 +123,7 @@ class ArtifactSearchEngine
      * @param Book $obj The book object
      * @return GenericArtifactResponse The object mapped
      */
-    public function Book(Book $obj): GenericArtifactResponse
-    {
+    public function Book(Book $obj): GenericArtifactResponse {
         $authors = [];
         if ($obj->Authors) {
             foreach ($obj->Authors as $author) {
@@ -158,8 +153,7 @@ class ArtifactSearchEngine
      * @param Computer $obj The computer object
      * @return GenericArtifactResponse The object mapped
      */
-    public function Computer(Computer $obj): GenericArtifactResponse
-    {
+    public function Computer(Computer $obj): GenericArtifactResponse {
         return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->ModelName,
@@ -182,8 +176,7 @@ class ArtifactSearchEngine
      * @param Magazine $obj The magazine object
      * @return GenericArtifactResponse The object mapped
      */
-    public function Magazine(Magazine $obj): GenericArtifactResponse
-    {
+    public function Magazine(Magazine $obj): GenericArtifactResponse {
         return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->Title,
@@ -204,8 +197,7 @@ class ArtifactSearchEngine
      * @param Peripheral $obj The peripheral object
      * @return GenericArtifactResponse The object mapped
      */
-    public function Peripheral(Peripheral $obj): GenericArtifactResponse
-    {
+    public function Peripheral(Peripheral $obj): GenericArtifactResponse {
         return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->ModelName,
@@ -224,8 +216,7 @@ class ArtifactSearchEngine
      * @param Software $obj The software object
      * @return GenericArtifactResponse The object mapped
      */
-    public function Software(Software $obj): GenericArtifactResponse
-    {
+    public function Software(Software $obj): GenericArtifactResponse {
         return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->Title,

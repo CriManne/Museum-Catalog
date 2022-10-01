@@ -27,7 +27,7 @@ class GetController extends ControllerUtil implements ControllerInterface {
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        try {            
+        try {
             $users = $this->userService->selectAll();
 
             return new Response(
@@ -39,7 +39,7 @@ class GetController extends ControllerUtil implements ControllerInterface {
             return new HaltResponse(
                 400,
                 [],
-                $this->getResponse($e->getMessage(),400)
+                $this->getResponse($e->getMessage(), 400)
             );
         }
     }

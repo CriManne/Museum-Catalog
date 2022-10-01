@@ -1,6 +1,7 @@
 <?php
 
 declare(strict_types=1);
+
 namespace App\Controller\Api;
 
 use League\Plates\Engine;
@@ -11,7 +12,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class ComponentsListController implements ControllerInterface {    
+class ComponentsListController implements ControllerInterface {
 
     public static array $categories = [
         'Cpu',
@@ -21,11 +22,11 @@ class ComponentsListController implements ControllerInterface {
         'Publisher',
         'Author',
         'SoftwareType',
-        'SupportType'         
+        'SupportType'
     ];
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {        
-                
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+
         return new Response(
             200,
             [],
