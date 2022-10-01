@@ -32,12 +32,19 @@ final class UserServiceTest extends TestCase
             "lastname"=>'Musk',
             "Privilege"=>0
         ];        
+
+        $this->sampleResponse = [
+            "Email"=>'elon@gmail.com',
+            "firstname"=>'Elon',
+            "lastname"=>'Musk',
+            "Privilege"=>0
+        ];
     }
     
     //INSERT TESTS    
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $this->sth->method('fetch')->willReturn($this->sampleResponse);
         $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
         $this->userService->insert($user);
     }
@@ -45,7 +52,7 @@ final class UserServiceTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $this->sth->method('fetch')->willReturn($this->sampleResponse);
         $this->assertEquals("Elon",$this->userService->selectById("testemail@gmail.com")->firstname);
     }
 

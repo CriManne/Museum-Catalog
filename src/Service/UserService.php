@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Service;
 
 use App\Exception\ServiceException;
+use App\Model\Response\UserResponse;
 use App\Repository\UserRepository;
 use App\Model\User;
 
@@ -32,10 +33,10 @@ class UserService {
     /**
      * Select by id
      * @param string $Email The email to select
-     * @return User     The user selected
+     * @return UserResponse     The user selected
      * @throws ServiceException     If no user is found
      */
-    public function selectById(string $email): User {
+    public function selectById(string $email): UserResponse {
         $user = $this->userRepository->selectById($email);
         if (is_null($user)) throw new ServiceException("User not found");
 
@@ -46,10 +47,10 @@ class UserService {
      * Select by credentials
      * @param string $Email The email to select
      * @param string $Password The password to select
-     * @return User     The user selected
+     * @return UserResponse     The user selected
      * @throws ServiceException     If no user is found
      */
-    public function selectByCredentials(string $Email, string $Password): User {
+    public function selectByCredentials(string $Email, string $Password): UserResponse {
         $user = $this->userRepository->selectByCredentials($Email, $Password);
         if (is_null($user)) throw new ServiceException("User not found");
 

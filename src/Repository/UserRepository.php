@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use App\Exception\RepositoryException;
+use App\Model\Response\UserResponse;
 use PDO;
 use App\Model\User;
 use PDOException;
@@ -41,16 +42,16 @@ class UserRepository extends GenericRepository {
     /**
      * Select a User
      * @param string $Email     The Email of the user to select
-     * @return ?User            The User selected, null if not found
+     * @return ?UserResponse            The User selected, null if not found
      */
-    public function selectById(string $Email): ?User {
-        $query = "SELECT * FROM user WHERE BINARY Email = :Email";
+    public function selectById(string $Email): ?UserResponse {
+        $query = "SELECT Email,firstname,lastname,Privilege FROM user WHERE BINARY Email = :Email";
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Email", $Email, PDO::PARAM_STR);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user) {
-            return ORM::getNewInstance(User::class, $user);
+            return ORM::getNewInstance(UserResponse::class, $user);
         }
         return null;
     }
@@ -59,10 +60,10 @@ class UserRepository extends GenericRepository {
      * Select a user with his credentials
      * @param string $Email     The Email of the user
      * @param string $Password  The Password of the user
-     * @return ?User            The user selected, null if not found         * 
+     * @return ?UserResponse            The user selected, null if not found         * 
      */
-    public function selectByCredentials(string $Email, string $Password): ?User {
-        $query = "SELECT * FROM user WHERE BINARY Email = :Email AND BINARY Password = :Password";
+    public function selectByCredentials(string $Email, string $Password): ?UserResponse {
+        $query = "SELECT Email,firstname,lastname,Privilege FROM user WHERE BINARY Email = :Email AND BINARY Password = :Password";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Email", $Email, PDO::PARAM_STR);
@@ -70,7 +71,7 @@ class UserRepository extends GenericRepository {
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($user) {
-            return ORM::getNewInstance(User::class, $user);
+            return ORM::getNewInstance(UserResponse::class, $user);
         }
         return null;
     }
@@ -80,7 +81,7 @@ class UserRepository extends GenericRepository {
      * @return ?array   All users, null if user table is empty
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM user ORDER BY Email ASC";
+        $query = "SELECT Email,firstname,lastname,Privilege FROM user ORDER BY Email ASC";
 
         $stmt = $this->pdo->query($query);
 
