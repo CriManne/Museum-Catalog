@@ -69,7 +69,7 @@ class ComputerRepository extends GenericRepository {
             $stmt->bindParam("HddSize", $computer->HddSize, PDO::PARAM_STR);
             $stmt->bindParam("CpuID", $computer->Cpu->CpuID, PDO::PARAM_INT);
             $stmt->bindParam("RamID", $computer->Ram->RamID, PDO::PARAM_INT);
-            $stmt->bindParam("OsID", $computer->Os->OsID, PDO::PARAM_INT);
+            $stmt->bindParam("OsID",$computer->Os->OsID, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -254,6 +254,9 @@ class ComputerRepository extends GenericRepository {
      * @return Computer The new instance of computer with the fk filled with the result of selects
      */
     function returnMappedObject(array $rawComputer): Computer {
+
+        $os = isset($rawComputer["OsID"]) ? $this->osRepository->selectById(intval($rawComputer["OsID"])) : null;
+
         return new Computer(
             $rawComputer["ObjectID"],
             $rawComputer["Note"] ?? null,
@@ -261,10 +264,10 @@ class ComputerRepository extends GenericRepository {
             $rawComputer["Tag"] ?? null,
             $rawComputer["ModelName"],
             intval($rawComputer["Year"]),
-            $rawComputer["HddSize"],
-            $this->cpuRepository->selectById(intval($rawComputer["CpuID"]), null),
-            $this->ramRepository->selectById(intval($rawComputer["RamID"]), null),
-            $this->osRepository->selectById(intval($rawComputer["OsID"]), null)
+            $rawComputer["HddSize"] ?? null,
+            $this->cpuRepository->selectById(intval($rawComputer["CpuID"])),
+            $this->ramRepository->selectById(intval($rawComputer["RamID"])),
+            $os
         );
     }
 }

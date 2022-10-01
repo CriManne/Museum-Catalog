@@ -4,7 +4,7 @@ $(document).ready(function () {
 });
 
 function loadHeader() {
-  $("#result-container").append("<div class='row' id='tb-container'></div>");
+  $("#result-container").append("<div class='row p-2 gy-5' id='tb-container'></div>");
 }
 
 function displayResult(result) {
@@ -26,7 +26,7 @@ function displayResult(result) {
     }
 
     $("#tb-container").append(
-      '<div class="card artifact-card card-'+elem.Category+' mx-2" role="button" data-id="' +
+      '<div class="card artifact-card col" role="button" data-id="' +
         elem.ObjectID +
         '">' +
         '  <div class="card-body">' +

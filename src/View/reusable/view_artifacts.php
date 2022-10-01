@@ -14,4 +14,4 @@
                 <input type='submit' class='btn btn-primary'>
             </div>
         </form>
-        <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="result-container">
+        <div class="container-fluid p-0" id="result-container">

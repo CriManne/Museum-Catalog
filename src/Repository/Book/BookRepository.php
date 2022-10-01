@@ -288,7 +288,7 @@ class BookRepository extends GenericRepository {
         $authors = [];
         if ($bookAuthors) {
             foreach ($bookAuthors as $bookAuthor) {
-                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID), null);
+                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID));
             }
         }
 
@@ -298,7 +298,7 @@ class BookRepository extends GenericRepository {
             $rawBook["Url"] ?? null,
             $rawBook["Tag"] ?? null,
             $rawBook["Title"],
-            $this->publisherRepository->selectById(intval($rawBook["PublisherID"]), null),
+            $this->publisherRepository->selectById(intval($rawBook["PublisherID"])),
             intval($rawBook["Year"]),
             $rawBook["ISBN"] ?? null,
             $rawBook["Pages"] ? intval($rawBook["Pages"]) : null,
