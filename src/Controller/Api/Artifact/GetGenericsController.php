@@ -43,6 +43,7 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         }
 
         if ($category && !in_array($category, ArtifactsListController::$categories)) {
+            $this->api_log->info("Category not found!", [__CLASS__]);
             return new Response(
                 404,
                 [],
@@ -74,6 +75,7 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         }
 
         if (count($result) < 1) {
+            $this->api_log->info("No object found!", [__CLASS__]);
             return new Response(
                 404,
                 [],
@@ -85,6 +87,11 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         if (count($result) == 1) {
             $result = [array_pop($result)];
         }
+
+        /**
+         * If this is enabled it will generate a huge amount of 'useless' logs
+         */
+        //$this->api_log->info("Successfull get of generics artifacts!",[__CLASS__]);
 
         return new Response(
             200,

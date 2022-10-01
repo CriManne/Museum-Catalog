@@ -42,7 +42,10 @@ class GetGenericByIdController extends ControllerUtil implements ControllerInter
         try {
             $obj = $this->artifactSearchEngine->selectGenericById($id);
 
-            $this->api_log->info("Successfull get of generic artifact by id",[__CLASS__]);
+            /**
+             * If this is enabled it will generate a huge amount of 'useless' logs
+             */
+            //$this->api_log->info("Successfull get of generic artifact by id",[__CLASS__]);
             return new Response(
                 200,
                 [],
