@@ -1,0 +1,17 @@
+.turin-image{
+    background-image: url('/assets/turin-italy.jpg');
+    background-repeat: no-repeat !important;
+    background-attachment: fixed !important;
+    background-position: center -100px;     
+    height:60vh;
+}
+
+@media (max-width: 767px) {
+    .turin-image {        
+        background-position: 0px -100px;     
+        background-attachment: initial !important;
+        background-size:cover;
+        background-attachment: scroll;
+    
+    }
+}

@@ -1,9 +1,12 @@
 <?php $this->layout('layouts::homepage', ['title' => $title]) ?>
 
+<?php $this->push("styles"); ?>
+<link rel="stylesheet" href="/resources/css/turin-image-container.css">
+
 <!-- Header - set the background image for the header in the line below-->
-<header class=" my-5 py-5 bg-image-full d-flex align-items-center" style="background-image: url('/assets/turin-italy.avif');background-repeat: no-repeat; background-attachment: fixed; background-position: center -50px; height:50vh; ">
+<header class=" my-5 py-2 bg-image-full d-flex align-items-end turin-image w-75 mx-auto">
     <div class="text-center py-2 bg-white w-100 mx-auto text-black" style="z-index:1;">
-        <h1 class="fs-3 fw-bolder">Museo dell'informatica di torino</h1>
+        <h1 class="fs-3 fw-bolder">MUSEO PIEMONTESE DELL'INFORMATICA</h1>
     </div>
 </header>
 <!-- Content section-->
@@ -12,17 +15,13 @@
         <div class="row justify-content-center">
             <div class="col-lg-6">
                 <h2>Vi raccontiamo la Storia dell'Informatica</h2>
-
                 <p class="lead">La storia dell’Informatica è la storia di buona parte delle cose con cui viviamo quotidianamente. Dal computer a Internet agli smartphone; dai video in streaming, alla formazione online e ai social network. Conoscendo e comprendendo la storia dell’Informatica siamo in grado di capire come si sviluppa e come cambia il mondo di oggi.
                 </p>
             </div>
         </div>
     </div>
 </section>
-<!-- Image element - set the background image for the header in the line below-->
-<div class="py-5 bg-image-full" style="background-image: url('/assets/turin-italy.avif');background-repeat: no-repeat; background-attachment: fixed; background-position: center -50px; height:50vh">
-    <!-- Put anything you want here! The spacer below with inline CSS is just for demo purposes!-->
-    <div style="height: 20rem"></div>
+<div class="py-5 turin-image w-75 mx-auto">
 </div>
 <!-- Content section-->
 <section class="py-5">
