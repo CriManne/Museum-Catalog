@@ -42,27 +42,16 @@ $(document).ready(function() {
     }
 
     if(response.Tag!==""){
-        $("#object-tags").append("Tags: "+response.Tag);
+        $("#object-tags").append("<b>Tags:</b> "+response.Tag);
     }
     if(response.Url!==""){
         const conditions = ["http://","https://"];
         if(!conditions.some(el => response.Url.includes(el))){
             response.Url = "https://"+response.Url;
         }
-        $("#object-url").append("Url: <a href='"+response.Url+"'>Segui il link</a>");
+        $("#object-url").append("<b>Url:</b> <a href='"+response.Url+"'>Segui il link</a>");
     }
     if(response.Note!==""){
-        $("#object-note").append("Note: "+response.Note);
+        $("#object-note").append("<b>Note:</b> "+response.Note);
     }
 });
-
-function imageExists(image_url){
-
-    var http = new XMLHttpRequest();
-
-    http.open('HEAD', image_url, false);
-    http.send();
-
-    return http.status != 404;
-
-}

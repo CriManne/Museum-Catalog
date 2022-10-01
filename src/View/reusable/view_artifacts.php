@@ -1,13 +1,3 @@
-<style>
-    .table-scrollable {
-        overflow-x: auto;
-        max-width: 100vw;
-        box-shadow: inset 0 0 5px rgba(150, 150, 150, 0.35);
-        margin: auto;
-        padding: 0;
-        padding-top: 10px;
-    }
-</style>
 <div class="py-5 px-3">
     <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="loading-container">
         <div class="spinner-border mx-auto" role="status"></div>
@@ -25,7 +15,5 @@
             </div>
         </form>
         <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="result-container">
-            <div class="container-fluid table-scrollable" id="tb-container"></div>
-        </div>
-    </div>
-</div>
+            
+        

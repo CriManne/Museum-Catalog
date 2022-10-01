@@ -1,39 +1,20 @@
 - COMMENT EVERYTHING AND CHECK OLD COMMENTS
 
-- ON UPDATE NOT SELECTING THE SELECT IF THE FK IS ERASED
-
-- COMPONENTS FK CHECK
-
 - BACKEND HANDLES PLATES TITLE
 
-- MAKE A DIVISION BTW HIDE AND DELETE
-
-IF HIDE SET ERASED TO NOT NULL
-IF DELETE TRY TO DELETE BUT IF THERE ARE ANY RECORDS WITH THAT FK DISPLAY ERROR
-
-- nest add_user and admin views so it cant be reached with ?page=add_user
-
 - Check nullable fields
-
-- Make a method in search artifact engine selectByIdAndCategory to return a specific object and not a 
-generic one. You cant change the selectById because its used in the single artifact page so it needs a generic
-model
 
 - add comments to controllers
 
 - IN SERVICES AND OTHERS CHANGE if(* == null) to if(!*)
 
-- Change the request type to a json object to be a correct rest api
-
-- add tags and generic object fields in the search by key
+- add tags and generic object fields in the search by key also OBJECT ID
 
 - ADD MONOLOG: handle two level of logging: minimum (just employees logs), max (every controller log)
   Add page in the admin dashboard to choose between the two modes and to open a file of logs.
   (artifact_logs,component_logs,user_logs,public_logs,)
 
 - REFACTOR CODE, FIX COPY AND PASTE TYPOS AND RENAME $s PARAMETERS AND REMOVE UNUSED IMPORTS
-
-- DIVIDE DELETE (SOFT) AND DELETE PERMANENTLY
 
 - XSS SECURITY CHECKS
 
