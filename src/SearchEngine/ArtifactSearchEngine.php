@@ -154,16 +154,25 @@ class ArtifactSearchEngine {
      * @return GenericArtifactResponse The object mapped
      */
     public function Computer(Computer $obj): GenericArtifactResponse {
+
+        $description = [
+            'Year' => $obj->Year,
+            'Cpu' => $obj->Cpu->ModelName . ' ' . $obj->Cpu->Speed,
+            'Ram' => $obj->Ram->ModelName . ' ' . $obj->Ram->Size
+        ];
+
+        if(isset($obj->HddSize)){
+            $description["Hdd size"] = $obj->HddSize;
+        }
+
+        if(isset($obj->Os)){
+            $description["Os"] = $obj->Os;
+        }
+
         return new GenericArtifactResponse(
             $obj->ObjectID,
             $obj->ModelName,
-            [
-                'Year' => $obj->Year,
-                'Hdd size' => $obj->HddSize,
-                'Os' => $obj->Os->Name,
-                'Cpu' => $obj->Cpu->ModelName . ' ' . $obj->Cpu->Speed,
-                'Ram' => $obj->Ram->ModelName . ' ' . $obj->Ram->Size
-            ],
+            $description,
             "Computer",
             $obj->Note,
             $obj->Url,

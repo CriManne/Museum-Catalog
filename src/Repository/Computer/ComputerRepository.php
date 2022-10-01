@@ -69,7 +69,10 @@ class ComputerRepository extends GenericRepository {
             $stmt->bindParam("HddSize", $computer->HddSize, PDO::PARAM_STR);
             $stmt->bindParam("CpuID", $computer->Cpu->CpuID, PDO::PARAM_INT);
             $stmt->bindParam("RamID", $computer->Ram->RamID, PDO::PARAM_INT);
-            $stmt->bindParam("OsID",$computer->Os->OsID, PDO::PARAM_INT);
+
+            $OsID = !is_null($computer->Os) ? $computer->Os->OsID : null;
+
+            $stmt->bindParam("OsID",$OsID, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -202,7 +205,9 @@ class ComputerRepository extends GenericRepository {
             $stmt->bindParam("HddSize", $b->HddSize, PDO::PARAM_STR);
             $stmt->bindParam("CpuID", $b->Cpu->CpuID, PDO::PARAM_INT);
             $stmt->bindParam("RamID", $b->Ram->RamID, PDO::PARAM_INT);
-            $stmt->bindParam("OsID", $b->Os->OsID, PDO::PARAM_INT);
+            $OsID = !is_null($b->Os) ? $b->Os->OsID : null;
+
+            $stmt->bindParam("OsID",$OsID, PDO::PARAM_INT);
             $stmt->bindParam("ObjectID", $b->ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 

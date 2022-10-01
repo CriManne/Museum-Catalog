@@ -10,10 +10,10 @@ class Computer extends GenericObject {
 
     public string $ModelName;
     public int $Year;
-    public string $HddSize;
+    public ?string $HddSize;
     public Cpu $Cpu;
     public Ram $Ram;
-    public Os $Os;
+    public ?Os $Os;
 
     public function __construct(
         string $ObjectID,
