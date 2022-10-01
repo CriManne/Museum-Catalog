@@ -14,24 +14,24 @@ class ControllerUtil {
     protected Engine $plates;
 
     /**
-     * Employee area logger
+     * Api controllers logger
      */
-    protected Logger $emp_log;
+    protected Logger $api_log;
 
     /**
-     * Public area logger
+     * Pages controllers logger
      */
-    protected Logger $pub_log;
+    protected Logger $pages_log;
 
     public function __construct(?Engine $plates) {
         if ($plates) {
             $this->plates = $plates;
         }
-        $this->emp_log = new Logger("employee_log");
-        $this->emp_log->pushHandler(new StreamHandler("./logs/employee_log.log",Level::Info));
+        $this->api_log = new Logger("api_log");
+        $this->api_log->pushHandler(new StreamHandler("./logs/api_log.log",Level::Info));
 
-        $this->pub_log = new Logger("public_log");
-        $this->pub_log->pushHandler(new StreamHandler("./logs/public_log.log",Level::Info));
+        $this->pages_log = new Logger("pages_log");
+        $this->pages_log->pushHandler(new StreamHandler("./logs/pages_log.log",Level::Info));
     }
 
     public function getResponse(string $message, int $status = 200): string {

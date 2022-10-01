@@ -36,7 +36,7 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
         }
 
         if (!isset($_SESSION['user_email'])) {
-            $this->emp_log->info("Unauthorized access", [__CLASS__, $request->getRequestTarget()]);
+            $this->api_log->info("Unauthorized access", [__CLASS__, $request->getRequestTarget()]);
             return new HaltResponse(
                 401,
                 [],
@@ -50,11 +50,11 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
             /**
              * If this is enabled it will generate a huge amount of 'useless' logs
              */
-            //$this->emp_log->info("Access granted",[__CLASS__,$_SESSION['user_email'],$request->getRequestTarget()]);
+            //$this->api_log->info("Access granted",[__CLASS__,$_SESSION['user_email'],$request->getRequestTarget()]);
 
             return $response;
         } catch (ServiceException) {
-            $this->emp_log->info("Unauthorized access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
+            $this->api_log->info("Unauthorized access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
             return new HaltResponse(
                 401,
                 [],
