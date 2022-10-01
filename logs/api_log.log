@@ -7,3 +7,4 @@
 [2022-10-02T00:40:12.120976+02:00] api_log.INFO: Object ID already used! ["App\\Controller\\Api\\Artifact\\CreateController","admin"] []
 [2022-10-02T00:40:17.437354+02:00] api_log.INFO: Book inserted successfully! ["App\\Controller\\Api\\Artifact\\CreateController","admin"] []
 [2022-10-02T00:40:24.868682+02:00] api_log.INFO: Book title already used! ["App\\Controller\\Api\\Artifact\\CreateController","admin"] []
+[2022-10-02T00:44:27.168417+02:00] api_log.INFO: Artifact with id {' . BOOKASDLKADJALSDKSAA . '} deleted! ["App\\Controller\\Api\\Artifact\\DeleteController","admin"] []

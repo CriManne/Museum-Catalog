@@ -25,6 +25,7 @@ use ReflectionClass;
 use ReflectionFunction;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
+use Throwable;
 use TypeError;
 
 class DeleteController extends ControllerUtil implements ControllerInterface {
@@ -32,6 +33,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
     protected Container $container;
 
     public function __construct(ContainerBuilder $builder) {
+        parent::__construct();
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
     }
@@ -46,6 +48,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
         $categories = ArtifactsListController::$categories;
 
         if (!$category || !$id || !in_array($category, $categories)) {
+            $this->api_log->info("No category or no id or wrong category",[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
@@ -65,18 +68,21 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             $this->artifactService->delete($id);
             ImagesDeleteController::deleteImages($id);
 
+            $this->api_log->info("Artifact with id {' . $id . '} deleted!",[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 200,
                 [],
                 $this->getResponse('Artifact with id {' . $id . '} deleted!')
             );
         } catch (ServiceException $e) {
+            $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 404,
                 [],
                 $this->getResponse($e->getMessage(), 404)
             );
-        } catch (Exception) {
+        } catch (Throwable $e) {
+            $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],

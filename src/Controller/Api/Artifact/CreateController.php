@@ -59,7 +59,7 @@ class CreateController extends ControllerUtil implements ControllerInterface {
          * Return bad request response if no category is set or a wrong one
          */
         if (!$category || !in_array($category, $categories)) {
-            $this->api_log->info("Bad request",[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info("None or a wrong category is set.",[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
