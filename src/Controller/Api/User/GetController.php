@@ -23,6 +23,7 @@ class GetController extends ControllerUtil implements ControllerInterface {
     protected UserService $userService;
 
     public function __construct(UserService $userService) {
+        parent::__construct();
         $this->userService = $userService;
     }
 

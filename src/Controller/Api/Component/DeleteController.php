@@ -32,6 +32,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
     protected Container $container;
 
     public function __construct(ContainerBuilder $builder) {
+        parent::__construct();
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
     }

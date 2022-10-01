@@ -26,6 +26,7 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
     public function __construct(
         ComponentSearchEngine $componentSearchEngine
     ) {
+        parent::__construct();
         $this->componentSearchEngine = $componentSearchEngine;
     }
 
