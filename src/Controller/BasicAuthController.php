@@ -27,15 +27,16 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        if (!isset($_SESSION['user_email'])) {
-            $requestUrl = $request->getRequestTarget();
-            $error_message = "";
-            if (explode('/', $requestUrl)[1] == 'api') {
-                $error_message = $this->getResponse("Unauthorized access", 401);
-            } else {
-                $error_message = $this->displayError(401, "Unauthorized access");
-            }
+        $requestUrl = $request->getRequestTarget();
+        $error_message = "";
+        if (explode('/', $requestUrl)[1] == 'api') {
+            $error_message = $this->getResponse("Unauthorized access", 401);
+        } else {
+            $error_message = $this->displayError(401, "Unauthorized access");
+        }
 
+        if (!isset($_SESSION['user_email'])) {
+            $this->emp_log->info("Unauthorized access", [__CLASS__, $request->getRequestTarget()]);
             return new HaltResponse(
                 401,
                 [],
@@ -45,12 +46,19 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
 
         try {
             $this->userService->selectById($_SESSION['user_email']);
+
+            /**
+             * If this is enabled it will generate a huge amount of 'useless' logs
+             */
+            //$this->emp_log->info("Access granted",[__CLASS__,$_SESSION['user_email'],$request->getRequestTarget()]);
+
             return $response;
         } catch (ServiceException) {
+            $this->emp_log->info("Unauthorized access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
             return new HaltResponse(
                 401,
                 [],
-                $this->displayError(401, "Unauthorized access")
+                $error_message
             );
         }
     }

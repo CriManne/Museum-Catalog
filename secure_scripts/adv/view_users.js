@@ -75,6 +75,10 @@ $(document).ready(function() {
 function initializePage() {
     users = filteredUsers = makeRequest(urlFetchUsers);
 
+    if(users.status == "401"){
+        window.location.reload();
+    }
+
     loadPage();
 
 }

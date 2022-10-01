@@ -29,12 +29,18 @@ class AdvancedAuthController extends ControllerUtil implements ControllerInterfa
                 $error_message = $this->displayError(401, "Unauthorized access");
             }
 
+            $this->emp_log->info("Unauthorized access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
             return new HaltResponse(
                 401,
                 [],
                 $error_message
             );
         }
+
+        /**
+         * If this is enabled it will generate a huge amount of 'useless' logs
+         */        
+        //$this->emp_log->info("Granted access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
         return $response;
     }
 }

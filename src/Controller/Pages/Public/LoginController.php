@@ -37,7 +37,7 @@ class LoginController extends ControllerUtil implements ControllerInterface {
 
         $credentials = $request->getParsedBody();
 
-        if (!$sessionValid && (!isset($credentials["submitLogin"]) || !isset($credentials["email"]) || !isset($credentials["password"]))) {
+        if (!$sessionValid && (!isset($credentials["submitLogin"]) || !isset($credentials["email"]) || !isset($credentials["password"]))) {            
             return new Response(
                 200,
                 [],
@@ -60,6 +60,8 @@ class LoginController extends ControllerUtil implements ControllerInterface {
                 ['Location'=>'/private']                
             );
         } catch (ServiceException $e) {            
+            unset($_SESSION);
+            session_destroy();
             return new Response(
                 200,
                 [],
