@@ -38,6 +38,7 @@ class CreateController extends ControllerUtil implements ControllerInterface {
     protected ComponentSearchEngine $componentSearchEngine;
 
     public function __construct(ContainerBuilder $builder, ComponentSearchEngine $componentSearchEngine) {
+        parent::__construct();
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
         $this->componentSearchEngine = $componentSearchEngine;
@@ -58,6 +59,7 @@ class CreateController extends ControllerUtil implements ControllerInterface {
          * Return bad request response if no category is set or a wrong one
          */
         if (!$category || in_array($category, $categories)) {
+            $this->api_log->info("Category not set or wrong one",[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
@@ -82,13 +84,14 @@ class CreateController extends ControllerUtil implements ControllerInterface {
                 $instantiatedObject = ORM::getNewInstance($classPath, $params);
 
                 $this->componentService->insert($instantiatedObject);
-
+                $this->api_log->info("$category inserted successfully!",[__CLASS__,$_SESSION['user_email']]);
                 return new Response(
                     200,
                     [],
                     $this->getResponse("$category inserted successfully!")
                 );
             } catch (ServiceException $e) {
+                $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
                 return new Response(
                     404,
                     [],
@@ -97,7 +100,7 @@ class CreateController extends ControllerUtil implements ControllerInterface {
             } catch (Throwable) {
             }
         }
-
+        $this->api_log->info("Bad request",[__CLASS__,$_SESSION['user_email']]);
         return new Response(
             400,
             [],

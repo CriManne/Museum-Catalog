@@ -47,6 +47,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
         $categories = ArtifactsListController::$categories;
 
         if (!$category || !$id || in_array($category, $categories) || !is_numeric($id)) {
+            $this->api_log->info("Category or id not set, or wrong category or non numeric id",[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
@@ -72,12 +73,14 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
                     $this->getResponse("$category deleted successfully!")
                 );
             } catch (ServiceException $e) {
+                $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
                 return new Response(
                     404,
                     [],
                     $this->getResponse($e->getMessage(), 404)
                 );
-            } catch (RepositoryException) {
+            } catch (RepositoryException $e) {
+                $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
                 return new Response(
                     400,
                     [],
@@ -87,6 +90,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             }
         }
 
+        $this->api_log->info("Bad request",[__CLASS__,$_SESSION['user_email']]);
         return new Response(
             400,
             [],
