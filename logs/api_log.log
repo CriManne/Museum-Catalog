@@ -8,3 +8,7 @@
 [2022-10-02T00:40:17.437354+02:00] api_log.INFO: Book inserted successfully! ["App\\Controller\\Api\\Artifact\\CreateController","admin"] []
 [2022-10-02T00:40:24.868682+02:00] api_log.INFO: Book title already used! ["App\\Controller\\Api\\Artifact\\CreateController","admin"] []
 [2022-10-02T00:44:27.168417+02:00] api_log.INFO: Artifact with id {' . BOOKASDLKADJALSDKSAA . '} deleted! ["App\\Controller\\Api\\Artifact\\DeleteController","admin"] []
+[2022-10-02T00:47:25.562737+02:00] api_log.INFO: Successfull get of generic artifact by id ["App\\Controller\\Api\\Artifact\\GetGenericByIdController",null] []
+[2022-10-02T00:47:35.395734+02:00] api_log.INFO: Successfull get of generic artifact by id ["App\\Controller\\Api\\Artifact\\GetGenericByIdController",null] []
+[2022-10-02T00:48:14.701584+02:00] api_log.INFO: Successfull get of generic artifact by id ["App\\Controller\\Api\\Artifact\\GetGenericByIdController",null] []
+[2022-10-02T00:48:29.406417+02:00] api_log.INFO: Successfull get of generic artifact by id ["App\\Controller\\Api\\Artifact\\GetGenericByIdController"] []

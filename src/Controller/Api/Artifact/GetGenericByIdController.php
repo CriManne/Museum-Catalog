@@ -20,6 +20,7 @@ class GetGenericByIdController extends ControllerUtil implements ControllerInter
     public function __construct(
         ArtifactSearchEngine $artifactSearchEngine
     ) {
+        parent::__construct();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
@@ -30,6 +31,7 @@ class GetGenericByIdController extends ControllerUtil implements ControllerInter
         $id = $params["id"] ?? null;
 
         if (!$id) {
+            $this->api_log->info("No id is set",[__CLASS__]);
             return new Response(
                 400,
                 [],
@@ -40,12 +42,14 @@ class GetGenericByIdController extends ControllerUtil implements ControllerInter
         try {
             $obj = $this->artifactSearchEngine->selectGenericById($id);
 
+            $this->api_log->info("Successfull get of generic artifact by id",[__CLASS__]);
             return new Response(
                 200,
                 [],
                 json_encode($obj)
             );
         } catch (ServiceException $e) {
+            $this->api_log->info($e->getMessage(),[__CLASS__]);
             return new Response(
                 404,
                 [],

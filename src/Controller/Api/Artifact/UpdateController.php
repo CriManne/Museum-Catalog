@@ -36,6 +36,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
     protected ArtifactSearchEngine $artifactSearchEngine;
 
     public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine) {
+        parent::__construct();
         $builder->addDefinitions('config/container.php');
         $this->container = $builder->build();
         $this->artifactSearchEngine = $artifactSearchEngine;

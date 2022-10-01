@@ -26,6 +26,7 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
     public function __construct(
         ArtifactSearchEngine $artifactSearchEngine
     ) {
+        parent::__construct();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 

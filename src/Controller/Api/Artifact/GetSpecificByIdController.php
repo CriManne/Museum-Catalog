@@ -20,6 +20,7 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
     public function __construct(
         ArtifactSearchEngine $artifactSearchEngine
     ) {
+        parent::__construct();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
