@@ -115,6 +115,5 @@ User(
     Email UNIQUE,
     Password,
     Nome,
-    Cognome,
-    Erased NULL,
+    Cognome
 )

@@ -39,15 +39,10 @@ class CpuRepository extends GenericRepository {
     /**
      * Select cpu by id
      * @param int $CpuID    The cpu id to select
-     * @param ?bool $showErased
      * @return ?Cpu     The selected cpu, null if not found
      */
-    public function selectById(int $CpuID, ?bool $showErased = false): ?Cpu {
+    public function selectById(int $CpuID): ?Cpu {
         $query = "SELECT * FROM cpu WHERE CpuID = :CpuID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("CpuID", $CpuID, PDO::PARAM_INT);
@@ -62,15 +57,10 @@ class CpuRepository extends GenericRepository {
     /**
      * Select cpu by name
      * @param string $ModelName     The cpu name to select
-     * @param ?bool $showErased
      * @return ?Cpu     The cpu selected, null if not found
      */
-    public function selectByName(string $ModelName, ?bool $showErased = false): ?Cpu {
+    public function selectByName(string $ModelName): ?Cpu {
         $query = "SELECT * FROM cpu WHERE ModelName = :ModelName";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);
@@ -85,15 +75,10 @@ class CpuRepository extends GenericRepository {
     /**
      * Select cpu by key
      * @param string $key     The key to search
-     * @param ?bool $showErased
      * @return array     The cpus selected
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT * FROM cpu WHERE ModelName LIKE :key OR Speed LIKE :key";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%'.$key.'%';
 
@@ -107,15 +92,10 @@ class CpuRepository extends GenericRepository {
 
     /**
      * Select all cpus
-     * @param ?bool $showErased
      * @return ?array   The cpus selected, null if no result
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM cpu";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -154,8 +134,7 @@ class CpuRepository extends GenericRepository {
      */
     public function delete(int $CpuID): void {
         $query =
-            "UPDATE cpu          
-            SET Erased = NOW()
+            "DELETE FROM cpu  
             WHERE CpuID = :CpuID;";
 
         $stmt = $this->pdo->prepare($query);

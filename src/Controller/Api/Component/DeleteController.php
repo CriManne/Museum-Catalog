@@ -76,7 +76,13 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
                     [],
                     $this->getResponse($e->getMessage(), 404)
                 );
-            } catch (Throwable) {
+            } catch(RepositoryException){
+                return new Response(
+                    400,
+                    [],
+                    $this->getResponse("There are artifacts that are using this component, update them before deleting this!", 40)
+                );
+            }catch (Throwable) {
             }
         }
         

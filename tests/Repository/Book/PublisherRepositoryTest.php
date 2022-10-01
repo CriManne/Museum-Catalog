@@ -112,7 +112,6 @@ final class PublisherRepositoryTest extends TestCase
         self::$publisherRepository->delete(1);
         
         $this->assertNull(self::$publisherRepository->selectById(1));
-        $this->assertNotNull(self::$publisherRepository->selectById(1,true));
     }
     
     public static function tearDownAfterClass():void{

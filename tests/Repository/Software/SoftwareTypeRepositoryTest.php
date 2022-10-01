@@ -113,7 +113,6 @@ final class SoftwareTypeRepositoryTest extends TestCase
         self::$softwareTypeRepository->delete(1);
         
         $this->assertNull(self::$softwareTypeRepository->selectById(1));
-        $this->assertNotNull(self::$softwareTypeRepository->selectById(1,true));
     }
     
     public static function tearDownAfterClass():void{

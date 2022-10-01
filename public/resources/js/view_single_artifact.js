@@ -4,12 +4,11 @@ $(document).ready(function() {
     const urlSearchParams = new URLSearchParams(window.location.search);
     const objectID = Object.fromEntries(urlSearchParams.entries())['id'];
 
-    const object = makeRequest(urlObject + "?id=" + objectID);
+    const response = makeRequest(urlObject + "?id=" + objectID);
 
-    if (object.status == "404") {
+    if (response.status == "404") {
         $("#artifact").hide();
-        $("#error-alert").removeClass("d-none");
-        $("#error-alert").append(object.message);
+        createAlert(response);
     }else{
         $("#artifact").removeClass("d-none");
 
@@ -34,27 +33,26 @@ $(document).ready(function() {
         }
 
     }
+    
+    $("#object-id").append(response.ObjectID);
+    $("#object-title").append(response.Title);
 
-    // $("#debug-container").append(JSON.stringify(object));
-    $("#object-id").append(object.ObjectID);
-    $("#object-title").append(object.Title);
-
-    for (const [key, value] of Object.entries(object.Descriptors)) {
+    for (const [key, value] of Object.entries(response.Descriptors)) {
         $("#object-description").append("<p><b>" + key + "</b>: " + value + "</p>");
     }
 
-    if(object.Tag!==""){
-        $("#object-tags").append("Tags: "+object.Tag);
+    if(response.Tag!==""){
+        $("#object-tags").append("Tags: "+response.Tag);
     }
-    if(object.Url!==""){
+    if(response.Url!==""){
         const conditions = ["http://","https://"];
-        if(!conditions.some(el => object.Url.includes(el))){
-            object.Url = "https://"+object.Url;
+        if(!conditions.some(el => response.Url.includes(el))){
+            response.Url = "https://"+response.Url;
         }
-        $("#object-url").append("Url: <a href='"+object.Url+"'>Segui il link</a>");
+        $("#object-url").append("Url: <a href='"+response.Url+"'>Segui il link</a>");
     }
-    if(object.Note!==""){
-        $("#object-note").append("Note: "+object.Note);
+    if(response.Note!==""){
+        $("#object-note").append("Note: "+response.Note);
     }
 });
 

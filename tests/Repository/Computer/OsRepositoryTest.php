@@ -115,7 +115,6 @@ final class OsRepositoryTest extends TestCase
         self::$osRepository->delete(1);
         
         $this->assertNull(self::$osRepository->selectById(1));
-        $this->assertNotNull(self::$osRepository->selectById(1,true));
     }
     
     public static function tearDownAfterClass():void{

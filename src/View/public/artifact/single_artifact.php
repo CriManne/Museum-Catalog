@@ -1,6 +1,7 @@
 <?php $this->layout('layouts::layout', ['title' => 'Artifact']) ?>
 
 <!-- Product section-->
+<div id="alert-container"></div>
 <section class="py-5 d-none" id="artifact">
     <div class="container px-4 px-lg-5 my-5">
         <div class="row gx-4 gx-lg-5 align-items-center">

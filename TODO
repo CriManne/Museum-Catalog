@@ -1,6 +1,3 @@
-- If a component is deleted (softly) it cant be recreated because it will throw a duplicated name error.
-Solution: add Erased field and show it in the table when visualizing it
-
 - COMMENT EVERYTHING AND CHECK OLD COMMENTS
 
 - ON UPDATE NOT SELECTING THE SELECT IF THE FK IS ERASED
@@ -46,7 +43,7 @@ model
 
 - USE mysql_real_escape_string TO CLEAN INPUTS
 
-- Implement documentation for the showErased and isAdmin PARAMETER
+- Implement documentation for the isAdmin PARAMETER
 
 - REMOVE REPOSITORIES AND SERVICES METHODS NOT USED
 

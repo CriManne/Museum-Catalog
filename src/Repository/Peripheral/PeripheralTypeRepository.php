@@ -39,15 +39,10 @@ class PeripheralTypeRepository extends GenericRepository {
     /**
      * Select p.type by id
      * @param int $PeripheralTypeID The p.type id to select
-     * @param ?bool $showErased
      * @return ?PeripheralType  The p.type selected, null if not found
      */
-    public function selectById(int $PeripheralTypeID, ?bool $showErased = false): ?PeripheralType {
+    public function selectById(int $PeripheralTypeID): ?PeripheralType {
         $query = "SELECT * FROM peripheraltype WHERE PeripheralTypeID = :PeripheralTypeID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("PeripheralTypeID", $PeripheralTypeID, PDO::PARAM_INT);
@@ -62,15 +57,10 @@ class PeripheralTypeRepository extends GenericRepository {
     /**
      * Select p.type by name
      * @param string $Name The p.type id to select
-     * @param ?bool $showErased
      * @return ?PeripheralType  The p.type selected, null if not found
      */
-    public function selectByName(string $Name, ?bool $showErased = false): ?PeripheralType {
+    public function selectByName(string $Name): ?PeripheralType {
         $query = "SELECT * FROM peripheraltype WHERE Name = :Name";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Name", $Name, PDO::PARAM_STR);
@@ -85,15 +75,10 @@ class PeripheralTypeRepository extends GenericRepository {
     /**
      * Select p.type by key
      * @param string $key The key to search
-     * @param ?bool $showErased
      * @return array  The p.types selected
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT * FROM peripheraltype WHERE Name LIKE :key";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%'.$key.'%';
 
@@ -107,15 +92,10 @@ class PeripheralTypeRepository extends GenericRepository {
 
     /**
      * Select all p.type
-     * @param ?bool $showErased
      * @return ?array   All the p.types, null if no result
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM peripheraltype";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -152,8 +132,7 @@ class PeripheralTypeRepository extends GenericRepository {
      */
     public function delete(int $PeripheralTypeID): void {
         $query =
-            "UPDATE peripheraltype          
-            SET Erased = NOW()
+            "DELETE FROM peripheraltype          
             WHERE PeripheralTypeID = :PeripheralTypeID;";
 
         $stmt = $this->pdo->prepare($query);

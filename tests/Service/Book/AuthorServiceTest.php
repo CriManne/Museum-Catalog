@@ -28,8 +28,7 @@ final class AuthorServiceTest extends TestCase
         $this->sampleObject = [
             "AuthorID"=>1,
             "firstname"=>'Mario',
-            "lastname"=>"Rossi",
-            "Erased"=>null
+            "lastname"=>"Rossi"
         ];        
     }
     

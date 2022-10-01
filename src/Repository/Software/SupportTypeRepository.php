@@ -39,15 +39,10 @@ class SupportTypeRepository extends GenericRepository {
     /**
      * Select by id
      * @param int $SupportTypeID    The id to select
-     * @param ?bool $showErased
      * @return ?SupportType     The support type selected, null if not found
      */
-    public function selectById(int $SupportTypeID, ?bool $showErased = false): ?SupportType {
+    public function selectById(int $SupportTypeID): ?SupportType {
         $query = "SELECT * FROM supporttype WHERE SupportTypeID = :SupportTypeID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("SupportTypeID", $SupportTypeID, PDO::PARAM_INT);
@@ -62,15 +57,10 @@ class SupportTypeRepository extends GenericRepository {
     /**
      * Select by name
      * @param string $Name  The name to select
-     * @param ?bool $showErased
      * @return ?SupportType The support type selected, null if not found
      */
-    public function selectByName(string $Name, ?bool $showErased = false): ?SupportType {
+    public function selectByName(string $Name): ?SupportType {
         $query = "SELECT * FROM supporttype WHERE Name = :Name";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Name", $Name, PDO::PARAM_STR);
@@ -85,15 +75,10 @@ class SupportTypeRepository extends GenericRepository {
     /**
      * Select by key
      * @param string $key  The key to search
-     * @param ?bool $showErased
      * @return array The support types selected
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT * FROM supporttype WHERE Name LIKE :key";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%'.$key.'%';
 
@@ -107,15 +92,10 @@ class SupportTypeRepository extends GenericRepository {
 
     /**
      * Select all
-     * @param ?bool $showErased
      * @return ?array   The support types selected, null if no results;
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM supporttype";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -152,8 +132,7 @@ class SupportTypeRepository extends GenericRepository {
      */
     public function delete(int $SupportTypeID): void {
         $query =
-            "UPDATE supporttype          
-            SET Erased = NOW()
+            "DELETE FROM supporttype          
             WHERE SupportTypeID = :SupportTypeID;";
 
         $stmt = $this->pdo->prepare($query);

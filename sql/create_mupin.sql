@@ -18,7 +18,6 @@ CREATE TABLE Cpu(
     CpuID INTEGER NOT NULL AUTO_INCREMENT,
     ModelName VARCHAR(100) NOT NULL,
     Speed VARCHAR(20) NOT NULL,
-    Erased DATE NULL,    
     PRIMARY KEY (CpuID)
 );
 
@@ -26,14 +25,12 @@ CREATE TABLE Ram(
     RamID INTEGER NOT NULL AUTO_INCREMENT,
     ModelName VARCHAR(100) NOT NULL,
     Size VARCHAR(20) NOT NULL,
-    Erased DATE NULL,    
     PRIMARY KEY (RamID)
 );
 
 CREATE TABLE Os(
     OsID INTEGER NOT NULL AUTO_INCREMENT,
     Name VARCHAR(100) NOT NULL UNIQUE,
-    Erased DATE NULL,    
     PRIMARY KEY (OsID)
 );
 
@@ -59,7 +56,6 @@ CREATE TABLE Computer(
 CREATE TABLE PeripheralType(
     PeripheralTypeID INTEGER NOT NULL AUTO_INCREMENT,
     Name VARCHAR(100) NOT NULL UNIQUE,
-    Erased DATE NULL,    
     PRIMARY KEY (PeripheralTypeID)
 );
 
@@ -79,7 +75,6 @@ CREATE TABLE Peripheral(
 CREATE TABLE Publisher(
     PublisherID INTEGER NOT NULL AUTO_INCREMENT,
     Name VARCHAR(100) NOT NULL UNIQUE,
-    Erased DATE NULL,    
     PRIMARY KEY (PublisherID)
 );
 
@@ -98,8 +93,7 @@ CREATE TABLE Book(
 CREATE TABLE Author(
     AuthorID INTEGER NOT NULL AUTO_INCREMENT,
     firstname VARCHAR(100) NOT NULL,
-    lastname VARCHAR(100) NOT NULL,    
-    Erased DATE NULL,    
+    lastname VARCHAR(100) NOT NULL,
     PRIMARY KEY (AuthorID)
 );
 
@@ -128,15 +122,13 @@ CREATE TABLE Magazine(
 
 CREATE TABLE SoftwareType(
     SoftwareTypeID INTEGER NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(100) NOT NULL UNIQUE,    
-    Erased DATE NULL,
+    Name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (SoftwareTypeID)
 );
 
 CREATE TABLE SupportType(
     SupportTypeID INTEGER NOT NULL AUTO_INCREMENT,
-    Name VARCHAR(100) NOT NULL UNIQUE,        
-    Erased DATE NULL,
+    Name VARCHAR(100) NOT NULL UNIQUE,
     PRIMARY KEY (SupportTypeID)
 );
 

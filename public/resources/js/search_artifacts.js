@@ -1,4 +1,4 @@
-let category;
+let category = "";
 
 $(document).ready(function() {
 
@@ -43,15 +43,12 @@ function loadResult(search="") {
     var result = makeRequest(urlSearchArtifacts + search);
 
     $("#tb-container").empty();
-    $("#error-alert").empty();
 
-    if (result.status == "404") {
-        $("#error-alert").show();
+    if (result.status) {        
         $("#tb-container").hide();
-        $("#error-alert").append(result.message);
+        createAlert(result);
     } else {
         $("#tb-container").show();
-        $("#error-alert").hide();
         loadHeader();
         displayResult(result);
         $("#tb-container").append("</tbody></table>");

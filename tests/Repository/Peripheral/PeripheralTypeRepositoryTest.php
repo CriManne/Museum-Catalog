@@ -113,7 +113,6 @@ final class PeripheralTypeRepositoryTest extends TestCase
         self::$peripheralTypeRepository->delete(1);
         
         $this->assertNull(self::$peripheralTypeRepository->selectById(1));
-        $this->assertNotNull(self::$peripheralTypeRepository->selectById(1,true));
     }
     
     public static function tearDownAfterClass():void{

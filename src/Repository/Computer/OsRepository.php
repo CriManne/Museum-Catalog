@@ -38,15 +38,10 @@ class OsRepository extends GenericRepository {
     /**
      * Select os by id
      * @param int $OsID     The os id to select
-     * @param ?bool $showErased
      * @return ?Os  The os selected, null if not found
      */
-    public function selectById(int $OsID, ?bool $showErased = false): ?Os {
+    public function selectById(int $OsID): ?Os {
         $query = "SELECT * FROM os WHERE OsID = :OsID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("OsID", $OsID, PDO::PARAM_INT);
@@ -60,16 +55,11 @@ class OsRepository extends GenericRepository {
 
     /**
      * Select os by name
-     * @param string $Name  The os name to select
-     * @param ?bool $showErased 
+     * @param string $Name  The os name to select 
      * @return ?Os  The selected os, null if not found
      */
-    public function selectByName(string $Name, ?bool $showErased = false): ?Os {
+    public function selectByName(string $Name): ?Os {
         $query = "SELECT * FROM os WHERE Name = :Name";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Name", $Name, PDO::PARAM_STR);
@@ -83,16 +73,11 @@ class OsRepository extends GenericRepository {
 
     /**
      * Select os by key
-     * @param string $key  The key to search
-     * @param ?bool $showErased 
+     * @param string $key  The key to search 
      * @return array  The selected oss
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT * FROM os WHERE Name LIKE :key";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%'.$key.'%';
 
@@ -106,15 +91,10 @@ class OsRepository extends GenericRepository {
 
     /**
      * Select all os
-     * @param ?bool $showErased
      * @return ?array   The list of os, null if no result
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM os";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -151,8 +131,7 @@ class OsRepository extends GenericRepository {
      */
     public function delete(int $OsID): void {
         $query =
-            "UPDATE os          
-            SET Erased = NOW()
+            "DELETE FROM os   
             WHERE OsID = :OsID;";
 
         $stmt = $this->pdo->prepare($query);

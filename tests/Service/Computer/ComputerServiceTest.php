@@ -50,8 +50,7 @@ final class ComputerServiceTest extends TestCase
             'Note' => null,
             'Url' => null,
             'Tag' => null,
-            'Active' => '1',
-            'Erased' => null,
+            'Active' => '1'
         ];        
     }
     

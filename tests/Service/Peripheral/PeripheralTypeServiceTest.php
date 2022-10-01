@@ -27,8 +27,7 @@ final class PeripheralTypeServiceTest extends TestCase
 
         $this->sampleObject = [
             "PeripheralTypeID"=>1,
-            "Name"=>'Mouse',
-            "Erased"=>null
+            "Name"=>'Mouse'
         ];        
     }
     

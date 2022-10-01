@@ -109,7 +109,6 @@ final class RamRepositoryTest extends TestCase
         self::$ramRepository->delete(1);
         
         $this->assertNull(self::$ramRepository->selectById(1));
-        $this->assertNotNull(self::$ramRepository->selectById(1,true));
     }
     
     public static function tearDownAfterClass():void{

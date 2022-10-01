@@ -27,8 +27,7 @@ final class OsServiceTest extends TestCase
 
         $this->sampleObject = [
             "OsID"=>1,
-            "Name"=>'Windows',
-            "Erased"=>null
+            "Name"=>'Windows'
         ];        
     }
     

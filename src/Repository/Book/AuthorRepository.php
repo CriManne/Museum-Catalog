@@ -39,15 +39,10 @@ class AuthorRepository extends GenericRepository {
     /**
      * Select author by id
      * @param int $id   The author id
-     * @param ?bool $showErased     If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
      * @return ?Author  The selected author, null if not found
      */
-    public function selectById(int $id, ?bool $showErased = false): ?Author {
+    public function selectById(int $id): ?Author {
         $query = "SELECT * FROM author WHERE AuthorID = :id";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
@@ -62,17 +57,12 @@ class AuthorRepository extends GenericRepository {
     /**
      * Select by key
      * @param string $key  The key to search
-     * @param ?bool $showErased If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
      * @return array  The selected Authors
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT * FROM author WHERE 
         Concat(firstname,' ',lastname) LIKE :key OR 
         Concat(lastname,' ',firstname) = :key";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%'.$key.'%';
 
@@ -86,15 +76,10 @@ class AuthorRepository extends GenericRepository {
 
     /**
      * Select all authors
-     * @param ?bool $showErased     If true it will show the 'soft' deleted ones, just the present one otherwise, if null both
      * @return ?array   All the authors, null if author table is empty
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM author";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -133,8 +118,7 @@ class AuthorRepository extends GenericRepository {
      */
     public function delete(int $AuthorID): void {
         $query =
-            "UPDATE author          
-            SET Erased = NOW()
+            "DELETE FROM author                      
             WHERE AuthorID = :AuthorID;";
 
         $stmt = $this->pdo->prepare($query);

@@ -27,8 +27,7 @@ final class PublisherServiceTest extends TestCase
 
         $this->sampleObject = [
             "PublisherID"=>1,
-            "Name"=>'Mondadori',
-            "Erased"=>null
+            "Name"=>'Mondadori'
         ];        
     }
     

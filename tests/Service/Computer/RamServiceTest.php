@@ -28,8 +28,7 @@ final class RamServiceTest extends TestCase
         $this->sampleObject = [
             "RamID"=>1,
             "ModelName"=>'Ram 1.0',
-            "Size"=>"512KB",
-            "Erased"=>null
+            "Size"=>"512KB"
         ];        
     }
     

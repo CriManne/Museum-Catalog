@@ -107,7 +107,6 @@ final class CpuRepositoryTest extends TestCase
         self::$cpuRepository->delete(1);
         
         $this->assertNull(self::$cpuRepository->selectById(1));
-        $this->assertNotNull(self::$cpuRepository->selectById(1,true));
     }
     
     public static function tearDownAfterClass():void{

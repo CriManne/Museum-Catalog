@@ -124,8 +124,7 @@ class BookAuthorRepository extends GenericRepository {
     public function deleteById(string $BookID): void {
         $query =
             "DELETE FROM bookauthor                      
-            WHERE 
-            BookID = :BookID";
+            WHERE BookID = :BookID";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("BookID", $BookID, PDO::PARAM_STR);

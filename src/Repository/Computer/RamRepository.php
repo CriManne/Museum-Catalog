@@ -39,15 +39,10 @@ class RamRepository extends GenericRepository {
     /**
      * Select a ram by id
      * @param int $RamID    The ram id to select
-     * @param ?bool $showErased
      * @return ?Ram     The selected ram, null if not found
      */
-    public function selectById(int $RamID, ?bool $showErased = false): ?Ram {
+    public function selectById(int $RamID): ?Ram {
         $query = "SELECT * FROM ram WHERE RamID = :RamID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("RamID", $RamID, PDO::PARAM_INT);
@@ -62,15 +57,10 @@ class RamRepository extends GenericRepository {
     /**
      * Select ram by name
      * @param string $ModelName     The ram name to select
-     * @param ?bool $showErased
      * @return ?Ram     The ram selected,null if not found
      */
-    public function selectByName(string $ModelName, ?bool $showErased = false): ?Ram {
+    public function selectByName(string $ModelName): ?Ram {
         $query = "SELECT * FROM ram WHERE ModelName = :ModelName";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);
@@ -85,15 +75,10 @@ class RamRepository extends GenericRepository {
     /**
      * Select ram by key
      * @param string $key     The key to search
-     * @param ?bool $showErased
      * @return array     The rams selected
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT * FROM ram WHERE ModelName LIKE :key OR Size LIKE :key";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%'.$key.'%';
 
@@ -107,15 +92,10 @@ class RamRepository extends GenericRepository {
 
     /**
      * Select all rams
-     * @param ?bool $showErased
      * @return ?array   The rams selected, null if no result
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM ram";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -154,8 +134,7 @@ class RamRepository extends GenericRepository {
      */
     public function delete(int $RamID): void {
         $query =
-            "UPDATE ram          
-            SET Erased = NOW()
+            "DELETE FROM ram  
             WHERE RamID = :RamID;";
 
         $stmt = $this->pdo->prepare($query);

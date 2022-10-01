@@ -38,15 +38,10 @@ class SoftwareTypeRepository extends GenericRepository {
     /**
      * Select by id
      * @param int $SoftwareTypeID   The id to select
-     * @param ?boo $showErased
      * @return ?SoftwareType    The software type selected, null if not found
      */
-    public function selectById(int $SoftwareTypeID, ?bool $showErased = false): ?SoftwareType {
+    public function selectById(int $SoftwareTypeID): ?SoftwareType {
         $query = "SELECT * FROM softwaretype WHERE SoftwareTypeID = :SoftwareTypeID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("SoftwareTypeID", $SoftwareTypeID, PDO::PARAM_INT);
@@ -61,15 +56,10 @@ class SoftwareTypeRepository extends GenericRepository {
     /**
      * Select by name
      * @param string $Name  The name to select
-     * @param ?bool $showErased
      * @return ?SoftwareType    The software type selected, null if not found
      */
-    public function selectByName(string $Name, ?bool $showErased = false): ?SoftwareType {
+    public function selectByName(string $Name): ?SoftwareType {
         $query = "SELECT * FROM softwaretype WHERE Name = :Name";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Name", $Name, PDO::PARAM_STR);
@@ -84,15 +74,10 @@ class SoftwareTypeRepository extends GenericRepository {
     /**
      * Select by key
      * @param string $key  The key to search
-     * @param ?bool $showErased
      * @return array The software types selected
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT * FROM softwaretype WHERE Name LIKE :key";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%'.$key.'%';
 
@@ -105,16 +90,11 @@ class SoftwareTypeRepository extends GenericRepository {
     }
 
     /**
-     * Select all
-     * @param ?bool $showErased 
+     * Select all 
      * @return ?array   The software types selected, null if no result
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM softwaretype";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -151,8 +131,7 @@ class SoftwareTypeRepository extends GenericRepository {
      */
     public function delete(int $SoftwareTypeID): void {
         $query =
-            "UPDATE softwaretype          
-            SET Erased = NOW()
+            "DELETE FROM softwaretype       
             WHERE SoftwareTypeID = :SoftwareTypeID;";
 
         $stmt = $this->pdo->prepare($query);

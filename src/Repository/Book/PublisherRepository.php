@@ -38,15 +38,10 @@ class PublisherRepository extends GenericRepository {
     /**
      * Select publisher by id
      * @param int $PublisherID  The publisher id
-     * @param ?bool $showErased
      * @return ?Publisher   The publisher selected, null if not found         * 
      */
-    public function selectById(int $PublisherID, ?bool $showErased = false): ?Publisher {
+    public function selectById(int $PublisherID): ?Publisher {
         $query = "SELECT * FROM publisher WHERE PublisherID = :PublisherID";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("PublisherID", $PublisherID, PDO::PARAM_INT);
@@ -61,15 +56,10 @@ class PublisherRepository extends GenericRepository {
     /**
      * Select publisher by name
      * @param string $Name  The publisher name
-     * @param ?bool $showErased
      * @return ?Publisher   The publisher selected,null if not found
      */
-    public function selectByName(string $Name, ?bool $showErased = false): ?Publisher {
+    public function selectByName(string $Name): ?Publisher {
         $query = "SELECT * FROM publisher WHERE Name = :Name";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Name", $Name, PDO::PARAM_STR);
@@ -84,15 +74,10 @@ class PublisherRepository extends GenericRepository {
     /**
      * Select publisher by key
      * @param string $Key  The key to search
-     * @param ?bool $showErased
      * @return array   The publishers selected
      */
-    public function selectByKey(string $key, ?bool $showErased = false): array {
+    public function selectByKey(string $key): array {
         $query = "SELECT * FROM publisher WHERE Name LIKE :key";
-
-        if (isset($showErased)) {
-            $query .= " AND Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $key = '%' . $key . '%';
 
@@ -107,15 +92,10 @@ class PublisherRepository extends GenericRepository {
 
     /**
      * Select all publishers
-     * @param ?bool $showErased
      * @return ?array   The selected publishers, null if no result
      */
-    public function selectAll(?bool $showErased = false): ?array {
+    public function selectAll(): ?array {
         $query = "SELECT * FROM publisher";
-
-        if (isset($showErased)) {
-            $query .= " WHERE Erased " . ($showErased ? "IS NOT NULL;" : "IS NULL;");
-        }
 
         $stmt = $this->pdo->query($query);
 
@@ -152,8 +132,7 @@ class PublisherRepository extends GenericRepository {
      */
     public function delete(int $PublisherID): void {
         $query =
-            "UPDATE publisher          
-            SET Erased = NOW()
+            "DELETE FROM publisher 
             WHERE PublisherID = :PublisherID;";
 
         $stmt = $this->pdo->prepare($query);

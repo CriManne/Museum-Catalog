@@ -94,7 +94,6 @@ final class AuthorRepositoryTest extends TestCase
         self::$authorRepository->delete(1);
         
         $this->assertNull(self::$authorRepository->selectById(1));
-        $this->assertNotNull(self::$authorRepository->selectById(1,true));
     }
     
     public static function tearDownAfterClass():void{

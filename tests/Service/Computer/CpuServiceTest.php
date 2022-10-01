@@ -28,8 +28,7 @@ final class CpuServiceTest extends TestCase
         $this->sampleObject = [
             "CpuID"=>1,
             "ModelName"=>'Cpu 1.0',
-            "Speed"=>"4GHZ",
-            "Erased"=>null
+            "Speed"=>"4GHZ"
         ];        
     }
     
