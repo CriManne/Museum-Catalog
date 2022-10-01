@@ -13,3 +13,5 @@
 [2022-10-02T00:48:14.701584+02:00] api_log.INFO: Successfull get of generic artifact by id ["App\\Controller\\Api\\Artifact\\GetGenericByIdController",null] []
 [2022-10-02T00:48:29.406417+02:00] api_log.INFO: Successfull get of generic artifact by id ["App\\Controller\\Api\\Artifact\\GetGenericByIdController"] []
 [2022-10-02T00:52:48.986935+02:00] api_log.INFO: Successfull get of specific by id artifact ["App\\Controller\\Api\\Artifact\\GetSpecificByIdController","admin"] []
+[2022-10-02T00:55:13.172034+02:00] api_log.INFO: Book updated successfully! ["App\\Controller\\Api\\Artifact\\UpdateController","admin"] []
+[2022-10-02T00:55:13.394032+02:00] api_log.INFO: Successfull get of specific artifact by id ["App\\Controller\\Api\\Artifact\\GetSpecificByIdController","admin"] []

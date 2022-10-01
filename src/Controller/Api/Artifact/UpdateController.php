@@ -57,6 +57,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
          * Return bad request response if no category is set or a wrong one
          */
         if (!$category || !in_array($category, $categories)) {
+            $this->api_log->info("Category not set or wrong one",[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
@@ -89,18 +90,21 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
             //Upload new files
             UploadController::uploadFiles($instantiatedObject->ObjectID, 'images');
 
+            $this->api_log->info("$category updated successfully!",[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 200,
                 [],
                 $this->getResponse("$category updated successfully!")
             );
         } catch (ServiceException $e) {
+            $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
                 $this->getResponse($e->getMessage(), 400)
             );
         } catch (Throwable $e) {
+            $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
