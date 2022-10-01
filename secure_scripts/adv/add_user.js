@@ -1,4 +1,4 @@
-const urlCreateUser = "/api/private/user/create";
+const urlCreateUser = "/api/user/create";
 
 $(document).ready(function() {
 
