@@ -10,23 +10,10 @@ body {
     height: 100%;
 }
 
-body {
-    display: flex;
-    align-items: center;
-    justify-content: center;
+body {    
     font-family: "Nunito Sans";
     color: var(--blue);
     font-size: 1em;
-}
-
-button {
-    font-family: "Nunito Sans";
-}
-
-ul {
-    list-style-type: none;
-    -webkit-padding-start: 35px;
-    padding-inline-start: 35px;
 }
 
 h1 {
@@ -79,14 +66,4 @@ h2 {
 
 .btn.green:hover:before {
     width: 100%;
-}
-
-@media screen and (max-width: 768px) {
-    body {
-        display: block;
-    }
-    .container {
-        margin-top: 70px;
-        margin-bottom: 70px;
-    }
 }

@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::layout', ['title' => 'Artifact']) ?>
+<?php $this->layout('layouts::homepage', ['title' => 'Artifact']) ?>
 
 <?php $this->insert('reusable::view_artifacts'); ?>
 

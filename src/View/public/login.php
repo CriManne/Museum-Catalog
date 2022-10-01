@@ -1,37 +1,46 @@
 <?php
 
-if (!is_session_started()) {
-    session_start();
-}
-unset($_SESSION);
-session_destroy();
-
-$this->layout('layouts::layout', ['title' => 'Login']);
-
-if (isset($error)) {
-    echo "<h4>" . $error . "</h4>";
-}
-
-function is_session_started()
-{
-    if ( php_sapi_name() !== 'cli' ) {
-        if ( version_compare(phpversion(), '5.4.0', '>=') ) {
-            return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
-        } else {
-            return session_id() === '' ? FALSE : TRUE;
-        }
-    }
-    return FALSE;
-}
-
+$this->layout('layouts::homepage', ['title' => 'Login']);
 ?>
+<div id="layoutAuthentication" class="p-5">
+    <div id="layoutAuthentication_content">
+        <main>
+            <div class="container">
+                <div class="row justify-content-center">
+                    <div class="col-lg-5">
+                        <div class="card shadow-lg border-0 rounded-lg mt-5">
+                            <div class="card-header">
+                                <h3 class="text-center font-weight-light my-4">Login</h3>
+                            </div>
+                            <div class="card-body">
+                                <form action="/login" method="POST">
+                                    <div class="form-floating mb-3">
+                                        <?php
+                                        if (isset($error)) {
+                                            echo "<h4>" . $error . "</h4>";
+                                        }
+                                        ?>
+                                    </div>
 
-<div>
-    <form action="/login" method="POST">
-
-        <input type="text" name="email">
-        <input type="password" name="password">
-        <input type="submit" name="submitLogin">
-
-    </form>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="email" name="email" type="text" placeholder="name@example.com" />
+                                        <label for="email">Email</label>
+                                    </div>
+                                    <div class="form-floating mb-3">
+                                        <input class="form-control" id="password" name="password" type="password" placeholder="Password" />
+                                        <label for="password">Password</label>
+                                    </div>
+                                    <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
+                                        <button type='submit' name="submitLogin" class="btn btn-primary">Login</button>
+                                    </div>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
 </div>
+
+

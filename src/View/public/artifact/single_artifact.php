@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::layout', ['title' => 'Artifact']) ?>
+<?php $this->layout('layouts::homepage', ['title' => 'Artifact']) ?>
 
 <!-- Product section-->
 <div id="alert-container"></div>

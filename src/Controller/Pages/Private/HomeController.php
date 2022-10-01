@@ -25,6 +25,9 @@ class HomeController extends ControllerUtil implements ControllerInterface {
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         if (isset($request->getQueryParams()['logout-btn'])) {
+            if(!$this->is_session_started()){
+                session_start();
+            }
             unset($_SESSION);
             session_destroy();
             return new Response(
@@ -40,5 +43,16 @@ class HomeController extends ControllerUtil implements ControllerInterface {
             [],
             $this->plates->render('private::home', ['title' => "Dashboard user", 'user' => $user])
         );
+    }
+
+    public function is_session_started() {
+        if (php_sapi_name() !== 'cli') {
+            if (version_compare(phpversion(), '5.4.0', '>=')) {
+                return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+            } else {
+                return session_id() === '' ? FALSE : TRUE;
+            }
+        }
+        return FALSE;
     }
 }
