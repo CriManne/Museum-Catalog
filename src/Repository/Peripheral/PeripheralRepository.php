@@ -96,7 +96,9 @@ class PeripheralRepository extends GenericRepository {
     public function selectByModelName(string $ModelName): ?Peripheral {
         $query = "SELECT * FROM peripheral p
             INNER JOIN genericobject g ON g.ObjectID = p.ObjectID 
-            WHERE ModelName LIKE Concat('%',:ModelName,'%')";
+            WHERE ModelName LIKE :ModelName";
+        
+        $ModelName = '%'.$ModelName.'%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);

@@ -108,7 +108,9 @@ class ComputerRepository extends GenericRepository {
     public function selectByModelName(string $ModelName): ?Computer {
         $query = "SELECT * FROM computer b
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
-            WHERE ModelName LIKE Concat('%',:ModelName,'%')";
+            WHERE ModelName LIKE :ModelName";
+
+        $ModelName = '%'.$ModelName.'%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);

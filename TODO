@@ -4,6 +4,7 @@
 
 - REFACTOR CODE, FIX COPY AND PASTE TYPOS AND RENAME $s PARAMETERS AND REMOVE UNUSED IMPORTS
 
+- REMOVE UNUSED IMPORTS
 
 - ADD MONOLOG: handle two level of logging: minimum (just employees logs), max (every controller log)
   Add page in the admin dashboard to choose between the two modes and to open a file of logs.
@@ -24,8 +25,6 @@
 - CHECK FORMATTING AND THE ERRORS MADE IN THE OTHER PROJECTS
 
 - REMOVE GET COUNT METHOD FROM USER
-
-- REMOVE CONCAT FUNCTION AND PASS THE CONCATENATED VALUE
 
 - REMOVE DEBUG CONTAINERS IN PAGES
 

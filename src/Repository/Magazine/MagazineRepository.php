@@ -98,7 +98,9 @@ class MagazineRepository extends GenericRepository {
     public function selectByTitle(string $Title): ?Magazine {
         $query = "SELECT * FROM magazine b
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
-            WHERE Title LIKE Concat('%',:Title,'%')";
+            WHERE Title LIKE :Title";
+
+        $Title = '%'.$Title.'%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Title", $Title, PDO::PARAM_STR);

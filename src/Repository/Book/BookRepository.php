@@ -109,7 +109,9 @@ class BookRepository extends GenericRepository {
     public function selectByTitle(string $Title): ?Book {
         $query = "SELECT * FROM book b
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
-            WHERE Title LIKE Concat('%',:Title,'%')";
+            WHERE Title LIKE :Title";
+
+        $Title = '%'.$Title.'%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Title", $Title, PDO::PARAM_STR);
