@@ -63,7 +63,7 @@ class LoginController extends ControllerUtil implements ControllerInterface {
             return new Response(
                 200,
                 [],
-                $this->plates->render('public::login',['error'=>$e->getMessage()])
+                $this->plates->render('public::login',['error'=>$e->getMessage(),'title'=>"Login"])
             );
         }
     }

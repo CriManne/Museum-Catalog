@@ -1,6 +1,6 @@
 <?php
 
-$this->layout('layouts::homepage', ['title' => 'Login']);
+$this->layout('layouts::homepage', ['title' => $title]);
 ?>
 <div id="layoutAuthentication" class="p-5">
     <div id="layoutAuthentication_content">

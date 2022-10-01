@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::dashboard_layout', ['title' => 'Componenti', 'user' => $user]) ?>
+<?php $this->layout('layouts::dashboard_layout', ['title' => $title, 'user' => $user]) ?>
 
 <style>
     .table-scrollable {

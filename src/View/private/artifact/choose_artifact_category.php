@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::dashboard_layout', ['title' => 'Scegli una categoria', 'user' => $user]) ?>
+<?php $this->layout('layouts::dashboard_layout', ['title' => $title, 'user' => $user]) ?>
 <div class="container d-flex flex-column align-items-center my-5 p-2 gap-5">
     <h3 class="text-center">Scegli una categoria di reperto</h3>
 

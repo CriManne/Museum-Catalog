@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::homepage', ['title' => "MuPIn - Museo Piemontese dell'Informatica"]) ?>
+<?php $this->layout('layouts::homepage', ['title' => $title]) ?>
 
 <!-- Header - set the background image for the header in the line below-->
 <header class=" my-5 py-5 bg-image-full d-flex align-items-center" style="background-image: url('/assets/turin-italy.avif');background-repeat: no-repeat; background-attachment: fixed; background-position: center -50px; height:50vh; ">

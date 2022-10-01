@@ -21,7 +21,7 @@ class HomeController implements ControllerInterface {
         return new Response(
             200,
             [],
-            $this->plates->render('public::home')
+            $this->plates->render('public::home',['title'=>"MuPIn - Museo Piemontese dell'Informatica"])
         );
     }
 }
