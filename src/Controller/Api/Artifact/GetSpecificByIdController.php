@@ -32,6 +32,7 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
         $category = $params["category"] ?? null;
 
         if (!$id || !$category) {
+            $this->api_log->info("Id or category not set",[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
@@ -42,12 +43,14 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
         try {
             $obj = $this->artifactSearchEngine->selectSpecificByIdAndCategory($id, $category);
 
+            $this->api_log->info("Successfull get of specific artifact by id",[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 200,
                 [],
                 json_encode($obj)
             );
         } catch (ServiceException $e) {
+            $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 404,
                 [],
