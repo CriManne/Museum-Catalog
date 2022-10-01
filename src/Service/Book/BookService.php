@@ -27,6 +27,10 @@ class BookService {
         if ($book)
             throw new ServiceException("Book title already used!");
 
+        $book = $this->bookRepository->selectById($b->ObjectID);
+        if ($book)
+            throw new ServiceException("Object ID already used!");
+
         $this->bookRepository->insert($b);
     }
 

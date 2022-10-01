@@ -301,7 +301,7 @@ class BookRepository extends GenericRepository {
             $this->publisherRepository->selectById(intval($rawBook["PublisherID"])),
             intval($rawBook["Year"]),
             $rawBook["ISBN"] ?? null,
-            $rawBook["Pages"] ? intval($rawBook["Pages"]) : null,
+            isset($rawBook["Pages"]) ? intval($rawBook["Pages"]) : null,
             $authors
         );
     }

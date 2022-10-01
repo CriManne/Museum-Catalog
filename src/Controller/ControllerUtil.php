@@ -23,7 +23,7 @@ class ControllerUtil {
      */
     protected Logger $pages_log;
 
-    public function __construct(?Engine $plates) {
+    public function __construct(?Engine $plates=null) {
         if ($plates) {
             $this->plates = $plates;
         }
