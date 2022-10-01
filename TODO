@@ -1,9 +1,5 @@
 - COMMENT EVERYTHING AND CHECK OLD COMMENTS
 
-- BACKEND HANDLES PLATES TITLE
-
-- Check nullable fields
-
 - add comments to controllers
 
 - IN SERVICES AND OTHERS CHANGE if(* == null) to if(!*)

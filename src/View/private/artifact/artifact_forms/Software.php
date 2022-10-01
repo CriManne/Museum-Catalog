@@ -22,23 +22,6 @@
         <option value="" hidden selected>Seleziona un supporto</option>
     </select>
 </div>
-<div class="form-outline mb-4">
-    <label class="form-label" for="Note">Note</label>
-    <textarea class="form-control" name="Note" id="Note" rows="3"></textarea>
-</div>
-<div class="form-outline mb-4">
-    <label class="form-label" for="Url">URL</label>
-    <input type="text" name="Url" id="Url" class="form-control" />
-</div>
-<div class="form-outline mb-4">
-    <label class="form-label" for="Tag">Tag</label>
-    <input type="text" name="Tag" id="Tag" class="form-control" />
-</div>
-<div class="form-outline mb-4" id="images-outer-container"></div>
-<div class="mb-3">
-    <label for="images" class="form-label">Immagini del reperto</label>
-    <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">
-</div>
 <input type='hidden' name='category' value='Software'>
 
 <?php $this->push('scripts_inner') ?>

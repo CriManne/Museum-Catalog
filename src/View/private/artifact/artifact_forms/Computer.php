@@ -5,8 +5,8 @@
     <input type="text" name="ModelName" id="ModelName" class="form-control" required />
 </div>
 <div class="form-outline mb-4">
-    <label class="form-label" for="HddSize">Dimensioni hard dirsk</label>
-    <input type="text" name="HddSize" id="HddSize" class="form-control" required />
+    <label class="form-label" for="HddSize">Dimensioni hard disk</label>
+    <input type="text" name="HddSize" id="HddSize" class="form-control" />
 </div>
 <div class="form-outline mb-4">
     <label class="form-label" for="Year">Anno</label>
@@ -26,26 +26,9 @@
 </div>
 <div class="form-outline mb-4">
     <label class="form-label" for="OsID">Sistema operativo</label>
-    <select id="OsID" name="OsID" class="form-select" aria-label="Seleziona un sistema operativo" required>
+    <select id="OsID" name="OsID" class="form-select" aria-label="Seleziona un sistema operativo">
         <option value="" hidden selected>Seleziona il sistema operativo</option>
     </select>
-</div>
-<div class="form-outline mb-4">
-    <label class="form-label" for="Note">Note</label>
-    <textarea class="form-control" name="Note" id="Note" rows="3"></textarea>
-</div>
-<div class="form-outline mb-4">
-    <label class="form-label" for="Url">URL</label>
-    <input type="text" name="Url" id="Url" class="form-control" />
-</div>
-<div class="form-outline mb-4">
-    <label class="form-label" for="Tag">Tag</label>
-    <input type="text" name="Tag" id="Tag" class="form-control" />
-</div>
-<div class="form-outline mb-4" id="images-outer-container"></div>
-<div class="mb-3">
-    <label for="images" class="form-label">Immagini del reperto</label>
-    <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">
 </div>
 <input type='hidden' name='category' value='Computer'>
 
