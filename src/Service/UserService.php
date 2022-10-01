@@ -49,8 +49,8 @@ class UserService {
      * @return User     The user selected
      * @throws ServiceException     If no user is found
      */
-    public function selectByCredentials(string $Email, string $Password, bool $isAdmin = null): User {
-        $user = $this->userRepository->selectByCredentials($Email, $Password, $isAdmin);
+    public function selectByCredentials(string $Email, string $Password): User {
+        $user = $this->userRepository->selectByCredentials($Email, $Password);
         if (is_null($user)) throw new ServiceException("User not found");
 
         return $user;

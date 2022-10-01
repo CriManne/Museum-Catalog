@@ -59,15 +59,10 @@ class UserRepository extends GenericRepository {
      * Select a user with his credentials
      * @param string $Email     The Email of the user
      * @param string $Password  The Password of the user
-     * @param bool $isAdmin     If set it will select only admins if true, only normal users otherwise
      * @return ?User            The user selected, null if not found         * 
      */
-    public function selectByCredentials(string $Email, string $Password, bool $isAdmin = null): ?User {
+    public function selectByCredentials(string $Email, string $Password): ?User {
         $query = "SELECT * FROM user WHERE BINARY Email = :Email AND BINARY Password = :Password";
-
-        if (isset($isAdmin)) {
-            $query .= " AND Privilege = " . ($isAdmin ? "1" : "0");
-        }
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Email", $Email, PDO::PARAM_STR);

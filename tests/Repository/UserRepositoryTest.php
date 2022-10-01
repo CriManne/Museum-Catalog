@@ -72,27 +72,10 @@ final class UserRepositoryTest extends TestCase
     {
         $this->assertNull(self::$userRepository->selectByCredentials("wrong@gmail.com","wrong"));
     }
-    
-    public function testGoodSelectByCredentialsOnlyAdminIsAdminTrue(): void
-    {
-        $this->assertNotNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin",true));
-    }
 
-    public function testGoodSelectByCredentialsOnlyAdminIsAdminFalse(): void
-    {
-        $user = new User('testemail2@gmail.com','pwd','Bob','Dylan',0);
-        self::$userRepository->insert($user);
-
-        $this->assertNotNull(self::$userRepository->selectByCredentials("testemail2@gmail.com","pwd",false));
-    }
 
     public function testBadSelectByCredentialsCaseSensitive():void{
-        $this->assertNull(self::$userRepository->selectByCredentials("testemail@gmail.com","ADMIN",true));
-    }
-    
-    public function testBadSelectByCredentialsOnlyAdmin(): void
-    {   
-        $this->assertNull(self::$userRepository->selectByCredentials("testemail@gmail.com","admin",false));
+        $this->assertNull(self::$userRepository->selectByCredentials("testemail@gmail.com","ADMIN"));
     }
     
     public function testGoodSelectAll():void{
