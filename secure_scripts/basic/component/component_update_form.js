@@ -4,7 +4,6 @@ const urlImageDelete = '/api/images/delete';
 $(document).ready(function(){
     $("component-form").on("reset",function(e){
         e.preventDefault();        
-        fillUpdateForm();
     });
 });
 

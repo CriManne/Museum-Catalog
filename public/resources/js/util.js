@@ -18,6 +18,17 @@ function createAlert(response, container = "#alert-container") {
     });
 }
 
+function createStaticAlert(response, container = "#alert-container") {
+    $("html, body").animate({
+        scrollTop: 0
+    }, 50);
+    $(container).prepend(
+        '<div class="alert alert-'+(response.status == "200" ? "success" : "danger")+' alert-dismissible fade show" role="alert" id="alert">' +
+        '<p><strong>' + (response.status == "200" ? "Success!" : "Error!") + '</strong></p>' + response.message +
+        '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
+    );
+}
+
 //Make a request and return a json response
 function makeRequest(url, method = 'GET', headers = [], params = [],dataType = "text") {
     var returnData = {};

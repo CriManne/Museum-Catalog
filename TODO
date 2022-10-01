@@ -1,6 +1,19 @@
 - If a component is deleted (softly) it cant be recreated because it will throw a duplicated name error.
 Solution: add Erased field and show it in the table when visualizing it
 
+- COMMENT EVERYTHING AND CHECK OLD COMMENTS
+
+- ON UPDATE NOT SELECTING THE SELECT IF THE FK IS ERASED
+
+- COMPONENTS FK CHECK
+
+- BACKEND HANDLES PLATES TITLE
+
+- MAKE A DIVISION BTW HIDE AND DELETE
+
+IF HIDE SET ERASED TO NOT NULL
+IF DELETE TRY TO DELETE BUT IF THERE ARE ANY RECORDS WITH THAT FK DISPLAY ERROR
+
 - nest add_user and admin views so it cant be reached with ?page=add_user
 
 - Check nullable fields

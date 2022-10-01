@@ -14,10 +14,7 @@
 <div id="main-container" class="d-none">
     <form id='artifact-search-form'>
         <h3>Visualizza reperti</h3>
-        <div class="input-group mb-3">
-            <select id="template" style="display:none;">
-                <option id="templateOption"></option>
-            </select>
+        <div class="input-group mb-3">            
             <select class="input-select" id="category-select">
                 <option selected value="">Tutte le categorie</option>
             </select>

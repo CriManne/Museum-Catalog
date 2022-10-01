@@ -1,4 +1,4 @@
-<?php $this->layout('layouts::dashboard_layout', ['title' => 'Componenti','user'=>$user]) ?>
+<?php $this->layout('layouts::dashboard_layout', ['title' => 'Componenti', 'user' => $user]) ?>
 
 <style>
     .table-scrollable {
@@ -17,11 +17,7 @@
     <form id='component-search-form'>
         <h3>Visualizza componenti</h3>
         <div class="input-group mb-3">
-            <select id="template" style="display:none;">
-                <option id="templateOption"></option>
-            </select>
-            <select class="input-select" id="category-select">                
-            </select>
+            <select class="input-select" id="category-select"></select>
             <input type="text" class="form-control" placeholder="Search components" aria-label="Artifact's search" id="component-search">
             <input type='submit' class='btn btn-primary'>
         </div>
