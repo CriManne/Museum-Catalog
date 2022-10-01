@@ -34,8 +34,6 @@
 </section>
 <div class="alert alert-danger d-none" role="alert" id="error-alert"></div>
 
-<div id="debug-container"></div>
-
 <?php $this->push('scripts') ?>
 <script src="/resources/js/util.js"></script>
 <script src="/resources/js/view_single_artifact.js"></script>
