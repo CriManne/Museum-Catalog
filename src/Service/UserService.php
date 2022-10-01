@@ -37,7 +37,7 @@ class UserService {
      */
     public function selectById(string $email): User {
         $user = $this->userRepository->selectById($email);
-        if ($user == null) throw new ServiceException("User not found");
+        if (is_null($user)) throw new ServiceException("User not found");
 
         return $user;
     }
@@ -51,7 +51,7 @@ class UserService {
      */
     public function selectByCredentials(string $Email, string $Password, bool $isAdmin = null): User {
         $user = $this->userRepository->selectByCredentials($Email, $Password, $isAdmin);
-        if ($user == null) throw new ServiceException("User not found");
+        if (is_null($user)) throw new ServiceException("User not found");
 
         return $user;
     }
@@ -79,8 +79,10 @@ class UserService {
      * @throws RepositoryException If the update fails
      */
     public function update(User $u): void {
-        if ($this->userRepository->selectById($u->Email) == null)
+        $user = $this->userRepository->selectById($u->Email);
+        if (is_null($user)){
             throw new ServiceException("User not found!");
+        }
 
         $this->userRepository->update($u);
     }
@@ -93,8 +95,9 @@ class UserService {
      */
     public function delete(string $email): void {
         $user = $this->userRepository->selectById($email);
-        if ($user == null)
+        if (is_null($user)){
             throw new ServiceException("User not found!");
+        }
 
         $this->userRepository->delete($email);
     }

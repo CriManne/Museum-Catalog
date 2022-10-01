@@ -38,7 +38,9 @@ class MagazineService {
      */
     public function selectById(string $id): Magazine {
         $magazine = $this->magazineRepository->selectById($id);
-        if ($magazine == null) throw new ServiceException("Magazine not found");
+        if (is_null($magazine)){
+            throw new ServiceException("Magazine not found");
+        } 
 
         return $magazine;
     }
@@ -51,7 +53,9 @@ class MagazineService {
      */
     public function selectByTitle(string $Title): Magazine {
         $magazine = $this->magazineRepository->selectByTitle($Title);
-        if ($magazine == null) throw new ServiceException("Magazine not found");
+        if (is_null($magazine)){
+            throw new ServiceException("Magazine not found");
+        } 
 
         return $magazine;
     }
@@ -80,8 +84,11 @@ class MagazineService {
      * @throws RepositoryException If the update fails
      */
     public function update(Magazine $m): void {
-        if ($this->magazineRepository->selectById($m->ObjectID) == null)
+        $mag = $this->magazineRepository->selectById($m->ObjectID);
+        
+        if (is_null($mag)){
             throw new ServiceException("Magazine not found!");
+        }            
 
         $this->magazineRepository->update($m);
     }
@@ -94,8 +101,10 @@ class MagazineService {
      */
     public function delete(string $id): void {
         $m = $this->magazineRepository->selectById($id);
-        if ($m == null)
+        
+        if (is_null($m)){
             throw new ServiceException("Magazine not found!");
+        }
 
         $this->magazineRepository->delete($id);
     }

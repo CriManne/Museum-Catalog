@@ -38,7 +38,9 @@ class SoftwareService {
      */
     public function selectById(string $id): Software {
         $software = $this->softwareRepository->selectById($id);
-        if ($software == null) throw new ServiceException("Software not found");
+        if (is_null($software)){
+            throw new ServiceException("Software not found");
+        } 
 
         return $software;
     }
@@ -51,7 +53,9 @@ class SoftwareService {
      */
     public function selectByTitle(string $title): Software {
         $software = $this->softwareRepository->selectByTitle($title);
-        if ($software == null) throw new ServiceException("Software not found");
+        if (is_null($software)){
+            throw new ServiceException("Software not found");
+        } 
 
         return $software;
     }
@@ -80,8 +84,11 @@ class SoftwareService {
      * @throws RepositoryException If the update fails
      */
     public function update(Software $s): void {
-        if ($this->softwareRepository->selectById($s->ObjectID) == null)
+        $soft = $this->softwareRepository->selectById($s->ObjectID);
+        
+        if (is_null($soft)){
             throw new ServiceException("Software not found!");
+        }            
 
         $this->softwareRepository->update($s);
     }
@@ -94,8 +101,9 @@ class SoftwareService {
      */
     public function delete(string $id): void {
         $s = $this->softwareRepository->selectById($id);
-        if ($s == null)
+        if (is_null($s)){
             throw new ServiceException("Software not found!");
+        }
 
         $this->softwareRepository->delete($id);
     }

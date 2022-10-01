@@ -38,7 +38,10 @@ class PeripheralService {
      */
     public function selectById(string $id): Peripheral {
         $peripheral = $this->peripheralRepository->selectById($id);
-        if ($peripheral == null) throw new ServiceException("Peripheral not found");
+        
+        if (is_null($peripheral)){
+            throw new ServiceException("Peripheral not found");
+        } 
 
         return $peripheral;
     }
@@ -51,7 +54,9 @@ class PeripheralService {
      */
     public function selectByModelName(string $ModelName): Peripheral {
         $peripheral = $this->peripheralRepository->selectByModelName($ModelName);
-        if ($peripheral == null) throw new ServiceException("Peripheral not found");
+        if (is_null($peripheral)){
+            throw new ServiceException("Peripheral not found");
+        } 
 
         return $peripheral;
     }
@@ -80,8 +85,10 @@ class PeripheralService {
      * @throws RepositoryException If the update fails
      */
     public function update(Peripheral $p): void {
-        if ($this->peripheralRepository->selectById($p->ObjectID) == null)
+        $per = $this->peripheralRepository->selectById($p->ObjectID);
+        if (is_null($per)){
             throw new ServiceException("Peripheral not found!");
+        }
 
         $this->peripheralRepository->update($p);
     }
@@ -94,8 +101,9 @@ class PeripheralService {
      */
     public function delete(string $id): void {
         $p = $this->peripheralRepository->selectById($id);
-        if ($p == null)
+        if (is_null($p)){
             throw new ServiceException("Peripheral not found!");
+        }
 
         $this->peripheralRepository->delete($id);
     }

@@ -38,7 +38,9 @@ class BookService {
      */
     public function selectById(string $id): Book {
         $book = $this->bookRepository->selectById($id);
-        if ($book == null) throw new ServiceException("Book not found");
+        if (is_null($book)){
+            throw new ServiceException("Book not found");
+        } 
 
         return $book;
     }
@@ -51,7 +53,9 @@ class BookService {
      */
     public function selectByTitle(string $title): Book {
         $book = $this->bookRepository->selectByTitle($title);
-        if ($book == null) throw new ServiceException("Book not found");
+        if (is_null($book)){
+            throw new ServiceException("Book not found");
+        }
 
         return $book;
     }
@@ -80,8 +84,10 @@ class BookService {
      * @throws RepositoryException If the update fails
      */
     public function update(Book $b): void {
-        if ($this->bookRepository->selectById($b->ObjectID) == null)
+        $book = $this->bookRepository->selectById($b->ObjectID);
+        if (is_null($book)){
             throw new ServiceException("Book not found!");
+        }
 
         $this->bookRepository->update($b);
     }
@@ -94,8 +100,9 @@ class BookService {
      */
     public function delete(string $id): void {
         $b = $this->bookRepository->selectById($id);
-        if ($b == null)
+        if (is_null($b)){
             throw new ServiceException("Book not found!");
+        }
 
         $this->bookRepository->delete($id);
     }

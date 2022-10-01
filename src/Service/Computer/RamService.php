@@ -38,7 +38,9 @@ class RamService {
      */
     public function selectById(int $id): Ram {
         $ram = $this->ramRepository->selectById($id);
-        if ($ram == null) throw new ServiceException("Ram not found");
+        if (is_null($ram)){
+            throw new ServiceException("Ram not found");
+        } 
 
         return $ram;
     }
@@ -51,7 +53,9 @@ class RamService {
      */
     public function selectByName(string $name): Ram {
         $ram = $this->ramRepository->selectByName($name);
-        if ($ram == null) throw new ServiceException("Ram not found");
+        if (is_null($ram)){
+            throw new ServiceException("Ram not found");
+        } 
 
         return $ram;
     }
@@ -80,8 +84,10 @@ class RamService {
      * @throws RepositoryException If the update fails
      */
     public function update(Ram $r): void {
-        if ($this->ramRepository->selectById($r->RamID) == null)
+        $ram = $this->ramRepository->selectById($r->RamID);
+        if (is_null($ram)){
             throw new ServiceException("Ram not found!");
+        }
 
         $this->ramRepository->update($r);
     }
@@ -94,8 +100,9 @@ class RamService {
      */
     public function delete(int $id): void {
         $r = $this->ramRepository->selectById($id);
-        if ($r == null)
+        if (is_null($r)){
             throw new ServiceException("Ram not found!");
+        }
 
         $this->ramRepository->delete($id);
     }

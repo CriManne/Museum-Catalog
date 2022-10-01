@@ -63,7 +63,7 @@ function makeRequest(url, method, headers = [], params = []) {
 
 function fillSelect(data) {
 
-    if (data == null) {
+    if (!data) {
         alert("ERROR");
     } else {
         data.forEach(function(elem) {

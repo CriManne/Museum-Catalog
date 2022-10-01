@@ -38,7 +38,9 @@ class CpuService {
      */
     public function selectById(int $id): Cpu {
         $cpu = $this->cpuRepository->selectById($id);
-        if ($cpu == null) throw new ServiceException("Cpu not found");
+        if (is_null($cpu)){
+            throw new ServiceException("Cpu not found");
+        } 
 
         return $cpu;
     }
@@ -51,7 +53,9 @@ class CpuService {
      */
     public function selectByName(string $name): Cpu {
         $cpu = $this->cpuRepository->selectByName($name);
-        if ($cpu == null) throw new ServiceException("Cpu not found");
+        if (is_null($cpu)){
+            throw new ServiceException("Cpu not found");
+        } 
 
         return $cpu;
     }
@@ -80,8 +84,10 @@ class CpuService {
      * @throws RepositoryException If the update fails
      */
     public function update(Cpu $c): void {
-        if ($this->cpuRepository->selectById($c->CpuID) == null)
+        $cpu = $this->cpuRepository->selectById($c->CpuID);
+        if (is_null($cpu)){
             throw new ServiceException("Cpu not found!");
+        }
 
         $this->cpuRepository->update($c);
     }
@@ -94,8 +100,9 @@ class CpuService {
      */
     public function delete(int $id): void {
         $c = $this->cpuRepository->selectById($id);
-        if ($c == null)
+        if (is_null($c)){
             throw new ServiceException("Cpu not found!");
+        }
 
         $this->cpuRepository->delete($id);
     }
