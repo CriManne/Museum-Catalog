@@ -42,9 +42,14 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
         $category = $params["category"] ?? null;
 
         /**
-         * Get the list of artifact's categories
+         * Get the list of components's categories
          */
-        $categories = ComponentsListController::$categories;
+        $Componentscategories = ComponentsListController::$categories;
+
+        /**
+         * Get the list of artifacts's categories
+         */
+        $Artifactscategories = ArtifactsListController::$categories;
 
         /**
          * Return bad request response if no category is set or a wrong one
@@ -53,7 +58,7 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
 
         if(!$category){
             $error_message = "No category set!";
-        }else if(!in_array($category,$categories)){
+        }else if(!in_array($category,$Componentscategories)){
             $error_message = "Category not found!";
         }else if(!$id){
             $error_message = "No id set!";
@@ -70,7 +75,7 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
             );
         }
 
-        foreach ($categories as $genericCategory) {
+        foreach ($Artifactscategories as $genericCategory) {
             //Service full path
             $servicePath = "App\\Service\\$genericCategory\\$category" . "Service";
 

@@ -38,7 +38,15 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         $query = $params["q"] ?? null;
         $category = $params["category"] ?? null;
 
-        $categories = ComponentsListController::$categories;
+        /**
+         * Get the list of components's categories
+         */
+        $Componentscategories = ComponentsListController::$categories;
+
+        /**
+         * Get the list of artifacts's categories
+         */
+        $Artifactscategories = ComponentsListController::$categories;
 
         $result = [];
 
@@ -50,7 +58,7 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
 
         if(!$category){
             $error_message = "No category set!";
-        }else if(!in_array($category,$categories)){
+        }else if(!in_array($category,$Componentscategories)){
             $error_message = "Category not found!";
         }
 

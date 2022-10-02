@@ -45,7 +45,15 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
         $category = $params["category"] ?? null;
         $id = $params["id"] ?? null;
 
-        $categories = ComponentsListController::$categories;
+        /**
+         * Get the list of components's categories
+         */
+        $Componentscategories = ComponentsListController::$categories;
+
+        /**
+         * Get the list of artifacts's categories
+         */
+        $Artifactscategories = ArtifactsListController::$categories;
 
         $error_message = null;
 
@@ -55,7 +63,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             $error_message = "No id set!";
         }else if(!is_numeric($id)){
             $error_message = "Id must be numeric!";
-        }else if(!in_array($category,$categories)){
+        }else if(!in_array($category,$Componentscategories)){
             $error_message = "Category not found!";
         }
 
@@ -68,7 +76,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             );
         }
 
-        foreach ($categories as $genericCategory) {
+        foreach ($Artifactscategories as $genericCategory) {
             //Service full path
             $servicePath = "App\\Service\\$genericCategory\\$category" . "Service";
 

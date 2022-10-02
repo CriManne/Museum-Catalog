@@ -51,9 +51,14 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
         $category = $params["category"] ?? null;
 
         /**
-         * Get the list of artifact's categories
+         * Get the list of components's categories
          */
-        $categories = ComponentsListController::$categories;
+        $Componentscategories = ComponentsListController::$categories;
+
+        /**
+         * Get the list of artifacts's categories
+         */
+        $Artifactscategories = ArtifactsListController::$categories;
 
         /**
          * Return bad request response if no category is set or a wrong one
@@ -62,7 +67,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
 
         if(!$category){
             $error_message = "No category set!";
-        }else if(!in_array($category,$categories)){
+        }else if(!in_array($category,$Componentscategories)){
             $error_message = "Category not found!";
         }
 
@@ -75,7 +80,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
             );
         }
 
-        foreach ($categories as $genericCategory) {
+        foreach ($Artifactscategories as $genericCategory) {
             //Class full path
             $classPath = "App\\Model\\$genericCategory\\$category";
             //Service full path
