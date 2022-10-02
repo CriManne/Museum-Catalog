@@ -15,6 +15,9 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
+/**
+ * Middleware to check if the request is made from an employee
+ */
 class BasicAuthController extends ControllerUtil implements ControllerInterface {
 
     protected UserService $userService;
@@ -25,9 +28,9 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        $requestUrl = $request->getRequestTarget();
+        $requestedUrl = $request->getRequestTarget();
         $error_message = "";
-        if (explode('/', $requestUrl)[1] == 'api') {
+        if (str_contains($requestedUrl,'api')) {
             $error_message = $this->getResponse("Unauthorized access", 401);
         } else {
             $error_message = $this->displayError("Unauthorized access",401);

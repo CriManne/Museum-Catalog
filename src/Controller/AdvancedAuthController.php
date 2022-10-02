@@ -10,13 +10,16 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
+/**
+ * Middleware to check if the request is made from an administrator
+ */
 class AdvancedAuthController extends ControllerUtil implements ControllerInterface {
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         if (!isset($_SESSION['privilege']) || $_SESSION['privilege'] !== 1) {
-            $requestUrl = $request->getRequestTarget();
+            $requestedUrl = $request->getRequestTarget();
             $error_message = "";
-            if (explode('/', $requestUrl)[1] == 'api') {
+            if (str_contains($requestedUrl,'api')) {
                 $error_message = $this->getResponse("Unauthorized access", 401);
             } else {
                 $error_message = $this->displayError("Unauthorized access",401);

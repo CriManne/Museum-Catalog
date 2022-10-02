@@ -12,7 +12,17 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-class CheckDBConnectionController extends ControllerUtil implements ControllerInterface {
+/**
+ * Controller used as middleware to check the db connection in those
+ * controllers that aren't using a db connected class
+ */
+class CheckDBConnectionController implements ControllerInterface {
+
+    /**
+     * PDO object
+     * @var PDO
+     */
+    protected PDO $pdo;
 
     public function __construct(PDO $pdo) {
         $this->pdo = $pdo;
