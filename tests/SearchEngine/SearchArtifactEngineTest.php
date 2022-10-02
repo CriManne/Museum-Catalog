@@ -134,7 +134,7 @@ final class ArtifactSearchEngineTest extends TestCase
         $obj = self::$artifactSearchEngine->selectGenericById("OBJ1");
         $this->assertEquals(
             [
-                "Year" => "2018",
+                "Year" => 2018,
                 "Hdd size" => "1TB",
                 "Cpu" => "I7 4GHZ",
                 "Ram" => "Ram 1 64GB",

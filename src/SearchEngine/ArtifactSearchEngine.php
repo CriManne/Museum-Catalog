@@ -166,7 +166,7 @@ class ArtifactSearchEngine {
         }
 
         if(isset($obj->Os)){
-            $description["Os"] = $obj->Os;
+            $description["Os"] = $obj->Os->Name;
         }
 
         return new GenericArtifactResponse(
