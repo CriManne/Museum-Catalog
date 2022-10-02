@@ -41,14 +41,14 @@ try {
     $response = $app->dispatch(); // PSR-7 response
     $status_code = $response->getStatusCode();
     $error_message = $response->getReasonPhrase();
-
-    if ($status_code === 404 && $error_message === "Not found") {        
+    
+    if ($status_code === 404) {        
         $responseBody = null;
         
         if (str_contains($requestedUrl,'api')) {
             $responseBody = $util->getResponse($error_message, $status_code);
         } else {
-            $responseBody = $util->displayError($status_code, $error_message);
+            $responseBody = $util->displayError($error_message,$status_code);
         }
         $log->error($error_message, [$requestedUrl]);
         SapiEmitter::emit(new Response(
@@ -64,7 +64,7 @@ try {
     if (str_contains($requestedUrl,'api')) {
         $responseBody = $util->getResponse($e->getMessage(), 500);
     } else {
-        $responseBody = $util->displayError(500, $e->getMessage());
+        $responseBody = $util->displayError($e->getMessage(),500);
     }
     $log->error($e->getMessage(), [$requestedUrl]);
     SapiEmitter::emit(new Response(

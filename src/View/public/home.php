@@ -1,7 +1,8 @@
 <?php $this->layout('layouts::homepage', ['title' => $title]) ?>
 
-<?php $this->push("styles"); ?>
+<?php $this->push("inner_styles"); ?>
 <link rel="stylesheet" href="/resources/css/turin-image-container.css">
+<?php $this->end(); ?>
 
 <!-- Header - set the background image for the header in the line below-->
 <header class=" my-5 py-2 bg-image-full d-flex align-items-end turin-image w-75 mx-auto">

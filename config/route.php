@@ -9,16 +9,16 @@ return [
     /* PUBLIC AREA */
 
     //HOME PAGE
-    ['GET', '/', Controller\Pages\Public\HomeController::class],
+    ['GET', '/', [Controller\CheckDBConnectionController::class,Controller\Pages\Public\HomeController::class]],
 
     //LOGIN PAGE
-    [['GET', 'POST'], '/login', Controller\Pages\Public\LoginController::class],
+    [['GET', 'POST'], '/login', [Controller\CheckDBConnectionController::class,Controller\Pages\Public\LoginController::class]],
 
     //SINGLE ARTIFACT
-    ['GET', '/view_artifact', Controller\Pages\Public\Artifact\ArtifactController::class],
+    ['GET', '/view_artifact', [Controller\CheckDBConnectionController::class,Controller\Pages\Public\Artifact\ArtifactController::class]],
 
     //ALL THE ARTIFACTS 
-    ['GET', '/catalog', Controller\Pages\Public\Artifact\ArtifactsController::class],
+    ['GET', '/catalog', [Controller\CheckDBConnectionController::class,Controller\Pages\Public\Artifact\ArtifactsController::class]],
 
     // ______________________________________________________ //
 
@@ -91,10 +91,10 @@ return [
     ['DELETE', '/api/artifact/delete', [Controller\BasicAuthController::class, Controller\Api\Artifact\DeleteController::class]],
 
     //SELECT GENERIC ARTIFACT BY ID AND CATEGORY
-    ['GET', '/api/generic/artifact', Controller\Api\Artifact\GetGenericByIdController::class],
+    ['GET', '/api/generic/artifact', [Controller\CheckDBConnectionController::class,Controller\Api\Artifact\GetGenericByIdController::class]],
 
     //SELECT ALL GENERIC ARTIFACTS OR BY QUERY | BY CATEGORY
-    ['GET', '/api/generic/artifacts', Controller\Api\Artifact\GetGenericsController::class],
+    ['GET', '/api/generic/artifacts', [Controller\CheckDBConnectionController::class,Controller\Api\Artifact\GetGenericsController::class]],
 
     //SELECT SPECIFIC ARTIFACT BY ID
     ['GET', '/api/specific/artifact', [Controller\BasicAuthController::class, Controller\Api\Artifact\GetSpecificByIdController::class]],
@@ -141,10 +141,10 @@ return [
     ['GET', '/api/adv/scripts', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\Scripts\AdvScriptsController::class]],
 
     //GET ALL THE ARTIFACT'S CATEGORIES
-    ['GET', '/api/list/artifacts', Controller\Api\ArtifactsListController::class],
+    ['GET', '/api/list/artifacts', [Controller\CheckDBConnectionController::class,Controller\Api\ArtifactsListController::class]],
 
     //GET ALL THE COMPONENTS'S CATEGORIES
-    ['GET', '/api/list/components', Controller\Api\ComponentsListController::class],
+    ['GET', '/api/list/components', [Controller\CheckDBConnectionController::class,Controller\Api\ComponentsListController::class]],
 
     /* /MISC */
 
