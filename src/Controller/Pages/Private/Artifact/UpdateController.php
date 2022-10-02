@@ -9,6 +9,7 @@ use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\SearchEngine\ArtifactSearchEngine;
 use App\Service\UserService;
+use DI\ContainerBuilder;
 use Exception;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -22,11 +23,12 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
     public ArtifactSearchEngine $artifactSearchEngine;
 
     public function __construct(
+        ContainerBuilder $builder,
         Engine $plates,
         UserService $userService,
         ArtifactSearchEngine $artifactSearchEngine
     ) {
-        parent::__construct($plates);
+        parent::__construct($builder,$plates);
         $this->userService = $userService;
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
@@ -38,24 +40,36 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
         $category = $params["category"] ?? null;
         $id = $params["id"] ?? null;
 
-        if (!$category || !$id) {
+        $error_message = null;
+
+        if(!$category){
+            $error_message = "No category set!";
+        }else if(!$id){
+            $error_message = "No id set!";
+        }
+
+        if ($error_message) {
+            $this->pages_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
-                $this->displayError(400, "Bad request!")
+                $this->displayError($error_message,400)
             );
         }
 
         if (!in_array($category, ArtifactsListController::$categories)) {
+            $error_message = "Category not found!";
+            $this->pages_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 404,
                 [],
-                $this->displayError(404, "Category not found!")
+                $this->displayError($error_message,404)
             );
         }
 
         $user = $this->userService->selectById($_SESSION['user_email']);
 
+        $this->pages_log->info("Successfull get page", [__CLASS__, $_SESSION['user_email']]);
         return new Response(
             200,
             [],

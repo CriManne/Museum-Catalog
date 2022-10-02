@@ -47,7 +47,7 @@ class ControllerUtil {
         return json_encode(["status" => $status, "message" => $message]);
     }
 
-    public function displayError(int $error_code, string $error_message): string {
+    public function displayError(string $error_message,int $error_code): string {
         return $this->plates->render('error::error', ['error_code' => $error_code, 'error_message' => $error_message]);
     }
 }
