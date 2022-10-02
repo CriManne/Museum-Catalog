@@ -22,7 +22,7 @@ class ViewComponentsController extends ControllerUtil implements ControllerInter
 {
     protected UserService $userService;
 
-    public function __construct(ContainerBuilder $builder,Engine $plates, UserService $userService)
+    public function __construct(Engine $plates, UserService $userService)
     {
         parent::__construct($plates);
         $this->userService = $userService;
