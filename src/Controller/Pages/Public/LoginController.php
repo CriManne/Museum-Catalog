@@ -11,6 +11,7 @@ use App\Exception\ServiceException;
 use App\Model\User;
 use App\Repository\UserRepository;
 use App\Service\UserService;
+use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -23,8 +24,8 @@ class LoginController extends ControllerUtil implements ControllerInterface {
 
     protected UserService $userService;
 
-    public function __construct(Engine $plates, UserService $userService) {
-        parent::__construct($plates);
+    public function __construct(ContainerBuilder $builder,Engine $plates, UserService $userService) {
+        parent::__construct($builder,$plates);
         $this->userService = $userService;
     }
 
@@ -38,6 +39,9 @@ class LoginController extends ControllerUtil implements ControllerInterface {
         $credentials = $request->getParsedBody();
 
         if (!$sessionValid && (!isset($credentials["submitLogin"]) || !isset($credentials["email"]) || !isset($credentials["password"]))) {            
+            if ($this->container->get('logging_level') === 1) {
+                $this->pages_log->info("Successfull get page", [__CLASS__]);
+            }
             return new Response(
                 200,
                 [],
@@ -62,6 +66,9 @@ class LoginController extends ControllerUtil implements ControllerInterface {
         } catch (ServiceException $e) {            
             unset($_SESSION);
             session_destroy();
+            if ($this->container->get('logging_level') === 1) {
+                $this->pages_log->info($e->getMessage(), [__CLASS__]);
+            }
             return new Response(
                 200,
                 [],

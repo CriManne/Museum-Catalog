@@ -27,7 +27,7 @@ class ArtifactsController extends ControllerUtil implements ControllerInterface 
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         if ($this->container->get('logging_level') === 1) {
-            $this->pages_log->info("Successfull get page", [__CLASS__, $_SESSION['user_email']]);
+            $this->pages_log->info("Successfull get page", [__CLASS__]);
         }
         return new Response(
             200,

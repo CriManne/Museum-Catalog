@@ -31,7 +31,7 @@ class ArtifactController extends ControllerUtil implements ControllerInterface {
         if (!isset($params['id'])) {
             $error_message = "No id set!";
             if ($this->container->get('logging_level') === 1) {
-                $this->pages_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
+                $this->pages_log->info($error_message, [__CLASS__]);
             }
             return new Response(
                 400,
@@ -41,7 +41,7 @@ class ArtifactController extends ControllerUtil implements ControllerInterface {
         }
 
         if ($this->container->get('logging_level') === 1) {
-            $this->pages_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
+            $this->pages_log->info("Successfull get page", [__CLASS__]);
         }
         return new Response(
             200,

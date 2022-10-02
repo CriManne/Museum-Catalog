@@ -1,0 +1,2 @@
+[2022-10-02T17:47:53.662025+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Public\\LoginController",null] []
+[2022-10-02T17:48:49.051484+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Public\\LoginController"] []
