@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 chdir(dirname(__DIR__));
@@ -8,6 +9,9 @@ use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
 use DI\ContainerBuilder;
 use League\Plates\Engine;
+use Monolog\Handler\StreamHandler;
+use Monolog\Level;
+use Monolog\Logger;
 use Nyholm\Psr7\Response;
 use SimpleMVC\App;
 use SimpleMVC\Emitter\SapiEmitter;
@@ -23,22 +27,49 @@ $container->set('config', $config);
 $app = new App($container, $config);
 $app->bootstrap();
 
-try{
+/**
+ * Util class that has response utility methods
+ */
+$util = new ControllerUtil($container->get(Engine::class));
+
+$requestedUrl = $app->getRequest()->getRequestTarget();
+
+$log = new Logger('app_log');
+$log->pushHandler(new StreamHandler("./logs/app_log.log", Level::Error));
+
+try {
     $response = $app->dispatch(); // PSR-7 response
-    SapiEmitter::emit($response);
-}catch(RepositoryException $e){    
-    $util = new ControllerUtil($container->get(Engine::class));    
-    $requestUrl = $app->getRequest()->getRequestTarget();    
-    $responseBody = null;
-    if(explode('/',$requestUrl)[1] == 'api'){
-        $responseBody = $util->getResponse($e->getMessage(),500);               
+    $status_code = $response->getStatusCode();
+
+    if ($status_code === 404) {
+        $error_message = $response->getReasonPhrase();
+        $responseBody = null;
+        
+        if (str_contains($requestedUrl,'api')) {
+            $responseBody = $util->getResponse($error_message, $status_code);
+        } else {
+            $responseBody = $util->displayError($status_code, $error_message);
+        }
+        $log->error($error_message, [$requestedUrl]);
+        SapiEmitter::emit(new Response(
+            $status_code,
+            [],
+            $responseBody
+        ));
     }else{
-        $responseBody = $util->displayError(500,$e->getMessage()); 
+        SapiEmitter::emit($response);
     }
+} catch (RepositoryException $e) {
+    $responseBody = null;
+    if (str_contains($requestedUrl,'api')) {
+        $responseBody = $util->getResponse($e->getMessage(), 500);
+    } else {
+        $responseBody = $util->displayError(500, $e->getMessage());
+    }
+    $log->error($e->getMessage(), [$requestedUrl]);
     SapiEmitter::emit(new Response(
         500,
         [],
         $responseBody
-    ));                
-    
+    ));
 }

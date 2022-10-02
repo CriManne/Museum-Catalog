@@ -1,0 +1,6 @@
+[2022-10-02T11:23:53.284305+02:00] app_log.ERROR: Cannot connect to database! [] []
+[2022-10-02T11:24:19.292560+02:00] app_log.ERROR: Cannot connect to database! ["/login"] []
+[2022-10-02T11:36:15.859424+02:00] app_log.ERROR: Not Found ["/loginweq"] []
+[2022-10-02T11:36:43.140445+02:00] app_log.ERROR: Cannot connect to database! ["/login"] []
+[2022-10-02T11:37:04.985565+02:00] app_log.ERROR: Not Found ["/api/loginasda"] []
+[2022-10-02T11:38:33.254394+02:00] app_log.ERROR: Not Found ["/api/loginasda"] []
