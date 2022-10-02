@@ -10,6 +10,7 @@ use App\Exception\ServiceException;
 use App\Model\User;
 use App\Repository\UserRepository;
 use App\Service\UserService;
+use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -20,8 +21,8 @@ use SimpleMVC\Response\HaltResponse;
 
 class ArtifactsController extends ControllerUtil implements ControllerInterface {
 
-    public function __construct(Engine $plates) {
-        parent::__construct($plates);
+    public function __construct(ContainerBuilder $builder, Engine $plates) {
+        parent::__construct($builder,$plates);        
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {       

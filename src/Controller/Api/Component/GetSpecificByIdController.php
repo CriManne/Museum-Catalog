@@ -21,17 +21,11 @@ use Throwable;
 
 class GetSpecificByIdController extends ControllerUtil implements ControllerInterface {
 
-    public ComponentSearchEngine $componentSearchEngine;
-    protected Container $container;
+    protected ComponentSearchEngine $componentSearchEngine;
 
-    public function __construct(
-        ComponentSearchEngine $componentSearchEngine,
-        ContainerBuilder $builder
-    ) {
-        parent::__construct();
+    public function __construct(ContainerBuilder $builder, ComponentSearchEngine $componentSearchEngine) {
+        parent::__construct($builder);
         $this->componentSearchEngine = $componentSearchEngine;
-        $builder->addDefinitions('config/container.php');
-        $this->container = $builder->build();
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {

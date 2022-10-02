@@ -34,13 +34,10 @@ use TypeError;
 
 class CreateController extends ControllerUtil implements ControllerInterface {
 
-    protected Container $container;
     protected ArtifactSearchEngine $artifactSearchEngine;
 
     public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine) {
-        parent::__construct();
-        $builder->addDefinitions('config/container.php');
-        $this->container = $builder->build();
+        parent::__construct($builder);
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
@@ -60,14 +57,14 @@ class CreateController extends ControllerUtil implements ControllerInterface {
          */
         $error_message = null;
 
-        if(!$category){
+        if (!$category) {
             $error_message = "No category set!";
-        }else if(!in_array($category, $categories)){
+        } else if (!in_array($category, $categories)) {
             $error_message = "Category not found!";
         }
 
         if ($error_message) {
-            $this->api_log->info($error_message,[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
@@ -105,7 +102,7 @@ class CreateController extends ControllerUtil implements ControllerInterface {
             UploadController::uploadFiles($instantiatedObject->ObjectID, 'images');
 
             $message = "$category inserted successfully!";
-            $this->api_log->info($message,[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
 
             return new Response(
                 200,
@@ -113,14 +110,14 @@ class CreateController extends ControllerUtil implements ControllerInterface {
                 $this->getResponse($message)
             );
         } catch (ServiceException $e) {
-            $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
                 $this->getResponse($e->getMessage(), 400)
             );
         } catch (Throwable $e) {
-            $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],

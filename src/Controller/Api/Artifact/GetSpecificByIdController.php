@@ -7,6 +7,7 @@ namespace App\Controller\Api\Artifact;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\SearchEngine\ArtifactSearchEngine;
+use DI\ContainerBuilder;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,12 +16,10 @@ use SimpleMVC\Response\HaltResponse;
 
 class GetSpecificByIdController extends ControllerUtil implements ControllerInterface {
 
-    public ArtifactSearchEngine $artifactSearchEngine;
+    protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(
-        ArtifactSearchEngine $artifactSearchEngine
-    ) {
-        parent::__construct();
+    public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine) {
+        parent::__construct($builder);        
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 

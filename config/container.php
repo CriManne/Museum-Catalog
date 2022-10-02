@@ -50,5 +50,5 @@ return [
      * LEVEL 0: minimum logging level, just employee operations and public failed operations (e.g.: artifact not found)
      * LEVEL 1: maximum logging level, every call to the controllers will be logged
      */
-    'logging_level'=>0
+    'logging_level'=>1
 ];

@@ -30,7 +30,7 @@ $app->bootstrap();
 /**
  * Util class that has response utility methods
  */
-$util = new ControllerUtil($container->get(Engine::class));
+$util = new ControllerUtil(new ContainerBuilder(),$container->get(Engine::class));
 
 $requestedUrl = $app->getRequest()->getRequestTarget();
 

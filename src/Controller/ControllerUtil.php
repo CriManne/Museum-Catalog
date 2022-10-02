@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use DI\Container;
+use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;
@@ -23,10 +25,17 @@ class ControllerUtil {
      */
     protected Logger $pages_log;
 
-    public function __construct(?Engine $plates=null) {
+    /**
+     * DI container
+     */
+    protected Container $container;
+
+    public function __construct(ContainerBuilder $builder,?Engine $plates=null) {
         if ($plates) {
             $this->plates = $plates;
         }
+        $builder->addDefinitions('config/container.php');
+        $this->container = $builder->build();
         $this->api_log = new Logger("api_log");
         $this->api_log->pushHandler(new StreamHandler("./logs/api_log.log",Level::Info));
 

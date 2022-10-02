@@ -34,4 +34,6 @@
 [2022-10-02T12:54:16.079111+02:00] api_log.INFO: Successfull get of specific component by id ["App\\Controller\\Api\\Component\\GetSpecificByIdController","admin"] []
 [2022-10-02T12:54:32.771944+02:00] api_log.INFO: Successfull get of specific component by id ["App\\Controller\\Api\\Component\\GetSpecificByIdController","admin"] []
 [2022-10-02T12:54:46.327373+02:00] api_log.INFO: Ram updated successfully! ["App\\Controller\\Api\\Component\\UpdateController","admin"] []
-[2022-10-02T12:54:46.606912+02:00] api_log.INFO: Successfull get of specific component by id ["App\\Controller\\Api\\Component\\GetSpecificByIdController","admin"] []
+[2022-10-02T12:54:46.606912+02:00] api_log.INFO: Successfull get of specific component by id ["App\\Controller\\Api\\Component\\GetSpecificByIdController","admin"] [][2022-10-02T15:49:05.994735+02:00] api_log.INFO: Returned successfully 0 images! ["App\\Controller\\Api\\Images\\GetController"] []
+[2022-10-02T15:49:42.058370+02:00] api_log.INFO: Successfull get of generic artifact by id ["App\\Controller\\Api\\Artifact\\GetGenericByIdController"] []
+[2022-10-02T15:49:42.316734+02:00] api_log.INFO: Returned successfully 0 images! ["App\\Controller\\Api\\Images\\GetController"] []

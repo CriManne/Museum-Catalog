@@ -12,6 +12,7 @@ use App\Model\Response\GenericArtifactResponse;
 use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
 use App\SearchEngine\ComponentSearchEngine;
+use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Monolog\Level;
 use Nyholm\Psr7\Response;
@@ -23,12 +24,10 @@ use SimpleMVC\Response\HaltResponse;
 
 class GetGenericsController extends ControllerUtil implements ControllerInterface {
 
-    public ComponentSearchEngine $componentSearchEngine;
+    protected ComponentSearchEngine $componentSearchEngine;
 
-    public function __construct(
-        ComponentSearchEngine $componentSearchEngine
-    ) {
-        parent::__construct();
+    public function __construct(ContainerBuilder $builder, ComponentSearchEngine $componentSearchEngine) {
+        parent::__construct($builder);
         $this->componentSearchEngine = $componentSearchEngine;
     }
 
@@ -105,9 +104,11 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         }
 
         /**
-         * If this is enabled it will generate a huge amount of 'useless' logs
+         * When loading components list
          */
-        //$this->api_log->info("Successfull get of generic components",[__CLASS__,$_SESSION['user_email']]);
+        if($this->container->get('logging_level')===1){            
+            $this->api_log->info("Successfull get of generic components",[__CLASS__,$_SESSION['user_email']]);
+        }
         return new Response(
             200,
             [],

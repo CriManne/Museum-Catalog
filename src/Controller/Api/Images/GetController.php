@@ -49,10 +49,9 @@ class GetController extends ControllerUtil implements ControllerInterface {
             $new_arr[] = explode("public", $file)[1];
         }
 
-        /**
-         * If this is enabled it will generate a huge amount of 'useless' logs
-        */
-        $this->api_log->info("Returned successfully ".count($new_arr)." images!", [__CLASS__]);
+        if($this->container->get('logging_level')===1){
+            $this->api_log->info("Returned successfully ".count($new_arr)." images!", [__CLASS__]);            
+        }
         return new Response(
             200,
             [],

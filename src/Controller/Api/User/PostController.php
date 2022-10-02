@@ -11,6 +11,7 @@ use App\Model\User;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Util\ORM;
+use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -23,8 +24,8 @@ class PostController extends ControllerUtil implements ControllerInterface {
 
     protected UserService $userService;
 
-    public function __construct(UserService $userService) {
-        parent::__construct();
+    public function __construct(ContainerBuilder $builder,UserService $userService) {
+        parent::__construct($builder);
         $this->userService = $userService;
     }
 
@@ -38,10 +39,12 @@ class PostController extends ControllerUtil implements ControllerInterface {
                 !isset($params['firstname']) ||
                 !isset($params['lastname'])
             ) {
+                $error_message = "Invalid params!";
+                $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
                 return new HaltResponse(
                     400,
                     [],
-                    $this->getResponse("Bad request!", 400)
+                    $this->getResponse($error_message, 400)
                 );
             }
 
@@ -52,12 +55,15 @@ class PostController extends ControllerUtil implements ControllerInterface {
             $user = ORM::getNewInstance(User::class, $params);
             $this->userService->insert($user);
 
+            $message = 'User with email {' . $params['Email'] . '} inserted successfully!';
+            $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 200,
                 [],
-                $this->getResponse('User with email {' . $params['Email'] . '} inserted successfully!')
+                $this->getResponse($message)
             );
         } catch (ServiceException $e) {
+            $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
             return new HaltResponse(
                 400,
                 [],

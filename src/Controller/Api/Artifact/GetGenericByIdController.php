@@ -7,6 +7,7 @@ namespace App\Controller\Api\Artifact;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\SearchEngine\ArtifactSearchEngine;
+use DI\ContainerBuilder;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,12 +16,10 @@ use SimpleMVC\Response\HaltResponse;
 
 class GetGenericByIdController extends ControllerUtil implements ControllerInterface {
 
-    public ArtifactSearchEngine $artifactSearchEngine;
+    protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(
-        ArtifactSearchEngine $artifactSearchEngine
-    ) {
-        parent::__construct();
+    public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine) {
+        parent::__construct($builder);        
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
@@ -43,10 +42,10 @@ class GetGenericByIdController extends ControllerUtil implements ControllerInter
         try {
             $obj = $this->artifactSearchEngine->selectGenericById($id);
 
-            /**
-             * If this is enabled it will generate a huge amount of 'useless' logs
-             */
-            //$this->api_log->info("Successfull get of generic artifact by id",[__CLASS__]);
+            if($this->container->get('logging_level')===1){
+                $this->api_log->info("Successfull get of generic artifact by id",[__CLASS__]);
+            }
+            
             return new Response(
                 200,
                 [],

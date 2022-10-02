@@ -24,20 +24,34 @@ class UploadController extends ControllerUtil implements ControllerInterface {
         $id = $params["id"] ?? null;
         $files = $_FILES['images'] ?? null;
 
-        if (!$id || !$files) {
+        $error_message = null;
+
+        if(!$id){
+            $error_message = "No id set!";
+        }else if(!$files){
+            $error_message = "No file uploaded!";
+        }
+
+        if ($error_message) {
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
-                $this->getResponse("Bad request!", 400)
+                $this->getResponse($error_message, 400)
             );
         }
 
         self::uploadFiles($id, $files);
 
+        $message = count($files)." files uploaded successfully!";
+        if($this->container->get('logging_level')===1){
+            $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
+        }       
+
         return new Response(
             200,
             [],
-            $this->getResponse("Files uploaded successfully!")
+            $this->getResponse($message)
         );
     }
 

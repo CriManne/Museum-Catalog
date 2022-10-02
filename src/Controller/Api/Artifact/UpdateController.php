@@ -32,13 +32,10 @@ use TypeError;
 
 class UpdateController extends ControllerUtil implements ControllerInterface {
 
-    protected Container $container;
     protected ArtifactSearchEngine $artifactSearchEngine;
 
     public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine) {
-        parent::__construct();
-        $builder->addDefinitions('config/container.php');
-        $this->container = $builder->build();
+        parent::__construct($builder);        
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 

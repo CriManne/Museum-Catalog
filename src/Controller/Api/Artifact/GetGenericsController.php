@@ -11,6 +11,7 @@ use App\Model\Response\GenericArtifactResponse;
 use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
 use App\SearchEngine\ArtifactSearchEngine;
+use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -21,12 +22,10 @@ use SimpleMVC\Response\HaltResponse;
 
 class GetGenericsController extends ControllerUtil implements ControllerInterface {
 
-    public ArtifactSearchEngine $artifactSearchEngine;
+    protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(
-        ArtifactSearchEngine $artifactSearchEngine
-    ) {
-        parent::__construct();
+    public function __construct(ContainerBuilder $builder, ArtifactSearchEngine $artifactSearchEngine) {
+        parent::__construct($builder);        
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
@@ -78,7 +77,12 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         }
 
         if (count($result) < 1) {
-            $this->api_log->info("No object found!", [__CLASS__]);
+            /**
+             * This happens when a user search and no results matches
+             */
+            if($this->container->get('logging_level')===1){
+                $this->api_log->info("No object found!", [__CLASS__]);
+            }
             return new Response(
                 404,
                 [],
@@ -91,10 +95,9 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
             $result = [array_pop($result)];
         }
 
-        /**
-         * If this is enabled it will generate a huge amount of 'useless' logs
-         */
-        //$this->api_log->info("Successfull get of generics artifacts!",[__CLASS__]);
+        if($this->container->get('logging_level')===1){
+            $this->api_log->info("Successfull get of generics artifacts!",[__CLASS__]);
+        }
 
         return new Response(
             200,

@@ -35,13 +35,10 @@ use TypeError;
 
 class CreateController extends ControllerUtil implements ControllerInterface {
 
-    protected Container $container;
     protected ComponentSearchEngine $componentSearchEngine;
 
     public function __construct(ContainerBuilder $builder, ComponentSearchEngine $componentSearchEngine) {
-        parent::__construct();
-        $builder->addDefinitions('config/container.php');
-        $this->container = $builder->build();
+        parent::__construct($builder);
         $this->componentSearchEngine = $componentSearchEngine;
     }
 

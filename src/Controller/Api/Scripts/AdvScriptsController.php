@@ -20,23 +20,30 @@ class AdvScriptsController extends ControllerUtil implements ControllerInterface
         $params = $request->getQueryParams();
 
         if (!isset($params["filename"])) {
+            $error_message = "No filename set!";
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
-                $this->getResponse("Bad request!", 400)
+                $this->getResponse($error_message, 400)
             );
         }
 
         $filename = "secure_scripts/adv/" . $params["filename"];
 
         if (!file_exists($filename)) {
+            $error_message = "File {$filename} not found!";
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 404,
                 [],
-                $this->getResponse("File not found!", 404)
+                $this->getResponse($error_message, 404)
             );
         }
 
+        if($this->container->get('logging_level')===1){
+            $this->api_log->info("Successfull get of $filename script",[__CLASS__]);
+        }
         return new Response(
             200,
             [],
