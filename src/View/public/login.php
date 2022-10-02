@@ -27,9 +27,11 @@ $this->layout('layouts::homepage', ['title' => $title]);
                                         <label for="email">Email</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="password" name="password" type="password" placeholder="Password" />
-                                        <label for="password">Password</label>
+                                        <input class="form-control" id="Password" name="password" type="password" placeholder="Password" />
+                                        <label for="Password">Password</label>
                                     </div>
+                                    <input type="checkbox" id="show_psw" onclick="showPsw()">
+                                    <label class="form-label" for="show_psw">Show password</label>
                                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                         <button type='submit' name="submitLogin" class="btn btn-primary">Login</button>
                                     </div>
@@ -42,3 +44,6 @@ $this->layout('layouts::homepage', ['title' => $title]);
         </main>
     </div>
 </div>
+<?php $this->push('scripts') ?>
+<script src="/resources/js/show_password_toggle.js"></script>
+<?php $this->end() ?>

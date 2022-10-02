@@ -12,7 +12,9 @@
         </div>
         <div class="form-outline mb-4">
             <label class="form-label" for="Password">Password</label>
-            <input type="text" name="Password" id="Password" class="form-control" required />
+            <input type="password" name="Password" id="Password" class="form-control" required />
+            <input type="checkbox" id="show_psw" onclick="showPsw()">
+            <label class="form-label" for="show_psw">Show password</label>
         </div>
         <div class="form-outline mb-4">
             <label class="form-label" for="firstname">Firstname</label>
@@ -34,5 +36,6 @@
     </form>
 </div>
 <?php $this->push('scripts') ?>
+<script src="/resources/js/show_password_toggle.js"></script>
 <script src="/api/adv/scripts?filename=add_user.js"></script>
 <?php $this->end() ?>

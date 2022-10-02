@@ -3,7 +3,6 @@
 declare(strict_types=1);
 
 namespace App\Controller\Pages\Public;
-session_start();
 
 use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
@@ -31,6 +30,10 @@ class LoginController extends ControllerUtil implements ControllerInterface {
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $sessionValid = false;
+
+        if(!$this->is_session_started()){
+            session_start();
+        }
 
         if(isset($_SESSION['user_email'])){
             $sessionValid = true;
@@ -75,5 +78,16 @@ class LoginController extends ControllerUtil implements ControllerInterface {
                 $this->plates->render('public::login',['error'=>$e->getMessage(),'title'=>"Login"])
             );
         }
+    }
+
+    public function is_session_started() {
+        if (php_sapi_name() !== 'cli') {
+            if (version_compare(phpversion(), '5.4.0', '>=')) {
+                return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+            } else {
+                return session_id() === '' ? FALSE : TRUE;
+            }
+        }
+        return FALSE;
     }
 }

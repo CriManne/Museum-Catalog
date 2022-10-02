@@ -1,3 +1,5 @@
+- PASSWORD SECURITY FOR EMPLOYEE BUT ALSO DB PASSWORDS
+
 - COMMENT EVERYTHING AND CHECK OLD COMMENTS
 
 - add comments to controllers and unit tests
@@ -5,10 +7,6 @@
 - REFACTOR CODE, FIX COPY AND PASTE TYPOS AND RENAME $s PARAMETERS AND REMOVE UNUSED IMPORTS
 
 - REMOVE UNUSED IMPORTS
-
-- ADD MONOLOG: handle two level of logging: minimum (just employees logs), max (every controller log)
-  Add page in the admin dashboard to choose between the two modes and to open a file of logs.
-  (artifact_logs,component_logs,user_logs,public_logs,)
 
 - XSS SECURITY CHECKS
 
@@ -19,9 +17,3 @@
 - REMOVE REPOSITORIES AND SERVICES METHODS NOT USED
 
 - CHECK FORMATTING AND THE ERRORS MADE IN THE OTHER PROJECTS
-
-- PASSWORD SECURITY FOR EMPLOYEE BUT ALSO DB PASSWORDS
-
-- PAGE/METHOD NOT FOUND ERROR HANDLING
-
-- YOU CAN CREATE A FILE WHICH HAS log_level,1 AND THIS CAN BE READ FROM THE CONTAINER
