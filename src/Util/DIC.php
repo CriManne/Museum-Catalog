@@ -9,6 +9,10 @@ use DI\ContainerBuilder;
 
 class DIC {
 
+    /**
+     * Return the DI container
+     * @return Container The DI container
+     */
     public static function getContainer(): Container {
         $builder = new ContainerBuilder();
         $builder->addDefinitions('config/container.php');
