@@ -7,6 +7,7 @@ namespace App\Controller\Pages\Private;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Service\UserService;
+use DI\ContainerBuilder;
 use Exception;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -18,8 +19,8 @@ use SimpleMVC\Controller\ControllerInterface;
 class HomeController extends ControllerUtil implements ControllerInterface {
     protected UserService $userService;
 
-    public function __construct(Engine $plates, UserService $userService) {
-        parent::__construct($plates);
+    public function __construct(ContainerBuilder $builder,Engine $plates, UserService $userService) {
+        parent::__construct($builder,$plates);
         $this->userService = $userService;
     }
 
@@ -38,6 +39,7 @@ class HomeController extends ControllerUtil implements ControllerInterface {
 
         $user = $this->userService->selectById($_SESSION['user_email']);
 
+        $this->pages_log->info("Successfull get page", [__CLASS__, $_SESSION['user_email']]);
         return new Response(
             200,
             [],
