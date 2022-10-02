@@ -43,11 +43,6 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
          */
         $Componentscategories = ComponentsListController::$categories;
 
-        /**
-         * Get the list of artifacts's categories
-         */
-        $Artifactscategories = ComponentsListController::$categories;
-
         $result = [];
 
         if ($query === "") {
