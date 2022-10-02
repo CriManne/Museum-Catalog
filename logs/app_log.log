@@ -4,3 +4,6 @@
 [2022-10-02T11:36:43.140445+02:00] app_log.ERROR: Cannot connect to database! ["/login"] []
 [2022-10-02T11:37:04.985565+02:00] app_log.ERROR: Not Found ["/api/loginasda"] []
 [2022-10-02T11:38:33.254394+02:00] app_log.ERROR: Not Found ["/api/loginasda"] []
+[2022-10-02T11:46:39.970808+02:00] app_log.ERROR: Not Found ["/private/component/view_components?category=Cpuweq"] []
+[2022-10-02T11:47:01.318869+02:00] app_log.ERROR: Not Found ["/private/component/view_components?category=Cpuwq"] []
+[2022-10-02T11:47:05.680211+02:00] app_log.ERROR: Not Found ["/private/component/view_components?category=Cpuw"] []

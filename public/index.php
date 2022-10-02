@@ -40,9 +40,9 @@ $log->pushHandler(new StreamHandler("./logs/app_log.log", Level::Error));
 try {
     $response = $app->dispatch(); // PSR-7 response
     $status_code = $response->getStatusCode();
+    $error_message = $response->getReasonPhrase();
 
-    if ($status_code === 404) {
-        $error_message = $response->getReasonPhrase();
+    if ($status_code === 404 && $error_message === "Not found") {        
         $responseBody = null;
         
         if (str_contains($requestedUrl,'api')) {

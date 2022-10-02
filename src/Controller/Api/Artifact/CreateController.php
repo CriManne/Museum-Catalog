@@ -58,12 +58,20 @@ class CreateController extends ControllerUtil implements ControllerInterface {
         /**
          * Return bad request response if no category is set or a wrong one
          */
-        if (!$category || !in_array($category, $categories)) {
-            $this->api_log->info("None or a wrong category is set.",[__CLASS__,$_SESSION['user_email']]);
+        $error_message = null;
+
+        if(!$category){
+            $error_message = "No category set!";
+        }else if(!in_array($category, $categories)){
+            $error_message = "Category not found!";
+        }
+
+        if ($error_message) {
+            $this->api_log->info($error_message,[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
-                $this->getResponse("Bad request!", 400)
+                $this->getResponse($error_message, 400)
             );
         }
 
@@ -96,12 +104,13 @@ class CreateController extends ControllerUtil implements ControllerInterface {
             //Upload new files           
             UploadController::uploadFiles($instantiatedObject->ObjectID, 'images');
 
-            $this->api_log->info("$category inserted successfully!",[__CLASS__,$_SESSION['user_email']]);
+            $message = "$category inserted successfully!";
+            $this->api_log->info($message,[__CLASS__,$_SESSION['user_email']]);
 
             return new Response(
                 200,
                 [],
-                $this->getResponse("$category inserted successfully!")
+                $this->getResponse($message)
             );
         } catch (ServiceException $e) {
             $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);

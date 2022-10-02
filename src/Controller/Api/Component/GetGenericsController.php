@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Component;
 
 use App\Controller\Api\ArtifactsListController;
+use App\Controller\Api\ComponentsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Model\Response\GenericArtifactResponse;
@@ -12,6 +13,7 @@ use App\Repository\GenericObjectRepository;
 use App\Repository\GenericRepository;
 use App\SearchEngine\ComponentSearchEngine;
 use League\Plates\Engine;
+use Monolog\Level;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
@@ -36,21 +38,32 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         $query = $params["q"] ?? null;
         $category = $params["category"] ?? null;
 
+        $categories = ComponentsListController::$categories;
+
         $result = [];
 
         if ($query === "") {
             $query = null;
         }
 
-        if (!$category || in_array($category, ArtifactsListController::$categories)) {
+        $error_message = null;
+
+        if(!$category){
+            $error_message = "No category set!";
+        }else if(!in_array($category,$categories)){
+            $error_message = "Category not found!";
+        }
+
+        if ($error_message) {
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 404,
                 [],
-                $this->getResponse("Category not found!", 404)
+                $this->getResponse($error_message, 404)
             );
         }
 
-        if ($query) {
+        if ($query) {            
 
             $keywords = explode(" ", $query);
 
@@ -74,10 +87,12 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         }
 
         if (count($result) < 1) {
+            $error_message = "No component found";
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 404,
                 [],
-                $this->getResponse("No component found", 404)
+                $this->getResponse($error_message, 404)
             );
         }
 
@@ -86,6 +101,10 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
             $result = [array_pop($result)];
         }
 
+        /**
+         * If this is enabled it will generate a huge amount of 'useless' logs
+         */
+        //$this->api_log->info("Successfull get of generic components",[__CLASS__,$_SESSION['user_email']]);
         return new Response(
             200,
             [],

@@ -47,12 +47,22 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
 
         $categories = ArtifactsListController::$categories;
 
-        if (!$category || !$id || !in_array($category, $categories)) {
-            $this->api_log->info("No category or no id or wrong category",[__CLASS__,$_SESSION['user_email']]);
+        $error_message = null;
+
+        if(!$category){
+            $error_message = "No category set!";
+        }else if(!in_array($category, $categories)){
+            $error_message = "Category not found!";
+        }else if(!$id){
+            $error_message = "No id set!";
+        }
+
+        if ($error_message) {
+            $this->api_log->info($error_message,[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
-                $this->getResponse("Bad request!", 400)
+                $this->getResponse($error_message, 400)
             );
         }
 

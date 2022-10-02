@@ -36,18 +36,21 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         $query = $params["q"] ?? null;
         $category = $params["category"] ?? null;
 
+        $categories = ArtifactsListController::$categories;
+
         $result = [];
 
         if ($query === "") {
             $query = null;
         }
 
-        if ($category && !in_array($category, ArtifactsListController::$categories)) {
-            $this->api_log->info("Category not found!", [__CLASS__]);
+        if ($category && !in_array($category, $categories)) {
+            $error_message = "Category not found!";
+            $this->api_log->info($error_message, [__CLASS__]);
             return new Response(
                 404,
                 [],
-                $this->getResponse("Category not found!", 404)
+                $this->getResponse($error_message, 404)
             );
         }
 

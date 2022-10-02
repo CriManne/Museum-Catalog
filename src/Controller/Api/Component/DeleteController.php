@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Component;
 
 use App\Controller\Api\ArtifactsListController;
+use App\Controller\Api\ComponentsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
@@ -44,14 +45,26 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
         $category = $params["category"] ?? null;
         $id = $params["id"] ?? null;
 
-        $categories = ArtifactsListController::$categories;
+        $categories = ComponentsListController::$categories;
 
-        if (!$category || !$id || in_array($category, $categories) || !is_numeric($id)) {
-            $this->api_log->info("Category or id not set, or wrong category or non numeric id",[__CLASS__,$_SESSION['user_email']]);
+        $error_message = null;
+
+        if(!$category){
+            $error_message = "No category set!";
+        }else if(!$id){
+            $error_message = "No id set!";
+        }else if(!is_numeric($id)){
+            $error_message = "Id must be numeric!";
+        }else if(!in_array($category,$categories)){
+            $error_message = "Category not found!";
+        }
+
+        if ($error_message) {
+            $this->api_log->info($error_message,[__CLASS__,$_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
-                $this->getResponse("Bad request!", 400)
+                $this->getResponse($error_message, 400)
             );
         }
 
@@ -67,10 +80,12 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
 
                 $this->componentService->delete(intval($id));
 
+                $message = "$category deleted successfully!";
+                $this->api_log->info($message,[__CLASS__,$_SESSION['user_email']]);
                 return new Response(
                     200,
                     [],
-                    $this->getResponse("$category deleted successfully!")
+                    $this->getResponse($message)
                 );
             } catch (ServiceException $e) {
                 $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);

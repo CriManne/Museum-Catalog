@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Component;
 
 use App\Controller\Api\ArtifactsListController;
+use App\Controller\Api\ComponentsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\SearchEngine\ComponentSearchEngine;
@@ -43,16 +44,29 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
         /**
          * Get the list of artifact's categories
          */
-        $categories = ArtifactsListController::$categories;
+        $categories = ComponentsListController::$categories;
 
         /**
          * Return bad request response if no category is set or a wrong one
          */
-        if (!$category || !is_numeric($id) || in_array($category, $categories)) {
+        $error_message = null;
+
+        if(!$category){
+            $error_message = "No category set!";
+        }else if(!in_array($category,$categories)){
+            $error_message = "Category not found!";
+        }else if(!$id){
+            $error_message = "No id set!";
+        }else if(!is_numeric($id)){
+            $error_message = "Id must be numeric!";
+        }
+
+        if ($error_message) {
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
-                $this->getResponse("Bad request!", 400)
+                $this->getResponse($error_message, 400)
             );
         }
 
@@ -68,12 +82,15 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
 
                 $object = $this->componentSearchEngine->selectSpecificByIdAndCategory(intval($id), $servicePath);
 
+                
+                $this->api_log->info("Successfull get of specific component by id",[__CLASS__,$_SESSION['user_email']]);
                 return new Response(
                     200,
                     [],
                     json_encode($object)
                 );
             } catch (ServiceException $e) {
+                $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     404,
                     [],
@@ -83,10 +100,12 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
             }
         }
 
+        $error_message = "Bad request!";
+        $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
         return new Response(
             400,
             [],
-            $this->getResponse("Bad request!", 400)
+            $this->getResponse($error_message, 400)
         );
     }
 }

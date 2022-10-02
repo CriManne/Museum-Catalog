@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\Component;
 
 use App\Controller\Api\ArtifactsListController;
+use App\Controller\Api\ComponentsListController;
 use App\Controller\Api\Images\DeleteController;
 use App\Controller\Api\Images\UploadController;
 use App\Controller\ControllerUtil;
@@ -52,16 +53,25 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
         /**
          * Get the list of artifact's categories
          */
-        $categories = ArtifactsListController::$categories;
+        $categories = ComponentsListController::$categories;
 
         /**
          * Return bad request response if no category is set or a wrong one
          */
-        if (!$category || in_array($category, $categories)) {
+        $error_message = null;
+
+        if(!$category){
+            $error_message = "No category set!";
+        }else if(!in_array($category,$categories)){
+            $error_message = "Category not found!";
+        }
+
+        if ($error_message) {
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
-                $this->getResponse("Bad request!", 400)
+                $this->getResponse($error_message, 400)
             );
         }
 
@@ -82,13 +92,16 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
                 $instantiatedObject = ORM::getNewInstance($classPath, $params);
 
                 $this->componentService->update($instantiatedObject);
-
+                
+                $message = "$category updated successfully!";
+                $this->api_log->info($message,[__CLASS__,$_SESSION['user_email']]);
                 return new Response(
                     200,
                     [],
-                    $this->getResponse("$category updated successfully!")
+                    $this->getResponse($message)
                 );
             } catch (ServiceException $e) {
+                $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     404,
                     [],
@@ -98,10 +111,12 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
             }
         }
 
+        $error_message = "Bad request!";
+        $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
         return new Response(
             400,
             [],
-            $this->getResponse("Bad request!", 400)
+            $this->getResponse($error_message, 400)
         );
     }
 }

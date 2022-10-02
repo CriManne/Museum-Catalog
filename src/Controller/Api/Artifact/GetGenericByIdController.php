@@ -31,11 +31,12 @@ class GetGenericByIdController extends ControllerUtil implements ControllerInter
         $id = $params["id"] ?? null;
 
         if (!$id) {
-            $this->api_log->info("No id is set",[__CLASS__]);
+            $error_message = "No id set!";
+            $this->api_log->info($error_message,[__CLASS__]);
             return new Response(
                 400,
                 [],
-                $this->getResponse("Bad request", 400)
+                $this->getResponse($error_message, 400)
             );
         }
 

@@ -24,16 +24,7 @@ $(document).ready(function() {
         let search = "";
 
         if (q != "") {
-            search = "?q=" + q;
-        }
-
-        if (category != "") {
-            if (q != "") {
-                search += "&";
-            } else {
-                search += "?";
-            }
-            search += "category=" + category;
+            search = "&q=" + q;
         }
 
         loadResult(search);
@@ -48,12 +39,10 @@ function loadResult(search) {
     $("#error-alert").empty();
 
     if (result.status == "404") {
-        $("#error-alert").show();
         $("#tb-container").hide();
-        $("#error-alert").append(result.message);
+        createAlert(result);
     } else {
         $("#tb-container").show();
-        $("#error-alert").hide();
         loadHeader();
         displayResult(result);
         $("#tb-container").append("</tbody></table>");
