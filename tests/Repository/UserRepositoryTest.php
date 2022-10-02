@@ -26,7 +26,7 @@ final class UserRepositoryTest extends TestCase
 
     public function setUp():void{
         //User inserted to test duplicated user errors
-        $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
+        $user = new User('testemail@gmail.com',password_hash("admin",PASSWORD_BCRYPT,['cost'=>11]),'Bill','Gates',1);
         self::$userRepository->insert($user);
     }
 

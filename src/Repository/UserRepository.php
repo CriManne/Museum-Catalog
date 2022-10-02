@@ -69,10 +69,11 @@ class UserRepository extends GenericRepository {
         $stmt->bindParam("Email", $Email, PDO::PARAM_STR);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        
-        if(password_verify($Password,$user["Password"])){
-            unset($user["Password"]);
-            return ORM::getNewInstance(UserResponse::class, $user);
+        if($user){
+            if(password_verify($Password,$user["Password"])){
+                unset($user["Password"]);
+                return ORM::getNewInstance(UserResponse::class, $user);
+            }
         }
         return null;
     }
