@@ -2,6 +2,7 @@ vendor
 /vendor
 /vendor/
 vendor/
+logs/
 clover.xml
 .vscode/
 composer.lock
