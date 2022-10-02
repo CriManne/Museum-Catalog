@@ -5,14 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Api\Images;
 
 use App\Controller\ControllerUtil;
-use App\Exception\ServiceException;
-use App\SearchEngine\ArtifactSearchEngine;
 use Exception;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
-use SimpleMVC\Response\HaltResponse;
 
 class DeleteController extends ControllerUtil implements ControllerInterface {
 

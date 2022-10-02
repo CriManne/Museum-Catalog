@@ -6,11 +6,8 @@ namespace App\Controller\Pages\Private\Artifact;
 
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
-use App\Exception\ServiceException;
 use App\SearchEngine\ArtifactSearchEngine;
 use App\Service\UserService;
-use DI\ContainerBuilder;
-use Exception;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;

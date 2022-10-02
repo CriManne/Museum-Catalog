@@ -6,19 +6,11 @@ namespace App\Controller\Api\Artifact;
 
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
-use App\Exception\ServiceException;
-use App\Model\Response\GenericArtifactResponse;
-use App\Repository\GenericObjectRepository;
-use App\Repository\GenericRepository;
 use App\SearchEngine\ArtifactSearchEngine;
-use DI\ContainerBuilder;
-use League\Plates\Engine;
 use Nyholm\Psr7\Response;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
-use SimpleMVC\Response\HaltResponse;
 
 class GetGenericsController extends ControllerUtil implements ControllerInterface {
 

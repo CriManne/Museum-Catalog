@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Pages\Public;
 
 use App\Controller\ControllerUtil;
-use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;

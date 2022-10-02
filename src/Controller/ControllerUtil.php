@@ -6,7 +6,6 @@ namespace App\Controller;
 
 use App\Util\DIC;
 use DI\Container;
-use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Monolog\Handler\StreamHandler;
 use Monolog\Level;

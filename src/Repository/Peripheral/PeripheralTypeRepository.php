@@ -6,7 +6,6 @@ namespace App\Repository\Peripheral;
 
 use App\Repository\GenericRepository;
 use App\Exception\RepositoryException;
-use App\Model\Peripheral\Peripheral;
 use App\Model\Peripheral\PeripheralType;
 use PDO;
 use PDOException;

@@ -7,28 +7,13 @@ namespace App\Controller\Api\Artifact;
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\Api\Images\UploadController;
 use App\Controller\ControllerUtil;
-use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
-use App\Model\User;
-use App\Repository\UserRepository;
 use App\SearchEngine\ArtifactSearchEngine;
-use App\Service\UserService;
-use App\Util\ORM;
-use DI\Container;
-use DI\ContainerBuilder;
-use Exception;
-use League\Plates\Engine;
 use Nyholm\Psr7\Response;
-use PDO;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use ReflectionClass;
-use ReflectionFunction;
 use SimpleMVC\Controller\ControllerInterface;
-use SimpleMVC\Response\HaltResponse;
 use Throwable;
-use TypeError;
 
 class UpdateController extends ControllerUtil implements ControllerInterface {
 

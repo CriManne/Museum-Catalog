@@ -5,19 +5,11 @@ declare(strict_types=1);
 namespace App\Controller\Pages\Public\Artifact;
 
 use App\Controller\ControllerUtil;
-use App\Exception\RepositoryException;
-use App\Exception\ServiceException;
-use App\Model\User;
-use App\Repository\UserRepository;
-use App\Service\UserService;
-use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
-use SimpleMVC\Response\HaltResponse;
 
 class ArtifactController extends ControllerUtil implements ControllerInterface {
 

@@ -4,23 +4,13 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Component;
 
-use App\Controller\Api\ArtifactsListController;
 use App\Controller\Api\ComponentsListController;
 use App\Controller\ControllerUtil;
-use App\Exception\ServiceException;
-use App\Model\Response\GenericArtifactResponse;
-use App\Repository\GenericObjectRepository;
-use App\Repository\GenericRepository;
 use App\SearchEngine\ComponentSearchEngine;
-use DI\ContainerBuilder;
-use League\Plates\Engine;
-use Monolog\Level;
 use Nyholm\Psr7\Response;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
-use SimpleMVC\Response\HaltResponse;
 
 class GetGenericsController extends ControllerUtil implements ControllerInterface {
 

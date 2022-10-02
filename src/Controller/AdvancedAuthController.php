@@ -5,9 +5,6 @@ declare(strict_types=1);
 namespace App\Controller;
 
 use App\Controller\ControllerUtil;
-use League\Plates\Engine;
-use Nyholm\Psr7\Response;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;

@@ -6,7 +6,6 @@ namespace App\SearchEngine;
 
 use App\Controller\Api\ArtifactsListController;
 use App\Exception\ServiceException;
-use PDO;
 use App\Model\Software\Software;
 use App\Model\Book\Book;
 use App\Model\Magazine\Magazine;

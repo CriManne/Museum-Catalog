@@ -9,14 +9,10 @@ use App\Controller\Api\ComponentsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\SearchEngine\ComponentSearchEngine;
-use DI\Container;
-use DI\ContainerBuilder;
-use Exception;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
-use SimpleMVC\Response\HaltResponse;
 use Throwable;
 
 class GetSpecificByIdController extends ControllerUtil implements ControllerInterface {
