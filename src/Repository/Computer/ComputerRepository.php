@@ -37,7 +37,7 @@ class ComputerRepository extends GenericRepository {
     /**
      * Insert Computer
      * @param Computer $computer    The computer to insert
-     * @throws RepositoryException  If the insert fails         * 
+     * @throws RepositoryException  If the insert fails     
      */
     public function insert(Computer $computer): void {
 
@@ -72,7 +72,7 @@ class ComputerRepository extends GenericRepository {
 
             $OsID = !is_null($computer->Os) ? $computer->Os->OsID : null;
 
-            $stmt->bindParam("OsID",$OsID, PDO::PARAM_INT);
+            $stmt->bindParam("OsID", $OsID, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -113,7 +113,7 @@ class ComputerRepository extends GenericRepository {
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
             WHERE ModelName LIKE :ModelName";
 
-        $ModelName = '%'.$ModelName.'%';
+        $ModelName = '%' . $ModelName . '%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);
@@ -207,7 +207,7 @@ class ComputerRepository extends GenericRepository {
             $stmt->bindParam("RamID", $b->Ram->RamID, PDO::PARAM_INT);
             $OsID = !is_null($b->Os) ? $b->Os->OsID : null;
 
-            $stmt->bindParam("OsID",$OsID, PDO::PARAM_INT);
+            $stmt->bindParam("OsID", $OsID, PDO::PARAM_INT);
             $stmt->bindParam("ObjectID", $b->ObjectID, PDO::PARAM_STR);
             $stmt->execute();
 
