@@ -21,7 +21,18 @@ $(document).ready(function() {
                 "mimeType": "multipart/form-data",
             },
             params = formData);
-        createAlert(response);
+
+        if(response.status=="200"){
+            createAlert({
+                "message":"Profile updated successfully!",
+                "status":"200"
+            });
+        }else{
+            createAlert({
+                "message":"Error while updating the profile!",
+                "status":"400"
+            });
+        }
     });
 
 });

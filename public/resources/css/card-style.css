@@ -1,11 +1,11 @@
 .artifact-card{
+    width:18rem;
     transition:all 200ms ease-in;
     border-left:6px solid #212529;
     border-bottom:6px solid #212529;
 }
 
 .artifact-card:hover,
-.artifact-card::selection{
-    transform:scale(1.05);
+.artifact-card::selection{    
     box-shadow: 1px 8px 20px #212529;
 }

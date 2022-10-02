@@ -28,6 +28,7 @@
     <label class="form-label" for="OsID">Sistema operativo</label>
     <select id="OsID" name="OsID" class="form-select" aria-label="Seleziona un sistema operativo">
         <option value="" hidden selected>Seleziona il sistema operativo</option>
+        <option value="">Nessun sistema operativo</option>
     </select>
 </div>
 <input type='hidden' name='category' value='Computer'>

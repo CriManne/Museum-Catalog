@@ -16,7 +16,7 @@ function displayResult(result) {
     }
 
     $("#tb-container").append(
-      '<div class="card artifact-card col" role="button" data-id="' +
+      '<div class="card artifact-card mx-1" role="button" data-id="' +
         elem.ObjectID +
         '">' +
         '  <div class="card-body">' +
