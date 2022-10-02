@@ -52,7 +52,7 @@ class UserService {
      */
     public function selectByCredentials(string $Email, string $Password): UserResponse {
         $user = $this->userRepository->selectByCredentials($Email, $Password);
-        if (is_null($user)) throw new ServiceException("User not found");
+        if (is_null($user)) throw new ServiceException("Wrong credentials");
 
         return $user;
     }

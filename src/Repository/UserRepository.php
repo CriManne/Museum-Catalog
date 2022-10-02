@@ -63,14 +63,15 @@ class UserRepository extends GenericRepository {
      * @return ?UserResponse            The user selected, null if not found         * 
      */
     public function selectByCredentials(string $Email, string $Password): ?UserResponse {
-        $query = "SELECT Email,firstname,lastname,Privilege FROM user WHERE BINARY Email = :Email AND BINARY Password = :Password";
+        $query = "SELECT Email,Password,firstname,lastname,Privilege FROM user WHERE BINARY Email = :Email";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Email", $Email, PDO::PARAM_STR);
-        $stmt->bindParam("Password", $Password, PDO::PARAM_STR);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
-        if ($user) {
+        
+        if(password_verify($Password,$user["Password"])){
+            unset($user["Password"]);
             return ORM::getNewInstance(UserResponse::class, $user);
         }
         return null;

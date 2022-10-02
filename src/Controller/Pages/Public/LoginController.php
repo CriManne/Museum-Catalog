@@ -53,6 +53,7 @@ class LoginController extends ControllerUtil implements ControllerInterface {
         }
         try {
             $user = null;
+                           
             if($sessionValid){
                 $user = $this->userService->selectById($_SESSION['user_email']);
             }else{
