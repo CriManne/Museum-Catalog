@@ -9,6 +9,7 @@ use App\Controller\Api\ComponentsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Service\UserService;
+use DI\ContainerBuilder;
 use Exception;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -21,9 +22,9 @@ class ViewComponentsController extends ControllerUtil implements ControllerInter
 {
     protected UserService $userService;
 
-    public function __construct(Engine $plates, UserService $userService)
+    public function __construct(ContainerBuilder $builder,Engine $plates, UserService $userService)
     {
-        parent::__construct($plates);
+        parent::__construct($builder,$plates);
         $this->userService = $userService;
     }
 
@@ -34,23 +35,28 @@ class ViewComponentsController extends ControllerUtil implements ControllerInter
         $category = $params["category"] ?? null;
 
         if(!$category){
+            $error_message = "No category set!";
+            $this->pages_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
-                $this->displayError(400,"Bad request!")
+                $this->displayError($error_message,400)
             );
         }
 
         if(!in_array($category,ComponentsListController::$categories)){
+            $error_message = "Category not found!";
+            $this->pages_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 404,
                 [],
-                $this->displayError(404,"Category not found!")
+                $this->displayError($error_message,404)
             );
         }
 
         $user = $this->userService->selectById($_SESSION['user_email']);
 
+        $this->pages_log->info("Successfull get page", [__CLASS__, $_SESSION['user_email']]);
         return new Response(
             200,
             [],

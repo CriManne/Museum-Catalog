@@ -8,6 +8,7 @@ use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Service\UserService;
+use DI\ContainerBuilder;
 use Exception;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -20,9 +21,9 @@ class ChooseCategoryController extends ControllerUtil implements ControllerInter
 {
     protected UserService $userService;
 
-    public function __construct(Engine $plates, UserService $userService)
+    public function __construct(ContainerBuilder $builder,Engine $plates, UserService $userService)
     {
-        parent::__construct($plates);
+        parent::__construct($builder,$plates);
         $this->userService = $userService;
     }
 
@@ -30,6 +31,7 @@ class ChooseCategoryController extends ControllerUtil implements ControllerInter
     {
         $user = $this->userService->selectById($_SESSION['user_email']);
 
+        $this->pages_log->info("Successfull get page", [__CLASS__, $_SESSION['user_email']]);
         return new Response(
             200,
             [],
