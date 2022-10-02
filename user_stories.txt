@@ -35,12 +35,9 @@ As an user, I want to view an about page of mupin
 
 User story 9:
 As an user, I want to select a category of object and I want to view them splitted in pages.
-I also want to change the amount of object per page.
 
 User story 10:
 As an user, I want to make a search which will search any object by any fields.
-I want to apply filters and ordering conditions.
-I want to increase the amount of object per page.
 
 User story 11:
 As an user, I want to open an object and view its details.

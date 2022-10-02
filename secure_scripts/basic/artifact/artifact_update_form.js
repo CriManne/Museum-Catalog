@@ -4,8 +4,7 @@ const urlImageDelete = '/api/images/delete';
 $(document).ready(function(){
 
     $("artifact-form").on("reset",function(e){
-        e.preventDefault();        
-        //fillUpdateForm();
+        e.preventDefault();
     });
 
     $(".image-del").on("click",function(){

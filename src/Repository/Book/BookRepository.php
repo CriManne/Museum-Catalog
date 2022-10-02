@@ -111,7 +111,7 @@ class BookRepository extends GenericRepository {
             INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
             WHERE Title LIKE :Title";
 
-        $Title = '%'.$Title.'%';
+        $Title = '%' . $Title . '%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Title", $Title, PDO::PARAM_STR);

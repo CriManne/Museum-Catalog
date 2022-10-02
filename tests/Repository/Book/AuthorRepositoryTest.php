@@ -24,7 +24,7 @@ final class AuthorRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Author inserted to test duplicated cpu errors
+        //Author inserted to test duplicated author errors
         $author= new Author('Mario',"Rossi");
         self::$authorRepository->insert($author);        
     }
