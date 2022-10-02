@@ -27,6 +27,9 @@ return [
     //PRIVATE HOME
     ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
 
+    //UPDATE PROFILE    
+    ['GET', '/private/profile', [Controller\BasicAuthController::class, Controller\Pages\Private\User\ViewProfileController::class]],
+
     //------------USERS--------------
 
     //VIEW USERS    
@@ -73,6 +76,9 @@ return [
 
     //POST USER
     ['POST', '/api/user/create', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\PostController::class]],
+
+    //UPDATE USER
+    ['POST', '/api/user/update', [Controller\BasicAuthController::class, Controller\Api\User\UpdateController::class]],
 
     //DELETE USER
     ['DELETE', '/api/user/delete', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\DeleteController::class]],

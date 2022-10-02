@@ -85,15 +85,15 @@ INSERT INTO software(ObjectID,Title,OsID,SoftwareTypeID,SupportTypeID) VALUES
 -- POPULATE USER
 
 INSERT INTO user(Email,Password,firstname,lastname,Privilege) VALUES
-('admin','admin','Cristian','Rossi',1),
-('test','admin','Test','Test',0),
-('test1','admin','Test','Test',0),
-('test2','admin','Test','Test',0),
-('test3','admin','Test','Test',0),
-('test4','admin','Test','Test',0),
-('test5','admin','Test','Test',0),
-('test6','admin','Test','Test',0),
-('test7','admin','Test','Test',0),
-('test8','admin','Test','Test',0),
-('test9','admin','Test','Test',0),
-('test10','admin','Test','Test',0);
+('admin','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Cristian','Rossi',1),
+('test','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test1','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test2','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test3','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test4','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test5','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test6','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test7','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test8','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test9','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
+('test10','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0);

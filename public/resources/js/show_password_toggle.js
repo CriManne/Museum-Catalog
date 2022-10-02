@@ -1,8 +1,10 @@
 function showPsw() {
-    var x = document.getElementById("Password");
-    if (x.type === "password") {
-      x.type = "text";
-    } else {
-      x.type = "password";
+    var x = document.getElementsByName("Password");
+    for(const elem of x){
+      if (elem.type === "password") {
+        elem.type = "text";
+      } else {
+        elem.type = "password";
+      }
     }
   }

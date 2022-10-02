@@ -20,7 +20,7 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use SimpleMVC\Response\HaltResponse;
 
-class PostController extends ControllerUtil implements ControllerInterface {
+class UpdateController extends ControllerUtil implements ControllerInterface {
 
     protected UserService $userService;
 
@@ -57,7 +57,18 @@ class PostController extends ControllerUtil implements ControllerInterface {
             $user->Password = password_hash($user->Password, PASSWORD_BCRYPT, [
                 'cost' => 11
             ]);
-            $this->userService->insert($user);
+
+            if ($user->Email !== $_SESSION['user_email']) {
+                $error_message = "Unauthorized access!";
+                $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
+                return new HaltResponse(
+                    400,
+                    [],
+                    $this->getResponse($error_message, 400)
+                );
+            }
+
+            $this->userService->update($user);
 
             $message = 'User with email {' . $params['Email'] . '} inserted successfully!';
             $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);

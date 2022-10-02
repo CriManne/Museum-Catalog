@@ -29,6 +29,9 @@
                     <li><a class="dropdown-item text-center" href="/">
                             Home
                         </a></li>
+                        <li><a class="dropdown-item text-center" href="/private/profile">
+                            Profilo
+                        </a></li>
                     <li><a class="dropdown-item text-center" href="/catalog">
                             Catalogo
                         </a></li>
