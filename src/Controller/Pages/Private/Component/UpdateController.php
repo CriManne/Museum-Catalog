@@ -24,12 +24,11 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
     public ComponentSearchEngine $componentSearchEngine;
 
     public function __construct(
-        ContainerBuilder $builder,
         Engine $plates,
         UserService $userService,
         ComponentSearchEngine $componentSearchEngine
     ) {
-        parent::__construct($builder,$plates);
+        parent::__construct($plates);
         $this->userService = $userService;
         $this->componentSearchEngine = $componentSearchEngine;
     }

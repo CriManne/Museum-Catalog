@@ -1,2 +1,8 @@
 [2022-10-02T17:47:53.662025+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Public\\LoginController",null] []
 [2022-10-02T17:48:49.051484+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Public\\LoginController"] []
+[2022-10-02T17:53:48.562845+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Public\\HomeController"] []
+[2022-10-02T18:11:16.483210+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Private\\HomeController","admin"] []
+[2022-10-02T18:14:26.971785+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Private\\HomeController","admin"] []
+[2022-10-02T18:14:28.871434+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Private\\User\\ViewUsersController","admin"] []
+[2022-10-02T18:14:57.447688+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Private\\User\\ViewUsersController","admin"] []
+[2022-10-02T18:15:12.450257+02:00] pages_log.INFO: Successfull get page ["App\\Controller\\Pages\\Public\\Artifact\\ArtifactsController"] []

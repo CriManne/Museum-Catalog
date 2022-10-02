@@ -19,8 +19,8 @@ use SimpleMVC\Controller\ControllerInterface;
 class HomeController extends ControllerUtil implements ControllerInterface {
     protected UserService $userService;
 
-    public function __construct(ContainerBuilder $builder,Engine $plates, UserService $userService) {
-        parent::__construct($builder,$plates);
+    public function __construct(Engine $plates, UserService $userService) {
+        parent::__construct($plates);
         $this->userService = $userService;
     }
 

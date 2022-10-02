@@ -15,10 +15,6 @@ use SimpleMVC\Response\HaltResponse;
 
 class AdvancedAuthController extends ControllerUtil implements ControllerInterface {
 
-    public function __construct(Engine $plates) {
-        parent::__construct($plates);
-    }
-
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         if (!isset($_SESSION['privilege']) || $_SESSION['privilege'] !== 1) {
             $requestUrl = $request->getRequestTarget();
@@ -26,7 +22,7 @@ class AdvancedAuthController extends ControllerUtil implements ControllerInterfa
             if (explode('/', $requestUrl)[1] == 'api') {
                 $error_message = $this->getResponse("Unauthorized access", 401);
             } else {
-                $error_message = $this->displayError(401, "Unauthorized access");
+                $error_message = $this->displayError("Unauthorized access",401);
             }
 
             $this->api_log->info("Unauthorized access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
@@ -37,10 +33,9 @@ class AdvancedAuthController extends ControllerUtil implements ControllerInterfa
             );
         }
 
-        /**
-         * If this is enabled it will generate a huge amount of 'useless' logs
-         */        
-        //$this->api_log->info("Granted access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
+        if ($this->container->get('logging_level') === 1) {
+            $this->api_log->info("Access granted",[__CLASS__,$_SESSION['user_email'],$request->getRequestTarget()]);
+        }
         return $response;
     }
 }

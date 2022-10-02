@@ -20,11 +20,11 @@ use SimpleMVC\Controller\ControllerInterface;
 
 class AddController extends ControllerUtil implements ControllerInterface
 {
-    protected UserService $userService;
+protected UserService $userService;
 
-    public function __construct(ContainerBuilder $builder,Engine $plates, UserService $userService)
+    public function __construct(Engine $plates, UserService $userService)
     {
-        parent::__construct($builder,$plates);
+        parent::__construct($plates);
         $this->userService = $userService;
     }
 

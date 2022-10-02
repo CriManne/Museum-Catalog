@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Util\DIC;
 use DI\Container;
 use DI\ContainerBuilder;
 use League\Plates\Engine;
@@ -30,12 +31,11 @@ class ControllerUtil {
      */
     protected Container $container;
 
-    public function __construct(ContainerBuilder $builder,?Engine $plates=null) {
+    public function __construct(?Engine $plates=null) {
         if ($plates) {
             $this->plates = $plates;
-        }
-        $builder->addDefinitions('config/container.php');
-        $this->container = $builder->build();
+        }        
+        $this->container = DIC::getContainer();
         $this->api_log = new Logger("api_log");
         $this->api_log->pushHandler(new StreamHandler("./logs/api_log.log",Level::Info));
 

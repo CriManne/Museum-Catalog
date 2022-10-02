@@ -9,6 +9,7 @@ session_start();
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Service\UserService;
+use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Container\ContainerInterface;
@@ -32,7 +33,7 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
         if (explode('/', $requestUrl)[1] == 'api') {
             $error_message = $this->getResponse("Unauthorized access", 401);
         } else {
-            $error_message = $this->displayError(401, "Unauthorized access");
+            $error_message = $this->displayError("Unauthorized access",401);
         }
 
         if (!isset($_SESSION['user_email'])) {
@@ -47,11 +48,9 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
         try {
             $this->userService->selectById($_SESSION['user_email']);
 
-            /**
-             * If this is enabled it will generate a huge amount of 'useless' logs
-             */
-            //$this->api_log->info("Access granted",[__CLASS__,$_SESSION['user_email'],$request->getRequestTarget()]);
-
+            if ($this->container->get('logging_level') === 1) {
+                $this->api_log->info("Access granted",[__CLASS__,$_SESSION['user_email'],$request->getRequestTarget()]);
+            }
             return $response;
         } catch (ServiceException) {
             $this->api_log->info("Unauthorized access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);

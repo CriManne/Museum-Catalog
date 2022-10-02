@@ -23,12 +23,11 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
     public ArtifactSearchEngine $artifactSearchEngine;
 
     public function __construct(
-        ContainerBuilder $builder,
         Engine $plates,
         UserService $userService,
         ArtifactSearchEngine $artifactSearchEngine
     ) {
-        parent::__construct($builder,$plates);
+        parent::__construct($plates);
         $this->userService = $userService;
         $this->artifactSearchEngine = $artifactSearchEngine;
     }

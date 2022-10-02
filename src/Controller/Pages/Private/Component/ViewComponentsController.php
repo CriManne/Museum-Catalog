@@ -24,7 +24,7 @@ class ViewComponentsController extends ControllerUtil implements ControllerInter
 
     public function __construct(ContainerBuilder $builder,Engine $plates, UserService $userService)
     {
-        parent::__construct($builder,$plates);
+        parent::__construct($plates);
         $this->userService = $userService;
     }
 

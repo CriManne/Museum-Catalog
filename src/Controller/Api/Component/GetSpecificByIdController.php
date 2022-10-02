@@ -23,8 +23,8 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
 
     protected ComponentSearchEngine $componentSearchEngine;
 
-    public function __construct(ContainerBuilder $builder, ComponentSearchEngine $componentSearchEngine) {
-        parent::__construct($builder);
+    public function __construct(ComponentSearchEngine $componentSearchEngine) {
+        parent::__construct();
         $this->componentSearchEngine = $componentSearchEngine;
     }
 

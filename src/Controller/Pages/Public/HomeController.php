@@ -14,8 +14,8 @@ use SimpleMVC\Controller\ControllerInterface;
 
 class HomeController extends ControllerUtil implements ControllerInterface {
     
-    public function __construct(ContainerBuilder $builder,Engine $plates) {
-        parent::__construct($builder,$plates);
+    public function __construct(Engine $plates) {
+        parent::__construct($plates);
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
