@@ -22,24 +22,31 @@ use SimpleMVC\Response\HaltResponse;
 class ArtifactController extends ControllerUtil implements ControllerInterface {
 
     public function __construct(ContainerBuilder $builder, Engine $plates) {
-        parent::__construct($builder,$plates);        
+        parent::__construct($builder, $plates);
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {       
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $params = $request->getQueryParams();
 
-        if(!isset($params['id'])){
+        if (!isset($params['id'])) {
+            $error_message = "No id set!";
+            if ($this->container->get('logging_level') === 1) {
+                $this->pages_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
+            }
             return new Response(
                 400,
                 [],
-                $this->displayError(400,"Bad request!")
+                $this->displayError($error_message, 400)
             );
         }
 
+        if ($this->container->get('logging_level') === 1) {
+            $this->pages_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
+        }
         return new Response(
             200,
             [],
-            $this->plates->render('artifact::single_artifact',['title'=>"Artifact"])
+            $this->plates->render('artifact::single_artifact', ['title' => "Artifact"])
         );
     }
 }

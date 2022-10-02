@@ -22,14 +22,17 @@ use SimpleMVC\Response\HaltResponse;
 class ArtifactsController extends ControllerUtil implements ControllerInterface {
 
     public function __construct(ContainerBuilder $builder, Engine $plates) {
-        parent::__construct($builder,$plates);        
+        parent::__construct($builder, $plates);
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {       
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+        if ($this->container->get('logging_level') === 1) {
+            $this->pages_log->info("Successfull get page", [__CLASS__, $_SESSION['user_email']]);
+        }
         return new Response(
             200,
             [],
-            $this->plates->render('artifact::view_artifacts',['title'=>"Artifacts"])
+            $this->plates->render('artifact::view_artifacts', ['title' => "Artifacts"])
         );
     }
 }
