@@ -16,16 +16,24 @@ use SimpleMVC\Response\HaltResponse;
 class AdvancedAuthController extends ControllerUtil implements ControllerInterface {
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+
         if (!isset($_SESSION['privilege']) || $_SESSION['privilege'] !== 1) {
+
             $requestedUrl = $request->getRequestTarget();
+
             $error_message = "";
-            if (str_contains($requestedUrl,'api')) {
+
+            /**
+             * Set the error to be displayed based on the request
+             */
+            if (str_contains($requestedUrl, 'api')) {
                 $error_message = $this->getResponse("Unauthorized access", 401);
             } else {
-                $error_message = $this->displayError("Unauthorized access",401);
+                $error_message = $this->displayError("Unauthorized access", 401);
             }
 
             $this->api_log->info("Unauthorized access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
+
             return new HaltResponse(
                 401,
                 [],
@@ -34,7 +42,7 @@ class AdvancedAuthController extends ControllerUtil implements ControllerInterfa
         }
 
         if ($this->container->get('logging_level') === 1) {
-            $this->api_log->info("Access granted",[__CLASS__,$_SESSION['user_email'],$request->getRequestTarget()]);
+            $this->api_log->info("Access granted", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
         }
         return $response;
     }

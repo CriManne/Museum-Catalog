@@ -33,16 +33,16 @@ class ControllerUtil {
      */
     protected Container $container;
 
-    public function __construct(?Engine $plates=null) {
+    public function __construct(?Engine $plates = null) {
         if ($plates) {
             $this->plates = $plates;
-        }        
+        }
         $this->container = DIC::getContainer();
         $this->api_log = new Logger("api_log");
-        $this->api_log->pushHandler(new StreamHandler("./logs/api_log.log",Level::Info));
+        $this->api_log->pushHandler(new StreamHandler("./logs/api_log.log", Level::Info));
 
         $this->pages_log = new Logger("pages_log");
-        $this->pages_log->pushHandler(new StreamHandler("./logs/pages_log.log",Level::Info));
+        $this->pages_log->pushHandler(new StreamHandler("./logs/pages_log.log", Level::Info));
     }
 
     /**
@@ -61,7 +61,7 @@ class ControllerUtil {
      * @param int $error_code
      * @return string The page html as string
      */
-    public function displayError(string $error_message,int $error_code): string {
+    public function displayError(string $error_message, int $error_code): string {
         return $this->plates->render('error::error', ['error_code' => $error_code, 'error_message' => $error_message]);
     }
 }

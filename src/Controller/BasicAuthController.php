@@ -29,11 +29,16 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $requestedUrl = $request->getRequestTarget();
+
         $error_message = "";
-        if (str_contains($requestedUrl,'api')) {
+
+        /**
+         * Set the error to be displayed based on the request
+         */
+        if (str_contains($requestedUrl, 'api')) {
             $error_message = $this->getResponse("Unauthorized access", 401);
         } else {
-            $error_message = $this->displayError("Unauthorized access",401);
+            $error_message = $this->displayError("Unauthorized access", 401);
         }
 
         if (!isset($_SESSION['user_email'])) {
@@ -46,13 +51,17 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
         }
 
         try {
+            
             $this->userService->selectById($_SESSION['user_email']);
 
             if ($this->container->get('logging_level') === 1) {
-                $this->api_log->info("Access granted",[__CLASS__,$_SESSION['user_email'],$request->getRequestTarget()]);
+                $this->api_log->info("Access granted", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
             }
+            
             return $response;
+
         } catch (ServiceException) {
+            
             $this->api_log->info("Unauthorized access", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);
             return new HaltResponse(
                 401,
