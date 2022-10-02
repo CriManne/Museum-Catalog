@@ -7,3 +7,5 @@
 [2022-10-02T11:46:39.970808+02:00] app_log.ERROR: Not Found ["/private/component/view_components?category=Cpuweq"] []
 [2022-10-02T11:47:01.318869+02:00] app_log.ERROR: Not Found ["/private/component/view_components?category=Cpuwq"] []
 [2022-10-02T11:47:05.680211+02:00] app_log.ERROR: Not Found ["/private/component/view_components?category=Cpuw"] []
+[2022-10-02T14:58:33.694000+02:00] app_log.ERROR: Cannot connect to database! ["/login"] []
+[2022-10-02T14:58:37.841256+02:00] app_log.ERROR: Cannot connect to database! ["/login"] []

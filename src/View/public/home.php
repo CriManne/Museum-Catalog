@@ -65,7 +65,7 @@
                                 <h5 class="widget-title h6">Informazioni</h5>
                                 <div class="textwidget custom-html-widget">
                                     <hr>
-                                    <ul>
+                                    <ul class="list-group">
                                         <li><i class="fas fa-map-marker-alt"></i> Piazza Riccardo Valla, 5 (già via Reiss Romoli, 49 bis) – 10148 Torino - ITALY</li>
                                         <li><i class="fas fa-envelope"></i> <a class="link-light" href="mailto:info@mupin.it">info@mupin.it</a></li>
                                         <li><i class="fas fa-mobile"></i> <a class="link-light" href="tel:+393500319477">+39 350 031 9477</a></li>

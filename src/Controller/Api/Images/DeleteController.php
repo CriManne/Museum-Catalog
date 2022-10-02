@@ -26,22 +26,28 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
         if ($id) {
             $counter = self::deleteImages($id);
 
+            $message = "Deleted $counter images!";
+            $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 200,
                 [],
-                $this->getResponse("Deleted $counter images!")
+                $this->getResponse($message)
             );
         }
 
         if ($imgName) {
             try {
                 $this->deleteImage($imgName);
+
+                $message = "Image deleted!";
+                $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     200,
                     [],
-                    $this->getResponse("Image deleted!")
+                    $this->getResponse($message)
                 );
             } catch (Exception $e) {
+                $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     400,
                     [],
@@ -50,11 +56,12 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             }
         }
 
-
+        $error_message = "Bad request!";
+        $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
         return new Response(
             400,
             [],
-            $this->getResponse("Bad request!", 400)
+            $this->getResponse($error_message, 400)
         );
     }
 

@@ -15,16 +15,6 @@ function displayResult(result) {
       description.push("<b>" + key + "</b>: " + value);
     }
 
-    let images = makeRequest(urlImagesNames + "?id=" + elem.ObjectID);
-
-    let src = "";
-
-    if (images.length < 1) {
-      src = "https://dummyimage.com/404x404/dee2e6/6c757d.jpg";
-    } else {
-      src = images[0];
-    }
-
     $("#tb-container").append(
       '<div class="card artifact-card col" role="button" data-id="' +
         elem.ObjectID +

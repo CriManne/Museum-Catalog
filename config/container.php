@@ -44,5 +44,11 @@ return [
         } catch (PDOException) {
             throw new RepositoryException("Cannot connect to database!");
         }
-    }
+    },
+    /**
+     * This indicates the logging_level that is being used
+     * LEVEL 0: minimum logging level, just employee operations and public failed operations (e.g.: artifact not found)
+     * LEVEL 1: maximum logging level, every call to the controllers will be logged
+     */
+    'logging_level'=>0
 ];
