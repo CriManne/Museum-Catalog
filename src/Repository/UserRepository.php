@@ -101,15 +101,13 @@ class UserRepository extends GenericRepository {
             "UPDATE user 
             SET Password = :Password,
             firstname = :firstname,
-            lastname = :lastname,
-            Privilege = :Privilege
+            lastname = :lastname
             WHERE Email = :Email;";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("Password", $u->Password, PDO::PARAM_STR);
         $stmt->bindParam("firstname", $u->firstname, PDO::PARAM_STR);
         $stmt->bindParam("lastname", $u->lastname, PDO::PARAM_STR);
-        $stmt->bindParam("Privilege", $u->Privilege, PDO::PARAM_INT);
         $stmt->bindParam("Email", $u->Email, PDO::PARAM_STR);
         try {
             $stmt->execute();

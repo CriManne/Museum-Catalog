@@ -5,12 +5,10 @@ As an employee, I want to login in the private area and view all the categories,
 able to view all the objects in multiple pages.
 
 User story 2:
-As an employee, I want to order the list of objects by any of the fields available.
 I want to create, update or delete any of the objects.
 
 User story 4:
 As an employee, I want to make a search which will search any object by any fields.
-I want to apply filters and ordering conditions.
 I want to increase the amount of object per page.
 
 User story 5:
