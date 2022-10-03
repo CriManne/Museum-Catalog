@@ -10,18 +10,6 @@ function handleSubmit(e) {
     e.preventDefault();
     let formData = new FormData(this);
 
-    let toBeRemoved = [];
-
-    for(let [key,value] of formData){
-        if(isEmptyOrSpaces(value)){
-            toBeRemoved.push(key);
-        }
-    }    
-
-    for(const value of toBeRemoved){
-        formData.delete(value);
-    }
-
     let response = makeRequest(
         urlForm,
         'POST',
@@ -32,6 +20,7 @@ function handleSubmit(e) {
     );
 
     createAlert(response);
+    
     if(response.status=="200"){
         fillUpdateForm();
     }

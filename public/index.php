@@ -42,29 +42,25 @@ try {
     $status_code = $response->getStatusCode();
     $error_message = $response->getReasonPhrase();
     
-    if ($status_code === 404) {        
-        $responseBody = null;
-        
-        if (str_contains($requestedUrl,'api')) {
-            $responseBody = $util->getResponse($error_message, $status_code);
-        } else {
-            $responseBody = $util->displayError($error_message,$status_code);
-        }
+    if ($status_code === 404 && !str_contains($requestedUrl, 'api')) {
+
+        $responseBody = $util->displayError($error_message, $status_code);
+
         $log->error($error_message, [$requestedUrl]);
         SapiEmitter::emit(new Response(
             $status_code,
             [],
             $responseBody
         ));
-    }else{
+    } else {
         SapiEmitter::emit($response);
     }
 } catch (RepositoryException $e) {
     $responseBody = null;
-    if (str_contains($requestedUrl,'api')) {
+    if (str_contains($requestedUrl, 'api')) {
         $responseBody = $util->getResponse($e->getMessage(), 500);
     } else {
-        $responseBody = $util->displayError($e->getMessage(),500);
+        $responseBody = $util->displayError($e->getMessage(), 500);
     }
     $log->error($e->getMessage(), [$requestedUrl]);
     SapiEmitter::emit(new Response(

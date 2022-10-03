@@ -89,9 +89,9 @@ class CreateController extends ControllerUtil implements ControllerInterface {
             } catch (ServiceException $e) {
                 $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
                 return new Response(
-                    404,
+                    400,
                     [],
-                    $this->getResponse($e->getMessage(), 404)
+                    $this->getResponse($e->getMessage(), 400)
                 );
             } catch (Throwable) {
             }
