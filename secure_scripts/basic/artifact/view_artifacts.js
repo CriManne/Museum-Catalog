@@ -58,7 +58,7 @@ function displayResult(result) {
         if (confirm("Sei sicuro di voler eliminare il reperto {" + id + "}?")) {
             let response = makeRequest(urlArtifactDelete + "?id=" + id+"&category="+category, 'DELETE');
             if(response.status=="200"){
-                loadResult("");
+                loadResult("?q="+$("#artifact-search").val());
             }
             createAlert(response);
         }

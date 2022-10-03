@@ -50,7 +50,7 @@ function displayResult(result) {
         if (confirm("Sei sicuro di voler eliminare il componente {" + id + "}?")) {
             let response = makeRequest(urlComponentDelete + "?id=" + id+"&category="+category, 'DELETE');
             if(response.status=="200"){
-                loadResult("");
+                loadResult("&q="+$("#component-search").val());
             }
             createAlert(response);
         }
