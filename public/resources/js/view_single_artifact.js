@@ -44,10 +44,10 @@ $(document).ready(function () {
     $("#object-description").append("<p><b>" + key + "</b>: " + value + "</p>");
   }
 
-  if (response.Tag !== "" && response.Tag !== null) {
+  if (response.Tag !== null) {
     $("#object-tags").append("<b>Tags:</b> " + response.Tag);
   }
-  if (response.Url !== "" && response.Url !== null) {
+  if (response.Url !== null) {
     const conditions = ["http://", "https://"];
     if (!conditions.some((el) => response.Url.includes(el))) {
       response.Url = "https://" + response.Url;
@@ -56,7 +56,7 @@ $(document).ready(function () {
       "<b>Url:</b> <a href='" + response.Url + "'>Segui il link</a>"
     );
   }
-  if (response.Note !== "" && response.Note !== null) {
+  if (response.Note !== null) {
     $("#object-note").append("<b>Note:</b> " + response.Note);
   }
 });

@@ -7,6 +7,9 @@ $(document).ready(function(){
         e.preventDefault();
     });
 
+});
+
+function imageDelBtnHandler(){
     $(".image-del").on("click",function(){
         let imgPath = $(this).attr("data-id");
         let imgName = imgPath.split("/").at(-1);       
@@ -20,7 +23,7 @@ $(document).ready(function(){
             $("#images-outer-container").hide();
         }
     });
-});
+}
 
 function fillUpdateForm(){
     const urlSearchParams = new URLSearchParams(window.location.search);
@@ -85,5 +88,8 @@ function fillUpdateForm(){
                 '</div>'
             );
         }
+
+        imageDelBtnHandler();
+        $("#images").val("");
     }
 }

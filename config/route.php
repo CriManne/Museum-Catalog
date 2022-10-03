@@ -132,7 +132,7 @@ return [
     ['GET', '/api/images', Controller\Api\Images\GetController::class],
 
     //DELETE ALL THE IMAGES BY ID
-    ['DELETE', '/api/images/delete', Controller\Api\Images\DeleteController::class],
+    ['DELETE', '/api/images/delete', [Controller\BasicAuthController::class,Controller\Api\Images\DeleteController::class]],
 
 
     /* /IMAGES */

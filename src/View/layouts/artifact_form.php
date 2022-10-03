@@ -38,7 +38,7 @@
         <div class="form-outline mb-4" id="images-outer-container"></div>
         <div class="mb-3">
             <label for="images" class="form-label">Immagini del reperto</label>
-            <input class="form-control" name="images[]" type="file" multiple="multiple" accept="image/*">
+            <input class="form-control" id="images" name="images[]" type="file" multiple="multiple" accept="image/*">
         </div>
         <input type='submit' class='btn btn-primary' id='btn-submit'>
         <input type='reset' class='btn btn-info' id='btn-reset'>
