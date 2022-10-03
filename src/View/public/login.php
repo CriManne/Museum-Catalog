@@ -13,7 +13,7 @@ $this->layout('layouts::homepage', ['title' => $title]);
                                 <h3 class="text-center font-weight-light my-4">Login</h3>
                             </div>
                             <div class="card-body">
-                                <form action="/login" method="POST">
+                                <form action="/login" method="POST" id="login-form">
                                     <div class="form-floating mb-3">
                                         <?php
                                         if (isset($error)) {
@@ -23,15 +23,19 @@ $this->layout('layouts::homepage', ['title' => $title]);
                                     </div>
 
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="Email" name="Email" type="text" placeholder="name@example.com" />
+                                        <input class="form-control" id="Email" name="Email" type="text" placeholder="name@example.com" required/>
                                         <label for="Email">Email</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="Password" name="Password" type="password" placeholder="Password" />
+                                        <input class="form-control" id="Password" name="Password" type="password" placeholder="Password" required/>
                                         <label for="Password">Password</label>
                                     </div>
-                                    <input type="checkbox" id="show_psw" onclick="showPsw()">
-                                    <label class="form-label" for="show_psw">Show password</label>
+                                    <div class="form-outline mb-4">
+                                        <label class="form-label" for="Confirm_Password">Conferma password</label>
+                                        <input type="password" name="Password" id="Confirm_Password" class="form-control" required />
+                                        <input type="checkbox" id="show_psw" onclick="showPsw()">
+                                        <label class="form-label" for="show_psw">Show passwords</label>
+                                    </div>
                                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                         <button type='submit' name="submitLogin" class="btn btn-primary">Login</button>
                                     </div>
@@ -46,4 +50,5 @@ $this->layout('layouts::homepage', ['title' => $title]);
 </div>
 <?php $this->push('scripts') ?>
 <script src="/resources/js/show_password_toggle.js"></script>
+<script src="/resources/js/login_pwd_check.js"></script>
 <?php $this->end() ?>
