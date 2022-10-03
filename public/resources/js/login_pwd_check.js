@@ -9,6 +9,8 @@ $(document).ready(function (){
             return;
         }
 
+        formData.append("submitLogin");
+
         $(this).submit();
     });
 

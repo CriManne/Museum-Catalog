@@ -34,7 +34,7 @@ class LoginController extends ControllerUtil implements ControllerInterface {
         }
 
         $credentials = $request->getParsedBody();
-
+        
         if (!$sessionValid && (!isset($credentials["submitLogin"]) || !isset($credentials["Email"]) || !isset($credentials["Password"]))) {            
             if ($this->container->get('logging_level') === 1) {
                 $this->pages_log->info("Successfull get page", [__CLASS__]);
