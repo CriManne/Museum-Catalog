@@ -63,8 +63,10 @@ class UploadController extends ControllerUtil implements ControllerInterface {
 
         $index = 1;
 
+        $indexInserted = 1;
+
         foreach ($files['tmp_name'] as $tmp_name) {
-            $splittedName = explode('.', $files['name'][$index - 1]);
+            $splittedName = explode('.', $files['name'][$indexInserted - 1]);
             $fileextension = end($splittedName);
             $filename = $path . $ObjectID . "_" . $index . "." . $fileextension;
             while (file_exists($filename)) {
@@ -73,6 +75,7 @@ class UploadController extends ControllerUtil implements ControllerInterface {
             }
             move_uploaded_file($tmp_name, $filename);
             $index++;
+            $indexInserted++;
         }
     }
 }
