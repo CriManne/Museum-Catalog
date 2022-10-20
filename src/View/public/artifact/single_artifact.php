@@ -1,8 +1,8 @@
 <?php $this->layout('layouts::homepage', ['title' => $title]) ?>
 
 <!-- Product section-->
-<div class="container mt-2 mx-auto">
-    <a href="/catalog" class="btn btn-primary">
+<div class="container mt-2">
+    <a href="/catalog" class="btn btn-dark text-start">
         <i class="fa-solid fa-arrow-left mx-2"></i>Go back
     </a>
 </div>
