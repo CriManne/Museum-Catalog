@@ -77,7 +77,7 @@ function fillUpdateForm(){
             images.forEach(function(img){
                 $("#images-container").append(
                     '<div class="card" id="'+img+'" style="width: 18rem;">'+
-                    '   <img src="'+img+'" class="card-img-top img-thumbnail" style="height:20vh;">'+
+                    '   <img src="'+img+'" class="card-img-top img-thumbnail" style="height:20vh; object-fit: contain;">'+
                     '   <div class="card-body">'+
                     '       <button type="button" role="button" class="btn btn-danger image-del" data-id="'+img+'">Elimina immagine</button>'+
                     '   </div>'+
