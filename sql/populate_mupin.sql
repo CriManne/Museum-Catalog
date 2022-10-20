@@ -1,12 +1,17 @@
 -- POPULATE GENERICOBJECT
 
 INSERT INTO genericobject(ObjectID,Note,Url,Tag) VALUES
-("OBJ1","Computer del 1945",null,"Computer 1945 antico"),
-("OBJ2","Software del 1956 sulla gestione dei computer",null,"Software computer 1956 antico"),
-("OBJ3","Libro sulla TDD",null,"Libro programmazione tdd"),
-("OBJ4","Rivista programmazione",null,null),
-("OBJ5","Scherm",null,null);
-
+("OBJ1","Computer portatile",null,"Computer 2018 nuovo veloce ufficio"),
+("OBJ2","Microsoft Word",null,"Software Word documenti Microsoft Ufficio"),
+("OBJ3","Test Driven Development",null,"Libro programmazione tdd test driven development guida"),
+("OBJ4","Rivista programmazione",null,"Rivista programmazione"),
+("OBJ5","Schermo ASUS LED 24",null,"schermo asus monitor led 24 pc computer"),
+("OBJ6","Macintosh 128K",null,"Computer Macintosh 128K 1984"),
+("OBJ7","Macbook Air 13''",'https://www.apple.com/it/shop/buy-mac/macbook-air',"Computer Apple Macbook Mac 13 Laptop Portatile"),
+("OBJ9","Visual Studio Code",null,"Software programmazione ide vs vscode code studio"),
+("OBJ10","Git",null,"Software versionamento repository commit push"),
+("OBJ11","Refactoring",null,"Libro programmazione refactoring guida"),
+("OBJ12","C++",null,"Libro programmazione c++ c");
 -- POPULATE AUTHOR
 
 INSERT INTO author(firstname,lastname) VALUES
@@ -24,7 +29,9 @@ INSERT INTO publisher(Name) VALUES
 -- POPULATE BOOK
 
 INSERT INTO book(ObjectID,Title,PublisherID,Year,Pages,ISBN) VALUES
-("OBJ3","TDD Dev",1,1998,405,"ABCDEFG");
+("OBJ3","Test Driven Development",1,1998,405,"ABCDEFG"),
+("OBJ11","Refactoring",1,1998,405,"ABCDEFG"),
+("OBJ12","C++",1,1998,405,"ABCDEFG");
 
 -- POPULATE BOOK AUTHOR
 INSERT INTO bookauthor(BookID,AuthorID) VALUES
@@ -50,7 +57,9 @@ INSERT INTO os(Name) VALUES
 
 -- POPULATE COMPUTER
 INSERT INTO computer(ObjectID,ModelName,Year,CpuID,RamID,HddSize,OsID) VALUES
-("OBJ1","Computer antico della guerra",1945,1,1,"1TB",1);
+("OBJ1","Computer portatile ultima generazione",2018,1,1,"1TB",1),
+("OBJ6","Macintosh 128K",1984,1,1,"1TB",1),
+("OBJ7","Macbook Air 13''",2020,1,1,"1TB",1);
 
 -- POPULATE MAGAZINE
 INSERT INTO magazine(ObjectID,Title,MagazineNumber,Year,PublisherID) VALUES
@@ -80,7 +89,9 @@ INSERT INTO supporttype(Name) VALUES
 
 -- POPULATE SOFTWARE
 INSERT INTO software(ObjectID,Title,OsID,SoftwareTypeID,SupportTypeID) VALUES
-("OBJ2","Software gestione dei computer",1,1,1);
+("OBJ2","Microsoft Word",1,1,1),
+("OBJ9","Visual Studio Code",1,1,1),
+("OBJ10","Git",1,1,1);
 
 -- POPULATE USER
 
