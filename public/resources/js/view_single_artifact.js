@@ -22,6 +22,7 @@ $(document).ready(function () {
       $("#single-img").remove();
       $("#carousel").removeClass("d-none");
       let active = false;
+      let index = 0;
       images.forEach(function (img) {
         $("#carousel-images").append(
           '<div class="carousel-item ' +
@@ -32,7 +33,13 @@ $(document).ready(function () {
             '" class="d-block w-100" style="height:40vh; object-fit:contain;" alt="...">' +
             "    </div>"
         );
-        active = true;
+        active = true;        
+        if(index > 0){
+          $(".carousel-indicators").append(
+            '<button type="button" data-bs-target="#carousel" data-bs-slide-to="'+index+'"></button>'
+          )
+        }
+        index++;
       });
     }
   }
