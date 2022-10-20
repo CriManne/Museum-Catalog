@@ -29,7 +29,7 @@ $(document).ready(function () {
             '">' +
             '       <img src="' +
             img +
-            '" class="d-block w-100" style="height:40vh;" alt="...">' +
+            '" class="d-block w-100" style="height:40vh; object-fit:contain;" alt="...">' +
             "    </div>"
         );
         active = true;
@@ -53,7 +53,7 @@ $(document).ready(function () {
       response.Url = "https://" + response.Url;
     }
     $("#object-url").append(
-      "<b>Url:</b> <a href='" + response.Url + "'>Segui il link</a>"
+      "<b>Url:</b> <a href='" + response.Url + "' target='_blank'>Segui il link</a>"
     );
   }
   if (response.Note !== null) {

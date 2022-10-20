@@ -1,6 +1,11 @@
 <?php $this->layout('layouts::homepage', ['title' => $title]) ?>
 
 <!-- Product section-->
+<div class="container mt-2 mx-auto">
+    <a href="/catalog" class="btn btn-primary">
+        <i class="fa-solid fa-arrow-left mx-2"></i>Go back
+    </a>
+</div>
 <div id="alert-container"></div>
 <section class="py-5 d-none" id="artifact">
     <div class="container px-4 px-lg-5 my-5">
@@ -18,7 +23,7 @@
                         <span class="visually-hidden">Next</span>
                     </button>
                 </div>
-                <img class="card-img-top mb-5 mb-md-0" id="single-img" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." />
+                <img class="d-block w-100" style="height:40vh; object-fit:contain;" id="single-img" src="https://dummyimage.com/600x700/dee2e6/6c757d.jpg" alt="..." />
             </div>
             <div class="col-md-6">
                 <div class="small mb-1 d-flex flex-row gap-1"><b>ID:</b>
