@@ -39,21 +39,22 @@ INSERT INTO bookauthor(BookID,AuthorID) VALUES
 
 -- POPULATE CPU
 INSERT INTO cpu(ModelName,Speed) VALUES
-("I5","4GHZ"),
-("I7","6GHZ"),
-("I9","8GHZ");
+("I5","2GHZ"),
+("I7","3.5GHZ"),
+("AMD Ryzen 5","4.2GHZ"),
+("I9","4GHZ");
 
 -- POPULATE RAM
 INSERT INTO ram(ModelName,Size) VALUES
-("Veng","16GB"),
-("Cool","32GB"),
-("Micro","4GB");
+("Corsair Vengeance","16GB"),
+("Asus ROG","8GB"),
+("Kingston","8GB");
 
 -- POPULATE OS
 INSERT INTO os(Name) VALUES
 ("Windows 10"),
 ("Linux"),
-("IOS");
+("MacOS");
 
 -- POPULATE COMPUTER
 INSERT INTO computer(ObjectID,ModelName,Year,CpuID,RamID,HddSize,OsID) VALUES
