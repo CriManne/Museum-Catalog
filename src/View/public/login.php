@@ -31,10 +31,8 @@ $this->layout('layouts::homepage', ['title' => $title]);
                                         <label for="Password">Password</label>
                                     </div>
                                     <div class="form-outline mb-4">
-                                        <label class="form-label" for="Confirm_Password">Conferma password</label>
-                                        <input type="password" name="Password" id="Confirm_Password" class="form-control" required />
                                         <input type="checkbox" id="show_psw" onclick="showPsw()">
-                                        <label class="form-label" for="show_psw">Show passwords</label>
+                                        <label class="form-label" for="show_psw">Show password</label>
                                     </div>
                                     <div class="d-flex align-items-center justify-content-between mt-4 mb-0">
                                         <button type='submit' name="submitLogin" class="btn btn-primary">Login</button>
