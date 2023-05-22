@@ -1,5 +1,13 @@
-# Mupin Catalog
+# Museum Catalog
 
-## by Cristian Mannella
+This is an open-source project for the inventory management of a museum.
+<br>
+The [Mupin Museum](https://www.mupin.it/) was used as a reference in this case.
+<br>
+It also implemented REST APIs for Ajax calls and used ORM and MVC design patterns.
+<br>
+The software was build with TDD principles using the test framework [phpunit](https://github.com/sebastianbergmann/phpunit).
 
-### created with [SimpleMVC Framework by Enrico Zimuel](https://github.com/simplemvc)
+#### created with [SimpleMVC Framework](https://github.com/simplemvc) by [Enrico Zimuel](https://github.com/ezimuel)
+
+### by Cristian Mannella
