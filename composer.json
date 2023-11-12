@@ -2,6 +2,7 @@
     "name": "simplemvc/skeleton",
     "type": "project",
     "description": "A skeleton application using SimpleMVC framework",
+    "version": "1.0.1",
     "keywords": [
         "framework",
         "simple",
