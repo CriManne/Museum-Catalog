@@ -1,18 +1,18 @@
 version: '3'
 services:
   webserver:
-    image: php:apache
+    image: php:8.2-cli
     ports:
       - "80:80"
     volumes:
-      - ./:/var/www/html/
+      - .:/app
     build:
       context: .
       dockerfile: Dockerfile
-    command: bash -c "composer install && apache2-foreground"
+    command: bash -c "composer install; php -S 0.0.0.0:80 -t public"
 
   database:
-    image: mariadb
+    image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
       MYSQL_DATABASE: mupin
@@ -20,6 +20,7 @@ services:
       - "3306:3306"
     volumes:
       - ./sql/create_mupin.sql:/docker-entrypoint-initdb.d/create_mupin.sql
+      - ./my.cnf:/etc/mysql/my.cnf
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
