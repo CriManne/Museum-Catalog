@@ -1,6 +1,6 @@
 -- POPULATE GENERICOBJECT
 
-INSERT INTO genericobject(ObjectID,Note,Url,Tag) VALUES
+INSERT INTO GenericObject(id,note,url,tag) VALUES
 ("OBJ1","Computer portatile",null,"Computer 2018 nuovo veloce ufficio"),
 ("OBJ2","Microsoft Word",null,"Software Word documenti Microsoft Ufficio"),
 ("OBJ3","Test Driven Development",null,"Libro programmazione tdd test driven development guida"),
@@ -14,89 +14,89 @@ INSERT INTO genericobject(ObjectID,Note,Url,Tag) VALUES
 ("OBJ12","C++",null,"Libro programmazione c++ c");
 -- POPULATE AUTHOR
 
-INSERT INTO author(firstname,lastname) VALUES
+INSERT INTO Author(firstname,lastname) VALUES
 ("Mario","Rossi"),
 ("Luca","Verdi"),
 ("Sandro","Gialli");
 
 -- POPULATE PUBLISHER
 
-INSERT INTO publisher(Name) VALUES
+INSERT INTO Publisher(name) VALUES
 ("Einaudi"),
 ("Mondadori"),
 ("Zanichelli");
 
 -- POPULATE BOOK
 
-INSERT INTO book(ObjectID,Title,PublisherID,Year,Pages,ISBN) VALUES
+INSERT INTO Book(objectId,title,publisherId,year,pages,isbn) VALUES
 ("OBJ3","Test Driven Development",1,1998,405,"ABCDEFG"),
 ("OBJ11","Refactoring",1,1998,405,"ABCDEFG"),
 ("OBJ12","C++",1,1998,405,"ABCDEFG");
 
 -- POPULATE BOOK AUTHOR
-INSERT INTO bookauthor(BookID,AuthorID) VALUES
+INSERT INTO BookAuthor(bookId,authorId) VALUES
 ("OBJ3",1);
 
 -- POPULATE CPU
-INSERT INTO cpu(ModelName,Speed) VALUES
+INSERT INTO Cpu(modelName,speed) VALUES
 ("I5","2GHZ"),
 ("I7","3.5GHZ"),
 ("AMD Ryzen 5","4.2GHZ"),
 ("I9","4GHZ");
 
 -- POPULATE RAM
-INSERT INTO ram(ModelName,Size) VALUES
+INSERT INTO Ram(modelName,size) VALUES
 ("Corsair Vengeance","16GB"),
 ("Asus ROG","8GB"),
 ("Kingston","8GB");
 
 -- POPULATE OS
-INSERT INTO os(Name) VALUES
+INSERT INTO Os(name) VALUES
 ("Windows 10"),
 ("Linux"),
 ("MacOS");
 
 -- POPULATE COMPUTER
-INSERT INTO computer(ObjectID,ModelName,Year,CpuID,RamID,HddSize,OsID) VALUES
+INSERT INTO Computer(objectId,modelName,year,cpuId,ramId,hddSize,osId) VALUES
 ("OBJ1","Computer portatile ultima generazione",2018,1,1,"1TB",1),
 ("OBJ6","Macintosh 128K",1984,1,1,"1TB",1),
 ("OBJ7","Macbook Air 13''",2020,1,1,"1TB",1);
 
 -- POPULATE MAGAZINE
-INSERT INTO magazine(ObjectID,Title,MagazineNumber,Year,PublisherID) VALUES
+INSERT INTO Magazine(objectId,title,magazineNumber,year,publisherId) VALUES
 ("OBJ4","Rivista interessante",31,1999,1);
 
 -- POPULATE PERIPHERAL TYPE
-INSERT INTO peripheraltype(Name) VALUES
+INSERT INTO PeripheralType(name) VALUES
 ("Mouse"),
 ("Keyboard"),
 ("Display");
 
 -- POPULATE PERIPHERAL
-INSERT INTO peripheral(ObjectID,ModelName,PeripheralTypeID) VALUES
+INSERT INTO Peripheral(objectId,modelName,peripheralTypeId) VALUES
 ("OBJ5","Schermo hdr",3);
 
 -- POPULATE SOFTWARE TYPE
-INSERT INTO softwaretype(Name) VALUES
+INSERT INTO SoftwareType(name) VALUES
 ("Office"),
 ("Cloud"),
 ("Utility");
 
 -- POPULATE SUPPORT TYPE
-INSERT INTO supporttype(Name) VALUES
+INSERT INTO SupportType(name) VALUES
 ("CD"),
 ("DVD"),
 ("Online");
 
 -- POPULATE SOFTWARE
-INSERT INTO software(ObjectID,Title,OsID,SoftwareTypeID,SupportTypeID) VALUES
+INSERT INTO Software(objectId,title,osId,softwareTypeId,supportTypeId) VALUES
 ("OBJ2","Microsoft Word",1,1,1),
 ("OBJ9","Visual Studio Code",1,1,1),
 ("OBJ10","Git",1,1,1);
 
 -- POPULATE USER
 
-INSERT INTO user(Email,Password,firstname,lastname,Privilege) VALUES
+INSERT INTO User(email,password,firstname,lastname,privilege) VALUES
 ('admin','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Cristian','Rossi',1),
 ('test','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
 ('test1','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),

@@ -53,7 +53,7 @@ final class UserServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleResponse);
-        $this->assertEquals("Elon",$this->userService->selectById("testemail@gmail.com")->firstname);
+        $this->assertEquals("Elon",$this->userService->selectById("testemail@gmail.com")->Firstname);
     }
 
     public function testBadSelectById(): void

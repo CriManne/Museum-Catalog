@@ -10,8 +10,7 @@ let pages = 0;
 //All the users fetched, since there will be not many users the app will fetch all the users in the db and it will store them locally
 let users = [];
 
-//The filtered users which is a subset of the users array
-let filteredUsers = [];
+let searchTerm = "";
 
 //URL to fetch users
 const urlFetchUsers = "/api/user";
@@ -24,7 +23,7 @@ $(document).ready(function() {
     $("#main-container").removeClass("d-none");
     
 
-    initializePage();
+    loadPage();
 
     //When the per page limit select is changed
     $("#page-limit").unbind().on('change', function() {
@@ -37,18 +36,7 @@ $(document).ready(function() {
 
     //When the user type in the search bar
     $("#user-search").unbind().on('input copy paste cut', function() {
-        let key = this.value.toLowerCase();
-        //Create the subset array filtered by the key
-        filteredUsers = users.filter(function(elem) {
-            if (elem.firstname.toLowerCase().includes(key) ||
-                elem.lastname.toLowerCase().includes(key) ||
-                elem.Email.toLowerCase().includes(key) ||
-                key.length < 1) {
-                return true;
-            }
-            return false;
-        });
-
+        searchTerm = this.value.toLowerCase();
         currentPage = 0;
         loadPage();
     });
@@ -63,7 +51,7 @@ $(document).ready(function() {
 
     //When the user go to the next page
     $("#navigation-next").unbind().on('click', function() {
-        if (currentPage < Math.ceil(filteredUsers.length / limitPerPage) - 1) {
+        if (currentPage < pages - 1) {
             currentPage++;
             loadPage();
         }
@@ -71,21 +59,21 @@ $(document).ready(function() {
 
 });
 
+function loadPage() {
+    let url = urlFetchUsers + "?page=" + currentPage + "&itemsPerPage=" + limitPerPage + "&query=" + searchTerm;
 
-function initializePage() {
-    users = filteredUsers = makeRequest(urlFetchUsers);
+    let response = makeRequest(
+        url
+    );
 
-    if(users.status == "401"){
+    if(response.status === "401"){
         window.location.reload();
     }
 
-    loadPage();
+    users = response.data;
 
-}
-
-function loadPage() {
     //If there's no user in the subset
-    if (filteredUsers.length < 1) {
+    if (users.length < 1) {
         $("#tb-container").empty();
         $("#tb-container").append("No users found");
         $(".pagination").hide();
@@ -94,19 +82,10 @@ function loadPage() {
     }
 
     //Calculate the pages
-    pages = Math.ceil(filteredUsers.length / limitPerPage);
-
-    //Reload page until the current page exists
-    if (currentPage + 1 > pages) {
-        currentPage--;
-        loadPage();
-    }
-
-    //Calculate the offset of the subset for pagination
-    let offset = currentPage * limitPerPage;
+    pages = response.totalPages;
 
     //Fill the table with the data
-    fillTable(filteredUsers.slice(offset, offset + limitPerPage));
+    fillTable(users);
 
     //Create the pagination buttons
     createPaginationButtons();
@@ -124,7 +103,7 @@ function createPaginationButtons() {
         $('#paginations').append('<li class="page-item"><button class="page-link" id="change-page-' + 0 + '" data-page=' + 0 + '>' + 1 + '</button></li>');
         $("#change-page-0").unbind().on("click", function() {
             currentPage = 0;
-            loadPage(filteredUsers);
+            loadPage();
         });
     }
 
@@ -145,7 +124,7 @@ function createPaginationButtons() {
                 return;
             }
             currentPage = parseInt($(this).data('page'));
-            loadPage(filteredUsers);
+            loadPage();
         });
     }
 
@@ -159,7 +138,7 @@ function createPaginationButtons() {
         $('#paginations').append('<li class="page-item"><button class="page-link" id="change-page-' + (pages - 1) + '" data-page=' + (pages - 1) + '>' + pages + '</button></li>');
         $("#change-page-" + (pages - 1)).unbind().on("click", function() {
             currentPage = pages - 1;
-            loadPage(filteredUsers);
+            loadPage();
         });
     }
 }
@@ -184,8 +163,8 @@ function fillTable(data) {
     data.forEach(function(elem) {
 
         let email = elem.Email;
-        let firstname = elem.firstname;
-        let lastname = elem.lastname;
+        let firstname = elem.Firstname;
+        let lastname = elem.Lastname;
         let privilege = elem.Privilege;
 
         $("#table-result").append(
@@ -207,7 +186,7 @@ function fillTable(data) {
         if (confirm("Sei sicuro di voler eliminare l'utente {" + email + "}?")) {
             let response = makeRequest(urlDeleteUser + "?id=" + email, 'DELETE');
             createAlert(response);
-            initializePage();
+            loadPage();
         }
     });
 

@@ -24,7 +24,13 @@ class GetController extends ControllerUtil implements ControllerInterface {
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         try {
-            $users = $this->userService->selectAll();
+            $params = $request->getQueryParams();
+
+            $users = $this->userService->selectAll(
+                isset($params['page']) ? intval($params['page']) : null,
+                isset($params['itemsPerPage']) ? intval($params['itemsPerPage']) : null,
+                $params['query'] ?? null
+            );
 
             $this->api_log->info("Successfull get of all users", [__CLASS__, $_SESSION['user_email']]);
             return new Response(

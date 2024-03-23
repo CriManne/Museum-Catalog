@@ -28,11 +28,11 @@ return [
         'username' => 'test',
         'password' => 'password'
     ],
-    'dsn' => 'mysql:host=localhost;',
+    'dsn' => 'mysql:host=database;',
     'production_db' => 'dbname=mupin;',
     'username' => 'root',
     'db_dump' => file_get_contents("./sql/create_mupin.sql"),
-    'psw' => '',
+    'psw' => 'root',
     'PDO' => function (ContainerInterface $c) {
         try {
             return new PDO(

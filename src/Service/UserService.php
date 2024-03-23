@@ -4,10 +4,14 @@ declare(strict_types=1);
 
 namespace App\Service;
 
+use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Exceptions\ReflectionException;
+use AbstractRepo\Exceptions\RepositoryException;
+use App\DataModels\FetchableData;
+use App\DataModels\User\UserResponse;
 use App\Exception\ServiceException;
-use App\Model\Response\UserResponse;
-use App\Repository\UserRepository;
 use App\Model\User;
+use App\Repository\UserRepository;
 
 class UserService {
 
@@ -24,10 +28,10 @@ class UserService {
      * @throws ServiceException     If the email is already user
      */
     public function insert(User $u): void {
-        if ($this->userRepository->selectById($u->Email) != null)
+        if ($this->userRepository->findById($u->Email) != null)
             throw new ServiceException("Email already used!");
 
-        $this->userRepository->insert($u);
+        $this->userRepository->save($u);
     }
 
     /**
@@ -36,8 +40,8 @@ class UserService {
      * @return UserResponse     The user selected
      * @throws ServiceException     If no user is found
      */
-    public function selectById(string $email): UserResponse {
-        $user = $this->userRepository->selectById($email);
+    public function selectById(string $email): User {
+        $user = $this->userRepository->findById($email);
         if (is_null($user)) throw new ServiceException("User not found");
 
         return $user;
@@ -59,18 +63,45 @@ class UserService {
 
     /**
      * Select all Users
-     * @return array All the users
+     * @param int|null $page
+     * @param int|null $itemsPerPage
+     * @param string|null $query
+     * @return FetchableData|array All the users
+     * @throws ReflectionException
+     * @throws RepositoryException
      * @throws ServiceException If no results
+     * @throws \ReflectionException
      */
-    public function selectAll(): array {
+    public function selectAll(?int $page, ?int $itemsPerPage, ?string $query): FetchableData|array
+    {
+        $users = $this->userRepository->findByQuery(
+            query: $query,
+            page: $page,
+            itemsPerPage: $itemsPerPage
+        );
 
-        $users = $this->userRepository->selectAll();
-
-        if ($users) {
-            return $users;
+        if (!$users) {
+            throw new ServiceException("No results");
         }
 
-        throw new ServiceException("No results");
+        if (!is_array($users)) {
+            return new FetchableData(
+                page: $users->getCurrentPage(),
+                itemsPerPage: $users->getItemsPerPage(),
+                totalPages: $users->getTotalPages(),
+                data:  array_map(
+                    fn(User $u) => [
+                        "Email" => $u->Email,
+                        "Firstname" => $u->Firstname,
+                        "Lastname" =>  $u->Lastname,
+                        "Privilege" => $u->Privilege
+                    ],
+                    $users->getData()
+                )
+            );
+        }
+
+        return $users;
     }
 
     /**
@@ -80,7 +111,7 @@ class UserService {
      * @throws RepositoryException If the update fails
      */
     public function update(User $u): void {
-        $user = $this->userRepository->selectById($u->Email);
+        $user = $this->userRepository->findById($u->Email);
         if (is_null($user)) {
             throw new ServiceException("User not found!");
         }
@@ -95,7 +126,7 @@ class UserService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(string $email): void {
-        $user = $this->userRepository->selectById($email);
+        $user = $this->userRepository->findById($email);
         if (is_null($user)) {
             throw new ServiceException("User not found!");
         }

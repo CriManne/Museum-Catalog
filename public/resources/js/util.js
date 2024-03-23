@@ -31,7 +31,7 @@ function createStaticAlert(response, container = "#alert-container") {
 
 //Make a request and return a json response
 function makeRequest(url, method = 'GET', headers = [], params = [],dataType = "text") {
-    var returnData = {};
+    let returnData = {};
     $.ajax({
         url: url,
         method: method,
