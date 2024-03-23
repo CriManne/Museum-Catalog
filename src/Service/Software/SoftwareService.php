@@ -23,7 +23,7 @@ class SoftwareService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Software $s): void {
-        $software = $this->softwareRepository->selectByTitle($s->Title);
+        $software = $this->softwareRepository->selectBytitle($s->title);
         if ($software)
             throw new ServiceException("Software title already used!");
 
@@ -51,8 +51,8 @@ class SoftwareService {
      * @return Software The software selected
      * @throws ServiceException If not found
      */
-    public function selectByTitle(string $title): Software {
-        $software = $this->softwareRepository->selectByTitle($title);
+    public function selectBytitle(string $title): Software {
+        $software = $this->softwareRepository->selectBytitle($title);
         if (is_null($software)) {
             throw new ServiceException("Software not found");
         }
@@ -84,7 +84,7 @@ class SoftwareService {
      * @throws RepositoryException If the update fails
      */
     public function update(Software $s): void {
-        $soft = $this->softwareRepository->selectById($s->ObjectID);
+        $soft = $this->softwareRepository->selectById($s->objectId);
 
         if (is_null($soft)) {
             throw new ServiceException("Software not found!");

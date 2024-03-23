@@ -35,19 +35,19 @@ class MagazineRepository extends GenericRepository {
 
         $queryMagazine =
             "INSERT INTO magazine
-                (ObjectID,Title,Year,MagazineNumber,PublisherID) VALUES 
-                (:ObjectID,:Title,:Year,:MagazineNumber,:PublisherID);";
+                (objectId,title,Year,MagazineNumber,PublisherID) VALUES 
+                (:objectId,:title,:Year,:MagazineNumber,:PublisherID);";
 
         $queryObject =
             "INSERT INTO genericobject
-                (ObjectID,Note,Url,Tag)
+                (objectId,Note,Url,Tag)
                 VALUES
-                (:ObjectID,:Note,:Url,:Tag)";
+                (:objectId,:Note,:Url,:Tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindValue(':ObjectID', $magazine->ObjectID, PDO::PARAM_STR);
+            $stmt->bindValue(':objectId', $magazine->objectId, PDO::PARAM_STR);
             $stmt->bindValue(':Note', $magazine->Note, PDO::PARAM_STR);
             $stmt->bindValue(':Url', $magazine->Url, PDO::PARAM_STR);
             $stmt->bindValue(':Tag', $magazine->Tag, PDO::PARAM_STR);
@@ -55,8 +55,8 @@ class MagazineRepository extends GenericRepository {
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryMagazine);
-            $stmt->bindParam("ObjectID", $magazine->ObjectID, PDO::PARAM_STR);
-            $stmt->bindParam("Title", $magazine->Title, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $magazine->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("title", $magazine->title, PDO::PARAM_STR);
             $stmt->bindParam("Year", $magazine->Year, PDO::PARAM_INT);
             $stmt->bindParam("MagazineNumber", $magazine->MagazineNumber, PDO::PARAM_INT);
             $stmt->bindParam("PublisherID", $magazine->Publisher->PublisherID, PDO::PARAM_INT);
@@ -66,22 +66,22 @@ class MagazineRepository extends GenericRepository {
             $this->pdo->commit();
         } catch (PDOException) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while inserting the magazine with id: {" . $magazine->ObjectID . "}");
+            throw new RepositoryException("Error while inserting the magazine with id: {" . $magazine->objectId . "}");
         }
     }
 
     /**
      * Select magazine by id
-     * @param string $ObjectID  The object id to select
+     * @param string $objectId  The object id to select
      * @return ?Magazine    The magazine selected, null if not found
      */
-    public function selectById(string $ObjectID): ?Magazine {
+    public function selectById(string $objectId): ?Magazine {
         $query = "SELECT * FROM magazine b 
-            INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
-            WHERE g.ObjectID = :ObjectID";
+            INNER JOIN genericobject g ON g.objectId = b.objectId 
+            WHERE g.objectId = :objectId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+        $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
         $stmt->execute();
         $magazine = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($magazine) {
@@ -92,18 +92,18 @@ class MagazineRepository extends GenericRepository {
 
     /**
      * Select magazine by title
-     * @param string $Title     The magazine title to select
+     * @param string $title     The magazine title to select
      * @return ?Magazine    The magazine selected, null if not found
      */
-    public function selectByTitle(string $Title): ?Magazine {
+    public function selectBytitle(string $title): ?Magazine {
         $query = "SELECT * FROM magazine b
-            INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
-            WHERE Title LIKE :Title";
+            INNER JOIN genericobject g ON g.objectId = b.objectId 
+            WHERE title LIKE :title";
 
-        $Title = '%'.$Title.'%';
+        $title = '%'.$title.'%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Title", $Title, PDO::PARAM_STR);
+        $stmt->bindParam("title", $title, PDO::PARAM_STR);
         $stmt->execute();
         $magazine = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($magazine) {
@@ -119,15 +119,15 @@ class MagazineRepository extends GenericRepository {
      */
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,m.* FROM magazine m
-            INNER JOIN genericobject g ON g.ObjectID = m.ObjectID
+            INNER JOIN genericobject g ON g.objectId = m.objectId
             INNER JOIN publisher p ON m.PublisherID = p.PublisherID
-            WHERE m.Title LIKE :key OR
+            WHERE m.title LIKE :key OR
             m.MagazineNumber LIKE :key OR
             m.Year LIKE :key OR
             p.Name LIKE :key OR
             g.Note LIKE :key OR
             g.Tag LIKE :key OR
-            g.ObjectID LIKE :key";
+            g.objectId LIKE :key";
 
         $key = '%' . $key . '%';
         $stmt = $this->pdo->prepare($query);
@@ -146,7 +146,7 @@ class MagazineRepository extends GenericRepository {
      */
     public function selectAll(): ?array {
         $query = "SELECT * FROM magazine b
-            INNER JOIN genericobject g ON g.ObjectID = b.ObjectID";
+            INNER JOIN genericobject g ON g.objectId = b.objectId";
 
         $stmt = $this->pdo->query($query);
 
@@ -163,69 +163,69 @@ class MagazineRepository extends GenericRepository {
     public function update(Magazine $m): void {
         $queryMagazine =
             "UPDATE magazine
-            SET Title = :Title,
+            SET title = :title,
             Year = :Year,
             MagazineNumber = :MagazineNumber,
             PublisherID = :PublisherID
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
 
         $queryObject =
             "UPDATE genericobject
             SET Note = :Note,
             Url = :Url,
             Tag = :Tag
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
 
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryMagazine);
-            $stmt->bindParam("Title", $m->Title, PDO::PARAM_STR);
+            $stmt->bindParam("title", $m->title, PDO::PARAM_STR);
             $stmt->bindParam("Year", $m->Year, PDO::PARAM_INT);
             $stmt->bindParam("MagazineNumber", $m->MagazineNumber, PDO::PARAM_INT);
             $stmt->bindParam("PublisherID", $m->Publisher->PublisherID, PDO::PARAM_INT);
-            $stmt->bindParam("ObjectID", $m->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $m->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
             $stmt->bindParam("Note", $m->Note, PDO::PARAM_STR);
             $stmt->bindParam("Url", $m->Url, PDO::PARAM_STR);
             $stmt->bindParam("Tag", $m->Tag, PDO::PARAM_STR);
-            $stmt->bindParam("ObjectID", $m->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $m->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while updating the magazine with id: {" . $m->ObjectID . "}");
+            throw new RepositoryException("Error while updating the magazine with id: {" . $m->objectId . "}");
         }
     }
 
     /**
      * Delete a magazine
-     * @param string $ObjectID  The object id to delete
+     * @param string $objectId  The object id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(string $ObjectID): void {
+    public function delete(string $objectId): void {
         try {
             $this->pdo->beginTransaction();
 
             $query = "DELETE FROM magazine
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $query = "DELETE FROM genericobject
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while deleting the magazine with id: {" . $ObjectID . "}");
+            throw new RepositoryException("Error while deleting the magazine with id: {" . $objectId . "}");
         }
     }
 
@@ -236,11 +236,11 @@ class MagazineRepository extends GenericRepository {
      */
     function returnMappedObject(array $rawMagazine): Magazine {
         return new Magazine(
-            $rawMagazine["ObjectID"],
+            $rawMagazine["objectId"],
             $rawMagazine["Note"] ?? null,
             $rawMagazine["Url"] ?? null,
             $rawMagazine["Tag"] ?? null,
-            $rawMagazine["Title"],
+            $rawMagazine["title"],
             intval($rawMagazine["Year"]),
             intval($rawMagazine["MagazineNumber"]),
             $this->publisherRepository->selectById(intval($rawMagazine["PublisherID"]))

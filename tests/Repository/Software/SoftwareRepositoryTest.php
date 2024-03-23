@@ -95,12 +95,12 @@ final class SoftwareRepositoryTest extends TestCase
     //INSERT TESTS
     public function testGoodInsert():void{                
         $software = clone self::$sampleSoftware;
-        $software->ObjectID = "objID2";
-        $software->Title = "Game";
+        $software->objectId = "objID2";
+        $software->title = "Game";
         
         self::$softwareRepository->insert($software);
 
-        $this->assertEquals(self::$softwareRepository->selectById("objID2")->Title,"Game");
+        $this->assertEquals(self::$softwareRepository->selectById("objID2")->title,"Game");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -120,13 +120,13 @@ final class SoftwareRepositoryTest extends TestCase
     
     public function testGoodSelectAll():void{
         $software1 = clone self::$sampleSoftware;
-        $software1->ObjectID = "objID1";
+        $software1->objectId = "objID1";
         
         $software2 = clone self::$sampleSoftware;
-        $software2->ObjectID = "objID2";
+        $software2->objectId = "objID2";
         
         $software3 = clone self::$sampleSoftware;
-        $software3->ObjectID = "objID3";
+        $software3->objectId = "objID3";
                 
         self::$softwareRepository->insert($software1);
         self::$softwareRepository->insert($software2);
@@ -138,22 +138,22 @@ final class SoftwareRepositoryTest extends TestCase
         $this->assertNotNull($softwares[1]);       
     } 
     
-    public function testGoodSelectByTitle():void{
+    public function testGoodSelectBytitle():void{
 
         $software = clone self::$sampleSoftware;
-        $software->ObjectID = "objID2";
-        $software->Title = "Visual studio";
+        $software->objectId = "objID2";
+        $software->title = "Visual studio";
         
         self::$softwareRepository->insert($software);
 
-        $this->assertEquals(self::$softwareRepository->selectByTitle("Visual studio")->Title,"Visual studio");
+        $this->assertEquals(self::$softwareRepository->selectBytitle("Visual studio")->title,"Visual studio");
     }
 
     public function testGoodSelectByKey():void{
 
         $software = clone self::$sampleSoftware;
-        $software->ObjectID = "objID2";
-        $software->Title = "Visual studio";
+        $software->objectId = "objID2";
+        $software->title = "Visual studio";
         
         self::$softwareRepository->insert($software);
 
@@ -167,11 +167,11 @@ final class SoftwareRepositoryTest extends TestCase
     //UPDATE TESTS
     public function testGoodUpdate():void{
         $software = clone self::$sampleSoftware;
-        $software->Title = "NEW TITLE";
+        $software->title = "NEW TITLE";
         
         self::$softwareRepository->update($software);
         
-        $this->assertEquals("NEW TITLE",self::$softwareRepository->selectById("objID")->Title);
+        $this->assertEquals("NEW TITLE",self::$softwareRepository->selectById("objID")->title);
     }
     
     //DELETE TESTS

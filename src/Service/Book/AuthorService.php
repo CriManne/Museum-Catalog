@@ -64,7 +64,7 @@ class AuthorService {
      * @throws RepositoryException If the update fails
      */
     public function update(Author $a): void {
-        $author = $this->authorRepository->selectById($a->AuthorID);
+        $author = $this->authorRepository->selectById($a->id);
         if (is_null($author)) {
             throw new ServiceException("Author not found!");
         }

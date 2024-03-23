@@ -38,11 +38,11 @@ final class SoftwareServiceTest extends TestCase
         );    
         
         $this->sampleObjectRaw = [
-            'Title' => 'Paint',
+            'title' => 'Paint',
             'OsID' => 1,
             'SoftwareTypeID' => 1,
             'SupportTypeID' => 1,
-            'ObjectID' => 'objID',
+            'objectId' => 'objID',
             'Note' => null,
             'Url' => null,
             'Tag' => null,
@@ -55,14 +55,14 @@ final class SoftwareServiceTest extends TestCase
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->softwareRepository->method('selectByTitle')->willReturn($this->sampleObject);
+        $this->softwareRepository->method('selectBytitle')->willReturn($this->sampleObject);
         $this->softwareService->insert($this->sampleObject);
     }
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
         $this->softwareRepository->method('selectById')->willReturn($this->sampleObject);
-        $this->assertEquals("Paint",$this->softwareService->selectById("ObjID")->Title);
+        $this->assertEquals("Paint",$this->softwareService->selectById("ObjID")->title);
     }
     
     public function testBadSelectById(): void
@@ -75,8 +75,8 @@ final class SoftwareServiceTest extends TestCase
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->softwareRepository->method('selectByTitle')->willReturn(null);
-        $this->softwareService->selectByTitle("WRONG");
+        $this->softwareRepository->method('selectBytitle')->willReturn(null);
+        $this->softwareService->selectBytitle("WRONG");
     }
     
     //UPDATE TESTS

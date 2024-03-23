@@ -17,14 +17,14 @@ function displayResult(result) {
 
     $("#tb-container").append(
       '<div class="card artifact-card mx-1" role="button" data-id="' +
-        elem.ObjectID +
+        elem.objectId +
         '">' +
         '  <div class="card-body">' +
         '        <h4 class="card-title">' +
-        elem.Title +
+        elem.title +
         "</h4>" +
         '        <h6 class="card-subtitle text-muted">' +
-        elem.ObjectID +
+        elem.objectId +
         "</h6>" +
         '        <p class="card-text p-y-1">' +
         description.join("<br>") +

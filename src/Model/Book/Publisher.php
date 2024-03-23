@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace App\Model\Book;
 
-class Publisher {
-
-    public ?int $PublisherID;
-    public ?string $Name;
-
+class Publisher
+{
     public function __construct(
-        ?string $Name,
-        ?int $PublisherID = null
-    ) {
-        $this->PublisherID = $PublisherID;
-        $this->Name = $Name;
+        public ?string $name,
+        public ?int    $id = null
+    )
+    {
     }
 }

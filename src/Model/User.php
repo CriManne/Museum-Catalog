@@ -13,13 +13,13 @@ class User implements Interfaces\IModel
     public function __construct(
         #[Attributes\Key]
         #[Attributes\Searchable]
-        public string $Email,
-        public string $Password,
+        public string $email,
+        public string $password,
         #[Attributes\Searchable]
-        public string $Firstname,
+        public string $firstname,
         #[Attributes\Searchable]
-        public string $Lastname,
-        public int    $Privilege = 0
+        public string $lastname,
+        public int    $privilege = 0
     )
     {
     }

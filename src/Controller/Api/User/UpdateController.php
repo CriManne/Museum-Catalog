@@ -43,8 +43,8 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
                 );
             }
 
-            if (isset($params["Privilege"])) {
-                $params["Privilege"] = 1;
+            if (isset($params["privilege"])) {
+                $params["privilege"] = 1;
             }
 
             $user = ORM::getNewInstance(User::class, $params);

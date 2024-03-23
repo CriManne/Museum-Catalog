@@ -5,14 +5,13 @@ declare(strict_types=1);
 namespace App\SearchEngine;
 
 use App\Controller\Api\ArtifactsListController;
+use App\DataModels\Response\GenericArtifactResponse;
 use App\Exception\ServiceException;
-use App\Model\Software\Software;
 use App\Model\Book\Book;
+use App\Model\Computer\Computer;
 use App\Model\Magazine\Magazine;
 use App\Model\Peripheral\Peripheral;
-use App\Model\Computer\Computer;
-use App\Model\Response\GenericArtifactResponse;
-
+use App\Model\Software\Software;
 use DI\Container;
 use DI\ContainerBuilder;
 use Exception;
@@ -33,31 +32,31 @@ class ArtifactSearchEngine {
 
     /**
      * Select specific object by id and category
-     * @param string $ObjectID The id to select
+     * @param string $objectId The id to select
      * @param string $category The category to search in
      * @return object The object fetched
      * @throws ServiceException If no object is found
      */
-    public function selectSpecificByIdAndCategory(string $ObjectID, string $category): object {
+    public function selectSpecificByIdAndCategory(string $objectId, string $category): object {
         try {
             $artifactServicePath = "App\\Service\\$category\\$category" . "Service";
 
             $artifactService = $this->container->get($artifactServicePath);
 
-            return $artifactService->selectById($ObjectID);
+            return $artifactService->selectById($objectId);
         } catch (Exception | ServiceException) {
         }
-        throw new ServiceException("Artifact with id [$ObjectID] in category [$category] not found!");
+        throw new ServiceException("Artifact with id [$objectId] in category [$category] not found!");
     }
 
 
     /**
      * Select generic object by id
-     * @param string $ObjectID     The ObjectID to select
+     * @param string $objectId     The objectId to select
      * @return GenericArtifactResponse            The Object selected
      * @throws ServiceException If not found
      */
-    public function selectGenericById(string $ObjectID): GenericArtifactResponse {
+    public function selectGenericById(string $objectId): GenericArtifactResponse {
         foreach ($this->categories as $categoryName) {
 
             $artifactServicePath = "App\\Service\\$categoryName\\$categoryName" . "Service";
@@ -65,13 +64,13 @@ class ArtifactSearchEngine {
             $artifactService = $this->container->get($artifactServicePath);
 
             try {
-                $result = $artifactService->selectById($ObjectID);
+                $result = $artifactService->selectById($objectId);
 
                 return $this->$categoryName($result);
             } catch (ServiceException) {
             }
         }
-        throw new ServiceException("Artifact with id [$ObjectID] not found!");
+        throw new ServiceException("Artifact with id [$objectId] not found!");
     }
 
     /**
@@ -112,7 +111,7 @@ class ArtifactSearchEngine {
 
         //SORT BY OBJECT ID
         usort($result, function ($a, $b) {
-            return strcmp($a->ObjectID, $b->ObjectID);
+            return strcmp($a->objectId, $b->objectId);
         });
         return $result;
     }
@@ -131,8 +130,8 @@ class ArtifactSearchEngine {
         }
 
         return new GenericArtifactResponse(
-            $obj->ObjectID,
-            $obj->Title,
+            $obj->objectId,
+            $obj->title,
             [
                 'Publisher' => $obj->Publisher->Name,
                 'Year' => $obj->Year,
@@ -169,7 +168,7 @@ class ArtifactSearchEngine {
         }
 
         return new GenericArtifactResponse(
-            $obj->ObjectID,
+            $obj->objectId,
             $obj->ModelName,
             $description,
             "Computer",
@@ -186,8 +185,8 @@ class ArtifactSearchEngine {
      */
     public function Magazine(Magazine $obj): GenericArtifactResponse {
         return new GenericArtifactResponse(
-            $obj->ObjectID,
-            $obj->Title,
+            $obj->objectId,
+            $obj->title,
             [
                 'Magazine number' => $obj->MagazineNumber,
                 'Publisher' => $obj->Publisher->Name,
@@ -207,7 +206,7 @@ class ArtifactSearchEngine {
      */
     public function Peripheral(Peripheral $obj): GenericArtifactResponse {
         return new GenericArtifactResponse(
-            $obj->ObjectID,
+            $obj->objectId,
             $obj->ModelName,
             [
                 'Peripheral type' => $obj->PeripheralType->Name
@@ -226,8 +225,8 @@ class ArtifactSearchEngine {
      */
     public function Software(Software $obj): GenericArtifactResponse {
         return new GenericArtifactResponse(
-            $obj->ObjectID,
-            $obj->Title,
+            $obj->objectId,
+            $obj->title,
             [
                 'Os' => $obj->Os->Name,
                 'Software Type' => $obj->SoftwareType->Name,

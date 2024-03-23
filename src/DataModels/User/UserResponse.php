@@ -7,10 +7,10 @@ namespace App\DataModels\User;
 class UserResponse
 {
     public function __construct(
-        public string $Email,
-        public string $Firstname,
-        public string $Lastname,
-        public int    $Privilege = 0
+        public string $email,
+        public string $firstname,
+        public string $lastname,
+        public int    $privilege = 0
     )
     {
     }

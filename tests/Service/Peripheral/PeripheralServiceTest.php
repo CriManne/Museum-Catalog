@@ -36,7 +36,7 @@ final class PeripheralServiceTest extends TestCase
         $this->sampleObjectRaw = [
             'ModelName' => 'Peripheral 1.0',
             'PeripheralTypeID' => 1,
-            'ObjectID' => 'objID',
+            'objectId' => 'objID',
             'Note' => null,
             'Url' => null,
             'Tag' => null,

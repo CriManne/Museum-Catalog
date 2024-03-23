@@ -8,7 +8,7 @@ use Psr\Container\ContainerInterface;
 
 return [
     'dsn' => 'mysql:host=localhost;',
-    'test_db' => 'dbname=mupin_test;',
+    'test_db' => 'dbname=museum_test;',
     'username' => 'root',
     'psw' => '',
     'PDO' => function (ContainerInterface $c) {

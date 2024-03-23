@@ -27,7 +27,7 @@ final class UserRepositoryTest extends TestCase
     public function setUp():void{
         //User inserted to test duplicated user errors
         $user = new User('testemail@gmail.com',password_hash("admin",PASSWORD_BCRYPT,['cost'=>11]),'Bill','Gates',1);
-        self::$userRepository->insert($user);
+        self::$userRepository->save($user);
     }
 
     public function tearDown():void{
@@ -39,28 +39,28 @@ final class UserRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $user = new User('elon@gmail.com','password','Elon','Musk',0);
 
-        self::$userRepository->insert($user);
+        self::$userRepository->save($user);
 
-        $this->assertEquals(self::$userRepository->selectById("elon@gmail.com")->Email,"elon@gmail.com");
+        $this->assertEquals(self::$userRepository->findById("elon@gmail.com")->email,"elon@gmail.com");
     }
     public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);
+        $this->expectException(\AbstractRepo\Exceptions\RepositoryException::class);
 
         //User already inserted in the setUp() method
         $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
 
-        self::$userRepository->insert($user);
+        self::$userRepository->save($user);
     }
     
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$userRepository->selectById("testemail@gmail.com"));
+        $this->assertNotNull(self::$userRepository->findById("testemail@gmail.com"));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$userRepository->selectById("wrong@gmail.com"));
+        $this->assertNull(self::$userRepository->findById("wrong@gmail.com"));
     }
 
     public function testGoodSelectByCredentials(): void
@@ -84,13 +84,13 @@ final class UserRepositoryTest extends TestCase
         $user3 = new User('testemail4@gmail.com','pwd','Tom','Green',0);
         $user4 = new User('testemail5@gmail.com','pwd','Alice','Red',0);
         $user5 = new User('testemail6@gmail.com','pwd','Tom','Green',0);
-        self::$userRepository->insert($user1);
-        self::$userRepository->insert($user2);
-        self::$userRepository->insert($user3);
-        self::$userRepository->insert($user4);
-        self::$userRepository->insert($user5);
+        self::$userRepository->save($user1);
+        self::$userRepository->save($user2);
+        self::$userRepository->save($user3);
+        self::$userRepository->save($user4);
+        self::$userRepository->save($user5);
 
-        $users = self::$userRepository->selectAll();
+        $users = self::$userRepository->find();
 
         $this->assertEquals(count($users),6);
         $this->assertNotNull($users[1]);       
@@ -102,7 +102,7 @@ final class UserRepositoryTest extends TestCase
         
         self::$userRepository->update($user);
         
-        $this->assertEquals("Steve",self::$userRepository->selectById("testemail@gmail.com")->firstname);
+        $this->assertEquals("Steve",self::$userRepository->findById("testemail@gmail.com")->firstname);
     }
 
     //DELETE TESTS
@@ -111,7 +111,7 @@ final class UserRepositoryTest extends TestCase
         
         self::$userRepository->delete($email);
         
-        $this->assertNull(self::$userRepository->selectById("testemail@gmail.com"));
+        $this->assertNull(self::$userRepository->findById("testemail@gmail.com"));
     }
 
     public static function tearDownAfterClass():void{

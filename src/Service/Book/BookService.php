@@ -23,11 +23,11 @@ class BookService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Book $b): void {
-        $book = $this->bookRepository->selectByTitle($b->Title);
+        $book = $this->bookRepository->selectBytitle($b->title);
         if ($book)
             throw new ServiceException("Book title already used!");
 
-        $book = $this->bookRepository->selectById($b->ObjectID);
+        $book = $this->bookRepository->selectById($b->objectId);
         if ($book)
             throw new ServiceException("Object ID already used!");
 
@@ -55,8 +55,8 @@ class BookService {
      * @return Book The book selected
      * @throws ServiceException If not found
      */
-    public function selectByTitle(string $title): Book {
-        $book = $this->bookRepository->selectByTitle($title);
+    public function selectBytitle(string $title): Book {
+        $book = $this->bookRepository->selectBytitle($title);
         if (is_null($book)) {
             throw new ServiceException("Book not found");
         }
@@ -88,7 +88,7 @@ class BookService {
      * @throws RepositoryException If the update fails
      */
     public function update(Book $b): void {
-        $book = $this->bookRepository->selectById($b->ObjectID);
+        $book = $this->bookRepository->selectById($b->objectId);
         if (is_null($book)) {
             throw new ServiceException("Book not found!");
         }

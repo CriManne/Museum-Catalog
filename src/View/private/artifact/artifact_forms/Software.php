@@ -1,8 +1,8 @@
 <?php $this->layout('layouts::artifact_form', ['title' => $title, 'user' => $user]) ?>
 
 <div class="form-outline mb-4">
-    <label class="form-label" for="Title">Titolo</label>
-    <input type="text" name="Title" id="Title" class="form-control" required />
+    <label class="form-label" for="title">Titolo</label>
+    <input type="text" name="title" id="title" class="form-control" required />
 </div>
 <div class="form-outline mb-4">
     <label class="form-label" for="OsID">Sistema operativo</label>

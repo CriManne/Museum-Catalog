@@ -44,8 +44,8 @@ $(document).ready(function () {
     }
   }
 
-  $("#object-id").append(response.ObjectID);
-  $("#object-title").append(response.Title);
+  $("#object-id").append(response.objectId);
+  $("#object-title").append(response.title);
 
   for (const [key, value] of Object.entries(response.Descriptors)) {
     $("#object-description").append("<p><b>" + key + "</b>: " + value + "</p>");

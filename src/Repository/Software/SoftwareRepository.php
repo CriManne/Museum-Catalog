@@ -40,27 +40,27 @@ class SoftwareRepository extends GenericRepository {
 
         $querySoftware =
             "INSERT INTO software
-                (ObjectID,Title,OsID,SoftwareTypeID,SupportTypeID) VALUES 
-                (:ObjectID,:Title,:OsID,:SoftwareTypeID,:SupportTypeID);";
+                (objectId,title,OsID,SoftwareTypeID,SupportTypeID) VALUES 
+                (:objectId,:title,:OsID,:SoftwareTypeID,:SupportTypeID);";
 
         $queryObject =
             "INSERT INTO genericobject
-                (ObjectID,Note,Url,Tag)
+                (objectId,Note,Url,Tag)
                 VALUES
-                (:ObjectID,:Note,:Url,:Tag)";
+                (:objectId,:Note,:Url,:Tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindValue(':ObjectID', $software->ObjectID, PDO::PARAM_STR);
+            $stmt->bindValue(':objectId', $software->objectId, PDO::PARAM_STR);
             $stmt->bindValue(':Note', $software->Note, PDO::PARAM_STR);
             $stmt->bindValue(':Url', $software->Url, PDO::PARAM_STR);
             $stmt->bindValue(':Tag', $software->Tag, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($querySoftware);
-            $stmt->bindParam("ObjectID", $software->ObjectID, PDO::PARAM_STR);
-            $stmt->bindParam("Title", $software->Title, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $software->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("title", $software->title, PDO::PARAM_STR);
             $stmt->bindParam("OsID", $software->Os->OsID, PDO::PARAM_INT);
             $stmt->bindParam("SoftwareTypeID", $software->SoftwareType->SoftwareTypeID, PDO::PARAM_INT);
             $stmt->bindParam("SupportTypeID", $software->SupportType->SupportTypeID, PDO::PARAM_INT);
@@ -70,22 +70,22 @@ class SoftwareRepository extends GenericRepository {
             $this->pdo->commit();
         } catch (PDOException) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while inserting the software with id: {" . $software->ObjectID . "}");
+            throw new RepositoryException("Error while inserting the software with id: {" . $software->objectId . "}");
         }
     }
 
     /**
      * Select software by id
-     * @param string $ObjectID  The object id to select
+     * @param string $objectId  The object id to select
      * @return ?Software    The software selected, null if not found
      */
-    public function selectById(string $ObjectID): ?Software {
+    public function selectById(string $objectId): ?Software {
         $query = "SELECT * FROM software 
-            INNER JOIN genericobject g ON g.ObjectID = software.ObjectID 
-            WHERE g.ObjectID = :ObjectID";
+            INNER JOIN genericobject g ON g.objectId = software.objectId 
+            WHERE g.objectId = :objectId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+        $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
         $stmt->execute();
         $software = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($software) {
@@ -96,16 +96,16 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Select software by title
-     * @param string $Title     The software title to select
+     * @param string $title     The software title to select
      * @return ?Software    The software selected, null if not found
      */
-    public function selectByTitle(string $Title): ?Software {
+    public function selectBytitle(string $title): ?Software {
         $query = "SELECT * FROM software 
-            INNER JOIN genericobject g ON g.ObjectID = software.ObjectID 
-            WHERE Title = :Title";
+            INNER JOIN genericobject g ON g.objectId = software.objectId 
+            WHERE title = :title";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Title", $Title, PDO::PARAM_STR);
+        $stmt->bindParam("title", $title, PDO::PARAM_STR);
         $stmt->execute();
         $software = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($software) {
@@ -121,17 +121,17 @@ class SoftwareRepository extends GenericRepository {
      */
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,s.* FROM software s
-            INNER JOIN genericobject g ON g.ObjectID = s.ObjectID 
+            INNER JOIN genericobject g ON g.objectId = s.objectId 
             INNER JOIN os o ON s.OsID = o.OsID
             INNER JOIN softwaretype st ON s.SoftwareTypeID = st.SoftwareTypeID
             INNER JOIN supporttype supt ON s.SupportTypeID = supt.SupportTypeID
-            WHERE s.Title LIKE :key OR
+            WHERE s.title LIKE :key OR
             o.Name LIKE :key OR
             st.Name LIKE :key OR
             supt.Name LIKE :key OR
             g.Note LIKE :key OR
             g.Tag LIKE :key OR
-            g.ObjectID LIKE :key";
+            g.objectId LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -149,7 +149,7 @@ class SoftwareRepository extends GenericRepository {
      */
     public function selectAll(): ?array {
         $query = "SELECT * FROM software
-            INNER JOIN genericobject g ON g.ObjectID = software.ObjectID";
+            INNER JOIN genericobject g ON g.objectId = software.objectId";
 
         $stmt = $this->pdo->query($query);
 
@@ -166,69 +166,69 @@ class SoftwareRepository extends GenericRepository {
     public function update(Software $s): void {
         $querySoftware =
             "UPDATE software
-            SET Title = :Title,
+            SET title = :title,
             OsID = :OsID,
             SoftwareTypeID = :SoftwareTypeID,
             SupportTypeID = :SupportTypeID
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
 
         $queryObject =
             "UPDATE genericobject
             SET Note = :Note,
             Url = :Url,
             Tag = :Tag
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
 
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($querySoftware);
-            $stmt->bindParam("Title", $s->Title, PDO::PARAM_STR);
+            $stmt->bindParam("title", $s->title, PDO::PARAM_STR);
             $stmt->bindParam("OsID", $s->Os->OsID, PDO::PARAM_INT);
             $stmt->bindParam("SoftwareTypeID", $s->SoftwareType->SoftwareTypeID, PDO::PARAM_INT);
             $stmt->bindParam("SupportTypeID", $s->SupportType->SupportTypeID, PDO::PARAM_INT);
-            $stmt->bindParam("ObjectID", $s->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $s->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
             $stmt->bindParam("Note", $s->Note, PDO::PARAM_STR);
             $stmt->bindParam("Url", $s->Url, PDO::PARAM_STR);
             $stmt->bindParam("Tag", $s->Tag, PDO::PARAM_STR);
-            $stmt->bindParam("ObjectID", $s->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $s->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while updating the software with id: {" . $s->ObjectID . "}");
+            throw new RepositoryException("Error while updating the software with id: {" . $s->objectId . "}");
         }
     }
 
     /**
      * Delete a software
-     * @param string $ObjectID  The object id to delete
+     * @param string $objectId  The object id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(string $ObjectID): void {
+    public function delete(string $objectId): void {
         try {
             $this->pdo->beginTransaction();
 
             $query = "DELETE FROM software
-            WHERE ObjectID = :ObjectID;";
+            WHERE objectId = :objectId;";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $query = "DELETE FROM genericobject
-            WHERE ObjectID = :ObjectID;";
+            WHERE objectId = :objectId;";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while deleting the software with id: {" . $ObjectID . "}");
+            throw new RepositoryException("Error while deleting the software with id: {" . $objectId . "}");
         }
     }
 
@@ -239,11 +239,11 @@ class SoftwareRepository extends GenericRepository {
      */
     function returnMappedObject(array $rawsoftware): Software {
         return new Software(
-            $rawsoftware["ObjectID"],
+            $rawsoftware["objectId"],
             $rawsoftware["Note"] ?? null,
             $rawsoftware["Url"] ?? null,
             $rawsoftware["Tag"] ?? null,
-            $rawsoftware["Title"],
+            $rawsoftware["title"],
             $this->OsRepository->selectById(intval($rawsoftware["OsID"])),
             $this->softwareTypeRepository->selectById(intval($rawsoftware["SoftwareTypeID"])),
             $this->supportTypeRepository->selectById(intval($rawsoftware["SupportTypeID"]))

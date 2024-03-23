@@ -20,19 +20,19 @@ class UserRepository extends Repository\AbstractRepository implements Interfaces
 
     /**
      * Select a user with his credentials
-     * @param string $Email     The Email of the user
-     * @param string $Password  The Password of the user
-     * @return ?UserResponse            The user selected, null if not found         * 
+     * @param string $email
+     * @param string $password
+     * @return ?UserResponse            The user selected, null if not found
      */
-    public function selectByCredentials(string $Email, string $Password): ?UserResponse {
-        $query = "SELECT Email,Password,Firstname,Lastname,Privilege FROM User WHERE BINARY Email = :Email";
+    public function selectByCredentials(string $email, string $password): ?UserResponse {
+        $query = "SELECT email,password,firstname,lastname,privilege FROM User WHERE email = :email";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Email", $Email, PDO::PARAM_STR);
+        $stmt->bindParam("email", $email, PDO::PARAM_STR);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if($user){
-            if(password_verify($Password,$user["Password"])){
+            if(password_verify($password,$user["password"])){
                 unset($user["Password"]);
                 return ORM::getNewInstance(UserResponse::class, $user);
             }

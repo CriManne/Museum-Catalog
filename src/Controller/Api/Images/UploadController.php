@@ -52,10 +52,10 @@ class UploadController extends ControllerUtil implements ControllerInterface {
 
     /**
      * Upload all the files
-     * @param string $ObjectID The id to use to give images names
+     * @param string $objectId The id to use to give images names
      * @param string $name The name of the $_FILES array index
      */
-    public static function uploadFiles(string $ObjectID, string $name) {
+    public static function uploadFiles(string $objectId, string $name) {
 
         $files = $_FILES[$name];
 
@@ -68,10 +68,10 @@ class UploadController extends ControllerUtil implements ControllerInterface {
         foreach ($files['tmp_name'] as $tmp_name) {
             $splittedName = explode('.', $files['name'][$indexInserted - 1]);
             $fileextension = end($splittedName);
-            $filename = $path . $ObjectID . "_" . $index . "." . $fileextension;
+            $filename = $path . $objectId . "_" . $index . "." . $fileextension;
             while (file_exists($filename)) {
                 $index++;
-                $filename = $path . $ObjectID . "_" . $index . "." . $fileextension;
+                $filename = $path . $objectId . "_" . $index . "." . $fileextension;
             }
             move_uploaded_file($tmp_name, $filename);
             $index++;

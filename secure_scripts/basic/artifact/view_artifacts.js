@@ -32,13 +32,13 @@ function displayResult(result) {
         }
 
         $("#table-result").append(
-            "<tr role='button' class='artifact-row' data-id='" + elem.ObjectID + "' data-category='"+elem.Category+"'>"+
-            "<th scope='row' class='text-decoration-underline' >" + elem.ObjectID +
-            "</th><td>" + elem.Title +
+            "<tr role='button' class='artifact-row' data-id='" + elem.objectId + "' data-category='"+elem.Category+"'>"+
+            "<th scope='row' class='text-decoration-underline' >" + elem.objectId +
+            "</th><td>" + elem.title +
             "</td><td>" + description.join(" | ") +
             "</td><td>" + elem.Category +
-            "</td><td class='text-center'><button class='btn btn-primary btn-upd' data-id='"+elem.ObjectID+"' data-category='"+elem.Category+"'>Update</button>" +
-            "</td><td class='text-center'><button class='btn btn-primary btn-del' data-id='"+elem.ObjectID+"' data-category='"+elem.Category+"'>Delete</button>" +
+            "</td><td class='text-center'><button class='btn btn-primary btn-upd' data-id='"+elem.objectId+"' data-category='"+elem.Category+"'>Update</button>" +
+            "</td><td class='text-center'><button class='btn btn-primary btn-del' data-id='"+elem.objectId+"' data-category='"+elem.Category+"'>Delete</button>" +
             "</td>" +
             "</tr>"
         );

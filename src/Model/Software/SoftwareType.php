@@ -4,16 +4,12 @@ declare(strict_types=1);
 
 namespace App\Model\Software;
 
-class SoftwareType {
-
-    public ?int $SoftwareTypeID;
-    public string $Name;
-
+class SoftwareType
+{
     public function __construct(
-        string $Name,
-        ?int $SoftwareTypeID = null
-    ) {
-        $this->SoftwareTypeID = $SoftwareTypeID;
-        $this->Name = $Name;
+        public string $name,
+        public ?int   $id = null
+    )
+    {
     }
 }

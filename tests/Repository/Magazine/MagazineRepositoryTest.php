@@ -68,12 +68,12 @@ final class MagazineRepositoryTest extends TestCase
     //INSERT TESTS
     public function testGoodInsert():void{                
         $magazine = clone self::$sampleMagazine;
-        $magazine->ObjectID = "objID2";
-        $magazine->Title = "Magazine 2";
+        $magazine->objectId = "objID2";
+        $magazine->title = "Magazine 2";
         
         self::$magazineRepository->insert($magazine);
 
-        $this->assertEquals(self::$magazineRepository->selectById("objID2")->Title,"Magazine 2");
+        $this->assertEquals(self::$magazineRepository->selectById("objID2")->title,"Magazine 2");
     }
 
     public function testBadInsert():void{        
@@ -95,13 +95,13 @@ final class MagazineRepositoryTest extends TestCase
     
     public function testGoodSelectAll():void{
         $magazine1 = clone self::$sampleMagazine;
-        $magazine1->ObjectID = "objID1";
+        $magazine1->objectId = "objID1";
         
         $magazine2 = clone self::$sampleMagazine;
-        $magazine2->ObjectID = "objID2";
+        $magazine2->objectId = "objID2";
         
         $magazine3 = clone self::$sampleMagazine;
-        $magazine3->ObjectID = "objID3";
+        $magazine3->objectId = "objID3";
                 
         self::$magazineRepository->insert($magazine1);
         self::$magazineRepository->insert($magazine2);
@@ -113,22 +113,22 @@ final class MagazineRepositoryTest extends TestCase
         $this->assertNotNull($magazines[1]);       
     } 
     
-    public function testGoodSelectByTitle():void{
+    public function testGoodSelectBytitle():void{
 
         $magazine = clone self::$sampleMagazine;
-        $magazine->ObjectID = "objID2";
-        $magazine->Title = "Magazine Test";
+        $magazine->objectId = "objID2";
+        $magazine->title = "Magazine Test";
         
         self::$magazineRepository->insert($magazine);
 
-        $this->assertEquals(self::$magazineRepository->selectByTitle("Magazine Test")->Title,"Magazine Test");
+        $this->assertEquals(self::$magazineRepository->selectBytitle("Magazine Test")->title,"Magazine Test");
     }
 
     public function testGoodSelectByKey():void{
 
         $magazine = clone self::$sampleMagazine;
-        $magazine->ObjectID = "objID2";
-        $magazine->Title = "Magazine Test";
+        $magazine->objectId = "objID2";
+        $magazine->title = "Magazine Test";
         
         self::$magazineRepository->insert($magazine);
 
@@ -142,11 +142,11 @@ final class MagazineRepositoryTest extends TestCase
     //UPDATE TESTS
     public function testGoodUpdate():void{
         $magazine = clone self::$sampleMagazine;
-        $magazine->Title = "NEW TITLE";
+        $magazine->title = "NEW TITLE";
         
         self::$magazineRepository->update($magazine);
         
-        $this->assertEquals("NEW TITLE",self::$magazineRepository->selectById("objID")->Title);
+        $this->assertEquals("NEW TITLE",self::$magazineRepository->selectById("objID")->title);
     }
     
     //DELETE TESTS

@@ -19,8 +19,8 @@
     <div id="alert-container"></div>
     <form id='artifact-form' method="POST" enctype="multipart/form-data">
         <div class="form-outline mb-4">
-            <label class="form-label" for="ObjectID">IDENTIFICATIVO CATALOGO</label>
-            <input type="text" minlength="20" maxlength="20" name="ObjectID" id="ObjectID" class="form-control" <?php if (!isset($_GET['id'])) { ?> required <?php } else { ?> readonly="readonly" <?php } ?> />
+            <label class="form-label" for="objectId">IDENTIFICATIVO CATALOGO</label>
+            <input type="text" minlength="20" maxlength="20" name="objectId" id="objectId" class="form-control" <?php if (!isset($_GET['id'])) { ?> required <?php } else { ?> readonly="readonly" <?php } ?> />
         </div>
         <?= $this->section('content'); ?>
         <div class="form-outline mb-4">

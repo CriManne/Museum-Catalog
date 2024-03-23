@@ -66,7 +66,7 @@ final class PeripheralRepositoryTest extends TestCase
     //INSERT TESTS
     public function testGoodInsert():void{                
         $peripheral = clone self::$samplePeripheral;
-        $peripheral->ObjectID = "objID2";
+        $peripheral->objectId = "objID2";
         $peripheral->ModelName = "Peripheral 2";
         
         self::$peripheralRepository->insert($peripheral);
@@ -93,13 +93,13 @@ final class PeripheralRepositoryTest extends TestCase
     
     public function testGoodSelectAll():void{
         $peripheral1 = clone self::$samplePeripheral;
-        $peripheral1->ObjectID = "objID1";
+        $peripheral1->objectId = "objID1";
         
         $peripheral2 = clone self::$samplePeripheral;
-        $peripheral2->ObjectID = "objID2";
+        $peripheral2->objectId = "objID2";
         
         $peripheral3 = clone self::$samplePeripheral;
-        $peripheral3->ObjectID = "objID3";
+        $peripheral3->objectId = "objID3";
                 
         self::$peripheralRepository->insert($peripheral1);
         self::$peripheralRepository->insert($peripheral2);
@@ -114,7 +114,7 @@ final class PeripheralRepositoryTest extends TestCase
     public function testGoodSelectByModelName():void{
 
         $peripheral = clone self::$samplePeripheral;
-        $peripheral->ObjectID = "objID2";
+        $peripheral->objectId = "objID2";
         $peripheral->ModelName = "Peripheral Test";
         
         self::$peripheralRepository->insert($peripheral);
@@ -125,7 +125,7 @@ final class PeripheralRepositoryTest extends TestCase
     public function testGoodSelectByKey():void{
 
         $peripheral = clone self::$samplePeripheral;
-        $peripheral->ObjectID = "objID2";
+        $peripheral->objectId = "objID2";
         $peripheral->ModelName = "Peripheral Test";
         
         self::$peripheralRepository->insert($peripheral);

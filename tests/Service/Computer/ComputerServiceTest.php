@@ -46,7 +46,7 @@ final class ComputerServiceTest extends TestCase
             'OsID' => 1,
             'RamID' => 1,
             'CpuID' => 1,
-            'ObjectID' => 'objID',
+            'objectId' => 'objID',
             'Note' => null,
             'Url' => null,
             'Tag' => null,

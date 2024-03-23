@@ -97,7 +97,7 @@ final class ComputerRepositoryTest extends TestCase
     //INSERT TESTS
     public function testGoodInsert():void{                
         $computer = clone self::$sampleComputer;
-        $computer->ObjectID = "objID2";
+        $computer->objectId = "objID2";
         $computer->ModelName = "Computer 2";
         
         self::$computerRepository->insert($computer);
@@ -123,7 +123,7 @@ final class ComputerRepositoryTest extends TestCase
     
     public function testGoodSelectByKey():void{
         $newPc = clone self::$sampleComputer;
-        $newPc->ObjectID = "OBJ2";
+        $newPc->objectId = "OBJ2";
         $newPc->ModelName = "Computer 2";
         self::$computerRepository->insert($newPc);
 
@@ -136,13 +136,13 @@ final class ComputerRepositoryTest extends TestCase
     
     public function testGoodSelectAll():void{
         $computer1 = clone self::$sampleComputer;
-        $computer1->ObjectID = "objID1";
+        $computer1->objectId = "objID1";
         
         $computer2 = clone self::$sampleComputer;
-        $computer2->ObjectID = "objID2";
+        $computer2->objectId = "objID2";
         
         $computer3 = clone self::$sampleComputer;
-        $computer3->ObjectID = "objID3";
+        $computer3->objectId = "objID3";
                 
         self::$computerRepository->insert($computer1);
         self::$computerRepository->insert($computer2);
@@ -157,7 +157,7 @@ final class ComputerRepositoryTest extends TestCase
     public function testGoodSelectByModelName():void{
 
         $computer = clone self::$sampleComputer;
-        $computer->ObjectID = "objID2";
+        $computer->objectId = "objID2";
         $computer->ModelName = "Computer Test";
         
         self::$computerRepository->insert($computer);

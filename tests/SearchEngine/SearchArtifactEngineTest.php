@@ -142,7 +142,7 @@ final class ArtifactSearchEngineTest extends TestCase
             ],
             $obj->Descriptors
         );
-        $this->assertEquals("Computer1", $obj->Title);
+        $this->assertEquals("Computer1", $obj->title);
     }
 
 

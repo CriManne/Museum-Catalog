@@ -7,27 +7,19 @@ namespace App\Model\Software;
 use App\Model\Computer\Os;
 use App\Model\GenericObject;
 
-class Software extends GenericObject {
-
-    public string $Title;
-    public Os $Os;
-    public SoftwareType $SoftwareType;
-    public SupportType $SupportType;
-
+class Software extends GenericObject
+{
     public function __construct(
-        string $ObjectID,
-        string $Note = null,
-        string $Url = null,
-        string $Tag = null,
-        string $Title,
-        Os $Os,
-        SoftwareType $SoftwareType,
-        SupportType $SupportType
-    ) {
-        parent::__construct($ObjectID, $Note, $Url, $Tag);
-        $this->Title = $Title;
-        $this->Os = $Os;
-        $this->SoftwareType = $SoftwareType;
-        $this->SupportType = $SupportType;
+        public string       $objectId,
+        public string       $title,
+        public Os           $os,
+        public SoftwareType $softwareType,
+        public SupportType  $supportType,
+        string              $note = null,
+        string              $url = null,
+        string              $tag = null,
+    )
+    {
+        parent::__construct($objectId, $note, $url, $tag);
     }
 }

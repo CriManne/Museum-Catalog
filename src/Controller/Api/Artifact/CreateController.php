@@ -80,10 +80,10 @@ class CreateController extends ControllerUtil implements ControllerInterface {
             $this->artifactService->insert($instantiatedObject);
 
             //Delete remained old files
-            DeleteController::deleteImages($instantiatedObject->ObjectID);
+            DeleteController::deleteImages($instantiatedObject->objectId);
 
             //Upload new files           
-            UploadController::uploadFiles($instantiatedObject->ObjectID, 'images');
+            UploadController::uploadFiles($instantiatedObject->objectId, 'images');
 
             $message = "$category inserted successfully!";
             $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);

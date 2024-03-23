@@ -35,19 +35,19 @@ class PeripheralRepository extends GenericRepository {
 
         $queryPeripheral =
             "INSERT INTO peripheral
-                (ObjectID,ModelName,PeripheralTypeID) VALUES 
-                (:ObjectID,:ModelName,:PeripheralTypeID);";
+                (objectId,ModelName,PeripheralTypeID) VALUES 
+                (:objectId,:ModelName,:PeripheralTypeID);";
 
         $queryObject =
             "INSERT INTO genericobject
-                (ObjectID,Note,Url,Tag)
+                (objectId,Note,Url,Tag)
                 VALUES
-                (:ObjectID,:Note,:Url,:Tag)";
+                (:objectId,:Note,:Url,:Tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindValue(':ObjectID', $peripheral->ObjectID, PDO::PARAM_STR);
+            $stmt->bindValue(':objectId', $peripheral->objectId, PDO::PARAM_STR);
             $stmt->bindValue(':Note', $peripheral->Note, PDO::PARAM_STR);
             $stmt->bindValue(':Url', $peripheral->Url, PDO::PARAM_STR);
             $stmt->bindValue(':Tag', $peripheral->Tag, PDO::PARAM_STR);
@@ -55,7 +55,7 @@ class PeripheralRepository extends GenericRepository {
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryPeripheral);
-            $stmt->bindParam("ObjectID", $peripheral->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $peripheral->objectId, PDO::PARAM_STR);
             $stmt->bindParam("ModelName", $peripheral->ModelName, PDO::PARAM_STR);
             $stmt->bindParam("PeripheralTypeID", $peripheral->PeripheralType->PeripheralTypeID, PDO::PARAM_INT);
 
@@ -64,22 +64,22 @@ class PeripheralRepository extends GenericRepository {
             $this->pdo->commit();
         } catch (PDOException) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while inserting the peripheral with id: {" . $peripheral->ObjectID . "}");
+            throw new RepositoryException("Error while inserting the peripheral with id: {" . $peripheral->objectId . "}");
         }
     }
 
     /**
      * Select peripheral by id
-     * @param string $ObjectID  The object id to select
+     * @param string $objectId  The object id to select
      * @return ?Peripheral    The peripheral selected, null if not found
      */
-    public function selectById(string $ObjectID): ?Peripheral {
+    public function selectById(string $objectId): ?Peripheral {
         $query = "SELECT * FROM peripheral p 
-            INNER JOIN genericobject g ON g.ObjectID = p.ObjectID 
-            WHERE g.ObjectID = :ObjectID";
+            INNER JOIN genericobject g ON g.objectId = p.objectId 
+            WHERE g.objectId = :objectId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+        $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
         $stmt->execute();
         $peripheral = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($peripheral) {
@@ -95,7 +95,7 @@ class PeripheralRepository extends GenericRepository {
      */
     public function selectByModelName(string $ModelName): ?Peripheral {
         $query = "SELECT * FROM peripheral p
-            INNER JOIN genericobject g ON g.ObjectID = p.ObjectID 
+            INNER JOIN genericobject g ON g.objectId = p.objectId 
             WHERE ModelName LIKE :ModelName";
         
         $ModelName = '%'.$ModelName.'%';
@@ -117,13 +117,13 @@ class PeripheralRepository extends GenericRepository {
      */
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,p.* FROM peripheral p
-            INNER JOIN genericobject g ON g.ObjectID = p.ObjectID
+            INNER JOIN genericobject g ON g.objectId = p.objectId
             INNER JOIN peripheraltype pt ON p.PeripheralTypeID = pt.PeripheralTypeID
             WHERE p.ModelName LIKE :key OR
             pt.Name LIKE :key OR
             g.Note LIKE :key OR
             g.Tag LIKE :key OR
-            g.ObjectID LIKE :key";
+            g.objectId LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -142,7 +142,7 @@ class PeripheralRepository extends GenericRepository {
      */
     public function selectAll(): ?array {
         $query = "SELECT * FROM peripheral p
-            INNER JOIN genericobject g ON g.ObjectID = p.ObjectID";
+            INNER JOIN genericobject g ON g.objectId = p.objectId";
 
         $stmt = $this->pdo->query($query);
 
@@ -161,14 +161,14 @@ class PeripheralRepository extends GenericRepository {
             "UPDATE peripheral
             SET ModelName = :ModelName,
             PeripheralTypeID = :PeripheralTypeID
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
 
         $queryObject =
             "UPDATE genericobject
             SET Note = :Note,
             Url = :Url,
             Tag = :Tag
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
 
         try {
             $this->pdo->beginTransaction();
@@ -176,48 +176,48 @@ class PeripheralRepository extends GenericRepository {
             $stmt = $this->pdo->prepare($queryPeripheral);
             $stmt->bindParam("ModelName", $p->ModelName, PDO::PARAM_STR);
             $stmt->bindParam("PeripheralTypeID", $p->PeripheralType->PeripheralTypeID, PDO::PARAM_INT);
-            $stmt->bindParam("ObjectID", $p->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $p->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
             $stmt->bindParam("Note", $p->Note, PDO::PARAM_STR);
             $stmt->bindParam("Url", $p->Url, PDO::PARAM_STR);
             $stmt->bindParam("Tag", $p->Tag, PDO::PARAM_STR);
-            $stmt->bindParam("ObjectID", $p->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $p->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while updating the peripheral with id: {" . $p->ObjectID . "}");
+            throw new RepositoryException("Error while updating the peripheral with id: {" . $p->objectId . "}");
         }
     }
 
     /**
      * Delete a peripheral
-     * @param string $ObjectID  The object id to delete
+     * @param string $objectId  The object id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(string $ObjectID): void {
+    public function delete(string $objectId): void {
         try {
             $this->pdo->beginTransaction();
 
             $query = "DELETE FROM peripheral
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $query = "DELETE FROM genericobject
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while deleting the peripheral with id: {" . $ObjectID . "}");
+            throw new RepositoryException("Error while deleting the peripheral with id: {" . $objectId . "}");
         }
     }
 
@@ -228,7 +228,7 @@ class PeripheralRepository extends GenericRepository {
      */
     function returnMappedObject(array $rawPeripheral): Peripheral {
         return new Peripheral(
-            $rawPeripheral["ObjectID"],
+            $rawPeripheral["objectId"],
             $rawPeripheral["Note"] ?? null,
             $rawPeripheral["Url"] ?? null,
             $rawPeripheral["Tag"] ?? null,

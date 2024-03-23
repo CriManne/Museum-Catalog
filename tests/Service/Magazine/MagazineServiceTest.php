@@ -29,18 +29,18 @@ final class MagazineServiceTest extends TestCase
             null,
             null,
             null,
-            'Magazine Title',   
+            'Magazine title',   
             2005,
             205,
             new Publisher('Publisher 1',1)
         );    
         
         $this->sampleObjectRaw = [
-            'Title' => 'Magazine Title',
+            'title' => 'Magazine title',
             'Year' => 2005,
             'MagazineNumber' => 205,
             'PublisherID' => 1,
-            'ObjectID' => 'objID',
+            'objectId' => 'objID',
             'Note' => null,
             'Url' => null,
             'Tag' => null,
@@ -53,14 +53,14 @@ final class MagazineServiceTest extends TestCase
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->magazineRepository->method('selectByTitle')->willReturn($this->sampleObject);
+        $this->magazineRepository->method('selectBytitle')->willReturn($this->sampleObject);
         $this->magazineService->insert($this->sampleObject);
     }
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
         $this->magazineRepository->method('selectById')->willReturn($this->sampleObject);
-        $this->assertEquals("Magazine Title",$this->magazineService->selectById("ObjID")->Title);
+        $this->assertEquals("Magazine title",$this->magazineService->selectById("ObjID")->title);
     }
     
     public function testBadSelectById(): void
@@ -73,8 +73,8 @@ final class MagazineServiceTest extends TestCase
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->magazineRepository->method('selectByTitle')->willReturn(null);
-        $this->magazineService->selectByTitle("WRONG");
+        $this->magazineRepository->method('selectBytitle')->willReturn(null);
+        $this->magazineService->selectBytitle("WRONG");
     }
     
     //UPDATE TESTS

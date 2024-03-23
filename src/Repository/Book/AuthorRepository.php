@@ -103,11 +103,11 @@ class AuthorRepository extends GenericRepository {
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("firstname", $author->firstname, PDO::PARAM_STR);
         $stmt->bindParam("lastname", $author->lastname, PDO::PARAM_STR);
-        $stmt->bindParam("AuthorID", $author->AuthorID, PDO::PARAM_INT);
+        $stmt->bindParam("AuthorID", $author->id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while updating the author with id: {" . $author->AuthorID . "}");
+            throw new RepositoryException("Error while updating the author with id: {" . $author->id . "}");
         }
     }
 

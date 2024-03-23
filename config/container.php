@@ -29,9 +29,9 @@ return [
         'password' => 'password'
     ],
     'dsn' => 'mysql:host=database;',
-    'production_db' => 'dbname=mupin;',
+    'production_db' => 'dbname=museum;',
     'username' => 'root',
-    'db_dump' => file_get_contents("./sql/create_mupin.sql"),
+    'db_dump' => file_get_contents("./sql/create.sql"),
     'psw' => 'root',
     'PDO' => function (ContainerInterface $c) {
         try {

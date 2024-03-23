@@ -15,11 +15,11 @@ services:
     image: mysql
     environment:
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mupin
+      MYSQL_DATABASE: museum
     ports:
       - "3306:3306"
     volumes:
-      - ./sql/create_mupin.sql:/docker-entrypoint-initdb.d/create_mupin.sql
+      - ./sql/create.sql:/docker-entrypoint-initdb.d/create.sql
       - ./my.cnf:/etc/mysql/my.cnf
 
   phpmyadmin:
@@ -33,4 +33,4 @@ services:
       PMA_USER: root
       PMA_PASSWORD: root
       MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mupin
+      MYSQL_DATABASE: museum

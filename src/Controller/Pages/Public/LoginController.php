@@ -55,7 +55,7 @@ class LoginController extends ControllerUtil implements ControllerInterface {
             }
 
             $_SESSION['user_email'] = $user->Email;
-            $_SESSION['privilege'] = $user->Privilege;            
+            $_SESSION['privilege'] = $user->privilege;
             
             return new Response(
                 302,

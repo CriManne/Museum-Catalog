@@ -19,7 +19,7 @@
             return new PDO($dsn,$username,$password);
         }
 
-        public static function createTestDB(PDO $pdo,string $db_name='mupin_test'): PDO{
+        public static function createTestDB(PDO $pdo,string $db_name='museum_test'): PDO{
 
             $container = DIC::getContainer();
 
@@ -34,7 +34,7 @@
             return $pdo;
         }
 
-        public static function dropTestDB(PDO $pdo,string $db_name='mupin_test'): PDO{
+        public static function dropTestDB(PDO $pdo,string $db_name='museum_test'): PDO{
 
             $query = "DROP DATABASE IF EXISTS $db_name;";
 

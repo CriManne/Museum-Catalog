@@ -85,7 +85,7 @@ class PeripheralService {
      * @throws RepositoryException If the update fails
      */
     public function update(Peripheral $p): void {
-        $per = $this->peripheralRepository->selectById($p->ObjectID);
+        $per = $this->peripheralRepository->selectById($p->objectId);
         if (is_null($per)) {
             throw new ServiceException("Peripheral not found!");
         }

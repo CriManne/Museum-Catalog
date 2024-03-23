@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace App\Model\Response;
+namespace App\DataModels\Response;
 
 class GenericComponentResponse {
 

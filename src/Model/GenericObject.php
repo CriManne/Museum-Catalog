@@ -4,22 +4,14 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-class GenericObject {
-
-    public string $ObjectID;
-    public ?string $Note;
-    public ?string $Url;
-    public ?string $Tag;
-
+class GenericObject
+{
     public function __construct(
-        string $ObjectID,
-        string $Note = null,
-        string $Url = null,
-        string $Tag = null
-    ) {
-        $this->ObjectID = $ObjectID;
-        $this->Note = $Note;
-        $this->Url = $Url;
-        $this->Tag = $Tag;
+        public string $objectID,
+        public ?string $note,
+        public ?string $url,
+        public ?string $tag
+    )
+    {
     }
 }

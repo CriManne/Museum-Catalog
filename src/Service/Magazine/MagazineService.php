@@ -19,11 +19,11 @@ class MagazineService {
     /**
      * Insert magazine
      * @param Magazine $m The magazine to insert
-     * @throws ServiceException If the Title is already used
+     * @throws ServiceException If the title is already used
      * @throws RepositoryException If the insert fails
      */
     public function insert(Magazine $m): void {
-        $magazine = $this->magazineRepository->selectByTitle($m->Title);
+        $magazine = $this->magazineRepository->selectBytitle($m->title);
         if ($magazine)
             throw new ServiceException("Magazine title already used!");
 
@@ -46,13 +46,13 @@ class MagazineService {
     }
 
     /**
-     * Select by Title
-     * @param string $Title The Title to select
+     * Select by title
+     * @param string $title The title to select
      * @return Magazine The magazine selected
      * @throws ServiceException If not found
      */
-    public function selectByTitle(string $Title): Magazine {
-        $magazine = $this->magazineRepository->selectByTitle($Title);
+    public function selectBytitle(string $title): Magazine {
+        $magazine = $this->magazineRepository->selectBytitle($title);
         if (is_null($magazine)) {
             throw new ServiceException("Magazine not found");
         }
@@ -84,7 +84,7 @@ class MagazineService {
      * @throws RepositoryException If the update fails
      */
     public function update(Magazine $m): void {
-        $mag = $this->magazineRepository->selectById($m->ObjectID);
+        $mag = $this->magazineRepository->selectById($m->objectId);
 
         if (is_null($mag)) {
             throw new ServiceException("Magazine not found!");

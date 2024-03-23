@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Book;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -61,15 +62,15 @@ final class BookRepositoryTest extends TestCase
 
         self::$sampleBook = new Book(
             "objID",
-            null,
-            null,
-            null,
             "1984",
             self::$samplePublisher,
             1984,
+            [self::$sampleAuthor],
+            null,
+            null,
+            null,
             "AAABBBCCC",
             95,
-            [self::$sampleAuthor]
         );
 
         self::$authorRepository->insert(self::$sampleAuthor);
@@ -89,12 +90,12 @@ final class BookRepositoryTest extends TestCase
     //INSERT TESTS
     public function testGoodInsert():void{                
         $book = clone self::$sampleBook;
-        $book->ObjectID = "objID2";
-        $book->Title = "2001";
+        $book->objectId = "objID2";
+        $book->title = "2001";
         
         self::$bookRepository->insert($book);
 
-        $this->assertEquals(self::$bookRepository->selectById("objID2")->Title,"2001");
+        $this->assertEquals(self::$bookRepository->selectById("objID2")->title,"2001");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -115,13 +116,13 @@ final class BookRepositoryTest extends TestCase
     
     public function testGoodSelectAll():void{
         $book1 = clone self::$sampleBook;
-        $book1->ObjectID = "objID1";
+        $book1->objectId = "objID1";
         
         $book2 = clone self::$sampleBook;
-        $book2->ObjectID = "objID2";
+        $book2->objectId = "objID2";
         
         $book3 = clone self::$sampleBook;
-        $book3->ObjectID = "objID3";
+        $book3->objectId = "objID3";
                 
         self::$bookRepository->insert($book1);
         self::$bookRepository->insert($book2);
@@ -133,22 +134,22 @@ final class BookRepositoryTest extends TestCase
         $this->assertNotNull($books[1]);       
     } 
     
-    public function testGoodSelectByTitle():void{
+    public function testGoodSelectBytitle():void{
 
         $book = clone self::$sampleBook;
-        $book->ObjectID = "objID2";
-        $book->Title = "Big Bang";
+        $book->objectId = "objID2";
+        $book->title = "Big Bang";
         
         self::$bookRepository->insert($book);
 
-        $this->assertEquals(self::$bookRepository->selectByTitle("Big Bang")->Title,"Big Bang");
+        $this->assertEquals(self::$bookRepository->selectBytitle("Big Bang")->title,"Big Bang");
     }
 
     public function testGoodSelectByKey(): void {
 
         $book = clone self::$sampleBook;
-        $book->ObjectID = "objID2";
-        $book->Title = "Big Bang";
+        $book->objectId = "objID2";
+        $book->title = "Big Bang";
 
         self::$bookRepository->insert($book);
 
@@ -158,11 +159,11 @@ final class BookRepositoryTest extends TestCase
     //UPDATE TESTS
     public function testGoodUpdate():void{
         $book = clone self::$sampleBook;
-        $book->Title = "NEW TITLE";
+        $book->title = "NEW TITLE";
         
         self::$bookRepository->update($book);
         
-        $this->assertEquals("NEW TITLE",self::$bookRepository->selectById("objID")->Title);
+        $this->assertEquals("NEW TITLE",self::$bookRepository->selectById("objID")->title);
     }
     
     //DELETE TESTS

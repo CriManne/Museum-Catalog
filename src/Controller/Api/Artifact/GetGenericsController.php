@@ -58,7 +58,7 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
                 }
 
                 $result = array_uintersect(...$resultsKeyword, ...[function ($a, $b) {
-                    if ($a->ObjectID === $b->ObjectID) {
+                    if ($a->objectId === $b->objectId) {
                         return 0;
                     }
                     return -1;

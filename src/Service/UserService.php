@@ -91,10 +91,10 @@ class UserService {
                 totalPages: $users->getTotalPages(),
                 data:  array_map(
                     fn(User $u) => [
-                        "Email" => $u->Email,
-                        "Firstname" => $u->Firstname,
-                        "Lastname" =>  $u->Lastname,
-                        "Privilege" => $u->Privilege
+                        "Email" => $u->email,
+                        "Firstname" => $u->firstname,
+                        "Lastname" =>  $u->lastname,
+                        "privilege" => $u->privilege
                     ],
                     $users->getData()
                 )

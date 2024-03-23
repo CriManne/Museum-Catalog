@@ -60,14 +60,14 @@ class BookAuthorRepository extends GenericRepository {
 
     /**
      * Select book authors by book id
-     * @param string $BookID   The book id
+     * @param string $bookId   The book id
      * @return ?BookAuthor  The selected book author, null if not found
      */
-    public function selectByBookId(string $BookID): ?array {
-        $query = "SELECT * FROM bookauthor WHERE BookID = :BookID";
+    public function selectByBookId(string $bookId): ?array {
+        $query = "SELECT * FROM bookauthor WHERE bookId = :bookId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("BookID", $BookID, PDO::PARAM_STR);
+        $stmt->bindParam("bookId", $bookId, PDO::PARAM_STR);
         $stmt->execute();
         $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
 

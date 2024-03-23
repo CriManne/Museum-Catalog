@@ -4,17 +4,12 @@ declare(strict_types=1);
 
 namespace App\Model\Peripheral;
 
-
-class PeripheralType {
-
-    public ?int $PeripheralTypeID;
-    public string $Name;
-
+class PeripheralType
+{
     public function __construct(
-        string $Name,
-        ?int $PeripheralTypeID = null
-    ) {
-        $this->PeripheralTypeID = $PeripheralTypeID;
-        $this->Name = $Name;
+        public string $name,
+        public ?int   $id = null
+    )
+    {
     }
 }

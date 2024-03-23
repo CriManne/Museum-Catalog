@@ -162,10 +162,10 @@ function fillTable(data) {
 
     data.forEach(function(elem) {
 
-        let email = elem.Email;
-        let firstname = elem.Firstname;
-        let lastname = elem.Lastname;
-        let privilege = elem.Privilege;
+        let email = elem.email;
+        let firstname = elem.firstname;
+        let lastname = elem.lastname;
+        let privilege = elem.privilege;
 
         $("#table-result").append(
             '<tr><th scope="row">' + email +

@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\SearchEngine;
 
 use App\Controller\Api\ArtifactsListController;
+use App\DataModels\Response\GenericComponentResponse;
 use App\Exception\ServiceException;
 use App\Model\Book\Author;
 use App\Model\Book\Publisher;
@@ -12,7 +13,6 @@ use App\Model\Computer\Cpu;
 use App\Model\Computer\Os;
 use App\Model\Computer\Ram;
 use App\Model\Peripheral\PeripheralType;
-use App\Model\Response\GenericComponentResponse;
 use App\Model\Software\SoftwareType;
 use App\Model\Software\SupportType;
 use App\Util\ORM;
@@ -108,7 +108,7 @@ class ComponentSearchEngine {
      */
     public function Author(Author $obj): GenericComponentResponse {
         return new GenericComponentResponse(
-            $obj->AuthorID,
+            $obj->id,
             $obj->firstname . " " . $obj->lastname,
             "Author"
         );

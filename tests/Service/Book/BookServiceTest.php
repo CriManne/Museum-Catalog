@@ -42,12 +42,12 @@ final class BookServiceTest extends TestCase
         );    
         
         $this->sampleObjectRaw = [
-            'Title' => '1984',
+            'title' => '1984',
             'PublisherID' => 1,
             'Year' => 1945,
             'ISBN' => 'ALSKDI82SB',
             'Pages' => 245,            
-            'ObjectID' => 'objID',
+            'objectId' => 'objID',
             'Note' => null,
             'Url' => null,
             'Tag' => null,
@@ -60,14 +60,14 @@ final class BookServiceTest extends TestCase
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->bookRepository->method('selectByTitle')->willReturn($this->sampleObject);
+        $this->bookRepository->method('selectBytitle')->willReturn($this->sampleObject);
         $this->bookService->insert($this->sampleObject);
     }
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
         $this->bookRepository->method('selectById')->willReturn($this->sampleObject);
-        $this->assertEquals("1984",$this->bookService->selectById("ObjID")->Title);
+        $this->assertEquals("1984",$this->bookService->selectById("ObjID")->title);
     }
     
     public function testBadSelectById(): void
@@ -77,11 +77,11 @@ final class BookServiceTest extends TestCase
         $this->bookService->selectById("ObjID25");
     }
     
-    public function testBadSelectByTitle(): void
+    public function testBadSelectBytitle(): void
     {
         $this->expectException(ServiceException::class);
-        $this->bookRepository->method('selectByTitle')->willReturn(null);
-        $this->bookService->selectByTitle("WRONG");
+        $this->bookRepository->method('selectBytitle')->willReturn(null);
+        $this->bookService->selectBytitle("WRONG");
     }
     
     //UPDATE TESTS

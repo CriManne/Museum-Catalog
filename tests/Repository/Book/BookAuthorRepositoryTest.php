@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Book;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Book\BookAuthorRepository;
@@ -43,7 +44,7 @@ final class BookAuthorRepositoryTest extends TestCase
 
         self::$bookAuthorRepository->insert($bookAuthor);
         
-        $this->assertEquals(self::$bookAuthorRepository->selectById("BOOK2",1)->BookID,"BOOK2");
+        $this->assertEquals(self::$bookAuthorRepository->selectById("BOOK2",1)->bookId,"BOOK2");
     }
     
     //SELECT TESTS

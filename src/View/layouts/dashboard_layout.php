@@ -50,7 +50,7 @@
                 <div class="sb-sidenav-menu">
                     <div class="nav">
                         <?php
-                        if ($this->e($user->Privilege) === "1") {
+                        if ($this->e($user->privilege) === "1") {
                         ?>
                             <div class="sb-sidenav-menu-heading">Gestione utenti</div>
                             <div class="nav-link" role="button" id="view_users">

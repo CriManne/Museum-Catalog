@@ -43,19 +43,19 @@ class ComputerRepository extends GenericRepository {
 
         $queryComputer =
             "INSERT INTO computer
-                (ObjectID,ModelName,Year,HddSize,CpuID,RamID,OsID) VALUES 
-                (:ObjectID,:ModelName,:Year,:HddSize,:CpuID,:RamID,:OsID);";
+                (objectId,ModelName,Year,HddSize,CpuID,RamID,OsID) VALUES 
+                (:objectId,:ModelName,:Year,:HddSize,:CpuID,:RamID,:OsID);";
 
         $queryObject =
             "INSERT INTO genericobject
-                (ObjectID,Note,Url,Tag)
+                (objectId,Note,Url,Tag)
                 VALUES
-                (:ObjectID,:Note,:Url,:Tag)";
+                (:objectId,:Note,:Url,:Tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindValue(':ObjectID', $computer->ObjectID, PDO::PARAM_STR);
+            $stmt->bindValue(':objectId', $computer->objectId, PDO::PARAM_STR);
             $stmt->bindValue(':Note', $computer->Note, PDO::PARAM_STR);
             $stmt->bindValue(':Url', $computer->Url, PDO::PARAM_STR);
             $stmt->bindValue(':Tag', $computer->Tag, PDO::PARAM_STR);
@@ -63,7 +63,7 @@ class ComputerRepository extends GenericRepository {
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryComputer);
-            $stmt->bindParam("ObjectID", $computer->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $computer->objectId, PDO::PARAM_STR);
             $stmt->bindParam("ModelName", $computer->ModelName, PDO::PARAM_STR);
             $stmt->bindParam("Year", $computer->Year, PDO::PARAM_INT);
             $stmt->bindParam("HddSize", $computer->HddSize, PDO::PARAM_STR);
@@ -79,22 +79,22 @@ class ComputerRepository extends GenericRepository {
             $this->pdo->commit();
         } catch (PDOException) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while inserting the computer with id: {" . $computer->ObjectID . "}");
+            throw new RepositoryException("Error while inserting the computer with id: {" . $computer->objectId . "}");
         }
     }
 
     /**
      * Select computer by id
-     * @param string $ObjectID  The object id to select
+     * @param string $objectId  The object id to select
      * @return ?Computer    The computer selected, null if not found
      */
-    public function selectById(string $ObjectID): ?Computer {
+    public function selectById(string $objectId): ?Computer {
         $query = "SELECT * FROM computer b 
-            INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
-            WHERE g.ObjectID = :ObjectID";
+            INNER JOIN genericobject g ON g.objectId = b.objectId 
+            WHERE g.objectId = :objectId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+        $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
         $stmt->execute();
         $computer = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($computer) {
@@ -110,7 +110,7 @@ class ComputerRepository extends GenericRepository {
      */
     public function selectByModelName(string $ModelName): ?Computer {
         $query = "SELECT * FROM computer b
-            INNER JOIN genericobject g ON g.ObjectID = b.ObjectID 
+            INNER JOIN genericobject g ON g.objectId = b.objectId 
             WHERE ModelName LIKE :ModelName";
 
         $ModelName = '%' . $ModelName . '%';
@@ -132,7 +132,7 @@ class ComputerRepository extends GenericRepository {
      */
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,c.* FROM computer c
-            INNER JOIN genericobject g ON g.ObjectID = c.ObjectID
+            INNER JOIN genericobject g ON g.objectId = c.objectId
             INNER JOIN cpu cp ON c.CpuID = cp.CpuID
             INNER JOIN ram r ON r.RamID = c.RamID
             INNER JOIN os o ON c.OsID = o.OsID
@@ -146,7 +146,7 @@ class ComputerRepository extends GenericRepository {
             o.Name LIKE :key OR
             g.Note LIKE :key OR
             g.Tag LIKE :key OR
-            g.ObjectID LIKE :key";
+            g.objectId LIKE :key";
 
         $key = '%' . $key . '%';
         $stmt = $this->pdo->prepare($query);
@@ -164,7 +164,7 @@ class ComputerRepository extends GenericRepository {
      */
     public function selectAll(): ?array {
         $query = "SELECT * FROM computer b
-            INNER JOIN genericobject g ON g.ObjectID = b.ObjectID";
+            INNER JOIN genericobject g ON g.objectId = b.objectId";
 
         $stmt = $this->pdo->query($query);
 
@@ -187,14 +187,14 @@ class ComputerRepository extends GenericRepository {
             CpuID = :CpuID,
             RamID = :RamID,
             OsID = :OsID            
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
 
         $queryObject =
             "UPDATE genericobject
             SET Note = :Note,
             Url = :Url,
             Tag = :Tag
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
 
         try {
             $this->pdo->beginTransaction();
@@ -208,48 +208,48 @@ class ComputerRepository extends GenericRepository {
             $OsID = !is_null($b->Os) ? $b->Os->OsID : null;
 
             $stmt->bindParam("OsID", $OsID, PDO::PARAM_INT);
-            $stmt->bindParam("ObjectID", $b->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
             $stmt->bindParam("Note", $b->Note, PDO::PARAM_STR);
             $stmt->bindParam("Url", $b->Url, PDO::PARAM_STR);
             $stmt->bindParam("Tag", $b->Tag, PDO::PARAM_STR);
-            $stmt->bindParam("ObjectID", $b->ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while updating the computer with id: {" . $b->ObjectID . "}");
+            throw new RepositoryException("Error while updating the computer with id: {" . $b->objectId . "}");
         }
     }
 
     /**
      * Delete a computer
-     * @param string $ObjectID  The object id to delete
+     * @param string $objectId  The object id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(string $ObjectID): void {
+    public function delete(string $objectId): void {
         try {
             $this->pdo->beginTransaction();
 
             $query = "DELETE FROM computer 
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $query = "DELETE FROM genericobject 
-            WHERE ObjectID = :ObjectID";
+            WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("ObjectID", $ObjectID, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $this->pdo->commit();
         } catch (PDOException $e) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while deleting the computer with id: {" . $ObjectID . "}");
+            throw new RepositoryException("Error while deleting the computer with id: {" . $objectId . "}");
         }
     }
 
@@ -263,7 +263,7 @@ class ComputerRepository extends GenericRepository {
         $os = isset($rawComputer["OsID"]) ? $this->osRepository->selectById(intval($rawComputer["OsID"])) : null;
 
         return new Computer(
-            $rawComputer["ObjectID"],
+            $rawComputer["objectId"],
             $rawComputer["Note"] ?? null,
             $rawComputer["Url"] ?? null,
             $rawComputer["Tag"] ?? null,

@@ -30,14 +30,14 @@ final class UserServiceTest extends TestCase
             "Password"=>'password',
             "firstname"=>'Elon',
             "lastname"=>'Musk',
-            "Privilege"=>0
+            "privilege"=>0
         ];        
 
         $this->sampleResponse = [
             "Email"=>'elon@gmail.com',
             "firstname"=>'Elon',
             "lastname"=>'Musk',
-            "Privilege"=>0
+            "privilege"=>0
         ];
     }
     
@@ -53,7 +53,7 @@ final class UserServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleResponse);
-        $this->assertEquals("Elon",$this->userService->selectById("testemail@gmail.com")->Firstname);
+        $this->assertEquals("Elon",$this->userService->selectById("testemail@gmail.com")->firstname);
     }
 
     public function testBadSelectById(): void

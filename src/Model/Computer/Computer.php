@@ -6,33 +6,21 @@ namespace App\Model\Computer;
 
 use App\Model\GenericObject;
 
-class Computer extends GenericObject {
-
-    public string $ModelName;
-    public int $Year;
-    public ?string $HddSize;
-    public Cpu $Cpu;
-    public Ram $Ram;
-    public ?Os $Os;
-
+class Computer extends GenericObject
+{
     public function __construct(
-        string $ObjectID,
-        string $Note = null,
-        string $Url = null,
-        string $Tag = null,
-        string $ModelName,
-        int $Year,
-        ?string $HddSize,
-        Cpu $Cpu,
-        Ram $Ram,
-        ?Os $Os
-    ) {
-        parent::__construct($ObjectID, $Note, $Url, $Tag);
-        $this->ModelName = $ModelName;
-        $this->Year = $Year;
-        $this->Cpu = $Cpu;
-        $this->Ram = $Ram;
-        $this->HddSize = $HddSize;
-        $this->Os = $Os;
+        public string  $objectId,
+        public string  $modelName,
+        public int     $year,
+        public ?string $hddSize,
+        public Cpu     $cpu,
+        public Ram     $ram,
+        public ?Os     $os,
+        string         $note = null,
+        string         $url = null,
+        string         $tag = null
+    )
+    {
+        parent::__construct($objectId, $note, $url, $tag);
     }
 }

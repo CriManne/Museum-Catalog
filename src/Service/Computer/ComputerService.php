@@ -84,7 +84,7 @@ class ComputerService {
      * @throws RepositoryException If the update fails
      */
     public function update(Computer $c): void {
-        $comp = $this->computerRepository->selectById($c->ObjectID);
+        $comp = $this->computerRepository->selectById($c->objectId);
         if (is_null($comp)) {
             throw new ServiceException("Computer not found!");
         }
