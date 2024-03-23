@@ -122,7 +122,7 @@ final class MagazineRepositoryTest extends TestCase
         
         self::$magazineRepository->insert($magazine);
 
-        $this->assertEquals(self::$magazineRepository->selectBytitle("Magazine Test")->title,"Magazine Test");
+        $this->assertEquals(self::$magazineRepository->selectByTitle("Magazine Test")->title,"Magazine Test");
     }
 
     public function testGoodSelectByKey():void{

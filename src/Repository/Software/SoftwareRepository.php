@@ -99,7 +99,7 @@ class SoftwareRepository extends GenericRepository {
      * @param string $title     The software title to select
      * @return ?Software    The software selected, null if not found
      */
-    public function selectBytitle(string $title): ?Software {
+    public function selectByTitle(string $title): ?Software {
         $query = "SELECT * FROM software 
             INNER JOIN genericobject g ON g.objectId = software.objectId 
             WHERE title = :title";

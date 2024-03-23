@@ -7,6 +7,7 @@ namespace App\Service\Computer;
 use App\Exception\ServiceException;
 use App\Model\Computer\Os;
 use App\Repository\Computer\OsRepository;
+use App\Exception\RepositoryException;
 
 class OsService {
 
@@ -23,7 +24,7 @@ class OsService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Os $os): void {
-        $osFetch = $this->osRepository->selectByName($os->Name);
+        $osFetch = $this->osRepository->selectByName($os->name);
         if ($osFetch)
             throw new ServiceException("Os name already used!");
 
@@ -84,7 +85,7 @@ class OsService {
      * @throws RepositoryException If the update fails
      */
     public function update(Os $os): void {
-        $o = $this->osRepository->selectById($os->OsID);
+        $o = $this->osRepository->selectById($os->id);
         if (is_null($o)) {
             throw new ServiceException("Os not found!");
         }

@@ -7,6 +7,7 @@ namespace App\Service\Magazine;
 use App\Exception\ServiceException;
 use App\Model\Magazine\Magazine;
 use App\Repository\Magazine\MagazineRepository;
+use App\Exception\RepositoryException;
 
 class MagazineService {
 
@@ -23,7 +24,7 @@ class MagazineService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Magazine $m): void {
-        $magazine = $this->magazineRepository->selectBytitle($m->title);
+        $magazine = $this->magazineRepository->selectByTitle($m->title);
         if ($magazine)
             throw new ServiceException("Magazine title already used!");
 
@@ -51,8 +52,8 @@ class MagazineService {
      * @return Magazine The magazine selected
      * @throws ServiceException If not found
      */
-    public function selectBytitle(string $title): Magazine {
-        $magazine = $this->magazineRepository->selectBytitle($title);
+    public function selectByTitle(string $title): Magazine {
+        $magazine = $this->magazineRepository->selectByTitle($title);
         if (is_null($magazine)) {
             throw new ServiceException("Magazine not found");
         }

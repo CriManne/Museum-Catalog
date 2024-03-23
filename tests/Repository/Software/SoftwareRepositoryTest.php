@@ -147,7 +147,7 @@ final class SoftwareRepositoryTest extends TestCase
         
         self::$softwareRepository->insert($software);
 
-        $this->assertEquals(self::$softwareRepository->selectBytitle("Visual studio")->title,"Visual studio");
+        $this->assertEquals(self::$softwareRepository->selectByTitle("Visual studio")->title,"Visual studio");
     }
 
     public function testGoodSelectByKey():void{

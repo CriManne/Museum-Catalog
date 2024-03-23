@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Book;
 
+use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\Book\Author;
 use App\Repository\Book\AuthorRepository;

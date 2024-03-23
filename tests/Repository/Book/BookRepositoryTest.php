@@ -142,7 +142,7 @@ final class BookRepositoryTest extends TestCase
         
         self::$bookRepository->insert($book);
 
-        $this->assertEquals(self::$bookRepository->selectBytitle("Big Bang")->title,"Big Bang");
+        $this->assertEquals(self::$bookRepository->selectByTitle("Big Bang")->title,"Big Bang");
     }
 
     public function testGoodSelectByKey(): void {

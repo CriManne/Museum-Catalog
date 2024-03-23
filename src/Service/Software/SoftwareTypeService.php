@@ -7,6 +7,7 @@ namespace App\Service\Software;
 use App\Exception\ServiceException;
 use App\Model\Software\SoftwareType;
 use App\Repository\Software\SoftwareTypeRepository;
+use App\Exception\RepositoryException;
 
 class SoftwareTypeService {
 
@@ -23,7 +24,7 @@ class SoftwareTypeService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(SoftwareType $s): void {
-        $sType = $this->softwareTypeRepository->selectByName($s->Name);
+        $sType = $this->softwareTypeRepository->selectByName($s->name);
         if ($sType)
             throw new ServiceException("Software Type name already used!");
 
@@ -84,7 +85,7 @@ class SoftwareTypeService {
      * @throws RepositoryException If the update fails
      */
     public function update(SoftwareType $s): void {
-        $softT = $this->softwareTypeRepository->selectById($s->SoftwareTypeID);
+        $softT = $this->softwareTypeRepository->selectById($s->id);
         if (is_null($softT)) {
             throw new ServiceException("Software Type not found!");
         }

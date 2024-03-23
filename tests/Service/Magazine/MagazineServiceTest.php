@@ -53,7 +53,7 @@ final class MagazineServiceTest extends TestCase
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->magazineRepository->method('selectBytitle')->willReturn($this->sampleObject);
+        $this->magazineRepository->method('selectByTitle')->willReturn($this->sampleObject);
         $this->magazineService->insert($this->sampleObject);
     }
     //SELECT TESTS
@@ -73,8 +73,8 @@ final class MagazineServiceTest extends TestCase
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->magazineRepository->method('selectBytitle')->willReturn(null);
-        $this->magazineService->selectBytitle("WRONG");
+        $this->magazineRepository->method('selectByTitle')->willReturn(null);
+        $this->magazineService->selectByTitle("WRONG");
     }
     
     //UPDATE TESTS

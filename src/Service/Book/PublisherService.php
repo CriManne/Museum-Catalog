@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Book;
 
+use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\Book\Publisher;
 use App\Repository\Book\PublisherRepository;
@@ -23,7 +24,7 @@ class PublisherService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Publisher $p): void {
-        $publisher = $this->publisherRepository->selectByName($p->Name);
+        $publisher = $this->publisherRepository->selectByName($p->name);
         if ($publisher)
             throw new ServiceException("Publisher name already used!");
 
@@ -84,7 +85,7 @@ class PublisherService {
      * @throws RepositoryException If the update fails
      */
     public function update(Publisher $p): void {
-        $publisher = $this->publisherRepository->selectById($p->PublisherID);
+        $publisher = $this->publisherRepository->selectById($p->id);
         if (is_null($publisher)) {
             throw new ServiceException("Publisher not found!");
         }

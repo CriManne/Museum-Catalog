@@ -7,6 +7,7 @@ namespace App\Service\Software;
 use App\Exception\ServiceException;
 use App\Model\Software\Software;
 use App\Repository\Software\SoftwareRepository;
+use App\Exception\RepositoryException;
 
 class SoftwareService {
 
@@ -23,7 +24,7 @@ class SoftwareService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Software $s): void {
-        $software = $this->softwareRepository->selectBytitle($s->title);
+        $software = $this->softwareRepository->selectByTitle($s->title);
         if ($software)
             throw new ServiceException("Software title already used!");
 
@@ -51,8 +52,8 @@ class SoftwareService {
      * @return Software The software selected
      * @throws ServiceException If not found
      */
-    public function selectBytitle(string $title): Software {
-        $software = $this->softwareRepository->selectBytitle($title);
+    public function selectByTitle(string $title): Software {
+        $software = $this->softwareRepository->selectByTitle($title);
         if (is_null($software)) {
             throw new ServiceException("Software not found");
         }

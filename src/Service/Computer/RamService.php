@@ -7,6 +7,7 @@ namespace App\Service\Computer;
 use App\Exception\ServiceException;
 use App\Model\Computer\Ram;
 use App\Repository\Computer\RamRepository;
+use App\Exception\RepositoryException;
 
 class RamService {
 
@@ -23,8 +24,8 @@ class RamService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Ram $r): void {
-        $ram = $this->ramRepository->selectByName($r->ModelName);
-        if ($ram && $ram->Size == $r->Size)
+        $ram = $this->ramRepository->selectByName($r->modelName);
+        if ($ram && $ram->size == $r->size)
             throw new ServiceException("Ram name and size already used!");
 
         $this->ramRepository->insert($r);
@@ -84,7 +85,7 @@ class RamService {
      * @throws RepositoryException If the update fails
      */
     public function update(Ram $r): void {
-        $ram = $this->ramRepository->selectById($r->RamID);
+        $ram = $this->ramRepository->selectById($r->id);
         if (is_null($ram)) {
             throw new ServiceException("Ram not found!");
         }

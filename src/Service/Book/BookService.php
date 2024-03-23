@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Book;
 
+use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\Book\Book;
 use App\Repository\Book\BookRepository;
@@ -23,7 +24,7 @@ class BookService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Book $b): void {
-        $book = $this->bookRepository->selectBytitle($b->title);
+        $book = $this->bookRepository->selectByTitle($b->title);
         if ($book)
             throw new ServiceException("Book title already used!");
 
@@ -55,8 +56,8 @@ class BookService {
      * @return Book The book selected
      * @throws ServiceException If not found
      */
-    public function selectBytitle(string $title): Book {
-        $book = $this->bookRepository->selectBytitle($title);
+    public function selectByTitle(string $title): Book {
+        $book = $this->bookRepository->selectByTitle($title);
         if (is_null($book)) {
             throw new ServiceException("Book not found");
         }

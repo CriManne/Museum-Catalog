@@ -7,6 +7,7 @@ namespace App\Service\Software;
 use App\Exception\ServiceException;
 use App\Model\Software\SupportType;
 use App\Repository\Software\SupportTypeRepository;
+use App\Exception\RepositoryException;
 
 class SupportTypeService {
 
@@ -23,7 +24,7 @@ class SupportTypeService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(SupportType $s): void {
-        $sType = $this->supportTypeRepository->selectByName($s->Name);
+        $sType = $this->supportTypeRepository->selectByName($s->name);
         if ($sType)
             throw new ServiceException("Support Type name already used!");
 
@@ -84,7 +85,7 @@ class SupportTypeService {
      * @throws RepositoryException If the update fails
      */
     public function update(SupportType $s): void {
-        $supT = $this->supportTypeRepository->selectById($s->SupportTypeID);
+        $supT = $this->supportTypeRepository->selectById($s->id);
         if (is_null($supT)) {
             throw new ServiceException("Support Type not found!");
         }

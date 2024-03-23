@@ -12,6 +12,7 @@ use App\DataModels\User\UserResponse;
 use App\Exception\ServiceException;
 use App\Model\User;
 use App\Repository\UserRepository;
+use App\Exception\RepositoryException;
 
 class UserService {
 
@@ -28,15 +29,15 @@ class UserService {
      * @throws ServiceException     If the email is already user
      */
     public function insert(User $u): void {
-        if ($this->userRepository->findById($u->Email) != null)
-            throw new ServiceException("Email already used!");
+        if ($this->userRepository->findById($u->email) != null)
+            throw new ServiceException("email already used!");
 
         $this->userRepository->save($u);
     }
 
     /**
      * Select by id
-     * @param string $Email The email to select
+     * @param string $email The email to select
      * @return UserResponse     The user selected
      * @throws ServiceException     If no user is found
      */
@@ -49,13 +50,13 @@ class UserService {
 
     /**
      * Select by credentials
-     * @param string $Email The email to select
-     * @param string $Password The password to select
+     * @param string $email The email to select
+     * @param string $password The password to select
      * @return UserResponse     The user selected
      * @throws ServiceException     If no user is found
      */
-    public function selectByCredentials(string $Email, string $Password): UserResponse {
-        $user = $this->userRepository->selectByCredentials($Email, $Password);
+    public function selectByCredentials(string $email, string $password): UserResponse {
+        $user = $this->userRepository->selectByCredentials($email, $password);
         if (is_null($user)) throw new ServiceException("Wrong credentials");
 
         return $user;
@@ -91,7 +92,7 @@ class UserService {
                 totalPages: $users->getTotalPages(),
                 data:  array_map(
                     fn(User $u) => [
-                        "Email" => $u->email,
+                        "email" => $u->email,
                         "Firstname" => $u->firstname,
                         "Lastname" =>  $u->lastname,
                         "privilege" => $u->privilege
@@ -111,7 +112,7 @@ class UserService {
      * @throws RepositoryException If the update fails
      */
     public function update(User $u): void {
-        $user = $this->userRepository->findById($u->Email);
+        $user = $this->userRepository->findById($u->email);
         if (is_null($user)) {
             throw new ServiceException("User not found!");
         }

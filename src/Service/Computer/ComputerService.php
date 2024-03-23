@@ -7,6 +7,7 @@ namespace App\Service\Computer;
 use App\Exception\ServiceException;
 use App\Model\Computer\Computer;
 use App\Repository\Computer\ComputerRepository;
+use App\Exception\RepositoryException;
 
 class ComputerService {
 

@@ -7,6 +7,7 @@ namespace App\Service\Computer;
 use App\Exception\ServiceException;
 use App\Model\Computer\Cpu;
 use App\Repository\Computer\CpuRepository;
+use App\Exception\RepositoryException;
 
 class CpuService {
 
@@ -23,8 +24,8 @@ class CpuService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Cpu $c): void {
-        $cpu = $this->cpuRepository->selectByName($c->ModelName);
-        if ($cpu && $cpu->Speed == $c->Speed)
+        $cpu = $this->cpuRepository->selectByName($c->modelName);
+        if ($cpu && $cpu->speed == $c->speed)
             throw new ServiceException("Cpu name and speed already used!");
 
         $this->cpuRepository->insert($c);
@@ -84,7 +85,7 @@ class CpuService {
      * @throws RepositoryException If the update fails
      */
     public function update(Cpu $c): void {
-        $cpu = $this->cpuRepository->selectById($c->CpuID);
+        $cpu = $this->cpuRepository->selectById($c->id);
         if (is_null($cpu)) {
             throw new ServiceException("Cpu not found!");
         }

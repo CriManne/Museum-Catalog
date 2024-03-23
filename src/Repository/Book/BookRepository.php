@@ -106,7 +106,7 @@ class BookRepository extends GenericRepository {
      * @param string $title     The book title to select
      * @return ?Book    The book selected, null if not found
      */
-    public function selectBytitle(string $title): ?Book {
+    public function selectByTitle(string $title): ?Book {
         $query = "SELECT * FROM book b
             INNER JOIN genericobject g ON g.objectId = b.objectId 
             WHERE title LIKE :title";

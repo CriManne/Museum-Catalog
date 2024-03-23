@@ -7,6 +7,7 @@ namespace App\Service\Peripheral;
 use App\Exception\ServiceException;
 use App\Model\Peripheral\Peripheral;
 use App\Repository\Peripheral\PeripheralRepository;
+use App\Exception\RepositoryException;
 
 class PeripheralService {
 
@@ -23,7 +24,7 @@ class PeripheralService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Peripheral $p): void {
-        $peripheral = $this->peripheralRepository->selectByModelName($p->ModelName);
+        $peripheral = $this->peripheralRepository->selectByModelName($p->modelName);
         if ($peripheral)
             throw new ServiceException("Peripheral model name already used!");
 

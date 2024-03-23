@@ -7,6 +7,7 @@ namespace App\Service\Peripheral;
 use App\Exception\ServiceException;
 use App\Model\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralTypeRepository;
+use App\Exception\RepositoryException;
 
 class PeripheralTypeService {
 
@@ -23,7 +24,7 @@ class PeripheralTypeService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(PeripheralType $pt): void {
-        $pType = $this->peripheralTypeRepository->selectByName($pt->Name);
+        $pType = $this->peripheralTypeRepository->selectByName($pt->name);
         if ($pType)
             throw new ServiceException("PeripheralType name already used!");
 
@@ -84,7 +85,7 @@ class PeripheralTypeService {
      * @throws RepositoryException If the update fails
      */
     public function update(PeripheralType $pt): void {
-        $periT = $this->peripheralTypeRepository->selectById($pt->PeripheralTypeID);
+        $periT = $this->peripheralTypeRepository->selectById($pt->id);
         if (is_null($periT)) {
             throw new ServiceException("PeripheralType not found!");
         }
