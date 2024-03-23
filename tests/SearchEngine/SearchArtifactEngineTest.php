@@ -2,12 +2,12 @@
 
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\SearchEngine;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\SearchEngine\ArtifactSearchEngine;
-use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\Book\Publisher;
 use App\Model\Computer\Computer;
@@ -29,9 +29,8 @@ use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Repository\Software\SoftwareRepository;
 use App\Repository\Software\SoftwareTypeRepository;
 use App\Repository\Software\SupportTypeRepository;
-use App\Util\DIC;
 
-final class ArtifactSearchEngineTest extends TestCase
+final class SearchArtifactEngineTest extends TestCase
 {
     public static ArtifactSearchEngine $artifactSearchEngine;
     public static SoftwareRepository $softwareRepository;
@@ -103,28 +102,28 @@ final class ArtifactSearchEngineTest extends TestCase
 
         self::$computerRepository->insert(new Computer(
             "OBJ1",
-            null,
-            null,
-            null,
             "Computer1",
             2018,
             "1TB",
             $cpu,
             $ram,
-            $os
+            $os,
+            null,
+            null,
+            null,
         ));
 
         $publisherRepository->insert($publisher);
 
         self::$magazineRepository->insert(new Magazine(
             "OBJ2",
-            null,
-            null,
-            null,
             "Compass",
             2017,
             23,
-            $publisher
+            $publisher,
+            null,
+            null,
+            null,
         ));
     }
 

@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Peripheral;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Peripheral\PeripheralTypeRepository;
@@ -32,7 +33,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE peripheraltype; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE PeripheralType; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
@@ -41,7 +42,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
 
         self::$peripheralTypeRepository->insert($peripheralType);
 
-        $this->assertEquals(self::$peripheralTypeRepository->selectById(2)->Name,"Keyboard");
+        $this->assertEquals(self::$peripheralTypeRepository->selectById(2)->name,"Keyboard");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -104,7 +105,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
         
         self::$peripheralTypeRepository->update($peripheralType);
         
-        $this->assertEquals("Keyboard",self::$peripheralTypeRepository->selectById(1)->Name);
+        $this->assertEquals("Keyboard",self::$peripheralTypeRepository->selectById(1)->name);
     }
     
     //DELETE TESTS

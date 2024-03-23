@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Software;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Software\SupportTypeRepository;
@@ -32,7 +33,7 @@ final class SupportTypeRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE supporttype; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE SupportType; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
@@ -41,7 +42,7 @@ final class SupportTypeRepositoryTest extends TestCase
 
         self::$supportTypeRepository->insert($supportType);
 
-        $this->assertEquals(self::$supportTypeRepository->selectById(2)->Name,"FLOPPY");
+        $this->assertEquals(self::$supportTypeRepository->selectById(2)->name,"FLOPPY");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -103,7 +104,7 @@ final class SupportTypeRepositoryTest extends TestCase
         
         self::$supportTypeRepository->update($supportType);
         
-        $this->assertEquals("FLOPPY",self::$supportTypeRepository->selectById(1)->Name);
+        $this->assertEquals("FLOPPY",self::$supportTypeRepository->selectById(1)->name);
     }
     
     //DELETE TESTS

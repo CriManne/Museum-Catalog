@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Software;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -67,13 +68,13 @@ final class SoftwareRepositoryTest extends TestCase
 
         self::$sampleSoftware = new Software(
             "objID",
-            null,
-            null,
-            null,
             'Paint',
             self::$sampleOs,
             self::$sampleSoftwareType,
             self::$sampleSupportType,
+            null,
+            null,
+            null,
         );
 
 

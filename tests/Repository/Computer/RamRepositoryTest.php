@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Computer;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\RamRepository;
@@ -31,7 +32,7 @@ final class RamRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE ram; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Ram; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
@@ -40,7 +41,7 @@ final class RamRepositoryTest extends TestCase
 
         self::$ramRepository->insert($ram);
 
-        $this->assertEquals(self::$ramRepository->selectById(2)->ModelName,"Ram 2.0");
+        $this->assertEquals(self::$ramRepository->selectById(2)->modelName,"Ram 2.0");
     }
 
     //No bad insert test because the ModelName is not unique.
@@ -100,7 +101,7 @@ final class RamRepositoryTest extends TestCase
         
         self::$ramRepository->update($ram);
         
-        $this->assertEquals("Ram 2.0",self::$ramRepository->selectById(1)->ModelName);
+        $this->assertEquals("Ram 2.0",self::$ramRepository->selectById(1)->modelName);
     }
     
     //DELETE TESTS

@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Computer;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\OsRepository;
@@ -32,7 +33,7 @@ final class OsRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE os; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Os; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
@@ -43,7 +44,7 @@ final class OsRepositoryTest extends TestCase
 
         $selectResult = self::$osRepository->selectById(2);
 
-        $this->assertEquals($os->Name,$selectResult->Name);
+        $this->assertEquals($os->name,$selectResult->name);
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -106,7 +107,7 @@ final class OsRepositoryTest extends TestCase
         
         self::$osRepository->update($os);
         
-        $this->assertEquals("Linux",self::$osRepository->selectById(1)->Name);
+        $this->assertEquals("Linux",self::$osRepository->selectById(1)->name);
     }
     
     //DELETE TESTS

@@ -2,36 +2,20 @@
 
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\SearchEngine;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\SearchEngine\ComponentSearchEngine;
-use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
-use App\Model\Book\Publisher;
-use App\Model\Computer\Computer;
 use App\Model\Computer\Cpu;
-use App\Model\Computer\Os;
 use App\Model\Computer\Ram;
-use App\Model\Magazine\Magazine;
-use App\Repository\Book\AuthorRepository;
-use App\Repository\Book\BookAuthorRepository;
-use App\Repository\Book\BookRepository;
-use App\Repository\Book\PublisherRepository;
-use App\Repository\Computer\ComputerRepository;
 use App\Repository\Computer\CpuRepository;
 use App\Repository\Computer\OsRepository;
 use App\Repository\Computer\RamRepository;
-use App\Repository\Magazine\MagazineRepository;
-use App\Repository\Peripheral\PeripheralRepository;
-use App\Repository\Peripheral\PeripheralTypeRepository;
-use App\Repository\Software\SoftwareRepository;
-use App\Repository\Software\SoftwareTypeRepository;
-use App\Repository\Software\SupportTypeRepository;
-use App\Util\DIC;
 
-final class ComponentSearchEngineTest extends TestCase
+final class SearchComponentEngineTest extends TestCase
 {
     public static ComponentSearchEngine $componentSearchEngine;
     public static OsRepository $osRepository;

@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Magazine;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -43,13 +44,13 @@ final class MagazineRepositoryTest extends TestCase
 
         self::$sampleMagazine = new Magazine(
             "objID",
-            null,
-            null,
-            null,
-            "Magazine 1.0",            
+            "Magazine 1.0",
             2005,
             10492,
-            self::$samplePublisher
+            self::$samplePublisher,
+            null,
+            null,
+            null,
         );
 
         self::$publisherRepository->insert(self::$samplePublisher);
@@ -62,7 +63,7 @@ final class MagazineRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE magazine; TRUNCATE TABLE genericobject; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Magazine; TRUNCATE TABLE GenericObject; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS

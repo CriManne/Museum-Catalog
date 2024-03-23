@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Book;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Exception\RepositoryException;
@@ -41,7 +42,7 @@ final class PublisherRepositoryTest extends TestCase
 
         self::$publisherRepository->insert($publisher);
 
-        $this->assertEquals(self::$publisherRepository->selectById(2)->Name,"Einaudi");
+        $this->assertEquals(self::$publisherRepository->selectById(2)->name,"Einaudi");
     }
 
     public function testBadInsert():void{        
@@ -103,7 +104,7 @@ final class PublisherRepositoryTest extends TestCase
         
         self::$publisherRepository->update($publisher);
         
-        $this->assertEquals("PTEST",self::$publisherRepository->selectById(1)->Name);
+        $this->assertEquals("PTEST",self::$publisherRepository->selectById(1)->name);
     }
     
     //DELETE TESTS

@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Computer;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
@@ -68,15 +69,15 @@ final class ComputerRepositoryTest extends TestCase
 
         self::$sampleComputer = new Computer(
             "objID",
-            null,
-            null,
-            null,
             "Computer 1.0",
             2005,
             "1TB",
             self::$sampleCpu,
             self::$sampleRam,
-            self::$sampleOs
+            self::$sampleOs,
+            null,
+            null,
+            null,
         );
 
         self::$osRepository->insert(self::$sampleOs);
@@ -91,18 +92,18 @@ final class ComputerRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE computer; TRUNCATE TABLE genericobject; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE computer; TRUNCATE TABLE GenericObject; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
     public function testGoodInsert():void{                
         $computer = clone self::$sampleComputer;
         $computer->objectId = "objID2";
-        $computer->ModelName = "Computer 2";
+        $computer->modelName = "Computer 2";
         
         self::$computerRepository->insert($computer);
 
-        $this->assertEquals(self::$computerRepository->selectById("objID2")->ModelName,"Computer 2");
+        $this->assertEquals(self::$computerRepository->selectById("objID2")->modelName,"Computer 2");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -124,7 +125,7 @@ final class ComputerRepositoryTest extends TestCase
     public function testGoodSelectByKey():void{
         $newPc = clone self::$sampleComputer;
         $newPc->objectId = "OBJ2";
-        $newPc->ModelName = "Computer 2";
+        $newPc->modelName = "Computer 2";
         self::$computerRepository->insert($newPc);
 
         $this->assertEquals(count(self::$computerRepository->selectByKey("comp")),2);
@@ -158,21 +159,21 @@ final class ComputerRepositoryTest extends TestCase
 
         $computer = clone self::$sampleComputer;
         $computer->objectId = "objID2";
-        $computer->ModelName = "Computer Test";
+        $computer->modelName = "Computer Test";
         
         self::$computerRepository->insert($computer);
 
-        $this->assertEquals(self::$computerRepository->selectByModelName("Computer Test")->ModelName,"Computer Test");
+        $this->assertEquals(self::$computerRepository->selectByModelName("Computer Test")->modelName,"Computer Test");
     }
 
     //UPDATE TESTS
     public function testGoodUpdate():void{
         $computer = clone self::$sampleComputer;
-        $computer->ModelName = "NEW MODELNAME";
+        $computer->modelName = "NEW MODELNAME";
         
         self::$computerRepository->update($computer);
         
-        $this->assertEquals("NEW MODELNAME",self::$computerRepository->selectById("objID")->ModelName);
+        $this->assertEquals("NEW MODELNAME",self::$computerRepository->selectById("objID")->modelName);
     }
     
     //DELETE TESTS

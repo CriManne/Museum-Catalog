@@ -1,12 +1,12 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Computer;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\CpuRepository;
-use App\Exception\RepositoryException;
 use App\Model\Computer\Cpu;
 
 final class CpuRepositoryTest extends TestCase
@@ -32,7 +32,7 @@ final class CpuRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE cpu; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Cpu; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
@@ -41,7 +41,7 @@ final class CpuRepositoryTest extends TestCase
 
         self::$cpuRepository->insert($cpu);
 
-        $this->assertEquals(self::$cpuRepository->selectById(2)->ModelName,"Cpu 2.0");
+        $this->assertEquals(self::$cpuRepository->selectById(2)->modelName,"Cpu 2.0");
     }
 
     //No bad insert test because the ModelName is not unique.
@@ -98,7 +98,7 @@ final class CpuRepositoryTest extends TestCase
         
         self::$cpuRepository->update($cpu);
         
-        $this->assertEquals("Cpu 2.0",self::$cpuRepository->selectById(1)->ModelName);
+        $this->assertEquals("Cpu 2.0",self::$cpuRepository->selectById(1)->modelName);
     }
     
     //DELETE TESTS

@@ -1,7 +1,7 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Service;
+namespace App\Test\Service\Software;
 
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;

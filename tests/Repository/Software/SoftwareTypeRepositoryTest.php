@@ -1,8 +1,9 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Software;
 
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Software\SoftwareTypeRepository;
@@ -32,7 +33,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE softwaretype; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE SoftwareType; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
@@ -41,7 +42,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
 
         self::$softwareTypeRepository->insert($softwareType);
 
-        $this->assertEquals(self::$softwareTypeRepository->selectById(2)->Name,"Game");
+        $this->assertEquals(self::$softwareTypeRepository->selectById(2)->name,"Game");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -104,7 +105,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
         
         self::$softwareTypeRepository->update($softwareType);
         
-        $this->assertEquals("Game",self::$softwareTypeRepository->selectById(1)->Name);
+        $this->assertEquals("Game",self::$softwareTypeRepository->selectById(1)->name);
     }
     
     //DELETE TESTS
