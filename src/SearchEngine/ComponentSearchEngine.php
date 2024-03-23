@@ -121,8 +121,8 @@ class ComponentSearchEngine {
      */
     public function Publisher(Publisher $obj): GenericComponentResponse {
         return new GenericComponentResponse(
-            $obj->PublisherID,
-            $obj->Name,
+            $obj->id,
+            $obj->name,
             "Publisher"
         );
     }
@@ -134,8 +134,8 @@ class ComponentSearchEngine {
      */
     public function Cpu(Cpu $obj): GenericComponentResponse {
         return new GenericComponentResponse(
-            $obj->CpuID,
-            $obj->ModelName . " " . $obj->Speed,
+            $obj->id,
+            $obj->modelName . " " . $obj->speed,
             "Cpu"
         );
     }
@@ -147,8 +147,8 @@ class ComponentSearchEngine {
      */
     public function Os(Os $obj): GenericComponentResponse {
         return new GenericComponentResponse(
-            $obj->OsID,
-            $obj->Name,
+            $obj->id,
+            $obj->name,
             "Os"
         );
     }
@@ -160,8 +160,8 @@ class ComponentSearchEngine {
      */
     public function Ram(Ram $obj): GenericComponentResponse {
         return new GenericComponentResponse(
-            $obj->RamID,
-            $obj->ModelName . " " . $obj->Size,
+            $obj->id,
+            $obj->modelName . " " . $obj->size,
             "Ram"
         );
     }
@@ -173,8 +173,8 @@ class ComponentSearchEngine {
      */
     public function PeripheralType(PeripheralType $obj): GenericComponentResponse {
         return new GenericComponentResponse(
-            $obj->PeripheralTypeID,
-            $obj->Name,
+            $obj->id,
+            $obj->name,
             "PeripheralType"
         );
     }
@@ -186,8 +186,8 @@ class ComponentSearchEngine {
      */
     public function SoftwareType(SoftwareType $obj): GenericComponentResponse {
         return new GenericComponentResponse(
-            $obj->SoftwareTypeID,
-            $obj->Name,
+            $obj->id,
+            $obj->name,
             "SoftwareType"
         );
     }
@@ -199,8 +199,8 @@ class ComponentSearchEngine {
      */
     public function SupportType(SupportType $obj): GenericComponentResponse {
         return new GenericComponentResponse(
-            $obj->SupportTypeID,
-            $obj->Name,
+            $obj->id,
+            $obj->name,
             "SupportType"
         );
     }

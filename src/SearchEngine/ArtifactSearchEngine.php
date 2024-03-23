@@ -123,8 +123,8 @@ class ArtifactSearchEngine {
      */
     public function Book(Book $obj): GenericArtifactResponse {
         $authors = [];
-        if ($obj->Authors) {
-            foreach ($obj->Authors as $author) {
+        if ($obj->authors) {
+            foreach ($obj->authors as $author) {
                 $authors[] = $author->firstname[0] . " " . $author->lastname;
             }
         }
@@ -133,16 +133,16 @@ class ArtifactSearchEngine {
             $obj->objectId,
             $obj->title,
             [
-                'Publisher' => $obj->Publisher->Name,
-                'Year' => $obj->Year,
-                'ISBN' => $obj->ISBN ?? "-",
-                'Pages' => $obj->Pages ?? "-",
+                'Publisher' => $obj->publisher->name,
+                'Year' => $obj->year,
+                'ISBN' => $obj->isbn ?? "-",
+                'Pages' => $obj->pages ?? "-",
                 'Authors' => count($authors) > 0 ? implode(", ", $authors) : "Unknown"
             ],
             "Book",
-            $obj->Note,
-            $obj->Url,
-            $obj->Tag
+            $obj->note,
+            $obj->url,
+            $obj->tag
         );
     }
 
@@ -154,9 +154,9 @@ class ArtifactSearchEngine {
     public function Computer(Computer $obj): GenericArtifactResponse {
 
         $description = [
-            'Year' => $obj->Year,
-            'Cpu' => $obj->Cpu->ModelName . ' ' . $obj->Cpu->Speed,
-            'Ram' => $obj->Ram->ModelName . ' ' . $obj->Ram->Size
+            'Year' => $obj->year,
+            'Cpu' => $obj->cpu->modelName . ' ' . $obj->cpu->speed,
+            'Ram' => $obj->ram->modelName . ' ' . $obj->ram->size
         ];
 
         if(isset($obj->HddSize)){
@@ -169,12 +169,12 @@ class ArtifactSearchEngine {
 
         return new GenericArtifactResponse(
             $obj->objectId,
-            $obj->ModelName,
+            $obj->modelName,
             $description,
             "Computer",
-            $obj->Note,
-            $obj->Url,
-            $obj->Tag
+            $obj->note,
+            $obj->url,
+            $obj->tag
         );
     }
 
@@ -188,14 +188,14 @@ class ArtifactSearchEngine {
             $obj->objectId,
             $obj->title,
             [
-                'Magazine number' => $obj->MagazineNumber,
-                'Publisher' => $obj->Publisher->Name,
-                'Year' => $obj->Year
+                'Magazine number' => $obj->magazineNumber,
+                'Publisher' => $obj->publisher->name,
+                'Year' => $obj->year
             ],
             "Magazine",
-            $obj->Note,
-            $obj->Url,
-            $obj->Tag
+            $obj->note,
+            $obj->url,
+            $obj->tag
         );
     }
 
@@ -207,14 +207,14 @@ class ArtifactSearchEngine {
     public function Peripheral(Peripheral $obj): GenericArtifactResponse {
         return new GenericArtifactResponse(
             $obj->objectId,
-            $obj->ModelName,
+            $obj->modelName,
             [
-                'Peripheral type' => $obj->PeripheralType->Name
+                'Peripheral type' => $obj->peripheralType->name
             ],
             "Peripheral",
-            $obj->Note,
-            $obj->Url,
-            $obj->Tag
+            $obj->note,
+            $obj->url,
+            $obj->tag
         );
     }
 
@@ -228,14 +228,14 @@ class ArtifactSearchEngine {
             $obj->objectId,
             $obj->title,
             [
-                'Os' => $obj->Os->Name,
-                'Software Type' => $obj->SoftwareType->Name,
-                'Support Type' => $obj->SupportType->Name
+                'Os' => $obj->os->name,
+                'Software Type' => $obj->softwareType->name,
+                'Support Type' => $obj->supportType->name
             ],
             "Software",
-            $obj->Note,
-            $obj->Url,
-            $obj->Tag
+            $obj->note,
+            $obj->url,
+            $obj->tag
         );
     }
 }
