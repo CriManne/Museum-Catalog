@@ -22,29 +22,29 @@ class PublisherRepository extends GenericRepository {
 
         $query =
             "INSERT INTO publisher 
-            (Name) VALUES 
-            (:Name);";
+            (name) VALUES 
+            (:name);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Name", $publisher->Name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $publisher->name, PDO::PARAM_STR);
 
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the publisher with name: {" . $publisher->Name . "}");
+            throw new RepositoryException("Error while inserting the publisher with name: {" . $publisher->name . "}");
         }
     }
 
     /**
      * Select publisher by id
-     * @param int $PublisherID  The publisher id
+     * @param int $id  The publisher id
      * @return ?Publisher   The publisher selected, null if not found         * 
      */
-    public function selectById(int $PublisherID): ?Publisher {
-        $query = "SELECT * FROM publisher WHERE PublisherID = :PublisherID";
+    public function selectById(int $id): ?Publisher {
+        $query = "SELECT * FROM publisher WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("PublisherID", $PublisherID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $stmt->execute();
         $publisher = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($publisher) {
@@ -55,14 +55,14 @@ class PublisherRepository extends GenericRepository {
 
     /**
      * Select publisher by name
-     * @param string $Name  The publisher name
+     * @param string $name  The publisher name
      * @return ?Publisher   The publisher selected,null if not found
      */
-    public function selectByName(string $Name): ?Publisher {
-        $query = "SELECT * FROM publisher WHERE Name = :Name";
+    public function selectByname(string $name): ?Publisher {
+        $query = "SELECT * FROM publisher WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Name", $Name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->execute();
         $publisher = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($publisher) {
@@ -77,7 +77,7 @@ class PublisherRepository extends GenericRepository {
      * @return array   The publishers selected
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM publisher WHERE Name LIKE :key";
+        $query = "SELECT * FROM publisher WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -112,35 +112,35 @@ class PublisherRepository extends GenericRepository {
     public function update(Publisher $p): void {
         $query =
             "UPDATE publisher 
-            SET Name = :name
-            WHERE PublisherID = :PublisherID;";
+            SET name = :name
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $p->Name, PDO::PARAM_STR);
-        $stmt->bindParam("PublisherID", $p->PublisherID, PDO::PARAM_INT);
+        $stmt->bindParam("name", $p->name, PDO::PARAM_STR);
+        $stmt->bindParam("id", $p->id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while updating the publisher with id: {" . $p->PublisherID . "}");
+            throw new RepositoryException("Error while updating the publisher with id: {" . $p->id . "}");
         }
     }
 
     /**
      * Delete a publisher
-     * @param int $PublisherID  The publisher id to delete
+     * @param int $id  The publisher id to delete
      * @throws RepositoryException If the delete fails         * 
      */
-    public function delete(int $PublisherID): void {
+    public function delete(int $id): void {
         $query =
             "DELETE FROM publisher 
-            WHERE PublisherID = :PublisherID;";
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("PublisherID", $PublisherID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while deleting the publisher with id: {" . $PublisherID . "}");
+            throw new RepositoryException("Error while deleting the publisher with id: {" . $id . "}");
         }
     }
 }

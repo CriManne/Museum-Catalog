@@ -9,24 +9,24 @@ use App\Exception\RepositoryException;
 
 use App\Model\Computer\Computer;
 
-use App\Repository\Computer\CpuRepository;
-use App\Repository\Computer\RamRepository;
-use App\Repository\Computer\OsRepository;
+use App\Repository\Computer\cpuRepository;
+use App\Repository\Computer\ramRepository;
+use App\Repository\Computer\osRepository;
 
 use PDO;
 use PDOException;
 
 class ComputerRepository extends GenericRepository {
 
-    public CpuRepository $cpuRepository;
-    public RamRepository $ramRepository;
-    public OsRepository $osRepository;
+    public cpuRepository $cpuRepository;
+    public ramRepository $ramRepository;
+    public osRepository $osRepository;
 
     public function __construct(
         PDO $pdo,
-        CpuRepository $cpuRepository,
-        RamRepository $ramRepository,
-        OsRepository $osRepository
+        cpuRepository $cpuRepository,
+        ramRepository $ramRepository,
+        osRepository $osRepository
     ) {
         parent::__construct($pdo);
         $this->cpuRepository = $cpuRepository;
@@ -43,36 +43,36 @@ class ComputerRepository extends GenericRepository {
 
         $queryComputer =
             "INSERT INTO computer
-                (objectId,ModelName,Year,HddSize,CpuID,RamID,OsID) VALUES 
-                (:objectId,:ModelName,:Year,:HddSize,:CpuID,:RamID,:OsID);";
+                (objectId,modelName,year,hddSize,cpuId,ramId,osId) VALUES 
+                (:objectId,:modelName,:year,:hddSize,:cpuId,:ramId,:osId);";
 
         $queryObject =
             "INSERT INTO genericobject
-                (objectId,Note,Url,Tag)
+                (objectId,note,url,tag)
                 VALUES
-                (:objectId,:Note,:Url,:Tag)";
+                (:objectId,:note,:url,:tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
             $stmt->bindValue(':objectId', $computer->objectId, PDO::PARAM_STR);
-            $stmt->bindValue(':Note', $computer->Note, PDO::PARAM_STR);
-            $stmt->bindValue(':Url', $computer->Url, PDO::PARAM_STR);
-            $stmt->bindValue(':Tag', $computer->Tag, PDO::PARAM_STR);
+            $stmt->bindValue(':note', $computer->note, PDO::PARAM_STR);
+            $stmt->bindValue(':url', $computer->url, PDO::PARAM_STR);
+            $stmt->bindValue(':tag', $computer->tag, PDO::PARAM_STR);
 
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryComputer);
             $stmt->bindParam("objectId", $computer->objectId, PDO::PARAM_STR);
-            $stmt->bindParam("ModelName", $computer->ModelName, PDO::PARAM_STR);
-            $stmt->bindParam("Year", $computer->Year, PDO::PARAM_INT);
-            $stmt->bindParam("HddSize", $computer->HddSize, PDO::PARAM_STR);
-            $stmt->bindParam("CpuID", $computer->Cpu->CpuID, PDO::PARAM_INT);
-            $stmt->bindParam("RamID", $computer->Ram->RamID, PDO::PARAM_INT);
+            $stmt->bindParam("modelName", $computer->modelName, PDO::PARAM_STR);
+            $stmt->bindParam("year", $computer->year, PDO::PARAM_INT);
+            $stmt->bindParam("hddSize", $computer->hddSize, PDO::PARAM_STR);
+            $stmt->bindParam("cpuId", $computer->cpu->id, PDO::PARAM_INT);
+            $stmt->bindParam("ramId", $computer->ram->id, PDO::PARAM_INT);
 
-            $OsID = !is_null($computer->Os) ? $computer->Os->OsID : null;
+            $osId = !is_null($computer->os) ? $computer->os->id : null;
 
-            $stmt->bindParam("OsID", $OsID, PDO::PARAM_INT);
+            $stmt->bindParam("osId", $osId, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -105,18 +105,18 @@ class ComputerRepository extends GenericRepository {
 
     /**
      * Select computer by model name
-     * @param string $ModelName     The computer model name to select
+     * @param string $modelName     The computer model name to select
      * @return ?Computer    The computer selected, null if not found
      */
-    public function selectByModelName(string $ModelName): ?Computer {
+    public function selectBymodelName(string $modelName): ?Computer {
         $query = "SELECT * FROM computer b
             INNER JOIN genericobject g ON g.objectId = b.objectId 
-            WHERE ModelName LIKE :ModelName";
+            WHERE modelName LIKE :modelName";
 
-        $ModelName = '%' . $ModelName . '%';
+        $modelName = '%' . $modelName . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $modelName, PDO::PARAM_STR);
         $stmt->execute();
         $computer = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($computer) {
@@ -133,19 +133,19 @@ class ComputerRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,c.* FROM computer c
             INNER JOIN genericobject g ON g.objectId = c.objectId
-            INNER JOIN cpu cp ON c.CpuID = cp.CpuID
-            INNER JOIN ram r ON r.RamID = c.RamID
-            INNER JOIN os o ON c.OsID = o.OsID
-            WHERE c.ModelName LIKE :key OR
-            Year LIKE :key OR
-            HddSize LIKE :key OR
-            cp.ModelName LIKE :key OR
+            INNER JOIN cpu cp ON c.cpuId = cp.cpuId
+            INNER JOIN ram r ON r.ramId = c.ramId
+            INNER JOIN os o ON c.osId = o.osId
+            WHERE c.modelName LIKE :key OR
+            year LIKE :key OR
+            hddSize LIKE :key OR
+            cp.modelName LIKE :key OR
             cp.Speed LIKE :key OR
-            r.ModelName LIKE :key OR
+            r.modelName LIKE :key OR
             r.Size LIKE :key OR
             o.Name LIKE :key OR
-            g.Note LIKE :key OR
-            g.Tag LIKE :key OR
+            g.note LIKE :key OR
+            g.tag LIKE :key OR
             g.objectId LIKE :key";
 
         $key = '%' . $key . '%';
@@ -181,40 +181,40 @@ class ComputerRepository extends GenericRepository {
     public function update(Computer $b): void {
         $queryComputer =
             "UPDATE computer
-            SET ModelName = :ModelName,
-            Year = :Year,
-            HddSize = :HddSize,
-            CpuID = :CpuID,
-            RamID = :RamID,
-            OsID = :OsID            
+            SET modelName = :modelName,
+            year = :year,
+            hddSize = :hddSize,
+            cpuId = :cpuId,
+            ramId = :ramId,
+            osId = :osId            
             WHERE objectId = :objectId";
 
         $queryObject =
             "UPDATE genericobject
-            SET Note = :Note,
-            Url = :Url,
-            Tag = :Tag
+            SET note = :note,
+            url = :url,
+            tag = :tag
             WHERE objectId = :objectId";
 
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryComputer);
-            $stmt->bindParam("ModelName", $b->ModelName, PDO::PARAM_STR);
-            $stmt->bindParam("Year", $b->Year, PDO::PARAM_INT);
-            $stmt->bindParam("HddSize", $b->HddSize, PDO::PARAM_STR);
-            $stmt->bindParam("CpuID", $b->Cpu->CpuID, PDO::PARAM_INT);
-            $stmt->bindParam("RamID", $b->Ram->RamID, PDO::PARAM_INT);
-            $OsID = !is_null($b->Os) ? $b->Os->OsID : null;
+            $stmt->bindParam("modelName", $b->modelName, PDO::PARAM_STR);
+            $stmt->bindParam("year", $b->year, PDO::PARAM_INT);
+            $stmt->bindParam("hddSize", $b->hddSize, PDO::PARAM_STR);
+            $stmt->bindParam("cpuId", $b->cpu->id, PDO::PARAM_INT);
+            $stmt->bindParam("ramId", $b->ram->id, PDO::PARAM_INT);
+            $osId = !is_null($b->os) ? $b->os->id : null;
 
-            $stmt->bindParam("OsID", $OsID, PDO::PARAM_INT);
+            $stmt->bindParam("osId", $osId, PDO::PARAM_INT);
             $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindParam("Note", $b->Note, PDO::PARAM_STR);
-            $stmt->bindParam("Url", $b->Url, PDO::PARAM_STR);
-            $stmt->bindParam("Tag", $b->Tag, PDO::PARAM_STR);
+            $stmt->bindParam("note", $b->note, PDO::PARAM_STR);
+            $stmt->bindParam("url", $b->url, PDO::PARAM_STR);
+            $stmt->bindParam("tag", $b->tag, PDO::PARAM_STR);
             $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -260,19 +260,19 @@ class ComputerRepository extends GenericRepository {
      */
     function returnMappedObject(array $rawComputer): Computer {
 
-        $os = isset($rawComputer["OsID"]) ? $this->osRepository->selectById(intval($rawComputer["OsID"])) : null;
+        $os = isset($rawComputer["osId"]) ? $this->osRepository->selectById(intval($rawComputer["osId"])) : null;
 
         return new Computer(
             $rawComputer["objectId"],
-            $rawComputer["Note"] ?? null,
-            $rawComputer["Url"] ?? null,
-            $rawComputer["Tag"] ?? null,
-            $rawComputer["ModelName"],
-            intval($rawComputer["Year"]),
-            $rawComputer["HddSize"] ?? null,
-            $this->cpuRepository->selectById(intval($rawComputer["CpuID"])),
-            $this->ramRepository->selectById(intval($rawComputer["RamID"])),
-            $os
+            $rawComputer["modelName"],
+            intval($rawComputer["year"]),
+            $rawComputer["hddSize"] ?? null,
+            $this->cpuRepository->selectById(intval($rawComputer["cpuId"])),
+            $this->ramRepository->selectById(intval($rawComputer["ramId"])),
+            $os,
+            $rawComputer["note"] ?? null,
+            $rawComputer["url"] ?? null,
+            $rawComputer["tag"] ?? null,
         );
     }
 }

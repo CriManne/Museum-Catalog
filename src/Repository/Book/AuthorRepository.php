@@ -42,7 +42,7 @@ class AuthorRepository extends GenericRepository {
      * @return ?Author  The selected author, null if not found
      */
     public function selectById(int $id): ?Author {
-        $query = "SELECT * FROM author WHERE AuthorID = :id";
+        $query = "SELECT * FROM author WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
@@ -98,12 +98,12 @@ class AuthorRepository extends GenericRepository {
             "UPDATE author 
             SET firstname = :firstname,
             lastname = :lastname
-            WHERE AuthorID = :AuthorID;";
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("firstname", $author->firstname, PDO::PARAM_STR);
         $stmt->bindParam("lastname", $author->lastname, PDO::PARAM_STR);
-        $stmt->bindParam("AuthorID", $author->id, PDO::PARAM_INT);
+        $stmt->bindParam("id", $author->id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
@@ -113,20 +113,20 @@ class AuthorRepository extends GenericRepository {
 
     /**
      * Delete an author
-     * @param int $AuthorID     The author id to delete
+     * @param int $id     The author id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(int $AuthorID): void {
+    public function delete(int $id): void {
         $query =
             "DELETE FROM author                      
-            WHERE AuthorID = :AuthorID;";
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("AuthorID", $AuthorID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while deleting the author with id: {" . $AuthorID . "}");
+            throw new RepositoryException("Error while deleting the author with id: {" . $id . "}");
         }
     }
 }

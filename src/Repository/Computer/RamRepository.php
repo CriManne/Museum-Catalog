@@ -22,30 +22,30 @@ class RamRepository extends GenericRepository {
 
         $query =
             "INSERT INTO ram 
-            (ModelName,Size) VALUES 
+            (modelName,size) VALUES 
             (:name,:size);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $ram->ModelName, PDO::PARAM_STR);
-        $stmt->bindParam("size", $ram->Size, PDO::PARAM_STR);
+        $stmt->bindParam("name", $ram->modelName, PDO::PARAM_STR);
+        $stmt->bindParam("size", $ram->size, PDO::PARAM_STR);
 
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the ram with name: {" . $ram->ModelName . "}");
+            throw new RepositoryException("Error while inserting the ram with name: {" . $ram->modelName . "}");
         }
     }
 
     /**
      * Select a ram by id
-     * @param int $RamID    The ram id to select
+     * @param int $id    The ram id to select
      * @return ?Ram     The selected ram, null if not found
      */
-    public function selectById(int $RamID): ?Ram {
-        $query = "SELECT * FROM ram WHERE RamID = :RamID";
+    public function selectById(int $id): ?Ram {
+        $query = "SELECT * FROM ram WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("RamID", $RamID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $stmt->execute();
         $ram = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($ram) {
@@ -56,14 +56,14 @@ class RamRepository extends GenericRepository {
 
     /**
      * Select ram by name
-     * @param string $ModelName     The ram name to select
+     * @param string $modelName     The ram name to select
      * @return ?Ram     The ram selected,null if not found
      */
-    public function selectByName(string $ModelName): ?Ram {
-        $query = "SELECT * FROM ram WHERE ModelName = :ModelName";
+    public function selectByName(string $modelName): ?Ram {
+        $query = "SELECT * FROM ram WHERE modelName = :modelName";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $modelName, PDO::PARAM_STR);
         $stmt->execute();
         $ram = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($ram) {
@@ -78,7 +78,7 @@ class RamRepository extends GenericRepository {
      * @return array     The rams selected
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM ram WHERE ModelName LIKE :key OR Size LIKE :key";
+        $query = "SELECT * FROM ram WHERE modelName LIKE :key OR size LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -112,37 +112,37 @@ class RamRepository extends GenericRepository {
     public function update(Ram $ram): void {
         $query =
             "UPDATE ram 
-            SET ModelName = :ModelName,
-            Size = :Size
-            WHERE RamID = :RamID;";
+            SET modelName = :modelName,
+            size = :size
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ModelName", $ram->ModelName, PDO::PARAM_STR);
-        $stmt->bindParam("Size", $ram->Size, PDO::PARAM_STR);
-        $stmt->bindParam("RamID", $ram->RamID, PDO::PARAM_INT);
+        $stmt->bindParam("modelName", $ram->modelName, PDO::PARAM_STR);
+        $stmt->bindParam("size", $ram->size, PDO::PARAM_STR);
+        $stmt->bindParam("id", $ram->id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while updating the ram with id: {" . $ram->RamID . "}");
+            throw new RepositoryException("Error while updating the ram with id: {" . $ram->id . "}");
         }
     }
 
     /**
      * Delete a ram
-     * @param int $RamID    The ram id to delete
+     * @param int $id    The ram id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(int $RamID): void {
+    public function delete(int $id): void {
         $query =
             "DELETE FROM ram  
-            WHERE RamID = :RamID;";
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("RamID", $RamID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while deleting the ram with id: {" . $RamID . "}");
+            throw new RepositoryException("Error while deleting the ram with id: {" . $id . "}");
         }
     }
 }

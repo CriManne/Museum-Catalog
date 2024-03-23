@@ -22,32 +22,32 @@ class BookAuthorRepository extends GenericRepository {
 
         $query =
             "INSERT INTO bookauthor 
-            (BookID,AuthorID) VALUES 
-            (:BookID,:AuthorID);";
+            (bookId,authorId) VALUES 
+            (:bookId,:authorId);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("BookID", $bookAuthor->BookID, PDO::PARAM_STR);
-        $stmt->bindParam("AuthorID", $bookAuthor->AuthorID, PDO::PARAM_INT);
+        $stmt->bindParam("bookId", $bookAuthor->bookId, PDO::PARAM_STR);
+        $stmt->bindParam("authorId", $bookAuthor->authorId, PDO::PARAM_INT);
 
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the book author {" . $bookAuthor->BookID . "," . $bookAuthor->AuthorID . "}");
+            throw new RepositoryException("Error while inserting the book author {" . $bookAuthor->bookId . "," . $bookAuthor->authorId . "}");
         }
     }
 
     /**
      * Select book author by id
-     * @param string $BookID   The book id
-     * @param int $AuthorID    The author id
+     * @param string $bookId   The book id
+     * @param int $authorId    The author id
      * @return ?BookAuthor  The selected book author, null if not found
      */
-    public function selectById(string $BookID, int $AuthorID): ?BookAuthor {
-        $query = "SELECT * FROM bookauthor WHERE BookID = :BookID AND AuthorID = :AuthorID";
+    public function selectById(string $bookId, int $authorId): ?BookAuthor {
+        $query = "SELECT * FROM bookauthor WHERE bookId = :bookId AND authorId = :authorId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("BookID", $BookID, PDO::PARAM_STR);
-        $stmt->bindParam("AuthorID", $AuthorID, PDO::PARAM_INT);
+        $stmt->bindParam("bookId", $bookId, PDO::PARAM_STR);
+        $stmt->bindParam("authorId", $authorId, PDO::PARAM_INT);
         $stmt->execute();
         $bookAuthor = $stmt->fetch(PDO::FETCH_ASSOC);
 
@@ -80,14 +80,14 @@ class BookAuthorRepository extends GenericRepository {
 
     /**
      * Select book authors by author id
-     * @param int $AuthorID    The author id
+     * @param int $authorId    The author id
      * @return ?BookAuthor  The selected book author, null if not found
      */
-    public function selectByAuthorId(int $AuthorID): ?array {
-        $query = "SELECT * FROM bookauthor WHERE AuthorID = :AuthorID";
+    public function selectByAuthorId(int $authorId): ?array {
+        $query = "SELECT * FROM bookauthor WHERE authorId = :authorId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("AuthorID", $AuthorID, PDO::PARAM_INT);
+        $stmt->bindParam("authorId", $authorId, PDO::PARAM_INT);
         $stmt->execute();
         $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
 
@@ -118,20 +118,20 @@ class BookAuthorRepository extends GenericRepository {
 
     /**
      * Delete by id
-     * @param string $BookID The book id
+     * @param string $bookId The book id
      * @throws PDOException If the delete fails
      */
-    public function deleteById(string $BookID): void {
+    public function deleteById(string $bookId): void {
         $query =
             "DELETE FROM bookauthor                      
-            WHERE BookID = :BookID";
+            WHERE bookId = :bookId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("BookID", $BookID, PDO::PARAM_STR);
+        $stmt->bindParam("bookId", $bookId, PDO::PARAM_STR);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while deleting the book author with id: {" . $BookID . "}");
+            throw new RepositoryException("Error while deleting the book author with id: {" . $bookId . "}");
         }
     }
 }

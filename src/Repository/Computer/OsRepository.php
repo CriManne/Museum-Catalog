@@ -22,29 +22,29 @@ class OsRepository extends GenericRepository {
 
         $query =
             "INSERT INTO os 
-            (Name) VALUES 
-            (:Name);";
+            (name) VALUES 
+            (:name);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Name", $os->Name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $os->name, PDO::PARAM_STR);
 
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the os with name: {" . $os->Name . "}");
+            throw new RepositoryException("Error while inserting the os with name: {" . $os->name . "}");
         }
     }
 
     /**
      * Select os by id
-     * @param int $OsID     The os id to select
+     * @param int $id     The os id to select
      * @return ?Os  The os selected, null if not found
      */
-    public function selectById(int $OsID): ?Os {
-        $query = "SELECT * FROM os WHERE OsID = :OsID";
+    public function selectById(int $id): ?Os {
+        $query = "SELECT * FROM os WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("OsID", $OsID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $stmt->execute();
         $os = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($os) {
@@ -55,14 +55,14 @@ class OsRepository extends GenericRepository {
 
     /**
      * Select os by name
-     * @param string $Name  The os name to select 
+     * @param string $name  The os name to select 
      * @return ?Os  The selected os, null if not found
      */
-    public function selectByName(string $Name): ?Os {
-        $query = "SELECT * FROM os WHERE Name = :Name";
+    public function selectByname(string $name): ?Os {
+        $query = "SELECT * FROM os WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Name", $Name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->execute();
         $os = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($os) {
@@ -77,7 +77,7 @@ class OsRepository extends GenericRepository {
      * @return array  The selected oss
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM os WHERE Name LIKE :key";
+        $query = "SELECT * FROM os WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -111,35 +111,35 @@ class OsRepository extends GenericRepository {
     public function update(Os $os): void {
         $query =
             "UPDATE os 
-            SET Name = :Name            
-            WHERE OsID = :OsID;";
+            SET name = :name            
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Name", $os->Name, PDO::PARAM_STR);
-        $stmt->bindParam("OsID", $os->OsID, PDO::PARAM_INT);
+        $stmt->bindParam("name", $os->name, PDO::PARAM_STR);
+        $stmt->bindParam("id", $os->id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while updating the os  with id: {" . $os->OsID . "}");
+            throw new RepositoryException("Error while updating the os  with id: {" . $os->id . "}");
         }
     }
 
     /**
      * Delete an os
-     * @param int $OsID     The os id to delete
+     * @param int $id     The os id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(int $OsID): void {
+    public function delete(int $id): void {
         $query =
             "DELETE FROM os   
-            WHERE OsID = :OsID;";
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("OsID", $OsID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while deleting the os  with id: {" . $OsID . "}");
+            throw new RepositoryException("Error while deleting the os  with id: {" . $id . "}");
         }
     }
 }

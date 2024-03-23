@@ -22,30 +22,30 @@ class SupportTypeRepository extends GenericRepository {
 
         $query =
             "INSERT INTO supporttype 
-            (Name) VALUES 
-            (:Name);";
+            (name) VALUES 
+            (:name);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Name", $supportType->Name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $supportType->name, PDO::PARAM_STR);
 
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the support type with name: {" . $supportType->Name . "}");
+            throw new RepositoryException("Error while inserting the support type with name: {" . $supportType->name . "}");
         }
     }
 
 
     /**
      * Select by id
-     * @param int $SupportTypeID    The id to select
+     * @param int $id    The id to select
      * @return ?SupportType     The support type selected, null if not found
      */
-    public function selectById(int $SupportTypeID): ?SupportType {
-        $query = "SELECT * FROM supporttype WHERE SupportTypeID = :SupportTypeID";
+    public function selectById(int $id): ?SupportType {
+        $query = "SELECT * FROM supporttype WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("SupportTypeID", $SupportTypeID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $stmt->execute();
         $supportType = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($supportType) {
@@ -56,14 +56,14 @@ class SupportTypeRepository extends GenericRepository {
 
     /**
      * Select by name
-     * @param string $Name  The name to select
+     * @param string $name  The name to select
      * @return ?SupportType The support type selected, null if not found
      */
-    public function selectByName(string $Name): ?SupportType {
-        $query = "SELECT * FROM supporttype WHERE Name = :Name";
+    public function selectByname(string $name): ?SupportType {
+        $query = "SELECT * FROM supporttype WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Name", $Name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $name, PDO::PARAM_STR);
         $stmt->execute();
         $supportType = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($supportType) {
@@ -78,7 +78,7 @@ class SupportTypeRepository extends GenericRepository {
      * @return array The support types selected
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM supporttype WHERE Name LIKE :key";
+        $query = "SELECT * FROM supporttype WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -112,35 +112,35 @@ class SupportTypeRepository extends GenericRepository {
     public function update(SupportType $s): void {
         $query =
             "UPDATE supporttype 
-            SET Name = :Name            
-            WHERE SupportTypeID = :SupportTypeID;";
+            SET name = :name            
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("Name", $s->Name, PDO::PARAM_STR);
-        $stmt->bindParam("SupportTypeID", $s->SupportTypeID, PDO::PARAM_INT);
+        $stmt->bindParam("name", $s->name, PDO::PARAM_STR);
+        $stmt->bindParam("id", $s->id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while updating the support type with id: {" . $s->SupportTypeID . "}");
+            throw new RepositoryException("Error while updating the support type with id: {" . $s->id . "}");
         }
     }
 
     /**
      * Delete a support type
-     * @param int $SupportTypeID    The id to delete
+     * @param int $id    The id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(int $SupportTypeID): void {
+    public function delete(int $id): void {
         $query =
             "DELETE FROM supporttype          
-            WHERE SupportTypeID = :SupportTypeID;";
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("SupportTypeID", $SupportTypeID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while deleting the support type with id: {" . $SupportTypeID . "}");
+            throw new RepositoryException("Error while deleting the support type with id: {" . $id . "}");
         }
     }
 }

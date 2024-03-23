@@ -28,7 +28,7 @@ class SoftwareRepository extends GenericRepository {
         parent::__construct($pdo);
         $this->softwareTypeRepository = $softwareTypeRepository;
         $this->supportTypeRepository = $supportTypeRepository;
-        $this->OsRepository = $osRepository;
+        $this->osRepository = $osRepository;
     }
 
     /**
@@ -40,30 +40,30 @@ class SoftwareRepository extends GenericRepository {
 
         $querySoftware =
             "INSERT INTO software
-                (objectId,title,OsID,SoftwareTypeID,SupportTypeID) VALUES 
-                (:objectId,:title,:OsID,:SoftwareTypeID,:SupportTypeID);";
+                (objectId,title,osId,softwareTypeId,supportTypeId) VALUES 
+                (:objectId,:title,:osId,:softwareTypeId,:supportTypeId);";
 
         $queryObject =
             "INSERT INTO genericobject
-                (objectId,Note,Url,Tag)
+                (objectId,note,url,tag)
                 VALUES
-                (:objectId,:Note,:Url,:Tag)";
+                (:objectId,:note,:url,:tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
             $stmt->bindValue(':objectId', $software->objectId, PDO::PARAM_STR);
-            $stmt->bindValue(':Note', $software->Note, PDO::PARAM_STR);
-            $stmt->bindValue(':Url', $software->Url, PDO::PARAM_STR);
-            $stmt->bindValue(':Tag', $software->Tag, PDO::PARAM_STR);
+            $stmt->bindValue(':note', $software->note, PDO::PARAM_STR);
+            $stmt->bindValue(':url', $software->url, PDO::PARAM_STR);
+            $stmt->bindValue(':tag', $software->tag, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($querySoftware);
             $stmt->bindParam("objectId", $software->objectId, PDO::PARAM_STR);
             $stmt->bindParam("title", $software->title, PDO::PARAM_STR);
-            $stmt->bindParam("OsID", $software->Os->OsID, PDO::PARAM_INT);
-            $stmt->bindParam("SoftwareTypeID", $software->SoftwareType->SoftwareTypeID, PDO::PARAM_INT);
-            $stmt->bindParam("SupportTypeID", $software->SupportType->SupportTypeID, PDO::PARAM_INT);
+            $stmt->bindParam("osId", $software->os->id, PDO::PARAM_INT);
+            $stmt->bindParam("softwareTypeId", $software->softwareType->id, PDO::PARAM_INT);
+            $stmt->bindParam("supportTypeId", $software->supportType->id, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -122,15 +122,15 @@ class SoftwareRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,s.* FROM software s
             INNER JOIN genericobject g ON g.objectId = s.objectId 
-            INNER JOIN os o ON s.OsID = o.OsID
-            INNER JOIN softwaretype st ON s.SoftwareTypeID = st.SoftwareTypeID
-            INNER JOIN supporttype supt ON s.SupportTypeID = supt.SupportTypeID
+            INNER JOIN os o ON s.osId = o.osId
+            INNER JOIN softwaretype st ON s.softwareTypeId = st.softwareTypeId
+            INNER JOIN supporttype supt ON s.supportTypeId = supt.supportTypeId
             WHERE s.title LIKE :key OR
             o.Name LIKE :key OR
             st.Name LIKE :key OR
             supt.Name LIKE :key OR
-            g.Note LIKE :key OR
-            g.Tag LIKE :key OR
+            g.note LIKE :key OR
+            g.tag LIKE :key OR
             g.objectId LIKE :key";
 
         $key = '%' . $key . '%';
@@ -167,16 +167,16 @@ class SoftwareRepository extends GenericRepository {
         $querySoftware =
             "UPDATE software
             SET title = :title,
-            OsID = :OsID,
-            SoftwareTypeID = :SoftwareTypeID,
-            SupportTypeID = :SupportTypeID
+            osId = :osId,
+            softwareTypeId = :softwareTypeId,
+            supportTypeId = :supportTypeId
             WHERE objectId = :objectId";
 
         $queryObject =
             "UPDATE genericobject
-            SET Note = :Note,
-            Url = :Url,
-            Tag = :Tag
+            SET note = :note,
+            url = :url,
+            tag = :tag
             WHERE objectId = :objectId";
 
         try {
@@ -184,16 +184,16 @@ class SoftwareRepository extends GenericRepository {
 
             $stmt = $this->pdo->prepare($querySoftware);
             $stmt->bindParam("title", $s->title, PDO::PARAM_STR);
-            $stmt->bindParam("OsID", $s->Os->OsID, PDO::PARAM_INT);
-            $stmt->bindParam("SoftwareTypeID", $s->SoftwareType->SoftwareTypeID, PDO::PARAM_INT);
-            $stmt->bindParam("SupportTypeID", $s->SupportType->SupportTypeID, PDO::PARAM_INT);
+            $stmt->bindParam("osId", $s->os->id, PDO::PARAM_INT);
+            $stmt->bindParam("softwareTypeId", $s->softwareType->id, PDO::PARAM_INT);
+            $stmt->bindParam("supportTypeId", $s->supportType->id, PDO::PARAM_INT);
             $stmt->bindParam("objectId", $s->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindParam("Note", $s->Note, PDO::PARAM_STR);
-            $stmt->bindParam("Url", $s->Url, PDO::PARAM_STR);
-            $stmt->bindParam("Tag", $s->Tag, PDO::PARAM_STR);
+            $stmt->bindParam("note", $s->note, PDO::PARAM_STR);
+            $stmt->bindParam("url", $s->url, PDO::PARAM_STR);
+            $stmt->bindParam("tag", $s->tag, PDO::PARAM_STR);
             $stmt->bindParam("objectId", $s->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
@@ -240,13 +240,13 @@ class SoftwareRepository extends GenericRepository {
     function returnMappedObject(array $rawsoftware): Software {
         return new Software(
             $rawsoftware["objectId"],
-            $rawsoftware["Note"] ?? null,
-            $rawsoftware["Url"] ?? null,
-            $rawsoftware["Tag"] ?? null,
             $rawsoftware["title"],
-            $this->OsRepository->selectById(intval($rawsoftware["OsID"])),
-            $this->softwareTypeRepository->selectById(intval($rawsoftware["SoftwareTypeID"])),
-            $this->supportTypeRepository->selectById(intval($rawsoftware["SupportTypeID"]))
+            $this->osRepository->selectById(intval($rawsoftware["osId"])),
+            $this->softwareTypeRepository->selectById(intval($rawsoftware["softwareTypeId"])),
+            $this->supportTypeRepository->selectById(intval($rawsoftware["supportTypeId"])),
+            $rawsoftware["note"] ?? null,
+            $rawsoftware["url"] ?? null,
+            $rawsoftware["tag"] ?? null,
         );
     }
 }

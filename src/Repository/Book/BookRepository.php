@@ -42,35 +42,35 @@ class BookRepository extends GenericRepository {
 
         $queryBook =
             "INSERT INTO book
-                (objectId,title,PublisherID,Year,Pages,ISBN) VALUES 
-                (:objectId,:title,:PublisherID,:Year,:Pages,:ISBN);";
+                (objectId,title,publisherId,year,pages,isbn) VALUES 
+                (:objectId,:title,:publisherId,:year,:pages,:isbn);";
 
         $queryObject =
             "INSERT INTO genericobject
-                (objectId,Note,Url,Tag)
+                (objectId,note,url,tag)
                 VALUES
-                (:objectId,:Note,:Url,:Tag)";
+                (:objectId,:note,:url,:tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
             $stmt->bindValue(':objectId', $book->objectId, PDO::PARAM_STR);
-            $stmt->bindValue(':Note', $book->Note, PDO::PARAM_STR);
-            $stmt->bindValue(':Url', $book->Url, PDO::PARAM_STR);
-            $stmt->bindValue(':Tag', $book->Tag, PDO::PARAM_STR);
+            $stmt->bindValue(':note', $book->note, PDO::PARAM_STR);
+            $stmt->bindValue(':url', $book->url, PDO::PARAM_STR);
+            $stmt->bindValue(':tag', $book->tag, PDO::PARAM_STR);
 
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryBook);
             $stmt->bindParam("objectId", $book->objectId, PDO::PARAM_STR);
             $stmt->bindParam("title", $book->title, PDO::PARAM_STR);
-            $stmt->bindParam("PublisherID", $book->Publisher->PublisherID, PDO::PARAM_INT);
-            $stmt->bindParam("Year", $book->Year, PDO::PARAM_INT);
-            $stmt->bindParam("Pages", $book->Pages, PDO::PARAM_INT);
-            $stmt->bindParam("ISBN", $book->ISBN, PDO::PARAM_STR);
+            $stmt->bindParam("publisherId", $book->publisher->id, PDO::PARAM_INT);
+            $stmt->bindParam("year", $book->year, PDO::PARAM_INT);
+            $stmt->bindParam("pages", $book->pages, PDO::PARAM_INT);
+            $stmt->bindParam("isbn", $book->isbn, PDO::PARAM_STR);
 
             $stmt->execute();
-            foreach ($book->Authors as $author) {
+            foreach ($book->authors as $author) {
                 $this->bookAuthorRepository->insert(new BookAuthor($book->objectId, $author->AuthorID));
             }
 
@@ -131,16 +131,16 @@ class BookRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,b.* FROM book b
             INNER JOIN genericobject g ON g.objectId = b.objectId 
-            INNER JOIN publisher p ON b.PublisherID = p.PublisherID
+            INNER JOIN publisher p ON b.publisherId = p.publisherId
             INNER JOIN bookauthor ba ON b.objectId = ba.BookID
             INNER JOIN author a ON ba.AuthorID = a.AuthorID
             WHERE title LIKE :key OR
-            Year LIKE :key OR
-            ISBN LIKE :key OR
+            year LIKE :key OR
+            isbn LIKE :key OR
             a.firstname LIKE :key OR
             a.lastname LIKE :key OR
-            g.Note LIKE :key OR
-            g.Tag LIKE :key OR
+            g.note LIKE :key OR
+            g.tag LIKE :key OR
             g.objectId LIKE :key";
 
         $key = '%' . $key . '%';
@@ -177,17 +177,17 @@ class BookRepository extends GenericRepository {
         $queryBook =
             "UPDATE book
             SET title = :title,
-            PublisherID = :PublisherID,
-            Year = :Year,
-            Pages = :Pages,
-            ISBN = :ISBN
+            publisherId = :publisherId,
+            year = :year,
+            pages = :pages,
+            isbn = :isbn
             WHERE objectId = :objectId";
 
         $queryObject =
             "UPDATE genericobject
-            SET Note = :Note,
-            Url = :Url,
-            Tag = :Tag
+            SET note = :note,
+            url = :url,
+            tag = :tag
             WHERE objectId = :objectId";
 
         try {
@@ -195,23 +195,23 @@ class BookRepository extends GenericRepository {
 
             $stmt = $this->pdo->prepare($queryBook);
             $stmt->bindParam("title", $b->title, PDO::PARAM_STR);
-            $stmt->bindParam("PublisherID", $b->Publisher->PublisherID, PDO::PARAM_INT);
-            $stmt->bindParam("Year", $b->Year, PDO::PARAM_INT);
-            $stmt->bindParam("Pages", $b->Pages, PDO::PARAM_INT);
-            $stmt->bindParam("ISBN", $b->ISBN, PDO::PARAM_STR);
+            $stmt->bindParam("publisherId", $b->publisher->id, PDO::PARAM_INT);
+            $stmt->bindParam("year", $b->year, PDO::PARAM_INT);
+            $stmt->bindParam("pages", $b->pages, PDO::PARAM_INT);
+            $stmt->bindParam("isbn", $b->isbn, PDO::PARAM_STR);
             $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindParam("Note", $b->Note, PDO::PARAM_STR);
-            $stmt->bindParam("Url", $b->Url, PDO::PARAM_STR);
-            $stmt->bindParam("Tag", $b->Tag, PDO::PARAM_STR);
+            $stmt->bindParam("note", $b->note, PDO::PARAM_STR);
+            $stmt->bindParam("url", $b->url, PDO::PARAM_STR);
+            $stmt->bindParam("tag", $b->tag, PDO::PARAM_STR);
             $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $this->bookAuthorRepository->deleteById($b->objectId);
 
-            foreach ($b->Authors as $author) {
+            foreach ($b->authors as $author) {
                 $this->bookAuthorRepository->insert(new BookAuthor($b->objectId, $author->AuthorID));
             }
 
@@ -294,15 +294,15 @@ class BookRepository extends GenericRepository {
 
         return new Book(
             $rawBook["objectId"],
-            $rawBook["Note"] ?? null,
-            $rawBook["Url"] ?? null,
-            $rawBook["Tag"] ?? null,
             $rawBook["title"],
-            $this->publisherRepository->selectById(intval($rawBook["PublisherID"])),
-            intval($rawBook["Year"]),
-            $rawBook["ISBN"] ?? null,
-            isset($rawBook["Pages"]) ? intval($rawBook["Pages"]) : null,
-            $authors
+            $this->publisherRepository->selectById(intval($rawBook["publisherId"])),
+            intval($rawBook["year"]),
+            $authors,
+            $rawBook["note"] ?? null,
+            $rawBook["url"] ?? null,
+            $rawBook["tag"] ?? null,
+            $rawBook["isbn"] ?? null,
+            isset($rawBook["pages"]) ? intval($rawBook["pages"]) : null,
         );
     }
 }

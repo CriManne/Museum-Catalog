@@ -35,21 +35,21 @@ class MagazineRepository extends GenericRepository {
 
         $queryMagazine =
             "INSERT INTO magazine
-                (objectId,title,Year,MagazineNumber,PublisherID) VALUES 
-                (:objectId,:title,:Year,:MagazineNumber,:PublisherID);";
+                (objectId,title,year,magazineNumber,publisherId) VALUES 
+                (:objectId,:title,:year,:magazineNumber,:publisherId);";
 
         $queryObject =
             "INSERT INTO genericobject
-                (objectId,Note,Url,Tag)
+                (objectId,note,url,Tag)
                 VALUES
-                (:objectId,:Note,:Url,:Tag)";
+                (:objectId,:note,:url,:Tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
             $stmt->bindValue(':objectId', $magazine->objectId, PDO::PARAM_STR);
-            $stmt->bindValue(':Note', $magazine->Note, PDO::PARAM_STR);
-            $stmt->bindValue(':Url', $magazine->Url, PDO::PARAM_STR);
+            $stmt->bindValue(':note', $magazine->note, PDO::PARAM_STR);
+            $stmt->bindValue(':url', $magazine->url, PDO::PARAM_STR);
             $stmt->bindValue(':Tag', $magazine->Tag, PDO::PARAM_STR);
 
             $stmt->execute();
@@ -57,9 +57,9 @@ class MagazineRepository extends GenericRepository {
             $stmt = $this->pdo->prepare($queryMagazine);
             $stmt->bindParam("objectId", $magazine->objectId, PDO::PARAM_STR);
             $stmt->bindParam("title", $magazine->title, PDO::PARAM_STR);
-            $stmt->bindParam("Year", $magazine->Year, PDO::PARAM_INT);
-            $stmt->bindParam("MagazineNumber", $magazine->MagazineNumber, PDO::PARAM_INT);
-            $stmt->bindParam("PublisherID", $magazine->Publisher->PublisherID, PDO::PARAM_INT);
+            $stmt->bindParam("year", $magazine->year, PDO::PARAM_INT);
+            $stmt->bindParam("magazineNumber", $magazine->magazineNumber, PDO::PARAM_INT);
+            $stmt->bindParam("publisherId", $magazine->Publisher->publisherId, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -120,12 +120,12 @@ class MagazineRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,m.* FROM magazine m
             INNER JOIN genericobject g ON g.objectId = m.objectId
-            INNER JOIN publisher p ON m.PublisherID = p.PublisherID
+            INNER JOIN publisher p ON m.publisherId = p.publisherId
             WHERE m.title LIKE :key OR
-            m.MagazineNumber LIKE :key OR
-            m.Year LIKE :key OR
+            m.magazineNumber LIKE :key OR
+            m.year LIKE :key OR
             p.Name LIKE :key OR
-            g.Note LIKE :key OR
+            g.note LIKE :key OR
             g.Tag LIKE :key OR
             g.objectId LIKE :key";
 
@@ -164,15 +164,15 @@ class MagazineRepository extends GenericRepository {
         $queryMagazine =
             "UPDATE magazine
             SET title = :title,
-            Year = :Year,
-            MagazineNumber = :MagazineNumber,
-            PublisherID = :PublisherID
+            year = :year,
+            magazineNumber = :magazineNumber,
+            publisherId = :publisherId
             WHERE objectId = :objectId";
 
         $queryObject =
             "UPDATE genericobject
-            SET Note = :Note,
-            Url = :Url,
+            SET note = :note,
+            url = :url,
             Tag = :Tag
             WHERE objectId = :objectId";
 
@@ -181,15 +181,15 @@ class MagazineRepository extends GenericRepository {
 
             $stmt = $this->pdo->prepare($queryMagazine);
             $stmt->bindParam("title", $m->title, PDO::PARAM_STR);
-            $stmt->bindParam("Year", $m->Year, PDO::PARAM_INT);
-            $stmt->bindParam("MagazineNumber", $m->MagazineNumber, PDO::PARAM_INT);
-            $stmt->bindParam("PublisherID", $m->Publisher->PublisherID, PDO::PARAM_INT);
+            $stmt->bindParam("year", $m->year, PDO::PARAM_INT);
+            $stmt->bindParam("magazineNumber", $m->magazineNumber, PDO::PARAM_INT);
+            $stmt->bindParam("publisherId", $m->Publisher->publisherId, PDO::PARAM_INT);
             $stmt->bindParam("objectId", $m->objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindParam("Note", $m->Note, PDO::PARAM_STR);
-            $stmt->bindParam("Url", $m->Url, PDO::PARAM_STR);
+            $stmt->bindParam("note", $m->note, PDO::PARAM_STR);
+            $stmt->bindParam("url", $m->url, PDO::PARAM_STR);
             $stmt->bindParam("Tag", $m->Tag, PDO::PARAM_STR);
             $stmt->bindParam("objectId", $m->objectId, PDO::PARAM_STR);
             $stmt->execute();
@@ -237,13 +237,13 @@ class MagazineRepository extends GenericRepository {
     function returnMappedObject(array $rawMagazine): Magazine {
         return new Magazine(
             $rawMagazine["objectId"],
-            $rawMagazine["Note"] ?? null,
-            $rawMagazine["Url"] ?? null,
-            $rawMagazine["Tag"] ?? null,
             $rawMagazine["title"],
-            intval($rawMagazine["Year"]),
-            intval($rawMagazine["MagazineNumber"]),
-            $this->publisherRepository->selectById(intval($rawMagazine["PublisherID"]))
+            intval($rawMagazine["year"]),
+            intval($rawMagazine["magazineNumber"]),
+            $this->publisherRepository->selectById(intval($rawMagazine["publisherId"])),
+            $rawMagazine["note"] ?? null,
+            $rawMagazine["url"] ?? null,
+            $rawMagazine["Tag"] ?? null,
         );
     }
 }

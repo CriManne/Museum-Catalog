@@ -22,30 +22,30 @@ class CpuRepository extends GenericRepository {
 
         $query =
             "INSERT INTO cpu 
-            (ModelName,Speed) VALUES 
-            (:ModelName,:Speed);";
+            (modelName,speed) VALUES 
+            (:modelName,:speed);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ModelName", $cpu->ModelName, PDO::PARAM_STR);
-        $stmt->bindParam("Speed", $cpu->Speed, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $cpu->modelName, PDO::PARAM_STR);
+        $stmt->bindParam("speed", $cpu->speed, PDO::PARAM_STR);
 
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while inserting the cpu with name: {" . $cpu->ModelName . "}");
+            throw new RepositoryException("Error while inserting the cpu with name: {" . $cpu->modelName . "}");
         }
     }
 
     /**
      * Select cpu by id
-     * @param int $CpuID    The cpu id to select
+     * @param int $id    The cpu id to select
      * @return ?Cpu     The selected cpu, null if not found
      */
-    public function selectById(int $CpuID): ?Cpu {
-        $query = "SELECT * FROM cpu WHERE CpuID = :CpuID";
+    public function selectById(int $id): ?Cpu {
+        $query = "SELECT * FROM cpu WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("CpuID", $CpuID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         $stmt->execute();
         $cpu = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($cpu) {
@@ -56,14 +56,14 @@ class CpuRepository extends GenericRepository {
 
     /**
      * Select cpu by name
-     * @param string $ModelName     The cpu name to select
+     * @param string $modelName     The cpu name to select
      * @return ?Cpu     The cpu selected, null if not found
      */
-    public function selectByName(string $ModelName): ?Cpu {
-        $query = "SELECT * FROM cpu WHERE ModelName = :ModelName";
+    public function selectByName(string $modelName): ?Cpu {
+        $query = "SELECT * FROM cpu WHERE modelName = :modelName";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ModelName", $ModelName, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $modelName, PDO::PARAM_STR);
         $stmt->execute();
         $cpu = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($cpu) {
@@ -78,7 +78,7 @@ class CpuRepository extends GenericRepository {
      * @return array     The cpus selected
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM cpu WHERE ModelName LIKE :key OR Speed LIKE :key";
+        $query = "SELECT * FROM cpu WHERE modelName LIKE :key OR speed LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -112,37 +112,37 @@ class CpuRepository extends GenericRepository {
     public function update(Cpu $c): void {
         $query =
             "UPDATE cpu 
-            SET ModelName = :ModelName,
-            Speed = :Speed
-            WHERE CpuID = :CpuID;";
+            SET modelName = :modelName,
+            speed = :speed
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("ModelName", $c->ModelName, PDO::PARAM_STR);
-        $stmt->bindParam("Speed", $c->Speed, PDO::PARAM_STR);
-        $stmt->bindParam("CpuID", $c->CpuID, PDO::PARAM_INT);
+        $stmt->bindParam("modelName", $c->modelName, PDO::PARAM_STR);
+        $stmt->bindParam("speed", $c->speed, PDO::PARAM_STR);
+        $stmt->bindParam("id", $c->id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while updating the cpu with id: {" . $c->CpuID . "}");
+            throw new RepositoryException("Error while updating the cpu with id: {" . $c->id . "}");
         }
     }
 
     /**
      * Delete a cpu by id
-     * @param int $CpuID    The cpu id to delete
+     * @param int $id    The cpu id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(int $CpuID): void {
+    public function delete(int $id): void {
         $query =
             "DELETE FROM cpu  
-            WHERE CpuID = :CpuID;";
+            WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("CpuID", $CpuID, PDO::PARAM_INT);
+        $stmt->bindParam("id", $id, PDO::PARAM_INT);
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while deleting the cpu with id: {" . $CpuID . "}");
+            throw new RepositoryException("Error while deleting the cpu with id: {" . $id . "}");
         }
     }
 }
