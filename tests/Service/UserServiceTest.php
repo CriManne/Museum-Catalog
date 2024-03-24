@@ -5,36 +5,32 @@ declare(strict_types=1);
 namespace App\Test\Service;
 
 use App\Exception\ServiceException;
-use PHPUnit\Framework\TestCase;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Model\User;
 use PDO;
 use PDOStatement;
 
-final class UserServiceTest extends TestCase
+final class UserServiceTest extends BaseServiceTest
 {
     public UserService $userService;
+    public UserRepository $userRepository;
     
     public function setUp(): void
-    {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->userRepository = new UserRepository($this->pdo);    
+    {
+        $this->userRepository = new UserRepository($this->pdo);
         $this->userService = new UserService($this->userRepository);        
 
         $this->sampleObject = [
-            "Email"=>'elon@gmail.com',
-            "Password"=>'password',
+            "email"=>'elon@gmail.com',
+            "password"=>'password',
             "firstname"=>'Elon',
             "lastname"=>'Musk',
             "privilege"=>0
         ];        
 
         $this->sampleResponse = [
-            "Email"=>'elon@gmail.com',
+            "email"=>'elon@gmail.com',
             "firstname"=>'Elon',
             "lastname"=>'Musk',
             "privilege"=>0

@@ -35,7 +35,7 @@ final class BookAuthorRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("TRUNCATE TABLE bookauthor;");
+        self::$pdo->exec("TRUNCATE TABLE BookAuthor;");
     }
 
     //INSERT TESTS

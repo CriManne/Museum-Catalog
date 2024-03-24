@@ -21,7 +21,7 @@ class OsRepository extends GenericRepository {
     public function insert(Os $os): void {
 
         $query =
-            "INSERT INTO os 
+            "INSERT INTO Os 
             (name) VALUES 
             (:name);";
 
@@ -41,7 +41,7 @@ class OsRepository extends GenericRepository {
      * @return ?Os  The os selected, null if not found
      */
     public function selectById(int $id): ?Os {
-        $query = "SELECT * FROM os WHERE id = :id";
+        $query = "SELECT * FROM Os WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
@@ -59,7 +59,7 @@ class OsRepository extends GenericRepository {
      * @return ?Os  The selected os, null if not found
      */
     public function selectByname(string $name): ?Os {
-        $query = "SELECT * FROM os WHERE name = :name";
+        $query = "SELECT * FROM Os WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
@@ -77,7 +77,7 @@ class OsRepository extends GenericRepository {
      * @return array  The selected oss
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM os WHERE name LIKE :key";
+        $query = "SELECT * FROM Os WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -94,7 +94,7 @@ class OsRepository extends GenericRepository {
      * @return ?array   The list of os, null if no result
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM os";
+        $query = "SELECT * FROM Os";
 
         $stmt = $this->pdo->query($query);
 
@@ -110,7 +110,7 @@ class OsRepository extends GenericRepository {
      */
     public function update(Os $os): void {
         $query =
-            "UPDATE os 
+            "UPDATE Os 
             SET name = :name            
             WHERE id = :id;";
 
@@ -131,7 +131,7 @@ class OsRepository extends GenericRepository {
      */
     public function delete(int $id): void {
         $query =
-            "DELETE FROM os   
+            "DELETE FROM Os   
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);

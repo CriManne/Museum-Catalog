@@ -8,33 +8,31 @@ use App\Exception\ServiceException;
 use App\Model\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Service\Peripheral\PeripheralTypeService;
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class PeripheralTypeServiceTest extends TestCase
+final class PeripheralTypeServiceTest extends BaseServiceTest
 {
     public PeripheralTypeService $peripheralTypeService;
+    public PeripheralTypeRepository $peripheralTypeRepository;
     
     public function setUp(): void
     {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->peripheralTypeRepository = new PeripheralTypeRepository($this->pdo);    
+        $this->peripheralTypeRepository = new PeripheralTypeRepository($this->pdo);
         $this->peripheralTypeService = new PeripheralTypeService($this->peripheralTypeRepository);        
 
         $this->sampleObject = [
-            "PeripheralTypeID"=>1,
-            "Name"=>'Mouse'
+            "id"=>1,
+            "name"=>'Mouse'
         ];        
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->peripheralTypeService->selectById(1)->Name,"Mouse");        
+        $this->assertEquals($this->peripheralTypeService->selectById(1)->name,"Mouse");
     }
     
     public function testBadInsert():void{
@@ -49,7 +47,7 @@ final class PeripheralTypeServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Mouse",$this->peripheralTypeService->selectById(1)->Name);
+        $this->assertEquals("Mouse",$this->peripheralTypeService->selectById(1)->name);
     }
     
     public function testBadSelectById(): void

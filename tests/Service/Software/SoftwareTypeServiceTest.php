@@ -8,26 +8,24 @@ use App\Exception\ServiceException;
 use App\Model\Software\SoftwareType;
 use App\Repository\Software\SoftwareTypeRepository;
 use App\Service\Software\SoftwareTypeService;
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class SoftwareTypeServiceTest extends TestCase
+final class SoftwareTypeServiceTest extends BaseServiceTest
 {
     public SoftwareTypeService $softwareTypeService;
-    
+    public SoftwareTypeRepository $softwareTypeRepository;
+
     public function setUp(): void
     {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->softwareTypeRepository = new SoftwareTypeRepository($this->pdo);    
+        $this->softwareTypeRepository = new SoftwareTypeRepository($this->pdo);
         $this->softwareTypeService = new SoftwareTypeService($this->softwareTypeRepository);        
 
         $this->sampleObject = [
-            "SoftwareTypeID"=>1,
-            "Name"=>'Office'
+            "id"=>1,
+            "name"=>'Office'
         ];        
     }
     
@@ -45,7 +43,7 @@ final class SoftwareTypeServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Office",$this->softwareTypeService->selectById(1)->Name);
+        $this->assertEquals("Office",$this->softwareTypeService->selectById(1)->name);
     }
     
     public function testBadSelectById(): void

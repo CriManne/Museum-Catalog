@@ -84,7 +84,7 @@ final class BookRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE book; TRUNCATE TABLE GenericObject; TRUNCATE TABLE BookAuthor; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Book; TRUNCATE TABLE GenericObject; TRUNCATE TABLE BookAuthor; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS

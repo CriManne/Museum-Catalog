@@ -34,12 +34,12 @@ class PeripheralRepository extends GenericRepository {
     public function insert(Peripheral $peripheral): void {
 
         $queryPeripheral =
-            "INSERT INTO peripheral
+            "INSERT INTO Peripheral
                 (objectId,modelName,peripheralTypeId) VALUES 
                 (:objectId,:modelName,:peripheralTypeId);";
 
         $queryObject =
-            "INSERT INTO genericobject
+            "INSERT INTO GenericObject
                 (objectId,note,url,tag)
                 VALUES
                 (:objectId,:note,:url,:tag)";
@@ -74,8 +74,8 @@ class PeripheralRepository extends GenericRepository {
      * @return ?Peripheral    The peripheral selected, null if not found
      */
     public function selectById(string $objectId): ?Peripheral {
-        $query = "SELECT * FROM peripheral p 
-            INNER JOIN genericobject g ON g.objectId = p.objectId 
+        $query = "SELECT * FROM Peripheral p 
+            INNER JOIN GenericObject g ON g.objectId = p.objectId 
             WHERE g.objectId = :objectId";
 
         $stmt = $this->pdo->prepare($query);
@@ -94,8 +94,8 @@ class PeripheralRepository extends GenericRepository {
      * @return ?Peripheral    The peripheral selected, null if not found
      */
     public function selectBymodelName(string $modelName): ?Peripheral {
-        $query = "SELECT * FROM peripheral p
-            INNER JOIN genericobject g ON g.objectId = p.objectId 
+        $query = "SELECT * FROM Peripheral p
+            INNER JOIN GenericObject g ON g.objectId = p.objectId 
             WHERE modelName LIKE :modelName";
         
         $modelName = '%'.$modelName.'%';
@@ -116,9 +116,9 @@ class PeripheralRepository extends GenericRepository {
      * @return array The peripherals, empty array if no result
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT DISTINCT g.*,p.* FROM peripheral p
-            INNER JOIN genericobject g ON g.objectId = p.objectId
-            INNER JOIN peripheraltype pt ON p.peripheralTypeId = pt.peripheralTypeId
+        $query = "SELECT DISTINCT g.*,p.* FROM Peripheral p
+            INNER JOIN GenericObject g ON g.objectId = p.objectId
+            INNER JOIN PeripheralType pt ON p.peripheralTypeId = pt.peripheralTypeId
             WHERE p.modelName LIKE :key OR
             pt.Name LIKE :key OR
             g.note LIKE :key OR
@@ -141,8 +141,8 @@ class PeripheralRepository extends GenericRepository {
      * @return ?array   All peripherals, null if no result
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM peripheral p
-            INNER JOIN genericobject g ON g.objectId = p.objectId";
+        $query = "SELECT * FROM Peripheral p
+            INNER JOIN GenericObject g ON g.objectId = p.objectId";
 
         $stmt = $this->pdo->query($query);
 
@@ -158,13 +158,13 @@ class PeripheralRepository extends GenericRepository {
      */
     public function update(Peripheral $p): void {
         $queryPeripheral =
-            "UPDATE peripheral
+            "UPDATE Peripheral
             SET modelName = :modelName,
             peripheralTypeId = :peripheralTypeId
             WHERE objectId = :objectId";
 
         $queryObject =
-            "UPDATE genericobject
+            "UPDATE GenericObject
             SET note = :note,
             url = :url,
             tag = :tag
@@ -202,13 +202,13 @@ class PeripheralRepository extends GenericRepository {
         try {
             $this->pdo->beginTransaction();
 
-            $query = "DELETE FROM peripheral
+            $query = "DELETE FROM Peripheral
             WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
-            $query = "DELETE FROM genericobject
+            $query = "DELETE FROM GenericObject
             WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);

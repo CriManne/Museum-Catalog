@@ -8,40 +8,36 @@ use App\Exception\ServiceException;
 use App\Model\Book\Publisher;
 use App\Repository\Book\PublisherRepository;
 use App\Service\Book\PublisherService;
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class PublisherServiceTest extends TestCase
+final class PublisherServiceTest extends BaseServiceTest
 {
     public PublisherService $publisherService;
     
     public function setUp(): void
-    {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->publisherRepository = new PublisherRepository($this->pdo);    
-        $this->publisherService = new PublisherService($this->publisherRepository);        
+    {
+        $this->publisherService = new PublisherService(new PublisherRepository($this->pdo));
 
         $this->sampleObject = [
-            "PublisherID"=>1,
-            "Name"=>'Mondadori'
+            "id"=>1,
+            "name"=>'Mondadori'
         ];        
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->publisherService->selectById(1)->Name,"Mondadori");        
+        $this->assertEquals($this->publisherService->selectById(1)->name,"Mondadori");
     }
         
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Mondadori",$this->publisherService->selectById(1)->Name);
+        $this->assertEquals("Mondadori",$this->publisherService->selectById(1)->name);
     }
     
     public function testBadSelectById(): void

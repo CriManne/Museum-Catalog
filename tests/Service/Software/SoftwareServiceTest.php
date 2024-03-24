@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Software;
 
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
 
@@ -14,7 +15,7 @@ use App\Model\Computer\Os;
 use App\Repository\Software\SoftwareRepository;
 use App\Service\Software\SoftwareService;
 
-final class SoftwareServiceTest extends TestCase
+final class SoftwareServiceTest extends BaseServiceTest
 {
     public SoftwareRepository $softwareRepository;
     public SoftwareService $softwareService;
@@ -28,25 +29,25 @@ final class SoftwareServiceTest extends TestCase
 
         $this->sampleObject = new Software(
             "objID",
-            null,
-            null,
-            null,
             'Paint',
             new Os('Windows',1),
             new SoftwareType('Office',1),
-            new SupportType('Support',1)
-        );    
+            new SupportType('Support',1),
+            null,
+            null,
+            null,
+        );
         
         $this->sampleObjectRaw = [
             'title' => 'Paint',
-            'OsID' => 1,
-            'SoftwareTypeID' => 1,
-            'SupportTypeID' => 1,
+            'osId' => 1,
+            'softwareTypeId' => 1,
+            'supportTypeId' => 1,
             'objectId' => 'objID',
-            'Note' => null,
-            'Url' => null,
-            'Tag' => null,
-            'Active' => '1'
+            'note' => null,
+            'url' => null,
+            'tag' => null,
+            'active' => '1'
         ];        
     }
     

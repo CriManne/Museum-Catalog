@@ -8,25 +8,21 @@ use App\Exception\ServiceException;
 use App\Model\Book\Author;
 use App\Repository\Book\AuthorRepository;
 use App\Service\Book\AuthorService;
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class AuthorServiceTest extends TestCase
+final class AuthorServiceTest extends BaseServiceTest
 {
     public AuthorService $authorService;
     
     public function setUp(): void
-    {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->authorRepository = new AuthorRepository($this->pdo);    
-        $this->authorService = new AuthorService($this->authorRepository);        
+    {
+        $this->authorService = new AuthorService(new AuthorRepository($this->pdo));
 
         $this->sampleObject = [
-            "AuthorID"=>1,
+            "id"=>1,
             "firstname"=>'Mario',
             "lastname"=>"Rossi"
         ];        

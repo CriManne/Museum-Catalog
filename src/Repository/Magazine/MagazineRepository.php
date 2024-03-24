@@ -34,12 +34,12 @@ class MagazineRepository extends GenericRepository {
     public function insert(Magazine $magazine): void {
 
         $queryMagazine =
-            "INSERT INTO magazine
+            "INSERT INTO Magazine
                 (objectId,title,year,magazineNumber,publisherId) VALUES 
                 (:objectId,:title,:year,:magazineNumber,:publisherId);";
 
         $queryObject =
-            "INSERT INTO genericobject
+            "INSERT INTO GenericObject
                 (objectId,note,url,Tag)
                 VALUES
                 (:objectId,:note,:url,:Tag)";
@@ -76,8 +76,8 @@ class MagazineRepository extends GenericRepository {
      * @return ?Magazine    The magazine selected, null if not found
      */
     public function selectById(string $objectId): ?Magazine {
-        $query = "SELECT * FROM magazine b 
-            INNER JOIN genericobject g ON g.objectId = b.objectId 
+        $query = "SELECT * FROM Magazine b 
+            INNER JOIN GenericObject g ON g.objectId = b.objectId 
             WHERE g.objectId = :objectId";
 
         $stmt = $this->pdo->prepare($query);
@@ -96,8 +96,8 @@ class MagazineRepository extends GenericRepository {
      * @return ?Magazine    The magazine selected, null if not found
      */
     public function selectByTitle(string $title): ?Magazine {
-        $query = "SELECT * FROM magazine b
-            INNER JOIN genericobject g ON g.objectId = b.objectId 
+        $query = "SELECT * FROM Magazine b
+            INNER JOIN GenericObject g ON g.objectId = b.objectId 
             WHERE title LIKE :title";
 
         $title = '%'.$title.'%';
@@ -118,9 +118,9 @@ class MagazineRepository extends GenericRepository {
      * @return array   All magazines, empty array if no result
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT DISTINCT g.*,m.* FROM magazine m
-            INNER JOIN genericobject g ON g.objectId = m.objectId
-            INNER JOIN publisher p ON m.publisherId = p.publisherId
+        $query = "SELECT DISTINCT g.*,m.* FROM Magazine m
+            INNER JOIN GenericObject g ON g.objectId = m.objectId
+            INNER JOIN Publisher p ON m.publisherId = p.publisherId
             WHERE m.title LIKE :key OR
             m.magazineNumber LIKE :key OR
             m.year LIKE :key OR
@@ -145,8 +145,8 @@ class MagazineRepository extends GenericRepository {
      * @return ?array   All magazines, null if no result
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM magazine b
-            INNER JOIN genericobject g ON g.objectId = b.objectId";
+        $query = "SELECT * FROM Magazine b
+            INNER JOIN GenericObject g ON g.objectId = b.objectId";
 
         $stmt = $this->pdo->query($query);
 
@@ -162,7 +162,7 @@ class MagazineRepository extends GenericRepository {
      */
     public function update(Magazine $m): void {
         $queryMagazine =
-            "UPDATE magazine
+            "UPDATE Magazine
             SET title = :title,
             year = :year,
             magazineNumber = :magazineNumber,
@@ -170,7 +170,7 @@ class MagazineRepository extends GenericRepository {
             WHERE objectId = :objectId";
 
         $queryObject =
-            "UPDATE genericobject
+            "UPDATE GenericObject
             SET note = :note,
             url = :url,
             Tag = :Tag
@@ -210,13 +210,13 @@ class MagazineRepository extends GenericRepository {
         try {
             $this->pdo->beginTransaction();
 
-            $query = "DELETE FROM magazine
+            $query = "DELETE FROM Magazine
             WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
-            $query = "DELETE FROM genericobject
+            $query = "DELETE FROM GenericObject
             WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);

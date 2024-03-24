@@ -21,7 +21,7 @@ class AuthorRepository extends GenericRepository {
     public function insert(Author $author): void {
 
         $query =
-            "INSERT INTO author 
+            "INSERT INTO Author 
             (firstname,lastname) VALUES 
             (:firstname,:lastname);";
 
@@ -42,7 +42,7 @@ class AuthorRepository extends GenericRepository {
      * @return ?Author  The selected author, null if not found
      */
     public function selectById(int $id): ?Author {
-        $query = "SELECT * FROM author WHERE id = :id";
+        $query = "SELECT * FROM Author WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
@@ -60,7 +60,7 @@ class AuthorRepository extends GenericRepository {
      * @return array  The selected Authors
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM author WHERE 
+        $query = "SELECT * FROM Author WHERE 
         Concat(firstname,' ',lastname) LIKE :key OR 
         Concat(lastname,' ',firstname) = :key";
 
@@ -79,7 +79,7 @@ class AuthorRepository extends GenericRepository {
      * @return ?array   All the authors, null if author table is empty
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM author";
+        $query = "SELECT * FROM Author";
 
         $stmt = $this->pdo->query($query);
 
@@ -95,7 +95,7 @@ class AuthorRepository extends GenericRepository {
      */
     public function update(Author $author): void {
         $query =
-            "UPDATE author 
+            "UPDATE Author 
             SET firstname = :firstname,
             lastname = :lastname
             WHERE id = :id;";
@@ -118,7 +118,7 @@ class AuthorRepository extends GenericRepository {
      */
     public function delete(int $id): void {
         $query =
-            "DELETE FROM author                      
+            "DELETE FROM Author                      
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);

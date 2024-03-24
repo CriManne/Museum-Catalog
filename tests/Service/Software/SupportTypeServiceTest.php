@@ -8,26 +8,24 @@ use App\Exception\ServiceException;
 use App\Model\Software\SupportType;
 use App\Repository\Software\SupportTypeRepository;
 use App\Service\Software\SupportTypeService;
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class SupportTypeServiceTest extends TestCase
+final class SupportTypeServiceTest extends BaseServiceTest
 {
     public SupportTypeService $supportTypeService;
+    public SupportTypeRepository $supportTypeRepository;
     
     public function setUp(): void
     {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->supportTypeRepository = new SupportTypeRepository($this->pdo);    
+        $this->supportTypeRepository = new SupportTypeRepository($this->pdo);
         $this->supportTypeService = new SupportTypeService($this->supportTypeRepository);        
 
         $this->sampleObject = [
-            "SupportTypeID"=>1,
-            "Name"=>'CD-ROM'
+            "id"=>1,
+            "name"=>'CD-ROM'
         ];        
     }
     
@@ -44,7 +42,7 @@ final class SupportTypeServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("CD-ROM",$this->supportTypeService->selectById(1)->Name);
+        $this->assertEquals("CD-ROM",$this->supportTypeService->selectById(1)->name);
     }
     
     public function testBadSelectById(): void

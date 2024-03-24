@@ -21,7 +21,7 @@ class PeripheralTypeRepository extends GenericRepository {
     public function insert(PeripheralType $peripheralType): void {
 
         $query =
-            "INSERT INTO peripheraltype 
+            "INSERT INTO PeripheralType 
             (name) VALUES 
             (:name);";
 
@@ -41,7 +41,7 @@ class PeripheralTypeRepository extends GenericRepository {
      * @return ?PeripheralType  The p.type selected, null if not found
      */
     public function selectById(int $id): ?PeripheralType {
-        $query = "SELECT * FROM peripheraltype WHERE id = :id";
+        $query = "SELECT * FROM PeripheralType WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
@@ -59,7 +59,7 @@ class PeripheralTypeRepository extends GenericRepository {
      * @return ?PeripheralType  The p.type selected, null if not found
      */
     public function selectByname(string $name): ?PeripheralType {
-        $query = "SELECT * FROM peripheraltype WHERE name = :name";
+        $query = "SELECT * FROM PeripheralType WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
@@ -77,7 +77,7 @@ class PeripheralTypeRepository extends GenericRepository {
      * @return array  The p.types selected
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM peripheraltype WHERE name LIKE :key";
+        $query = "SELECT * FROM PeripheralType WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -94,7 +94,7 @@ class PeripheralTypeRepository extends GenericRepository {
      * @return ?array   All the p.types, null if no result
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM peripheraltype";
+        $query = "SELECT * FROM PeripheralType";
 
         $stmt = $this->pdo->query($query);
 
@@ -110,7 +110,7 @@ class PeripheralTypeRepository extends GenericRepository {
      */
     public function update(PeripheralType $pt): void {
         $query =
-            "UPDATE peripheraltype 
+            "UPDATE PeripheralType 
             SET name = :name            
             WHERE id = :id;";
 
@@ -131,7 +131,7 @@ class PeripheralTypeRepository extends GenericRepository {
      */
     public function delete(int $id): void {
         $query =
-            "DELETE FROM peripheraltype          
+            "DELETE FROM PeripheralType          
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);

@@ -33,7 +33,7 @@ final class PublisherRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE publisher; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Publisher; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS

@@ -6,7 +6,6 @@ namespace App\Service;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\ReflectionException;
-use AbstractRepo\Exceptions\RepositoryException;
 use App\DataModels\FetchableData;
 use App\DataModels\User\UserResponse;
 use App\Exception\ServiceException;
@@ -24,9 +23,11 @@ class UserService {
 
     /**
      * Insert user
-     * @param User $u   The user to insert
-     * @throws RepositoryException  If the insert fails
-     * @throws ServiceException     If the email is already user
+     * @param User $u The user to insert
+     * @throws ReflectionException
+     * @throws ServiceException If the email is already user
+     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @throws \ReflectionException
      */
     public function insert(User $u): void {
         if ($this->userRepository->findById($u->email) != null)
@@ -38,8 +39,11 @@ class UserService {
     /**
      * Select by id
      * @param string $email The email to select
-     * @return UserResponse     The user selected
-     * @throws ServiceException     If no user is found
+     * @return User The user selected
+     * @throws ReflectionException
+     * @throws ServiceException If no user is found
+     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @throws \ReflectionException
      */
     public function selectById(string $email): User {
         $user = $this->userRepository->findById($email);
@@ -69,8 +73,8 @@ class UserService {
      * @param string|null $query
      * @return FetchableData|array All the users
      * @throws ReflectionException
-     * @throws RepositoryException
      * @throws ServiceException If no results
+     * @throws \AbstractRepo\Exceptions\RepositoryException
      * @throws \ReflectionException
      */
     public function selectAll(?int $page, ?int $itemsPerPage, ?string $query): FetchableData|array

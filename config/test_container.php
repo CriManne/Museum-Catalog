@@ -7,7 +7,7 @@ use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
 return [
-    'dsn' => 'mysql:host=localhost;',
+    'dsn' => 'mysql:host=database;',
     'test_db' => 'dbname=museum_test;',
     'username' => 'root',
     'psw' => '',

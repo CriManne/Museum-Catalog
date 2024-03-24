@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Book;
 
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
 
@@ -14,7 +15,7 @@ use App\Model\Book\Publisher;
 use App\Repository\Book\BookRepository;
 use App\Service\Book\BookService;
 
-final class BookServiceTest extends TestCase
+final class BookServiceTest extends BaseServiceTest
 {
     public BookRepository $bookRepository;
     public BookService $bookService;
@@ -28,30 +29,30 @@ final class BookServiceTest extends TestCase
 
         $this->sampleObject = new Book(
             "objID",
-            null,
-            null,
-            null,
             '1984',
             new Publisher("Mondadori",1),
             1945,
-            "ALSKDI82SB",
-            245,
             [
                 new Author("George","Orwell",1)
-            ]
-        );    
+            ],
+            null,
+            null,
+            null,
+            "ALSKDI82SB",
+            245,
+        );
         
         $this->sampleObjectRaw = [
             'title' => '1984',
-            'PublisherID' => 1,
-            'Year' => 1945,
-            'ISBN' => 'ALSKDI82SB',
-            'Pages' => 245,            
+            'publisherId' => 1,
+            'year' => 1945,
+            'isbn' => 'ALSKDI82SB',
+            'pages' => 245,
             'objectId' => 'objID',
-            'Note' => null,
-            'Url' => null,
-            'Tag' => null,
-            'Active' => '1'
+            'note' => null,
+            'url' => null,
+            'tag' => null,
+            'active' => '1'
         ];        
     }
     

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Peripheral;
 
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
 
@@ -12,7 +13,7 @@ use App\Model\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralRepository;
 use App\Service\Peripheral\PeripheralService;
 
-final class PeripheralServiceTest extends TestCase
+final class PeripheralServiceTest extends BaseServiceTest
 {
     public PeripheralRepository $peripheralRepository;
     public PeripheralService $peripheralService;
@@ -26,21 +27,21 @@ final class PeripheralServiceTest extends TestCase
 
         $this->sampleObject = new Peripheral(
             "objID",
-            null,
-            null,
-            null,
             'Peripheral 1.0',
-            new PeripheralType('PeripheralType 1',1)
-        );    
-        
+            new PeripheralType('PeripheralType 1',1),
+            null,
+            null,
+            null,
+        );
+
         $this->sampleObjectRaw = [
-            'ModelName' => 'Peripheral 1.0',
-            'PeripheralTypeID' => 1,
+            'modelName' => 'Peripheral 1.0',
+            'peripheralTypeId' => 1,
             'objectId' => 'objID',
-            'Note' => null,
-            'Url' => null,
-            'Tag' => null,
-            'Active' => '1'
+            'note' => null,
+            'url' => null,
+            'tag' => null,
+            'active' => '1'
         ];        
     }
     
@@ -56,7 +57,7 @@ final class PeripheralServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->peripheralRepository->method('selectById')->willReturn($this->sampleObject);
-        $this->assertEquals("Peripheral 1.0",$this->peripheralService->selectById("ObjID")->ModelName);
+        $this->assertEquals("Peripheral 1.0",$this->peripheralService->selectById("ObjID")->modelName);
     }
     
     public function testBadSelectById(): void

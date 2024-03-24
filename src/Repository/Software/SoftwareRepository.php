@@ -39,12 +39,12 @@ class SoftwareRepository extends GenericRepository {
     public function insert(Software $software): void {
 
         $querySoftware =
-            "INSERT INTO software
+            "INSERT INTO Software
                 (objectId,title,osId,softwareTypeId,supportTypeId) VALUES 
                 (:objectId,:title,:osId,:softwareTypeId,:supportTypeId);";
 
         $queryObject =
-            "INSERT INTO genericobject
+            "INSERT INTO GenericObject
                 (objectId,note,url,tag)
                 VALUES
                 (:objectId,:note,:url,:tag)";
@@ -80,8 +80,8 @@ class SoftwareRepository extends GenericRepository {
      * @return ?Software    The software selected, null if not found
      */
     public function selectById(string $objectId): ?Software {
-        $query = "SELECT * FROM software 
-            INNER JOIN genericobject g ON g.objectId = software.objectId 
+        $query = "SELECT * FROM Software 
+            INNER JOIN GenericObject g ON g.objectId = software.objectId 
             WHERE g.objectId = :objectId";
 
         $stmt = $this->pdo->prepare($query);
@@ -100,8 +100,8 @@ class SoftwareRepository extends GenericRepository {
      * @return ?Software    The software selected, null if not found
      */
     public function selectByTitle(string $title): ?Software {
-        $query = "SELECT * FROM software 
-            INNER JOIN genericobject g ON g.objectId = software.objectId 
+        $query = "SELECT * FROM Software 
+            INNER JOIN GenericObject g ON g.objectId = software.objectId 
             WHERE title = :title";
 
         $stmt = $this->pdo->prepare($query);
@@ -120,11 +120,11 @@ class SoftwareRepository extends GenericRepository {
      * @return array    Software(s) selected, empty array if no result
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT DISTINCT g.*,s.* FROM software s
-            INNER JOIN genericobject g ON g.objectId = s.objectId 
-            INNER JOIN os o ON s.osId = o.osId
-            INNER JOIN softwaretype st ON s.softwareTypeId = st.softwareTypeId
-            INNER JOIN supporttype supt ON s.supportTypeId = supt.supportTypeId
+        $query = "SELECT DISTINCT g.*,s.* FROM Software s
+            INNER JOIN GenericObject g ON g.objectId = s.objectId 
+            INNER JOIN Os o ON s.osId = o.osId
+            INNER JOIN SoftwareType st ON s.softwareTypeId = st.softwareTypeId
+            INNER JOIN SupportType supt ON s.supportTypeId = supt.supportTypeId
             WHERE s.title LIKE :key OR
             o.Name LIKE :key OR
             st.Name LIKE :key OR
@@ -148,8 +148,8 @@ class SoftwareRepository extends GenericRepository {
      * @return ?array   All software, null if no results
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM software
-            INNER JOIN genericobject g ON g.objectId = software.objectId";
+        $query = "SELECT * FROM Software
+            INNER JOIN GenericObject g ON g.objectId = software.objectId";
 
         $stmt = $this->pdo->query($query);
 
@@ -165,7 +165,7 @@ class SoftwareRepository extends GenericRepository {
      */
     public function update(Software $s): void {
         $querySoftware =
-            "UPDATE software
+            "UPDATE Software
             SET title = :title,
             osId = :osId,
             softwareTypeId = :softwareTypeId,
@@ -173,7 +173,7 @@ class SoftwareRepository extends GenericRepository {
             WHERE objectId = :objectId";
 
         $queryObject =
-            "UPDATE genericobject
+            "UPDATE GenericObject
             SET note = :note,
             url = :url,
             tag = :tag
@@ -213,13 +213,13 @@ class SoftwareRepository extends GenericRepository {
         try {
             $this->pdo->beginTransaction();
 
-            $query = "DELETE FROM software
+            $query = "DELETE FROM Software
             WHERE objectId = :objectId;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
-            $query = "DELETE FROM genericobject
+            $query = "DELETE FROM GenericObject
             WHERE objectId = :objectId;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);

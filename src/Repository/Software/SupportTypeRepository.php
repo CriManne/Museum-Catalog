@@ -21,7 +21,7 @@ class SupportTypeRepository extends GenericRepository {
     public function insert(SupportType $supportType): void {
 
         $query =
-            "INSERT INTO supporttype 
+            "INSERT INTO SupportType 
             (name) VALUES 
             (:name);";
 
@@ -42,7 +42,7 @@ class SupportTypeRepository extends GenericRepository {
      * @return ?SupportType     The support type selected, null if not found
      */
     public function selectById(int $id): ?SupportType {
-        $query = "SELECT * FROM supporttype WHERE id = :id";
+        $query = "SELECT * FROM SupportType WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
@@ -60,7 +60,7 @@ class SupportTypeRepository extends GenericRepository {
      * @return ?SupportType The support type selected, null if not found
      */
     public function selectByname(string $name): ?SupportType {
-        $query = "SELECT * FROM supporttype WHERE name = :name";
+        $query = "SELECT * FROM SupportType WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
@@ -78,7 +78,7 @@ class SupportTypeRepository extends GenericRepository {
      * @return array The support types selected
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM supporttype WHERE name LIKE :key";
+        $query = "SELECT * FROM SupportType WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -95,7 +95,7 @@ class SupportTypeRepository extends GenericRepository {
      * @return ?array   The support types selected, null if no results;
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM supporttype";
+        $query = "SELECT * FROM SupportType";
 
         $stmt = $this->pdo->query($query);
 
@@ -111,7 +111,7 @@ class SupportTypeRepository extends GenericRepository {
      */
     public function update(SupportType $s): void {
         $query =
-            "UPDATE supporttype 
+            "UPDATE SupportType 
             SET name = :name            
             WHERE id = :id;";
 
@@ -132,7 +132,7 @@ class SupportTypeRepository extends GenericRepository {
      */
     public function delete(int $id): void {
         $query =
-            "DELETE FROM supporttype          
+            "DELETE FROM SupportType          
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);

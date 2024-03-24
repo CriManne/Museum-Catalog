@@ -21,7 +21,7 @@ class BookAuthorRepository extends GenericRepository {
     public function insert(BookAuthor $bookAuthor): void {
 
         $query =
-            "INSERT INTO bookauthor 
+            "INSERT INTO BookAuthor 
             (bookId,authorId) VALUES 
             (:bookId,:authorId);";
 
@@ -43,7 +43,7 @@ class BookAuthorRepository extends GenericRepository {
      * @return ?BookAuthor  The selected book author, null if not found
      */
     public function selectById(string $bookId, int $authorId): ?BookAuthor {
-        $query = "SELECT * FROM bookauthor WHERE bookId = :bookId AND authorId = :authorId";
+        $query = "SELECT * FROM BookAuthor WHERE bookId = :bookId AND authorId = :authorId";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("bookId", $bookId, PDO::PARAM_STR);
@@ -64,7 +64,7 @@ class BookAuthorRepository extends GenericRepository {
      * @return ?BookAuthor  The selected book author, null if not found
      */
     public function selectByBookId(string $bookId): ?array {
-        $query = "SELECT * FROM bookauthor WHERE bookId = :bookId";
+        $query = "SELECT * FROM BookAuthor WHERE bookId = :bookId";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("bookId", $bookId, PDO::PARAM_STR);
@@ -84,7 +84,7 @@ class BookAuthorRepository extends GenericRepository {
      * @return ?BookAuthor  The selected book author, null if not found
      */
     public function selectByAuthorId(int $authorId): ?array {
-        $query = "SELECT * FROM bookauthor WHERE authorId = :authorId";
+        $query = "SELECT * FROM BookAuthor WHERE authorId = :authorId";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("authorId", $authorId, PDO::PARAM_INT);
@@ -103,7 +103,7 @@ class BookAuthorRepository extends GenericRepository {
      * @return ?BookAuthor  The selected book author, null if not found
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM bookauthor";
+        $query = "SELECT * FROM BookAuthor";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->execute();
@@ -123,7 +123,7 @@ class BookAuthorRepository extends GenericRepository {
      */
     public function deleteById(string $bookId): void {
         $query =
-            "DELETE FROM bookauthor                      
+            "DELETE FROM BookAuthor                      
             WHERE bookId = :bookId";
 
         $stmt = $this->pdo->prepare($query);

@@ -41,12 +41,12 @@ class BookRepository extends GenericRepository {
     public function insert(Book $book): void {
 
         $queryBook =
-            "INSERT INTO book
+            "INSERT INTO Book
                 (objectId,title,publisherId,year,pages,isbn) VALUES 
                 (:objectId,:title,:publisherId,:year,:pages,:isbn);";
 
         $queryObject =
-            "INSERT INTO genericobject
+            "INSERT INTO GenericObject
                 (objectId,note,url,tag)
                 VALUES
                 (:objectId,:note,:url,:tag)";
@@ -87,8 +87,8 @@ class BookRepository extends GenericRepository {
      * @return ?Book    The book selected, null if not found
      */
     public function selectById(string $objectId): ?Book {
-        $query = "SELECT * FROM book b 
-            INNER JOIN genericobject g ON g.objectId = b.objectId 
+        $query = "SELECT * FROM Book b 
+            INNER JOIN GenericObject g ON g.objectId = b.objectId 
             WHERE g.objectId = :objectId";
 
         $stmt = $this->pdo->prepare($query);
@@ -107,8 +107,8 @@ class BookRepository extends GenericRepository {
      * @return ?Book    The book selected, null if not found
      */
     public function selectByTitle(string $title): ?Book {
-        $query = "SELECT * FROM book b
-            INNER JOIN genericobject g ON g.objectId = b.objectId 
+        $query = "SELECT * FROM Book b
+            INNER JOIN GenericObject g ON g.objectId = b.objectId 
             WHERE title LIKE :title";
 
         $title = '%' . $title . '%';
@@ -129,11 +129,11 @@ class BookRepository extends GenericRepository {
      * @return array    The books selected, empty array if no result
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT DISTINCT g.*,b.* FROM book b
-            INNER JOIN genericobject g ON g.objectId = b.objectId 
-            INNER JOIN publisher p ON b.publisherId = p.publisherId
-            INNER JOIN bookauthor ba ON b.objectId = ba.BookID
-            INNER JOIN author a ON ba.AuthorID = a.AuthorID
+        $query = "SELECT DISTINCT g.*,b.* FROM Book b
+            INNER JOIN GenericObject g ON g.objectId = b.objectId 
+            INNER JOIN Publisher p ON b.publisherId = p.publisherId
+            INNER JOIN BookAuthor ba ON b.objectId = ba.BookID
+            INNER JOIN Author a ON ba.AuthorID = a.AuthorID
             WHERE title LIKE :key OR
             year LIKE :key OR
             isbn LIKE :key OR
@@ -158,8 +158,8 @@ class BookRepository extends GenericRepository {
      * @return ?array   All books, null if no result
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM book b
-            INNER JOIN genericobject g ON g.objectId = b.objectId";
+        $query = "SELECT * FROM Book b
+            INNER JOIN GenericObject g ON g.objectId = b.objectId";
 
         $stmt = $this->pdo->query($query);
 
@@ -175,7 +175,7 @@ class BookRepository extends GenericRepository {
      */
     public function update(Book $b): void {
         $queryBook =
-            "UPDATE book
+            "UPDATE Book
             SET title = :title,
             publisherId = :publisherId,
             year = :year,
@@ -184,7 +184,7 @@ class BookRepository extends GenericRepository {
             WHERE objectId = :objectId";
 
         $queryObject =
-            "UPDATE genericobject
+            "UPDATE GenericObject
             SET note = :note,
             url = :url,
             tag = :tag
@@ -232,21 +232,21 @@ class BookRepository extends GenericRepository {
             $this->pdo->beginTransaction();
 
             $query =
-                "DELETE FROM bookauthor
+                "DELETE FROM BookAuthor
             WHERE BookID = :objectId;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $query =
-                "DELETE FROM book
+                "DELETE FROM Book
             WHERE objectId = :objectId;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
             $query =
-                "DELETE FROM genericobject
+                "DELETE FROM GenericObject
             WHERE objectId = :objectId;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);

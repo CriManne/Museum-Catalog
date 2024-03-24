@@ -8,33 +8,29 @@ use App\Exception\ServiceException;
 use App\Model\Computer\Os;
 use App\Repository\Computer\OsRepository;
 use App\Service\Computer\OsService;
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class OsServiceTest extends TestCase
+final class OsServiceTest extends BaseServiceTest
 {
     public OsService $osService;
     
     public function setUp(): void
-    {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->osRepository = new OsRepository($this->pdo);    
-        $this->osService = new OsService($this->osRepository);        
+    {
+        $this->osService = new OsService(new OsRepository($this->pdo));
 
         $this->sampleObject = [
-            "OsID"=>1,
-            "Name"=>'Windows'
+            "id"=>1,
+            "name"=>'Windows'
         ];        
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->osService->selectById(1)->Name,"Windows");        
+        $this->assertEquals($this->osService->selectById(1)->name,"Windows");
     }
     
     public function testBadInsert():void{
@@ -49,7 +45,7 @@ final class OsServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Windows",$this->osService->selectById(1)->Name);
+        $this->assertEquals("Windows",$this->osService->selectById(1)->name);
     }
     
     public function testBadSelectById(): void

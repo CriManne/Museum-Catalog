@@ -21,7 +21,7 @@ class CpuRepository extends GenericRepository {
     public function insert(Cpu $cpu): void {
 
         $query =
-            "INSERT INTO cpu 
+            "INSERT INTO Cpu 
             (modelName,speed) VALUES 
             (:modelName,:speed);";
 
@@ -42,7 +42,7 @@ class CpuRepository extends GenericRepository {
      * @return ?Cpu     The selected cpu, null if not found
      */
     public function selectById(int $id): ?Cpu {
-        $query = "SELECT * FROM cpu WHERE id = :id";
+        $query = "SELECT * FROM Cpu WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
@@ -60,7 +60,7 @@ class CpuRepository extends GenericRepository {
      * @return ?Cpu     The cpu selected, null if not found
      */
     public function selectByName(string $modelName): ?Cpu {
-        $query = "SELECT * FROM cpu WHERE modelName = :modelName";
+        $query = "SELECT * FROM Cpu WHERE modelName = :modelName";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("modelName", $modelName, PDO::PARAM_STR);
@@ -78,7 +78,7 @@ class CpuRepository extends GenericRepository {
      * @return array     The cpus selected
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM cpu WHERE modelName LIKE :key OR speed LIKE :key";
+        $query = "SELECT * FROM Cpu WHERE modelName LIKE :key OR speed LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -95,7 +95,7 @@ class CpuRepository extends GenericRepository {
      * @return ?array   The cpus selected, null if no result
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM cpu";
+        $query = "SELECT * FROM Cpu";
 
         $stmt = $this->pdo->query($query);
 
@@ -111,7 +111,7 @@ class CpuRepository extends GenericRepository {
      */
     public function update(Cpu $c): void {
         $query =
-            "UPDATE cpu 
+            "UPDATE Cpu 
             SET modelName = :modelName,
             speed = :speed
             WHERE id = :id;";
@@ -134,7 +134,7 @@ class CpuRepository extends GenericRepository {
      */
     public function delete(int $id): void {
         $query =
-            "DELETE FROM cpu  
+            "DELETE FROM Cpu  
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);

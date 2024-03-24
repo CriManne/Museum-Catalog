@@ -42,12 +42,12 @@ class ComputerRepository extends GenericRepository {
     public function insert(Computer $computer): void {
 
         $queryComputer =
-            "INSERT INTO computer
+            "INSERT INTO Computer
                 (objectId,modelName,year,hddSize,cpuId,ramId,osId) VALUES 
                 (:objectId,:modelName,:year,:hddSize,:cpuId,:ramId,:osId);";
 
         $queryObject =
-            "INSERT INTO genericobject
+            "INSERT INTO GenericObject
                 (objectId,note,url,tag)
                 VALUES
                 (:objectId,:note,:url,:tag)";
@@ -89,8 +89,8 @@ class ComputerRepository extends GenericRepository {
      * @return ?Computer    The computer selected, null if not found
      */
     public function selectById(string $objectId): ?Computer {
-        $query = "SELECT * FROM computer b 
-            INNER JOIN genericobject g ON g.objectId = b.objectId 
+        $query = "SELECT * FROM Computer b 
+            INNER JOIN GenericObject g ON g.objectId = b.objectId 
             WHERE g.objectId = :objectId";
 
         $stmt = $this->pdo->prepare($query);
@@ -109,8 +109,8 @@ class ComputerRepository extends GenericRepository {
      * @return ?Computer    The computer selected, null if not found
      */
     public function selectBymodelName(string $modelName): ?Computer {
-        $query = "SELECT * FROM computer b
-            INNER JOIN genericobject g ON g.objectId = b.objectId 
+        $query = "SELECT * FROM Computer b
+            INNER JOIN GenericObject g ON g.objectId = b.objectId 
             WHERE modelName LIKE :modelName";
 
         $modelName = '%' . $modelName . '%';
@@ -131,11 +131,11 @@ class ComputerRepository extends GenericRepository {
      * @return array   All computers, empty if no result
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT DISTINCT g.*,c.* FROM computer c
-            INNER JOIN genericobject g ON g.objectId = c.objectId
-            INNER JOIN cpu cp ON c.cpuId = cp.cpuId
-            INNER JOIN ram r ON r.ramId = c.ramId
-            INNER JOIN os o ON c.osId = o.osId
+        $query = "SELECT DISTINCT g.*,c.* FROM Computer c
+            INNER JOIN GenericObject g ON g.objectId = c.objectId
+            INNER JOIN Cpu cp ON c.cpuId = cp.cpuId
+            INNER JOIN Ram r ON r.ramId = c.ramId
+            INNER JOIN Os o ON c.osId = o.osId
             WHERE c.modelName LIKE :key OR
             year LIKE :key OR
             hddSize LIKE :key OR
@@ -163,8 +163,8 @@ class ComputerRepository extends GenericRepository {
      * @return ?array   All computers, null if no result
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM computer b
-            INNER JOIN genericobject g ON g.objectId = b.objectId";
+        $query = "SELECT * FROM Computer b
+            INNER JOIN GenericObject g ON g.objectId = b.objectId";
 
         $stmt = $this->pdo->query($query);
 
@@ -180,7 +180,7 @@ class ComputerRepository extends GenericRepository {
      */
     public function update(Computer $b): void {
         $queryComputer =
-            "UPDATE computer
+            "UPDATE Computer
             SET modelName = :modelName,
             year = :year,
             hddSize = :hddSize,
@@ -190,7 +190,7 @@ class ComputerRepository extends GenericRepository {
             WHERE objectId = :objectId";
 
         $queryObject =
-            "UPDATE genericobject
+            "UPDATE GenericObject
             SET note = :note,
             url = :url,
             tag = :tag
@@ -234,13 +234,13 @@ class ComputerRepository extends GenericRepository {
         try {
             $this->pdo->beginTransaction();
 
-            $query = "DELETE FROM computer 
+            $query = "DELETE FROM Computer 
             WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
             $stmt->execute();
 
-            $query = "DELETE FROM genericobject 
+            $query = "DELETE FROM GenericObject 
             WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);

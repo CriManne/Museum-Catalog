@@ -8,34 +8,30 @@ use App\Exception\ServiceException;
 use App\Model\Computer\Ram;
 use App\Repository\Computer\RamRepository;
 use App\Service\Computer\RamService;
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class RamServiceTest extends TestCase
+final class RamServiceTest extends BaseServiceTest
 {
     public RamService $ramService;
     
     public function setUp(): void
     {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->ramRepository = new RamRepository($this->pdo);    
-        $this->ramService = new RamService($this->ramRepository);        
+        $this->ramService = new RamService(new RamRepository($this->pdo));
 
         $this->sampleObject = [
-            "RamID"=>1,
-            "ModelName"=>'Ram 1.0',
-            "Size"=>"512KB"
+            "id"=>1,
+            "modelName"=>'Ram 1.0',
+            "size"=>"512KB"
         ];        
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->ramService->selectById(1)->ModelName,"Ram 1.0");        
+        $this->assertEquals($this->ramService->selectById(1)->modelName,"Ram 1.0");
     }
     
     public function testBadInsert():void{
@@ -50,7 +46,7 @@ final class RamServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Ram 1.0",$this->ramService->selectById(1)->ModelName);
+        $this->assertEquals("Ram 1.0",$this->ramService->selectById(1)->modelName);
     }
     
     public function testBadSelectById(): void

@@ -8,34 +8,30 @@ use App\Exception\ServiceException;
 use App\Model\Computer\Cpu;
 use App\Repository\Computer\CpuRepository;
 use App\Service\Computer\CpuService;
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use PDO;
 use PDOStatement;
 
-final class CpuServiceTest extends TestCase
+final class CpuServiceTest extends BaseServiceTest
 {
     public CpuService $cpuService;
     
     public function setUp(): void
     {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->cpuRepository = new CpuRepository($this->pdo);    
-        $this->cpuService = new CpuService($this->cpuRepository);        
+        $this->cpuService = new CpuService(new CpuRepository($this->pdo));
 
         $this->sampleObject = [
-            "CpuID"=>1,
-            "ModelName"=>'Cpu 1.0',
-            "Speed"=>"4GHZ"
+            "id"=>1,
+            "modelName"=>'Cpu 1.0',
+            "speed"=>"4GHZ"
         ];        
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->cpuService->selectById(1)->ModelName,"Cpu 1.0");        
+        $this->assertEquals($this->cpuService->selectById(1)->modelName,"Cpu 1.0");
     }
     
     public function testBadInsert():void{
@@ -50,7 +46,7 @@ final class CpuServiceTest extends TestCase
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Cpu 1.0",$this->cpuService->selectById(1)->ModelName);
+        $this->assertEquals("Cpu 1.0",$this->cpuService->selectById(1)->modelName);
     }
     
     public function testBadSelectById(): void

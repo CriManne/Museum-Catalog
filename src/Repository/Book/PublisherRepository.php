@@ -21,7 +21,7 @@ class PublisherRepository extends GenericRepository {
     public function insert(Publisher $publisher): void {
 
         $query =
-            "INSERT INTO publisher 
+            "INSERT INTO Publisher 
             (name) VALUES 
             (:name);";
 
@@ -41,7 +41,7 @@ class PublisherRepository extends GenericRepository {
      * @return ?Publisher   The publisher selected, null if not found         * 
      */
     public function selectById(int $id): ?Publisher {
-        $query = "SELECT * FROM publisher WHERE id = :id";
+        $query = "SELECT * FROM Publisher WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
@@ -59,7 +59,7 @@ class PublisherRepository extends GenericRepository {
      * @return ?Publisher   The publisher selected,null if not found
      */
     public function selectByname(string $name): ?Publisher {
-        $query = "SELECT * FROM publisher WHERE name = :name";
+        $query = "SELECT * FROM Publisher WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("name", $name, PDO::PARAM_STR);
@@ -77,7 +77,7 @@ class PublisherRepository extends GenericRepository {
      * @return array   The publishers selected
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM publisher WHERE name LIKE :key";
+        $query = "SELECT * FROM Publisher WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -95,7 +95,7 @@ class PublisherRepository extends GenericRepository {
      * @return ?array   The selected publishers, null if no result
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM publisher";
+        $query = "SELECT * FROM Publisher";
 
         $stmt = $this->pdo->query($query);
 
@@ -111,7 +111,7 @@ class PublisherRepository extends GenericRepository {
      */
     public function update(Publisher $p): void {
         $query =
-            "UPDATE publisher 
+            "UPDATE Publisher 
             SET name = :name
             WHERE id = :id;";
 
@@ -132,7 +132,7 @@ class PublisherRepository extends GenericRepository {
      */
     public function delete(int $id): void {
         $query =
-            "DELETE FROM publisher 
+            "DELETE FROM Publisher 
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);

@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Magazine;
 
+use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
 
@@ -12,39 +13,39 @@ use App\Model\Book\Publisher;
 use App\Repository\Magazine\MagazineRepository;
 use App\Service\Magazine\MagazineService;
 
-final class MagazineServiceTest extends TestCase
+final class MagazineServiceTest extends BaseServiceTest
 {
     public MagazineRepository $magazineRepository;
     public MagazineService $magazineService;
     
 
     public function setUp(): void
-    {                
+    {
         $this->magazineRepository = $this->createMock(MagazineRepository::class);
 
-        $this->magazineService = new MagazineService($this->magazineRepository);        
+        $this->magazineService = new MagazineService($this->magazineRepository);
 
         $this->sampleObject = new Magazine(
             "objID",
-            null,
-            null,
-            null,
-            'Magazine title',   
+            'Magazine title',
             2005,
             205,
-            new Publisher('Publisher 1',1)
-        );    
+            new Publisher('Publisher 1',1),
+            null,
+            null,
+            null,
+        );
         
         $this->sampleObjectRaw = [
             'title' => 'Magazine title',
-            'Year' => 2005,
-            'MagazineNumber' => 205,
-            'PublisherID' => 1,
+            'year' => 2005,
+            'magazineNumber' => 205,
+            'publisherId' => 1,
             'objectId' => 'objID',
-            'Note' => null,
-            'Url' => null,
-            'Tag' => null,
-            'Active' => '1'
+            'note' => null,
+            'url' => null,
+            'tag' => null,
+            'active' => '1'
         ];        
     }
     

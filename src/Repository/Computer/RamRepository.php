@@ -21,7 +21,7 @@ class RamRepository extends GenericRepository {
     public function insert(Ram $ram): void {
 
         $query =
-            "INSERT INTO ram 
+            "INSERT INTO Ram 
             (modelName,size) VALUES 
             (:name,:size);";
 
@@ -42,7 +42,7 @@ class RamRepository extends GenericRepository {
      * @return ?Ram     The selected ram, null if not found
      */
     public function selectById(int $id): ?Ram {
-        $query = "SELECT * FROM ram WHERE id = :id";
+        $query = "SELECT * FROM Ram WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("id", $id, PDO::PARAM_INT);
@@ -60,7 +60,7 @@ class RamRepository extends GenericRepository {
      * @return ?Ram     The ram selected,null if not found
      */
     public function selectByName(string $modelName): ?Ram {
-        $query = "SELECT * FROM ram WHERE modelName = :modelName";
+        $query = "SELECT * FROM Ram WHERE modelName = :modelName";
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("modelName", $modelName, PDO::PARAM_STR);
@@ -78,7 +78,7 @@ class RamRepository extends GenericRepository {
      * @return array     The rams selected
      */
     public function selectByKey(string $key): array {
-        $query = "SELECT * FROM ram WHERE modelName LIKE :key OR size LIKE :key";
+        $query = "SELECT * FROM Ram WHERE modelName LIKE :key OR size LIKE :key";
 
         $key = '%' . $key . '%';
 
@@ -95,7 +95,7 @@ class RamRepository extends GenericRepository {
      * @return ?array   The rams selected, null if no result
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM ram";
+        $query = "SELECT * FROM Ram";
 
         $stmt = $this->pdo->query($query);
 
@@ -111,7 +111,7 @@ class RamRepository extends GenericRepository {
      */
     public function update(Ram $ram): void {
         $query =
-            "UPDATE ram 
+            "UPDATE Ram 
             SET modelName = :modelName,
             size = :size
             WHERE id = :id;";
@@ -134,7 +134,7 @@ class RamRepository extends GenericRepository {
      */
     public function delete(int $id): void {
         $query =
-            "DELETE FROM ram  
+            "DELETE FROM Ram  
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
