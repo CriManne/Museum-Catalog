@@ -26,7 +26,7 @@ class PublisherRepository extends GenericRepository {
             (:name);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $publisher->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $publisher->name);
 
         try {
             $stmt->execute();
@@ -62,7 +62,7 @@ class PublisherRepository extends GenericRepository {
         $query = "SELECT * FROM Publisher WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $name);
         $stmt->execute();
         $publisher = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($publisher) {
@@ -73,7 +73,7 @@ class PublisherRepository extends GenericRepository {
 
     /**
      * Select publisher by key
-     * @param string $Key  The key to search
+     * @param string $key
      * @return array   The publishers selected
      */
     public function selectByKey(string $key): array {
@@ -82,12 +82,10 @@ class PublisherRepository extends GenericRepository {
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
 
-        $arr_pub = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_pub;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -99,9 +97,7 @@ class PublisherRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_cpu = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_cpu;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -116,7 +112,7 @@ class PublisherRepository extends GenericRepository {
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $p->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $p->name);
         $stmt->bindParam("id", $p->id, PDO::PARAM_INT);
         try {
             $stmt->execute();

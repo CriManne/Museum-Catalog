@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api\Images;
 
 use App\Controller\ControllerUtil;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,6 +14,10 @@ use SimpleMVC\Controller\ControllerInterface;
 
 class UploadController extends ControllerUtil implements ControllerInterface {
 
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         $params = $request->getQueryParams();
@@ -55,7 +61,8 @@ class UploadController extends ControllerUtil implements ControllerInterface {
      * @param string $objectId The id to use to give images names
      * @param string $name The name of the $_FILES array index
      */
-    public static function uploadFiles(string $objectId, string $name) {
+    public static function uploadFiles(string $objectId, string $name): void
+    {
 
         $files = $_FILES[$name];
 

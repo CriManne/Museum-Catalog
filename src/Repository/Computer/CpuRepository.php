@@ -26,8 +26,8 @@ class CpuRepository extends GenericRepository {
             (:modelName,:speed);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("modelName", $cpu->modelName, PDO::PARAM_STR);
-        $stmt->bindParam("speed", $cpu->speed, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $cpu->modelName);
+        $stmt->bindParam("speed", $cpu->speed);
 
         try {
             $stmt->execute();
@@ -63,7 +63,7 @@ class CpuRepository extends GenericRepository {
         $query = "SELECT * FROM Cpu WHERE modelName = :modelName";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("modelName", $modelName, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $modelName);
         $stmt->execute();
         $cpu = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($cpu) {
@@ -83,11 +83,9 @@ class CpuRepository extends GenericRepository {
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
-        $arr_cpu = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_cpu;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -99,9 +97,7 @@ class CpuRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_cpu = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_cpu;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -117,8 +113,8 @@ class CpuRepository extends GenericRepository {
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("modelName", $c->modelName, PDO::PARAM_STR);
-        $stmt->bindParam("speed", $c->speed, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $c->modelName);
+        $stmt->bindParam("speed", $c->speed);
         $stmt->bindParam("id", $c->id, PDO::PARAM_INT);
         try {
             $stmt->execute();

@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Pages\Private\User;
 
+use AbstractRepo\Exceptions\ReflectionException;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Controller\ControllerUtil;
+use App\Exception\ServiceException;
 use App\Service\UserService;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -23,6 +26,12 @@ class ViewProfileController extends ControllerUtil implements ControllerInterfac
         $this->userService = $userService;
     }
 
+    /**
+     * @throws RepositoryException
+     * @throws \ReflectionException
+     * @throws ServiceException
+     * @throws ReflectionException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
         $user = $this->userService->selectById($_SESSION['user_email']);

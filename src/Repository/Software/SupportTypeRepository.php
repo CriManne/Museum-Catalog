@@ -26,7 +26,7 @@ class SupportTypeRepository extends GenericRepository {
             (:name);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $supportType->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $supportType->name);
 
         try {
             $stmt->execute();
@@ -63,7 +63,7 @@ class SupportTypeRepository extends GenericRepository {
         $query = "SELECT * FROM SupportType WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $name);
         $stmt->execute();
         $supportType = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($supportType) {
@@ -83,11 +83,9 @@ class SupportTypeRepository extends GenericRepository {
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
-        $supports = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $supports;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -99,9 +97,7 @@ class SupportTypeRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $supports = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $supports;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -116,7 +112,7 @@ class SupportTypeRepository extends GenericRepository {
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $s->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $s->name);
         $stmt->bindParam("id", $s->id, PDO::PARAM_INT);
         try {
             $stmt->execute();

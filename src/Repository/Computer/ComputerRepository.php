@@ -9,10 +9,6 @@ use App\Exception\RepositoryException;
 
 use App\Model\Computer\Computer;
 
-use App\Repository\Computer\cpuRepository;
-use App\Repository\Computer\ramRepository;
-use App\Repository\Computer\osRepository;
-
 use PDO;
 use PDOException;
 
@@ -48,25 +44,25 @@ class ComputerRepository extends GenericRepository {
 
         $queryObject =
             "INSERT INTO GenericObject
-                (objectId,note,url,tag)
+                (id,note,url,tag)
                 VALUES
                 (:objectId,:note,:url,:tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindValue(':objectId', $computer->objectId, PDO::PARAM_STR);
-            $stmt->bindValue(':note', $computer->note, PDO::PARAM_STR);
-            $stmt->bindValue(':url', $computer->url, PDO::PARAM_STR);
-            $stmt->bindValue(':tag', $computer->tag, PDO::PARAM_STR);
+            $stmt->bindValue(':objectId', $computer->objectId);
+            $stmt->bindValue(':note', $computer->note);
+            $stmt->bindValue(':url', $computer->url);
+            $stmt->bindValue(':tag', $computer->tag);
 
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryComputer);
-            $stmt->bindParam("objectId", $computer->objectId, PDO::PARAM_STR);
-            $stmt->bindParam("modelName", $computer->modelName, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $computer->objectId);
+            $stmt->bindParam("modelName", $computer->modelName);
             $stmt->bindParam("year", $computer->year, PDO::PARAM_INT);
-            $stmt->bindParam("hddSize", $computer->hddSize, PDO::PARAM_STR);
+            $stmt->bindParam("hddSize", $computer->hddSize);
             $stmt->bindParam("cpuId", $computer->cpu->id, PDO::PARAM_INT);
             $stmt->bindParam("ramId", $computer->ram->id, PDO::PARAM_INT);
 
@@ -90,11 +86,11 @@ class ComputerRepository extends GenericRepository {
      */
     public function selectById(string $objectId): ?Computer {
         $query = "SELECT * FROM Computer b 
-            INNER JOIN GenericObject g ON g.objectId = b.objectId 
-            WHERE g.objectId = :objectId";
+            INNER JOIN GenericObject g ON g.id = b.objectId 
+            WHERE g.id = :objectId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+        $stmt->bindParam("objectId", $objectId);
         $stmt->execute();
         $computer = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($computer) {
@@ -110,13 +106,13 @@ class ComputerRepository extends GenericRepository {
      */
     public function selectBymodelName(string $modelName): ?Computer {
         $query = "SELECT * FROM Computer b
-            INNER JOIN GenericObject g ON g.objectId = b.objectId 
+            INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE modelName LIKE :modelName";
 
         $modelName = '%' . $modelName . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("modelName", $modelName, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $modelName);
         $stmt->execute();
         $computer = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($computer) {
@@ -132,7 +128,7 @@ class ComputerRepository extends GenericRepository {
      */
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,c.* FROM Computer c
-            INNER JOIN GenericObject g ON g.objectId = c.objectId
+            INNER JOIN GenericObject g ON g.id = c.objectId
             INNER JOIN Cpu cp ON c.cpuId = cp.cpuId
             INNER JOIN Ram r ON r.ramId = c.ramId
             INNER JOIN Os o ON c.osId = o.osId
@@ -146,16 +142,14 @@ class ComputerRepository extends GenericRepository {
             o.Name LIKE :key OR
             g.note LIKE :key OR
             g.tag LIKE :key OR
-            g.objectId LIKE :key";
+            g.id LIKE :key";
 
         $key = '%' . $key . '%';
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
 
-        $arr_computer = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_computer;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -164,19 +158,17 @@ class ComputerRepository extends GenericRepository {
      */
     public function selectAll(): ?array {
         $query = "SELECT * FROM Computer b
-            INNER JOIN GenericObject g ON g.objectId = b.objectId";
+            INNER JOIN GenericObject g ON g.id = b.objectId";
 
         $stmt = $this->pdo->query($query);
 
-        $arr_computer = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_computer;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
      * Update a computer
-     * @param Computer $s   The computer to update
-     * @throws RepositoryException  If the update fails
+     * @param Computer $b
+     * @throws RepositoryException If the update fails
      */
     public function update(Computer $b): void {
         $queryComputer =
@@ -194,28 +186,28 @@ class ComputerRepository extends GenericRepository {
             SET note = :note,
             url = :url,
             tag = :tag
-            WHERE objectId = :objectId";
+            WHERE id = :objectId";
 
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryComputer);
-            $stmt->bindParam("modelName", $b->modelName, PDO::PARAM_STR);
+            $stmt->bindParam("modelName", $b->modelName);
             $stmt->bindParam("year", $b->year, PDO::PARAM_INT);
-            $stmt->bindParam("hddSize", $b->hddSize, PDO::PARAM_STR);
+            $stmt->bindParam("hddSize", $b->hddSize);
             $stmt->bindParam("cpuId", $b->cpu->id, PDO::PARAM_INT);
             $stmt->bindParam("ramId", $b->ram->id, PDO::PARAM_INT);
             $osId = !is_null($b->os) ? $b->os->id : null;
 
             $stmt->bindParam("osId", $osId, PDO::PARAM_INT);
-            $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $b->objectId);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindParam("note", $b->note, PDO::PARAM_STR);
-            $stmt->bindParam("url", $b->url, PDO::PARAM_STR);
-            $stmt->bindParam("tag", $b->tag, PDO::PARAM_STR);
-            $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("note", $b->note);
+            $stmt->bindParam("url", $b->url);
+            $stmt->bindParam("tag", $b->tag);
+            $stmt->bindParam("objectId", $b->objectId);
             $stmt->execute();
 
             $this->pdo->commit();
@@ -237,13 +229,13 @@ class ComputerRepository extends GenericRepository {
             $query = "DELETE FROM Computer 
             WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
 
             $query = "DELETE FROM GenericObject 
-            WHERE objectId = :objectId";
+            WHERE id = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
 
             $this->pdo->commit();

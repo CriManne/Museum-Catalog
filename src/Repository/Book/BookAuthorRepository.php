@@ -26,7 +26,7 @@ class BookAuthorRepository extends GenericRepository {
             (:bookId,:authorId);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("bookId", $bookAuthor->bookId, PDO::PARAM_STR);
+        $stmt->bindParam("bookId", $bookAuthor->bookId);
         $stmt->bindParam("authorId", $bookAuthor->authorId, PDO::PARAM_INT);
 
         try {
@@ -46,7 +46,7 @@ class BookAuthorRepository extends GenericRepository {
         $query = "SELECT * FROM BookAuthor WHERE bookId = :bookId AND authorId = :authorId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("bookId", $bookId, PDO::PARAM_STR);
+        $stmt->bindParam("bookId", $bookId);
         $stmt->bindParam("authorId", $authorId, PDO::PARAM_INT);
         $stmt->execute();
         $bookAuthor = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -67,7 +67,7 @@ class BookAuthorRepository extends GenericRepository {
         $query = "SELECT * FROM BookAuthor WHERE bookId = :bookId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("bookId", $bookId, PDO::PARAM_STR);
+        $stmt->bindParam("bookId", $bookId);
         $stmt->execute();
         $bookAuthors = $stmt->fetchAll(PDO::FETCH_CLASS);
 
@@ -119,7 +119,7 @@ class BookAuthorRepository extends GenericRepository {
     /**
      * Delete by id
      * @param string $bookId The book id
-     * @throws PDOException If the delete fails
+     * @throws RepositoryException
      */
     public function deleteById(string $bookId): void {
         $query =
@@ -127,7 +127,7 @@ class BookAuthorRepository extends GenericRepository {
             WHERE bookId = :bookId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("bookId", $bookId, PDO::PARAM_STR);
+        $stmt->bindParam("bookId", $bookId);
         try {
             $stmt->execute();
         } catch (PDOException $e) {

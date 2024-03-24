@@ -8,9 +8,6 @@ use App\Repository\GenericRepository;
 use App\Exception\RepositoryException;
 use App\Model\Book\Book;
 use App\Model\Book\BookAuthor;
-use App\Repository\Book\AuthorRepository;
-use App\Repository\Book\PublisherRepository;
-use App\Repository\Book\BookAuthorRepository;
 use App\Util\ORM;
 use PDO;
 use PDOException;
@@ -47,27 +44,27 @@ class BookRepository extends GenericRepository {
 
         $queryObject =
             "INSERT INTO GenericObject
-                (objectId,note,url,tag)
+                (id,note,url,tag)
                 VALUES
                 (:objectId,:note,:url,:tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindValue(':objectId', $book->objectId, PDO::PARAM_STR);
-            $stmt->bindValue(':note', $book->note, PDO::PARAM_STR);
-            $stmt->bindValue(':url', $book->url, PDO::PARAM_STR);
-            $stmt->bindValue(':tag', $book->tag, PDO::PARAM_STR);
+            $stmt->bindValue(':objectId', $book->objectId);
+            $stmt->bindValue(':note', $book->note);
+            $stmt->bindValue(':url', $book->url);
+            $stmt->bindValue(':tag', $book->tag);
 
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryBook);
-            $stmt->bindParam("objectId", $book->objectId, PDO::PARAM_STR);
-            $stmt->bindParam("title", $book->title, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $book->objectId);
+            $stmt->bindParam("title", $book->title);
             $stmt->bindParam("publisherId", $book->publisher->id, PDO::PARAM_INT);
             $stmt->bindParam("year", $book->year, PDO::PARAM_INT);
             $stmt->bindParam("pages", $book->pages, PDO::PARAM_INT);
-            $stmt->bindParam("isbn", $book->isbn, PDO::PARAM_STR);
+            $stmt->bindParam("isbn", $book->isbn);
 
             $stmt->execute();
             foreach ($book->authors as $author) {
@@ -88,11 +85,11 @@ class BookRepository extends GenericRepository {
      */
     public function selectById(string $objectId): ?Book {
         $query = "SELECT * FROM Book b 
-            INNER JOIN GenericObject g ON g.objectId = b.objectId 
-            WHERE g.objectId = :objectId";
+            INNER JOIN GenericObject g ON g.id = b.objectId 
+            WHERE g.id = :objectId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+        $stmt->bindParam("objectId", $objectId);
         $stmt->execute();
         $book = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($book) {
@@ -108,13 +105,13 @@ class BookRepository extends GenericRepository {
      */
     public function selectByTitle(string $title): ?Book {
         $query = "SELECT * FROM Book b
-            INNER JOIN GenericObject g ON g.objectId = b.objectId 
+            INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE title LIKE :title";
 
         $title = '%' . $title . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("title", $title, PDO::PARAM_STR);
+        $stmt->bindParam("title", $title);
         $stmt->execute();
         $book = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($book) {
@@ -130,7 +127,7 @@ class BookRepository extends GenericRepository {
      */
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,b.* FROM Book b
-            INNER JOIN GenericObject g ON g.objectId = b.objectId 
+            INNER JOIN GenericObject g ON g.id = b.objectId 
             INNER JOIN Publisher p ON b.publisherId = p.publisherId
             INNER JOIN BookAuthor ba ON b.objectId = ba.BookID
             INNER JOIN Author a ON ba.AuthorID = a.AuthorID
@@ -141,16 +138,14 @@ class BookRepository extends GenericRepository {
             a.lastname LIKE :key OR
             g.note LIKE :key OR
             g.tag LIKE :key OR
-            g.objectId LIKE :key";
+            g.id LIKE :key";
 
         $key = '%' . $key . '%';
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
 
-        $arr_book = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_book;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -159,19 +154,17 @@ class BookRepository extends GenericRepository {
      */
     public function selectAll(): ?array {
         $query = "SELECT * FROM Book b
-            INNER JOIN GenericObject g ON g.objectId = b.objectId";
+            INNER JOIN GenericObject g ON g.id = b.objectId";
 
         $stmt = $this->pdo->query($query);
 
-        $arr_book = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_book;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
      * Update a book
-     * @param Book $s   The book to update
-     * @throws RepositoryException  If the update fails
+     * @param Book $b
+     * @throws RepositoryException If the update fails
      */
     public function update(Book $b): void {
         $queryBook =
@@ -194,19 +187,19 @@ class BookRepository extends GenericRepository {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryBook);
-            $stmt->bindParam("title", $b->title, PDO::PARAM_STR);
+            $stmt->bindParam("title", $b->title);
             $stmt->bindParam("publisherId", $b->publisher->id, PDO::PARAM_INT);
             $stmt->bindParam("year", $b->year, PDO::PARAM_INT);
             $stmt->bindParam("pages", $b->pages, PDO::PARAM_INT);
-            $stmt->bindParam("isbn", $b->isbn, PDO::PARAM_STR);
-            $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("isbn", $b->isbn);
+            $stmt->bindParam("objectId", $b->objectId);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindParam("note", $b->note, PDO::PARAM_STR);
-            $stmt->bindParam("url", $b->url, PDO::PARAM_STR);
-            $stmt->bindParam("tag", $b->tag, PDO::PARAM_STR);
-            $stmt->bindParam("objectId", $b->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("note", $b->note);
+            $stmt->bindParam("url", $b->url);
+            $stmt->bindParam("tag", $b->tag);
+            $stmt->bindParam("objectId", $b->objectId);
             $stmt->execute();
 
             $this->bookAuthorRepository->deleteById($b->objectId);
@@ -233,23 +226,23 @@ class BookRepository extends GenericRepository {
 
             $query =
                 "DELETE FROM BookAuthor
-            WHERE BookID = :objectId;";
+            WHERE bookID = :objectId;";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
 
             $query =
                 "DELETE FROM Book
             WHERE objectId = :objectId;";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
 
             $query =
                 "DELETE FROM GenericObject
             WHERE objectId = :objectId;";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
 
             $this->pdo->commit();

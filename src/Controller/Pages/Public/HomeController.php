@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Pages\Public;
 
 use App\Controller\ControllerUtil;
+use DI\DependencyException;
+use DI\NotFoundException;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
@@ -17,6 +19,10 @@ class HomeController extends ControllerUtil implements ControllerInterface {
         parent::__construct($plates);
     }
 
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         if ($this->container->get('logging_level') === 1) {
             $this->pages_log->info("Successfull get page", [__CLASS__]);

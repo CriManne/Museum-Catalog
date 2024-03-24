@@ -6,9 +6,12 @@ namespace App\Controller;
 
 session_start();
 
-use App\Controller\ControllerUtil;
+use AbstractRepo\Exceptions\ReflectionException;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Exception\ServiceException;
 use App\Service\UserService;
+use DI\DependencyException;
+use DI\NotFoundException;
 use League\Plates\Engine;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -27,6 +30,13 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
         $this->userService = $userService;
     }
 
+    /**
+     * @throws RepositoryException
+     * @throws NotFoundException
+     * @throws \ReflectionException
+     * @throws DependencyException
+     * @throws ReflectionException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $requestedUrl = $request->getRequestTarget();
 

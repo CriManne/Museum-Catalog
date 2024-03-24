@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\User;
 
+use AbstractRepo\Exceptions\ReflectionException;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Controller\ControllerUtil;
 use App\Exception\ServiceException;
 use App\Model\User;
@@ -24,6 +26,11 @@ class PostController extends ControllerUtil implements ControllerInterface {
         $this->userService = $userService;
     }
 
+    /**
+     * @throws \ReflectionException
+     * @throws RepositoryException
+     * @throws ReflectionException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         try {
             $params = $request->getParsedBody();

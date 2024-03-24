@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Controller\Api\User;
 
 use App\Controller\ControllerUtil;
+use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\User;
 use App\Service\UserService;
@@ -24,6 +25,9 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
         $this->userService = $userService;
     }
 
+    /**
+     * @throws RepositoryException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         try {
             $params = $request->getParsedBody();

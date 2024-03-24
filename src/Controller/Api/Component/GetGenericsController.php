@@ -6,7 +6,10 @@ namespace App\Controller\Api\Component;
 
 use App\Controller\Api\ComponentsListController;
 use App\Controller\ControllerUtil;
+use App\Exception\ServiceException;
 use App\SearchEngine\ComponentSearchEngine;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,6 +24,11 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         $this->componentSearchEngine = $componentSearchEngine;
     }
 
+    /**
+     * @throws NotFoundException
+     * @throws ServiceException
+     * @throws DependencyException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $params = $request->getQueryParams();
 

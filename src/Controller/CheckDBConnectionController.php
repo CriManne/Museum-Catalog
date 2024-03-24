@@ -6,7 +6,6 @@ namespace App\Controller;
 
 session_start();
 
-use App\Controller\ControllerUtil;
 use PDO;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;

@@ -16,6 +16,7 @@ class BaseServiceTest extends TestCase
     public UserService $userService;
     public mixed $sampleObject;
     public mixed $sampleObjectRaw;
+    public mixed $sampleResponse;
 
     public function __construct(?string $name = null, array $data = [], $dataName = '')
     {

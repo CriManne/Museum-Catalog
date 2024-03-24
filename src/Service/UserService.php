@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\ReflectionException;
 use App\DataModels\FetchableData;
 use App\DataModels\User\UserResponse;
@@ -112,8 +111,10 @@ class UserService {
     /**
      * Update a user
      * @param User $u The user to update
+     * @throws ReflectionException
      * @throws ServiceException If the user is not found
-     * @throws RepositoryException If the update fails
+     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @throws \ReflectionException
      */
     public function update(User $u): void {
         $user = $this->userRepository->findById($u->email);
@@ -127,8 +128,10 @@ class UserService {
     /**
      * Delete a User by email
      * @param string $email The email to delete
+     * @throws ReflectionException
      * @throws ServiceException If the user is not found
-     * @throws RepositoryException If the delete fails
+     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @throws \ReflectionException
      */
     public function delete(string $email): void {
         $user = $this->userRepository->findById($email);

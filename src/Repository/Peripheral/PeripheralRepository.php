@@ -9,8 +9,6 @@ use App\Exception\RepositoryException;
 
 use App\Model\Peripheral\Peripheral;
 
-use App\Repository\Peripheral\PeripheralTypeRepository;
-
 use PDO;
 use PDOException;
 
@@ -40,23 +38,23 @@ class PeripheralRepository extends GenericRepository {
 
         $queryObject =
             "INSERT INTO GenericObject
-                (objectId,note,url,tag)
+                (id,note,url,tag)
                 VALUES
                 (:objectId,:note,:url,:tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindValue(':objectId', $peripheral->objectId, PDO::PARAM_STR);
-            $stmt->bindValue(':note', $peripheral->note, PDO::PARAM_STR);
-            $stmt->bindValue(':url', $peripheral->url, PDO::PARAM_STR);
-            $stmt->bindValue(':tag', $peripheral->tag, PDO::PARAM_STR);
+            $stmt->bindValue(':objectId', $peripheral->objectId);
+            $stmt->bindValue(':note', $peripheral->note);
+            $stmt->bindValue(':url', $peripheral->url);
+            $stmt->bindValue(':tag', $peripheral->tag);
 
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryPeripheral);
-            $stmt->bindParam("objectId", $peripheral->objectId, PDO::PARAM_STR);
-            $stmt->bindParam("modelName", $peripheral->modelName, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $peripheral->objectId);
+            $stmt->bindParam("modelName", $peripheral->modelName);
             $stmt->bindParam("peripheralTypeId", $peripheral->PeripheralType->peripheralTypeId, PDO::PARAM_INT);
 
             $stmt->execute();
@@ -75,11 +73,11 @@ class PeripheralRepository extends GenericRepository {
      */
     public function selectById(string $objectId): ?Peripheral {
         $query = "SELECT * FROM Peripheral p 
-            INNER JOIN GenericObject g ON g.objectId = p.objectId 
-            WHERE g.objectId = :objectId";
+            INNER JOIN GenericObject g ON g.id = p.objectId 
+            WHERE g.id = :objectId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+        $stmt->bindParam("objectId", $objectId);
         $stmt->execute();
         $peripheral = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($peripheral) {
@@ -95,13 +93,13 @@ class PeripheralRepository extends GenericRepository {
      */
     public function selectBymodelName(string $modelName): ?Peripheral {
         $query = "SELECT * FROM Peripheral p
-            INNER JOIN GenericObject g ON g.objectId = p.objectId 
+            INNER JOIN GenericObject g ON g.id = p.objectId 
             WHERE modelName LIKE :modelName";
         
         $modelName = '%'.$modelName.'%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("modelName", $modelName, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $modelName);
         $stmt->execute();
         $peripheral = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($peripheral) {
@@ -117,23 +115,21 @@ class PeripheralRepository extends GenericRepository {
      */
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,p.* FROM Peripheral p
-            INNER JOIN GenericObject g ON g.objectId = p.objectId
+            INNER JOIN GenericObject g ON g.id = p.objectId
             INNER JOIN PeripheralType pt ON p.peripheralTypeId = pt.peripheralTypeId
             WHERE p.modelName LIKE :key OR
             pt.Name LIKE :key OR
             g.note LIKE :key OR
             g.tag LIKE :key OR
-            g.objectId LIKE :key";
+            g.id LIKE :key";
 
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
 
-        $arr_peripheral = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_peripheral;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -142,13 +138,11 @@ class PeripheralRepository extends GenericRepository {
      */
     public function selectAll(): ?array {
         $query = "SELECT * FROM Peripheral p
-            INNER JOIN GenericObject g ON g.objectId = p.objectId";
+            INNER JOIN GenericObject g ON g.id = p.objectId";
 
         $stmt = $this->pdo->query($query);
 
-        $arr_peripheral = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_peripheral;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -168,22 +162,22 @@ class PeripheralRepository extends GenericRepository {
             SET note = :note,
             url = :url,
             tag = :tag
-            WHERE objectId = :objectId";
+            WHERE id = :objectId";
 
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryPeripheral);
-            $stmt->bindParam("modelName", $p->modelName, PDO::PARAM_STR);
-            $stmt->bindParam("peripheralTypeId", $p->PeripheralType->peripheralTypeId, PDO::PARAM_INT);
-            $stmt->bindParam("objectId", $p->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("modelName", $p->modelName);
+            $stmt->bindParam("peripheralTypeId", $p->peripheralType->id, PDO::PARAM_INT);
+            $stmt->bindParam("objectId", $p->objectId);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindParam("note", $p->note, PDO::PARAM_STR);
-            $stmt->bindParam("url", $p->url, PDO::PARAM_STR);
-            $stmt->bindParam("tag", $p->tag, PDO::PARAM_STR);
-            $stmt->bindParam("objectId", $p->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("note", $p->note);
+            $stmt->bindParam("url", $p->url);
+            $stmt->bindParam("tag", $p->tag);
+            $stmt->bindParam("objectId", $p->objectId);
             $stmt->execute();
 
             $this->pdo->commit();
@@ -205,13 +199,13 @@ class PeripheralRepository extends GenericRepository {
             $query = "DELETE FROM Peripheral
             WHERE objectId = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
 
             $query = "DELETE FROM GenericObject
-            WHERE objectId = :objectId";
+            WHERE id = :objectId";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
 
             $this->pdo->commit();

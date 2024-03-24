@@ -7,6 +7,8 @@ namespace App\Controller\Api\Artifact;
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\ControllerUtil;
 use App\SearchEngine\ArtifactSearchEngine;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -21,6 +23,10 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         $params = $request->getQueryParams();
 

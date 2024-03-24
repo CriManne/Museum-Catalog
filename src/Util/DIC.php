@@ -12,11 +12,11 @@ class DIC {
     /**
      * Return the DI container
      * @return Container The DI container
+     * @throws \Exception
      */
     public static function getContainer(): Container {
         $builder = new ContainerBuilder();
         $builder->addDefinitions('config/container.php');
-        $container = $builder->build();
-        return $container;
+        return $builder->build();
     }
 }

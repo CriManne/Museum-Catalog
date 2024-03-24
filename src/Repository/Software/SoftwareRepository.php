@@ -8,8 +8,6 @@ use App\Repository\GenericRepository;
 use App\Exception\RepositoryException;
 use App\Model\Software\Software;
 use App\Repository\Computer\OsRepository;
-use App\Repository\Software\SupportTypeRepository;
-use App\Repository\Software\SoftwareTypeRepository;
 use PDO;
 use PDOException;
 
@@ -45,22 +43,22 @@ class SoftwareRepository extends GenericRepository {
 
         $queryObject =
             "INSERT INTO GenericObject
-                (objectId,note,url,tag)
+                (id,note,url,tag)
                 VALUES
                 (:objectId,:note,:url,:tag)";
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindValue(':objectId', $software->objectId, PDO::PARAM_STR);
-            $stmt->bindValue(':note', $software->note, PDO::PARAM_STR);
-            $stmt->bindValue(':url', $software->url, PDO::PARAM_STR);
-            $stmt->bindValue(':tag', $software->tag, PDO::PARAM_STR);
+            $stmt->bindValue(':objectId', $software->objectId);
+            $stmt->bindValue(':note', $software->note);
+            $stmt->bindValue(':url', $software->url);
+            $stmt->bindValue(':tag', $software->tag);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($querySoftware);
-            $stmt->bindParam("objectId", $software->objectId, PDO::PARAM_STR);
-            $stmt->bindParam("title", $software->title, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $software->objectId);
+            $stmt->bindParam("title", $software->title);
             $stmt->bindParam("osId", $software->os->id, PDO::PARAM_INT);
             $stmt->bindParam("softwareTypeId", $software->softwareType->id, PDO::PARAM_INT);
             $stmt->bindParam("supportTypeId", $software->supportType->id, PDO::PARAM_INT);
@@ -81,11 +79,11 @@ class SoftwareRepository extends GenericRepository {
      */
     public function selectById(string $objectId): ?Software {
         $query = "SELECT * FROM Software 
-            INNER JOIN GenericObject g ON g.objectId = software.objectId 
-            WHERE g.objectId = :objectId";
+            INNER JOIN GenericObject g ON g.id = software.objectId 
+            WHERE g.id = :objectId";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+        $stmt->bindParam("objectId", $objectId);
         $stmt->execute();
         $software = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($software) {
@@ -101,11 +99,11 @@ class SoftwareRepository extends GenericRepository {
      */
     public function selectByTitle(string $title): ?Software {
         $query = "SELECT * FROM Software 
-            INNER JOIN GenericObject g ON g.objectId = software.objectId 
+            INNER JOIN GenericObject g ON g.id = software.objectId 
             WHERE title = :title";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("title", $title, PDO::PARAM_STR);
+        $stmt->bindParam("title", $title);
         $stmt->execute();
         $software = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($software) {
@@ -121,7 +119,7 @@ class SoftwareRepository extends GenericRepository {
      */
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,s.* FROM Software s
-            INNER JOIN GenericObject g ON g.objectId = s.objectId 
+            INNER JOIN GenericObject g ON g.id = s.objectId 
             INNER JOIN Os o ON s.osId = o.osId
             INNER JOIN SoftwareType st ON s.softwareTypeId = st.softwareTypeId
             INNER JOIN SupportType supt ON s.supportTypeId = supt.supportTypeId
@@ -131,16 +129,14 @@ class SoftwareRepository extends GenericRepository {
             supt.Name LIKE :key OR
             g.note LIKE :key OR
             g.tag LIKE :key OR
-            g.objectId LIKE :key";
+            g.id LIKE :key";
 
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
-        $arr_software = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_software;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -149,13 +145,11 @@ class SoftwareRepository extends GenericRepository {
      */
     public function selectAll(): ?array {
         $query = "SELECT * FROM Software
-            INNER JOIN GenericObject g ON g.objectId = software.objectId";
+            INNER JOIN GenericObject g ON g.id = software.objectId";
 
         $stmt = $this->pdo->query($query);
 
-        $arr_software = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_software;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -177,24 +171,24 @@ class SoftwareRepository extends GenericRepository {
             SET note = :note,
             url = :url,
             tag = :tag
-            WHERE objectId = :objectId";
+            WHERE id = :objectId";
 
         try {
             $this->pdo->beginTransaction();
 
             $stmt = $this->pdo->prepare($querySoftware);
-            $stmt->bindParam("title", $s->title, PDO::PARAM_STR);
+            $stmt->bindParam("title", $s->title);
             $stmt->bindParam("osId", $s->os->id, PDO::PARAM_INT);
             $stmt->bindParam("softwareTypeId", $s->softwareType->id, PDO::PARAM_INT);
             $stmt->bindParam("supportTypeId", $s->supportType->id, PDO::PARAM_INT);
-            $stmt->bindParam("objectId", $s->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $s->objectId);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
-            $stmt->bindParam("note", $s->note, PDO::PARAM_STR);
-            $stmt->bindParam("url", $s->url, PDO::PARAM_STR);
-            $stmt->bindParam("tag", $s->tag, PDO::PARAM_STR);
-            $stmt->bindParam("objectId", $s->objectId, PDO::PARAM_STR);
+            $stmt->bindParam("note", $s->note);
+            $stmt->bindParam("url", $s->url);
+            $stmt->bindParam("tag", $s->tag);
+            $stmt->bindParam("objectId", $s->objectId);
             $stmt->execute();
 
             $this->pdo->commit();
@@ -216,13 +210,13 @@ class SoftwareRepository extends GenericRepository {
             $query = "DELETE FROM Software
             WHERE objectId = :objectId;";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
 
             $query = "DELETE FROM GenericObject
-            WHERE objectId = :objectId;";
+            WHERE id = :objectId;";
             $stmt = $this->pdo->prepare($query);
-            $stmt->bindParam("objectId", $objectId, PDO::PARAM_STR);
+            $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
 
             $this->pdo->commit();
@@ -234,7 +228,7 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Return a new instance of Software from an array
-     * @param array $rawSoftware    The raw software object
+     * @param array $rawsoftware
      * @return Software The new instance of software with the fk filled with the result of selects
      */
     function returnMappedObject(array $rawsoftware): Software {

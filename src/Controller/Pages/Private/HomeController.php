@@ -4,7 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Pages\Private;
 
+use AbstractRepo\Exceptions\ReflectionException;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Controller\ControllerUtil;
+use App\Exception\ServiceException;
 use App\Service\UserService;
 use League\Plates\Engine;
 use Nyholm\Psr7\Response;
@@ -21,6 +24,12 @@ class HomeController extends ControllerUtil implements ControllerInterface {
         $this->userService = $userService;
     }
 
+    /**
+     * @throws RepositoryException
+     * @throws \ReflectionException
+     * @throws ServiceException
+     * @throws ReflectionException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
         if (isset($request->getQueryParams()['logout-btn'])) {
             if(!$this->is_session_started()){
@@ -44,10 +53,11 @@ class HomeController extends ControllerUtil implements ControllerInterface {
         );
     }
 
-    public function is_session_started() {
+    public function is_session_started(): bool
+    {
         if (php_sapi_name() !== 'cli') {
             if (version_compare(phpversion(), '5.4.0', '>=')) {
-                return session_status() === PHP_SESSION_ACTIVE ? TRUE : FALSE;
+                return session_status() === PHP_SESSION_ACTIVE;
             } else {
                 return session_id() === '' ? FALSE : TRUE;
             }

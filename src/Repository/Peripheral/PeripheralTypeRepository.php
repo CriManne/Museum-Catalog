@@ -26,7 +26,7 @@ class PeripheralTypeRepository extends GenericRepository {
             (:name);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $peripheralType->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $peripheralType->name);
 
         try {
             $stmt->execute();
@@ -62,7 +62,7 @@ class PeripheralTypeRepository extends GenericRepository {
         $query = "SELECT * FROM PeripheralType WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $name);
         $stmt->execute();
         $peripheralType = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($peripheralType) {
@@ -82,11 +82,9 @@ class PeripheralTypeRepository extends GenericRepository {
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
-        $arr_pt = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_pt;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -98,9 +96,7 @@ class PeripheralTypeRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_pt = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_pt;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -115,7 +111,7 @@ class PeripheralTypeRepository extends GenericRepository {
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $pt->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $pt->name);
         $stmt->bindParam("id", $pt->id, PDO::PARAM_INT);
         try {
             $stmt->execute();

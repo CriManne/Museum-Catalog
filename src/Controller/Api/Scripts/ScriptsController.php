@@ -5,6 +5,8 @@ declare(strict_types=1);
 namespace App\Controller\Api\Scripts;
 
 use App\Controller\ControllerUtil;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -12,6 +14,10 @@ use SimpleMVC\Controller\ControllerInterface;
 
 class ScriptsController extends ControllerUtil implements ControllerInterface {
 
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         $params = $request->getQueryParams();

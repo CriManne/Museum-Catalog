@@ -5,8 +5,7 @@
         max-width: 100vw;
         box-shadow: inset 0 0 5px rgba(150, 150, 150, 0.35);
         margin: auto;
-        padding: 0;
-        padding-top: 10px;
+        padding: 10px 0 0;
     }
 </style>
 <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="loading-container">

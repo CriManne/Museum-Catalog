@@ -5,8 +5,7 @@
         max-width: 100vw;
         box-shadow: inset 0 0 5px rgba(150, 150, 150, 0.35);
         margin: auto;
-        padding: 0;
-        padding-top: 10px;
+        padding: 10px 0 0;
     }
 </style>
 <?php $this->insert('reusable::view_artifacts'); ?>

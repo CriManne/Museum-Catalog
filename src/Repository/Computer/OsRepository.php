@@ -26,7 +26,7 @@ class OsRepository extends GenericRepository {
             (:name);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $os->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $os->name);
 
         try {
             $stmt->execute();
@@ -62,7 +62,7 @@ class OsRepository extends GenericRepository {
         $query = "SELECT * FROM Os WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $name);
         $stmt->execute();
         $os = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($os) {
@@ -82,11 +82,9 @@ class OsRepository extends GenericRepository {
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
-        $arr_os = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_os;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -98,9 +96,7 @@ class OsRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_os = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_os;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -115,7 +111,7 @@ class OsRepository extends GenericRepository {
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $os->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $os->name);
         $stmt->bindParam("id", $os->id, PDO::PARAM_INT);
         try {
             $stmt->execute();

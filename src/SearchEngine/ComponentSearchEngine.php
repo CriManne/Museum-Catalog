@@ -18,6 +18,7 @@ use App\Model\Software\SupportType;
 use App\Util\ORM;
 use DI\Container;
 use DI\ContainerBuilder;
+use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
 
@@ -26,6 +27,9 @@ class ComponentSearchEngine {
     private Container $container;
     private array $categories;
 
+    /**
+     * @throws Exception
+     */
     public function __construct(
         string $containerPath = "config/container.php"
     ) {
@@ -55,9 +59,12 @@ class ComponentSearchEngine {
 
     /**
      * Select generic objects
-     * @param string $category  The category to search in
+     * @param string $category The category to search in
      * @param ?string $query The eventual query
      * @return array            The result array
+     * @throws DependencyException
+     * @throws ServiceException
+     * @throws \ReflectionException
      */
     public function selectGenerics(string $category, ?string $query = null): array {
         $result = [];

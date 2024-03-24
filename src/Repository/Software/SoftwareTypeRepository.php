@@ -26,7 +26,7 @@ class SoftwareTypeRepository extends GenericRepository {
             (:name);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $softwareType->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $softwareType->name);
 
         try {
             $stmt->execute();
@@ -62,7 +62,7 @@ class SoftwareTypeRepository extends GenericRepository {
         $query = "SELECT * FROM SoftwareType WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $name);
         $stmt->execute();
         $softwareType = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($softwareType) {
@@ -82,11 +82,9 @@ class SoftwareTypeRepository extends GenericRepository {
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
-        $arr_software = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_software;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -98,15 +96,13 @@ class SoftwareTypeRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_software = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_software;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
      * Update a software type
-     * @param SoftwareType  The software type to update
-     * @throws RepositoryException  If the update fails
+     * @param SoftwareType $s
+     * @throws RepositoryException If the update fails
      */
     public function update(SoftwareType $s): void {
         $query =
@@ -115,7 +111,7 @@ class SoftwareTypeRepository extends GenericRepository {
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $s->name, PDO::PARAM_STR);
+        $stmt->bindParam("name", $s->name);
         $stmt->bindParam("id", $s->id, PDO::PARAM_INT);
         try {
             $stmt->execute();

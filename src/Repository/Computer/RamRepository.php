@@ -26,8 +26,8 @@ class RamRepository extends GenericRepository {
             (:name,:size);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("name", $ram->modelName, PDO::PARAM_STR);
-        $stmt->bindParam("size", $ram->size, PDO::PARAM_STR);
+        $stmt->bindParam("name", $ram->modelName);
+        $stmt->bindParam("size", $ram->size);
 
         try {
             $stmt->execute();
@@ -63,7 +63,7 @@ class RamRepository extends GenericRepository {
         $query = "SELECT * FROM Ram WHERE modelName = :modelName";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("modelName", $modelName, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $modelName);
         $stmt->execute();
         $ram = $stmt->fetch(PDO::FETCH_ASSOC);
         if ($ram) {
@@ -83,11 +83,9 @@ class RamRepository extends GenericRepository {
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
-        $arr_ram = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_ram;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -99,9 +97,7 @@ class RamRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_ram = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_ram;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -117,8 +113,8 @@ class RamRepository extends GenericRepository {
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("modelName", $ram->modelName, PDO::PARAM_STR);
-        $stmt->bindParam("size", $ram->size, PDO::PARAM_STR);
+        $stmt->bindParam("modelName", $ram->modelName);
+        $stmt->bindParam("size", $ram->size);
         $stmt->bindParam("id", $ram->id, PDO::PARAM_INT);
         try {
             $stmt->execute();

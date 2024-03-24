@@ -62,7 +62,11 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
         );
     }
 
-    public function deleteImage(string $imgName) {
+    /**
+     * @throws Exception
+     */
+    public function deleteImage(string $imgName): void
+    {
         $file = $_SERVER['DOCUMENT_ROOT'] . "/assets/artifacts/" . $imgName;
 
         if (file_exists($file)) {
@@ -73,7 +77,8 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
         throw new Exception("Image not found!");
     }
 
-    public static function deleteImages(string $id) {
+    public static function deleteImages(string $id): int
+    {
         $dir = $_SERVER['DOCUMENT_ROOT'] . "/assets/artifacts/";
 
         $files = scandir($dir);

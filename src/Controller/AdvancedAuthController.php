@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
-use App\Controller\ControllerUtil;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
@@ -15,6 +16,10 @@ use SimpleMVC\Response\HaltResponse;
  */
 class AdvancedAuthController extends ControllerUtil implements ControllerInterface {
 
+    /**
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
 
         if (!isset($_SESSION['privilege']) || $_SESSION['privilege'] !== 1) {

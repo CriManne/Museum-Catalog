@@ -14,6 +14,8 @@ use App\Model\Peripheral\Peripheral;
 use App\Model\Software\Software;
 use DI\Container;
 use DI\ContainerBuilder;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Exception;
 
 class ArtifactSearchEngine {
@@ -21,6 +23,9 @@ class ArtifactSearchEngine {
     private Container $container;
     private array $categories;
 
+    /**
+     * @throws Exception
+     */
     public function __construct(
         string $containerPath = "config/container.php"
     ) {
@@ -52,8 +57,10 @@ class ArtifactSearchEngine {
 
     /**
      * Select generic object by id
-     * @param string $objectId     The objectId to select
+     * @param string $objectId The objectId to select
      * @return GenericArtifactResponse            The Object selected
+     * @throws DependencyException
+     * @throws NotFoundException
      * @throws ServiceException If not found
      */
     public function selectGenericById(string $objectId): GenericArtifactResponse {
@@ -75,9 +82,11 @@ class ArtifactSearchEngine {
 
     /**
      * Select generics objects
-     * @param ?string $category  The category to search in
+     * @param ?string $category The category to search in
      * @param ?string $query The eventual query
      * @return array            The result array
+     * @throws DependencyException
+     * @throws NotFoundException
      */
     public function selectGenerics(?string $category = null, ?string $query = null): array {
         $result = [];

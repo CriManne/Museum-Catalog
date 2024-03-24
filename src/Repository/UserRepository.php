@@ -28,7 +28,7 @@ class UserRepository extends Repository\AbstractRepository implements Interfaces
         $query = "SELECT email,password,firstname,lastname,privilege FROM User WHERE email = :email";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("email", $email, PDO::PARAM_STR);
+        $stmt->bindParam("email", $email);
         $stmt->execute();
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if($user){

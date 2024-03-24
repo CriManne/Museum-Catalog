@@ -26,12 +26,13 @@ class AuthorRepository extends GenericRepository {
             (:firstname,:lastname);";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("firstname", $author->firstname, PDO::PARAM_STR);
-        $stmt->bindParam("lastname", $author->lastname, PDO::PARAM_STR);
+        $stmt->bindParam("firstname", $author->firstname);
+        $stmt->bindParam("lastname", $author->lastname);
 
         try {
             $stmt->execute();
-        } catch (PDOException) {
+        } catch (PDOException $e) {
+            echo $e->getMessage();
             throw new RepositoryException("Error while inserting the author with name: {" . $author->firstname . "}");
         }
     }
@@ -67,11 +68,9 @@ class AuthorRepository extends GenericRepository {
         $key = '%' . $key . '%';
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("key", $key, PDO::PARAM_STR);
+        $stmt->bindParam("key", $key);
         $stmt->execute();
-        $arr_aut = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_aut;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
@@ -83,15 +82,13 @@ class AuthorRepository extends GenericRepository {
 
         $stmt = $this->pdo->query($query);
 
-        $arr_cpu = $stmt->fetchAll(PDO::FETCH_CLASS);
-
-        return $arr_cpu;
+        return $stmt->fetchAll(PDO::FETCH_CLASS);
     }
 
     /**
      * Update an author
-     * @param Author $a     The author to update
-     * @throws RepositoryException  If the update fails
+     * @param Author $author
+     * @throws RepositoryException If the update fails
      */
     public function update(Author $author): void {
         $query =
@@ -101,8 +98,8 @@ class AuthorRepository extends GenericRepository {
             WHERE id = :id;";
 
         $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("firstname", $author->firstname, PDO::PARAM_STR);
-        $stmt->bindParam("lastname", $author->lastname, PDO::PARAM_STR);
+        $stmt->bindParam("firstname", $author->firstname);
+        $stmt->bindParam("lastname", $author->lastname);
         $stmt->bindParam("id", $author->id, PDO::PARAM_INT);
         try {
             $stmt->execute();
