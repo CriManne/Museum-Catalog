@@ -66,16 +66,16 @@ class RamService {
      * @param string $key The key to search
      * @return array The Rams selected
      */
-    public function findByKey(string $key): array {
-        return $this->ramRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->ramRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All the rams 
      */
-    public function findAll(): array {
-        return $this->ramRepository->findAll();
+    public function find(): array {
+        return $this->ramRepository->find();
     }
 
     /**

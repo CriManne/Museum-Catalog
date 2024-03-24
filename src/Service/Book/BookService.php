@@ -70,16 +70,16 @@ class BookService {
      * @param string $key The key given
      * @return array The array of books, empty if no result
      */
-    public function findByKey(string $key): array {
-        return $this->bookRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->bookRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All the books
      */
-    public function findAll(): array {
-        return $this->bookRepository->findAll();
+    public function find(): array {
+        return $this->bookRepository->find();
     }
 
     /**

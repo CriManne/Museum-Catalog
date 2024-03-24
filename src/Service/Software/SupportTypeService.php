@@ -66,16 +66,16 @@ class SupportTypeService {
      * @param string $key The key to search
      * @return array The SupportTypes selected
      */
-    public function findByKey(string $key): array {
-        return $this->supportTypeRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->supportTypeRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All the supptype
      */
-    public function findAll(): array {
-        return $this->supportTypeRepository->findAll();
+    public function find(): array {
+        return $this->supportTypeRepository->find();
     }
 
     /**

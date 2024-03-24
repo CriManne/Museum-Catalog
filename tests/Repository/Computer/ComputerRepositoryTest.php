@@ -128,11 +128,11 @@ final class ComputerRepositoryTest extends TestCase
         $newPc->modelName = "Computer 2";
         self::$computerRepository->save($newPc);
 
-        $this->assertEquals(count(self::$computerRepository->findByKey("comp")),2);
+        $this->assertEquals(count(self::$computerRepository->findByQuery("comp")),2);
     }
 
     public function testBadSelectByKey():void{
-        $this->assertEquals(self::$computerRepository->findByKey("wrongkey"),[]);
+        $this->assertEquals(self::$computerRepository->findByQuery("wrongkey"),[]);
     }
     
     public function testGoodSelectAll():void{
@@ -149,7 +149,7 @@ final class ComputerRepositoryTest extends TestCase
         self::$computerRepository->save($computer2);
         self::$computerRepository->save($computer3);
         
-        $computers = self::$computerRepository->findAll();
+        $computers = self::$computerRepository->find();
         
         $this->assertEquals(count($computers),4);
         $this->assertNotNull($computers[1]);       

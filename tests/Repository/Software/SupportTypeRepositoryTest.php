@@ -76,12 +76,12 @@ final class SupportTypeRepositoryTest extends TestCase
     
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$supportTypeRepository->findByKey("rom"));
+        $this->assertNotEmpty(self::$supportTypeRepository->findByQuery("rom"));
     }
     
     public function testBadSelectByKey(): void
     {
-        $this->assertEmpty(self::$supportTypeRepository->findByKey("WRONG-SUPPORT"));
+        $this->assertEmpty(self::$supportTypeRepository->findByQuery("WRONG-SUPPORT"));
     }
     
     public function testGoodSelectAll():void{
@@ -92,7 +92,7 @@ final class SupportTypeRepositoryTest extends TestCase
         self::$supportTypeRepository->save($supportType2);
         self::$supportTypeRepository->save($supportType3);
         
-        $supportTypes = self::$supportTypeRepository->findAll();
+        $supportTypes = self::$supportTypeRepository->find();
         
         $this->assertEquals(count($supportTypes),4);
         $this->assertNotNull($supportTypes[1]);       

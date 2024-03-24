@@ -76,7 +76,7 @@ class UserService {
      * @throws \AbstractRepo\Exceptions\RepositoryException
      * @throws \ReflectionException
      */
-    public function findAll(?int $page, ?int $itemsPerPage, ?string $query): FetchableData|array
+    public function find(?int $page, ?int $itemsPerPage, ?string $query): FetchableData|array
     {
         $users = $this->userRepository->findByQuery(
             query: $query,

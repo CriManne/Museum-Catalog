@@ -133,7 +133,7 @@ final class SoftwareRepositoryTest extends TestCase
         self::$softwareRepository->save($software2);
         self::$softwareRepository->save($software3);
         
-        $softwares = self::$softwareRepository->findAll();
+        $softwares = self::$softwareRepository->find();
         
         $this->assertEquals(count($softwares),4);
         $this->assertNotNull($softwares[1]);       
@@ -158,11 +158,11 @@ final class SoftwareRepositoryTest extends TestCase
         
         self::$softwareRepository->save($software);
 
-        $this->assertEquals(count(self::$softwareRepository->findByKey("oFFic")),2);
+        $this->assertEquals(count(self::$softwareRepository->findByQuery("oFFic")),2);
     }
 
     public function testBadSelectByKey():void{
-        $this->assertEquals(self::$softwareRepository->findByKey("wrongkey"),[]);
+        $this->assertEquals(self::$softwareRepository->findByQuery("wrongkey"),[]);
     }
 
     //UPDATE TESTS

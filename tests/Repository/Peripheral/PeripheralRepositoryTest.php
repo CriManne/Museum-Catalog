@@ -106,7 +106,7 @@ final class PeripheralRepositoryTest extends TestCase
         self::$peripheralRepository->save($peripheral2);
         self::$peripheralRepository->save($peripheral3);
 
-        $peripherals = self::$peripheralRepository->findAll();
+        $peripherals = self::$peripheralRepository->find();
 
         $this->assertEquals(count($peripherals),4);
         $this->assertNotNull($peripherals[1]);
@@ -131,11 +131,11 @@ final class PeripheralRepositoryTest extends TestCase
 
         self::$peripheralRepository->save($peripheral);
 
-        $this->assertEquals(count(self::$peripheralRepository->findByKey("mous")),2);
+        $this->assertEquals(count(self::$peripheralRepository->findByQuery("mous")),2);
     }
 
     public function testBadSelectByKey():void{
-        $this->assertEquals(self::$peripheralRepository->findByKey("wrongkey"),[]);
+        $this->assertEquals(self::$peripheralRepository->findByQuery("wrongkey"),[]);
     }
 
     //UPDATE TESTS

@@ -128,7 +128,7 @@ final class BookRepositoryTest extends TestCase
         self::$bookRepository->save($book2);
         self::$bookRepository->save($book3);
         
-        $books = self::$bookRepository->findAll();
+        $books = self::$bookRepository->find();
         
         $this->assertEquals(count($books),4);
         $this->assertNotNull($books[1]);       
@@ -153,7 +153,7 @@ final class BookRepositoryTest extends TestCase
 
         self::$bookRepository->save($book);
 
-        $this->assertEquals(count(self::$bookRepository->findByKey("gEoRge")),2);
+        $this->assertEquals(count(self::$bookRepository->findByQuery("gEoRge")),2);
     }
 
     //UPDATE TESTS

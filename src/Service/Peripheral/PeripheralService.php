@@ -67,16 +67,16 @@ class PeripheralService {
      * @param string $key The key given
      * @return array The pheriperals selected, empty if no result
      */
-    public function findByKey(string $key): array {
-        return $this->peripheralRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->peripheralRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All the pheriperals
      */
-    public function findAll(): array {
-        return $this->peripheralRepository->findAll();
+    public function find(): array {
+        return $this->peripheralRepository->find();
     }
 
     /**

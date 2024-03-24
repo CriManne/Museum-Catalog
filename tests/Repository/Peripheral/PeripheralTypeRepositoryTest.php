@@ -76,12 +76,12 @@ final class PeripheralTypeRepositoryTest extends TestCase
 
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$peripheralTypeRepository->findByKey("ous"));
+        $this->assertNotEmpty(self::$peripheralTypeRepository->findByQuery("ous"));
     }
     
     public function testBadSelectByKey(): void
     {
-        $this->assertEmpty(self::$peripheralTypeRepository->findByKey("WRONG-PERIPHERALTYPE-NAME"));
+        $this->assertEmpty(self::$peripheralTypeRepository->findByQuery("WRONG-PERIPHERALTYPE-NAME"));
     }
     
     
@@ -93,7 +93,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
         self::$peripheralTypeRepository->save($peripheralType2);
         self::$peripheralTypeRepository->save($peripheralType3);
         
-        $peripheralTypes = self::$peripheralTypeRepository->findAll();
+        $peripheralTypes = self::$peripheralTypeRepository->find();
         
         $this->assertEquals(count($peripheralTypes),4);
         $this->assertNotNull($peripheralTypes[1]);       

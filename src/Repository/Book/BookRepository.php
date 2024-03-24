@@ -125,7 +125,7 @@ class BookRepository extends GenericRepository {
      * @param string $key     The key given
      * @return array    The books selected, empty array if no result
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT DISTINCT g.*,b.* FROM Book b
             INNER JOIN GenericObject g ON g.id = b.objectId 
             INNER JOIN Publisher p ON b.publisherId = p.id
@@ -152,7 +152,7 @@ class BookRepository extends GenericRepository {
      * Select all books
      * @return ?array   All books, null if no result
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM Book b
             INNER JOIN GenericObject g ON g.id = b.objectId";
 

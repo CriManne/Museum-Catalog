@@ -66,16 +66,16 @@ class PeripheralTypeService {
      * @param string $key The key to search
      * @return array The objects selected
      */
-    public function findByKey(string $key): array {
-        return $this->peripheralTypeRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->peripheralTypeRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All the ptype
      */
-    public function findAll(): array {
-        return $this->peripheralTypeRepository->findAll();
+    public function find(): array {
+        return $this->peripheralTypeRepository->find();
     }
 
     /**

@@ -102,7 +102,7 @@ class BookAuthorRepository extends GenericRepository {
      * Select all book authors
      * @return ?BookAuthor  The selected book author, null if not found
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM BookAuthor";
 
         $stmt = $this->pdo->prepare($query);

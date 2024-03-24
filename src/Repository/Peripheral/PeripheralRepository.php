@@ -113,7 +113,7 @@ class PeripheralRepository extends GenericRepository {
      * @param string $key     The key given
      * @return array The peripherals, empty array if no result
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT DISTINCT g.*,p.* FROM Peripheral p
             INNER JOIN GenericObject g ON g.id = p.objectId
             INNER JOIN PeripheralType pt ON p.peripheralTypeId = pt.id
@@ -136,7 +136,7 @@ class PeripheralRepository extends GenericRepository {
      * Select all peripherals
      * @return ?array   All peripherals, null if no result
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM Peripheral p
             INNER JOIN GenericObject g ON g.id = p.objectId";
 

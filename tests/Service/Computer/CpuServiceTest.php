@@ -9,75 +9,70 @@ use App\Model\Computer\Cpu;
 use App\Repository\Computer\CpuRepository;
 use App\Service\Computer\CpuService;
 use App\Test\Service\BaseServiceTest;
-use PHPUnit\Framework\TestCase;
-use PDO;
-use PDOStatement;
 
 final class CpuServiceTest extends BaseServiceTest
 {
     public CpuService $cpuService;
-    
-    public function setUp(): void
-    {        
-        $this->cpuService = new CpuService(new CpuRepository($this->pdo));
+    public CpuRepository $cpuRepository;
 
-        $this->sampleObject = [
-            "id"=>1,
-            "modelName"=>'Cpu 1.0',
-            "speed"=>"4GHZ"
-        ];        
+    public function setUp(): void
+    {
+        $this->cpuRepository = $this->createMock(CpuRepository::class);
+        $this->cpuService = new CpuService($this->cpuRepository);
+
+        $this->sampleObject = new Cpu(
+            modelName: 'Cpu 1.0',
+            speed: "4GHZ",
+            id: 1
+        );
     }
-    
+
     //INSERT TESTS
-    public function testGoodInsert():void{
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->cpuService->findById(1)->modelName,"Cpu 1.0");
-    }
-    
-    public function testBadInsert():void{
-        $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $cpu = new Cpu('Cpu 1.0','4GHZ',1);
+    public function testGoodSave(): void
+    {
+        $this->expectNotToPerformAssertions();
+        $this->cpuRepository->method('findFirst')->willReturn(null);
+        $cpu = new Cpu('Cpu 1.0', '4GHZ', 1);
         $this->cpuService->save($cpu);
     }
 
-    
+    public function testBadInsert(): void
+    {
+        $this->expectException(ServiceException::class);
+        $this->cpuRepository->method('findFirst')->willReturn($this->sampleObject);
+        $cpu = new Cpu('Cpu 1.0', '4GHZ', 1);
+        $this->cpuService->save($cpu);
+    }
+
+
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Cpu 1.0",$this->cpuService->findById(1)->modelName);
+        $this->cpuRepository->method('findById')->willReturn($this->sampleObject);
+        $this->assertEquals("Cpu 1.0", $this->cpuService->findById(1)->modelName);
     }
-    
+
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
+        $this->cpuRepository->method('findById')->willReturn(null);
         $this->cpuService->findById(2);
     }
-    
-    public function testBadSelectByName(): void
+
+    //UPDATE TESTS
+    public function testBadUpdate(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
-        $this->cpuService->findByName("WRONG NAME");
-    }
-    
-    //UPDATE TESTS
-    public function testBadUpdate():void{
-        $this->expectException(ServiceException::class);
-        $cpu = new Cpu("Cpu 2.5","4GHZ",1);
-        
-        $this->sth->method('fetch')->willReturn(null);
+        $cpu = new Cpu("Cpu 2.5", "4GHZ", 1);
+        $this->cpuRepository->method('findById')->willReturn(null);
         $this->cpuService->update($cpu);
     }
-    
+
     //DELETE TESTS
-    public function testBadDelete():void{
+    public function testBadDelete(): void
+    {
         $this->expectException(ServiceException::class);
-        
-        $this->sth->method('fetch')->willReturn(null);
-        
+        $this->cpuRepository->method('findById')->willReturn(null);
         $this->cpuService->delete(5);
-    }   
+    }
 }

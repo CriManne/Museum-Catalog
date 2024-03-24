@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Computer;
 
+use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
 use App\Model\Computer\Cpu;
 use App\Repository\Computer\CpuRepository;
@@ -24,7 +25,15 @@ class CpuService {
      * @throws RepositoryException If the save fails
      */
     public function save(Cpu $c): void {
-        $cpu = $this->cpuRepository->findByName($c->modelName);
+        $cpu = $this->cpuRepository->findFirst(
+            new FetchParams(
+                conditions: "modelName = :modelName AND speed = :speed",
+                bind: [
+                    "modelName" => $c->modelName,
+                    "speed" => $c->speed
+                ]
+            )
+        );
         if ($cpu && $cpu->speed == $c->speed)
             throw new ServiceException("Cpu name and speed already used!");
 
@@ -66,16 +75,16 @@ class CpuService {
      * @param string $key The key to search
      * @return array The cpus selected 
      */
-    public function findByKey(string $key): array {
-        return $this->cpuRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->cpuRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All the cpus
      */
-    public function findAll(): array {
-        return $this->cpuRepository->findAll();
+    public function find(): array {
+        return $this->cpuRepository->find();
     }
 
     /**

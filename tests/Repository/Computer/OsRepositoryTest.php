@@ -78,12 +78,12 @@ final class OsRepositoryTest extends TestCase
 
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$osRepository->findByKey("indow"));
+        $this->assertNotEmpty(self::$osRepository->findByQuery("indow"));
     }
     
     public function testBadSelectByKey(): void
     {
-        $this->assertEmpty(self::$osRepository->findByKey("WRONG-OS-NAME"));
+        $this->assertEmpty(self::$osRepository->findByQuery("WRONG-OS-NAME"));
     }
     
     
@@ -95,7 +95,7 @@ final class OsRepositoryTest extends TestCase
         self::$osRepository->save($os2);
         self::$osRepository->save($os3);
         
-        $oss = self::$osRepository->findAll();
+        $oss = self::$osRepository->find();
         
         $this->assertEquals(count($oss),4);
         $this->assertNotNull($oss[1]);       

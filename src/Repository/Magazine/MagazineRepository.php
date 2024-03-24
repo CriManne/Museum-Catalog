@@ -117,7 +117,7 @@ class MagazineRepository extends GenericRepository {
      * @param string $key The key given
      * @return array   All magazines, empty array if no result
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT DISTINCT g.*,m.* FROM Magazine m
             INNER JOIN GenericObject g ON g.id = m.objectId
             INNER JOIN Publisher p ON m.publisherId = p.id
@@ -142,7 +142,7 @@ class MagazineRepository extends GenericRepository {
      * Select all magazines
      * @return ?array   All magazines, null if no result
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM Magazine b
             INNER JOIN GenericObject g ON g.id = b.objectId";
 

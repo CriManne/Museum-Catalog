@@ -66,16 +66,16 @@ class SoftwareService {
      * @param string $key The key given
      * @return array Software(s) selected, empty array if no result
      */
-    public function findByKey(string $key): array {
-        return $this->softwareRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->softwareRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All the Software(s)
      */
-    public function findAll(): array {
-        return $this->softwareRepository->findAll();
+    public function find(): array {
+        return $this->softwareRepository->find();
     }
 
     /**

@@ -18,6 +18,7 @@ use Throwable;
 class GetSpecificByIdController extends ControllerUtil implements ControllerInterface
 {
     protected ComponentSearchEngine $componentSearchEngine;
+    protected mixed $componentService;
 
     public function __construct(ComponentSearchEngine $componentSearchEngine)
     {

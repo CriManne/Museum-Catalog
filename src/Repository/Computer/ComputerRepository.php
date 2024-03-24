@@ -126,7 +126,7 @@ class ComputerRepository extends GenericRepository {
      * @param string $key The key given
      * @return array   All computers, empty if no result
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT DISTINCT g.*,c.* FROM Computer c
             INNER JOIN GenericObject g ON g.id = c.objectId
             INNER JOIN Cpu cp ON cp.id = c.cpuId
@@ -156,7 +156,7 @@ class ComputerRepository extends GenericRepository {
      * Select all computers
      * @return ?array   All computers, null if no result
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM Computer b
             INNER JOIN GenericObject g ON g.id = b.objectId";
 

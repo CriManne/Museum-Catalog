@@ -76,7 +76,7 @@ class PublisherRepository extends GenericRepository {
      * @param string $key
      * @return array   The publishers selected
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT * FROM Publisher WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
@@ -92,7 +92,7 @@ class PublisherRepository extends GenericRepository {
      * Select all publishers
      * @return ?array   The selected publishers, null if no result
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM Publisher";
 
         $stmt = $this->pdo->query($query);

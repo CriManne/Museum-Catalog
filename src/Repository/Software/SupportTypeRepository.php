@@ -77,7 +77,7 @@ class SupportTypeRepository extends GenericRepository {
      * @param string $key  The key to search
      * @return array The support types selected
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT * FROM SupportType WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
@@ -92,7 +92,7 @@ class SupportTypeRepository extends GenericRepository {
      * Select all
      * @return ?array   The support types selected, null if no results;
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM SupportType";
 
         $stmt = $this->pdo->query($query);

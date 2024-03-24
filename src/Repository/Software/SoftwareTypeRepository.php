@@ -76,7 +76,7 @@ class SoftwareTypeRepository extends GenericRepository {
      * @param string $key  The key to search
      * @return array The software types selected
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT * FROM SoftwareType WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
@@ -91,7 +91,7 @@ class SoftwareTypeRepository extends GenericRepository {
      * Select all 
      * @return ?array   The software types selected, null if no result
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM SoftwareType";
 
         $stmt = $this->pdo->query($query);

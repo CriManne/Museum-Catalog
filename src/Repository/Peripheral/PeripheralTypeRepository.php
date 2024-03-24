@@ -76,7 +76,7 @@ class PeripheralTypeRepository extends GenericRepository {
      * @param string $key The key to search
      * @return array  The p.types selected
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT * FROM PeripheralType WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
@@ -91,7 +91,7 @@ class PeripheralTypeRepository extends GenericRepository {
      * Select all p.type
      * @return ?array   All the p.types, null if no result
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM PeripheralType";
 
         $stmt = $this->pdo->query($query);

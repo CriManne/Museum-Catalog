@@ -66,16 +66,16 @@ class MagazineService {
      * @param string $key The key given
      * @return array Magazines selected, empty array if no result
      */
-    public function findByKey(string $key): array {
-        return $this->magazineRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->magazineRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All the magazines
      */
-    public function findAll(): array {
-        return $this->magazineRepository->findAll();
+    public function find(): array {
+        return $this->magazineRepository->find();
     }
 
     /**

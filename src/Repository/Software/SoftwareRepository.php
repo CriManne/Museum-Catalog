@@ -117,7 +117,7 @@ class SoftwareRepository extends GenericRepository {
      * @param string $key     The key given
      * @return array    Software(s) selected, empty array if no result
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT DISTINCT g.*,s.* FROM Software s
             INNER JOIN GenericObject g ON g.id = s.objectId 
             INNER JOIN Os o ON s.osId = o.id
@@ -143,7 +143,7 @@ class SoftwareRepository extends GenericRepository {
      * Select all software
      * @return ?array   All software, null if no results
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM Software s
             INNER JOIN GenericObject g ON g.id = s.objectId";
 

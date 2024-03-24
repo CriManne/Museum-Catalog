@@ -76,12 +76,12 @@ final class SoftwareTypeRepositoryTest extends TestCase
 
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$softwareTypeRepository->findByKey("fice"));
+        $this->assertNotEmpty(self::$softwareTypeRepository->findByQuery("fice"));
     }
     
     public function testBadSelectByKey(): void
     {
-        $this->assertEmpty(self::$softwareTypeRepository->findByKey("WRONG-SOFTWAERE-TYPE"));
+        $this->assertEmpty(self::$softwareTypeRepository->findByQuery("WRONG-SOFTWAERE-TYPE"));
     }
     
     
@@ -93,7 +93,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
         self::$softwareTypeRepository->save($softwareType2);
         self::$softwareTypeRepository->save($softwareType3);
         
-        $softwareTypes = self::$softwareTypeRepository->findAll();
+        $softwareTypes = self::$softwareTypeRepository->find();
         
         $this->assertEquals(count($softwareTypes),4);
         $this->assertNotNull($softwareTypes[1]);       

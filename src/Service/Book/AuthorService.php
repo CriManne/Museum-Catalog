@@ -46,16 +46,16 @@ class AuthorService {
      * @param string $key  The key to search
      * @return array The authors selected
      */
-    public function findByKey(string $key): array {
-        return $this->authorRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->authorRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All the authors
      */
-    public function findAll(): array {
-        return $this->authorRepository->findAll();
+    public function find(): array {
+        return $this->authorRepository->find();
     }
 
     /**

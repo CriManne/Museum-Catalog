@@ -66,16 +66,16 @@ class ComputerService {
      * @param string $key The key given
      * @return array The array of computers, empty if no result
      */
-    public function findByKey(string $key): array {
-        return $this->computerRepository->findByKey($key);
+    public function findByQuery(string $key): array {
+        return $this->computerRepository->findByQuery($key);
     }
 
     /**
      * Select all
      * @return array All of the computers
      */
-    public function findAll(): array {
-        return $this->computerRepository->findAll();
+    public function find(): array {
+        return $this->computerRepository->find();
     }
 
     /**

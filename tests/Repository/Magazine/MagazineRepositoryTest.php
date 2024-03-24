@@ -108,7 +108,7 @@ final class MagazineRepositoryTest extends TestCase
         self::$magazineRepository->save($magazine2);
         self::$magazineRepository->save($magazine3);
         
-        $magazines = self::$magazineRepository->findAll();
+        $magazines = self::$magazineRepository->find();
         
         $this->assertEquals(count($magazines),4);
         $this->assertNotNull($magazines[1]);       
@@ -133,11 +133,11 @@ final class MagazineRepositoryTest extends TestCase
         
         self::$magazineRepository->save($magazine);
 
-        $this->assertEquals(count(self::$magazineRepository->findByKey("maGazIn")),2);
+        $this->assertEquals(count(self::$magazineRepository->findByQuery("maGazIn")),2);
     }
 
     public function testBadSelectByKey():void{       
-        $this->assertEquals(self::$magazineRepository->findByKey("wrongkey"),[]);
+        $this->assertEquals(self::$magazineRepository->findByQuery("wrongkey"),[]);
     }
 
     //UPDATE TESTS

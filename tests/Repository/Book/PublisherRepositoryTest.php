@@ -75,12 +75,12 @@ final class PublisherRepositoryTest extends TestCase
 
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$publisherRepository->findByKey("mond"));
+        $this->assertNotEmpty(self::$publisherRepository->findByQuery("mond"));
     }
     
     public function testBadSelectByKey(): void
     {
-        $this->assertEmpty(self::$publisherRepository->findByKey("WRONG-PUBLISHER-NAME"));
+        $this->assertEmpty(self::$publisherRepository->findByQuery("WRONG-PUBLISHER-NAME"));
     }
     
     
@@ -92,7 +92,7 @@ final class PublisherRepositoryTest extends TestCase
         self::$publisherRepository->save($publisher2);
         self::$publisherRepository->save($publisher3);
         
-        $publishers = self::$publisherRepository->findAll();
+        $publishers = self::$publisherRepository->find();
         
         $this->assertEquals(count($publishers),4);
         $this->assertNotNull($publishers[1]);       

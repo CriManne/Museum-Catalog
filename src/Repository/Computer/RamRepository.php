@@ -77,7 +77,7 @@ class RamRepository extends GenericRepository {
      * @param string $key     The key to search
      * @return array     The rams selected
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT * FROM Ram WHERE modelName LIKE :key OR size LIKE :key";
 
         $key = '%' . $key . '%';
@@ -92,7 +92,7 @@ class RamRepository extends GenericRepository {
      * Select all rams
      * @return ?array   The rams selected, null if no result
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM Ram";
 
         $stmt = $this->pdo->query($query);

@@ -87,7 +87,7 @@ final class BookAuthorRepositoryTest extends TestCase
         self::$bookAuthorRepository->save($bookAuthor2);
         self::$bookAuthorRepository->save($bookAuthor3);
         
-        $bookAuthors = self::$bookAuthorRepository->findAll();
+        $bookAuthors = self::$bookAuthorRepository->find();
         
         $this->assertEquals(count((array)$bookAuthors),4);
         $this->assertNotNull($bookAuthors[1]);       

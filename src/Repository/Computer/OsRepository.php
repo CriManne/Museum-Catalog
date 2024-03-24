@@ -76,7 +76,7 @@ class OsRepository extends GenericRepository {
      * @param string $key  The key to search 
      * @return array  The selected oss
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT * FROM Os WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
@@ -91,7 +91,7 @@ class OsRepository extends GenericRepository {
      * Select all os
      * @return ?array   The list of os, null if no result
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM Os";
 
         $stmt = $this->pdo->query($query);

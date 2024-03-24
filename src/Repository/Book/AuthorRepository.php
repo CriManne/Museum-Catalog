@@ -60,7 +60,7 @@ class AuthorRepository extends GenericRepository {
      * @param string $key  The key to search
      * @return array  The selected Authors
      */
-    public function findByKey(string $key): array {
+    public function findByQuery(string $key): array {
         $query = "SELECT * FROM Author WHERE 
         Concat(firstname,' ',lastname) LIKE :key OR 
         Concat(lastname,' ',firstname) = :key";
@@ -77,7 +77,7 @@ class AuthorRepository extends GenericRepository {
      * Select all authors
      * @return ?array   All the authors, null if author table is empty
      */
-    public function findAll(): ?array {
+    public function find(): ?array {
         $query = "SELECT * FROM Author";
 
         $stmt = $this->pdo->query($query);
