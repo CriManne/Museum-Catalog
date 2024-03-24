@@ -108,7 +108,7 @@ final class MagazineRepositoryTest extends TestCase
         self::$magazineRepository->insert($magazine2);
         self::$magazineRepository->insert($magazine3);
         
-        $magazines = self::$magazineRepository->selectAll();
+        $magazines = self::$magazineRepository->findAll();
         
         $this->assertEquals(count($magazines),4);
         $this->assertNotNull($magazines[1]);       

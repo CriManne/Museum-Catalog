@@ -152,7 +152,7 @@ class BookRepository extends GenericRepository {
      * Select all books
      * @return ?array   All books, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Book b
             INNER JOIN GenericObject g ON g.id = b.objectId";
 

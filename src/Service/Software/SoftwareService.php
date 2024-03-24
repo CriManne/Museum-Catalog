@@ -74,8 +74,8 @@ class SoftwareService {
      * Select all
      * @return array All the Software(s)
      */
-    public function selectAll(): array {
-        return $this->softwareRepository->selectall();
+    public function findAll(): array {
+        return $this->softwareRepository->findAll();
     }
 
     /**

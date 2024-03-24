@@ -92,7 +92,7 @@ final class PublisherRepositoryTest extends TestCase
         self::$publisherRepository->insert($publisher2);
         self::$publisherRepository->insert($publisher3);
         
-        $publishers = self::$publisherRepository->selectAll();
+        $publishers = self::$publisherRepository->findAll();
         
         $this->assertEquals(count($publishers),4);
         $this->assertNotNull($publishers[1]);       

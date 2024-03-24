@@ -156,7 +156,7 @@ class ComputerRepository extends GenericRepository {
      * Select all computers
      * @return ?array   All computers, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Computer b
             INNER JOIN GenericObject g ON g.id = b.objectId";
 

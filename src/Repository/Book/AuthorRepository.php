@@ -77,7 +77,7 @@ class AuthorRepository extends GenericRepository {
      * Select all authors
      * @return ?array   All the authors, null if author table is empty
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Author";
 
         $stmt = $this->pdo->query($query);

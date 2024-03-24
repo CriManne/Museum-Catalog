@@ -92,7 +92,7 @@ class CpuRepository extends GenericRepository {
      * Select all cpus
      * @return ?array   The cpus selected, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Cpu";
 
         $stmt = $this->pdo->query($query);

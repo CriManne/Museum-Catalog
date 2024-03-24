@@ -136,7 +136,7 @@ class PeripheralRepository extends GenericRepository {
      * Select all peripherals
      * @return ?array   All peripherals, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Peripheral p
             INNER JOIN GenericObject g ON g.id = p.objectId";
 

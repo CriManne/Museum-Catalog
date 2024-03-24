@@ -74,8 +74,8 @@ class SupportTypeService {
      * Select all
      * @return array All the supptype
      */
-    public function selectAll(): array {
-        return $this->supportTypeRepository->selectAll();
+    public function findAll(): array {
+        return $this->supportTypeRepository->findAll();
     }
 
     /**

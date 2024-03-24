@@ -74,8 +74,8 @@ class MagazineService {
      * Select all
      * @return array All the magazines
      */
-    public function selectAll(): array {
-        return $this->magazineRepository->selectAll();
+    public function findAll(): array {
+        return $this->magazineRepository->findAll();
     }
 
     /**

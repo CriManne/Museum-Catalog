@@ -142,7 +142,7 @@ class MagazineRepository extends GenericRepository {
      * Select all magazines
      * @return ?array   All magazines, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Magazine b
             INNER JOIN GenericObject g ON g.id = b.objectId";
 

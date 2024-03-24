@@ -91,7 +91,7 @@ class SoftwareTypeRepository extends GenericRepository {
      * Select all 
      * @return ?array   The software types selected, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM SoftwareType";
 
         $stmt = $this->pdo->query($query);

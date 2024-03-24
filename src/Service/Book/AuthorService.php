@@ -54,8 +54,8 @@ class AuthorService {
      * Select all
      * @return array All the authors
      */
-    public function selectAll(): array {
-        return $this->authorRepository->selectAll();
+    public function findAll(): array {
+        return $this->authorRepository->findAll();
     }
 
     /**

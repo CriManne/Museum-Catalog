@@ -91,7 +91,7 @@ class OsRepository extends GenericRepository {
      * Select all os
      * @return ?array   The list of os, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Os";
 
         $stmt = $this->pdo->query($query);

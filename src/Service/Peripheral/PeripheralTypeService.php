@@ -74,8 +74,8 @@ class PeripheralTypeService {
      * Select all
      * @return array All the ptype
      */
-    public function selectAll(): array {
-        return $this->peripheralTypeRepository->selectAll();
+    public function findAll(): array {
+        return $this->peripheralTypeRepository->findAll();
     }
 
     /**

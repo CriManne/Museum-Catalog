@@ -74,7 +74,7 @@ final class AuthorRepositoryTest extends TestCase
         self::$authorRepository->insert($author2);
         self::$authorRepository->insert($author3);
         
-        $authors = self::$authorRepository->selectAll();
+        $authors = self::$authorRepository->findAll();
         
         $this->assertEquals(count($authors),4);
         $this->assertNotNull($authors[1]);       

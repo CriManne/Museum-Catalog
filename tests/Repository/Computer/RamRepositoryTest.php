@@ -89,7 +89,7 @@ final class RamRepositoryTest extends TestCase
         self::$ramRepository->insert($ram2);
         self::$ramRepository->insert($ram3);
         
-        $rams = self::$ramRepository->selectAll();
+        $rams = self::$ramRepository->findAll();
         
         $this->assertEquals(count($rams),4);
         $this->assertNotNull($rams[1]);       

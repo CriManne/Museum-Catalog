@@ -143,7 +143,7 @@ class SoftwareRepository extends GenericRepository {
      * Select all software
      * @return ?array   All software, null if no results
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Software s
             INNER JOIN GenericObject g ON g.id = s.objectId";
 

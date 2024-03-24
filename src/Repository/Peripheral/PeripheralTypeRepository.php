@@ -91,7 +91,7 @@ class PeripheralTypeRepository extends GenericRepository {
      * Select all p.type
      * @return ?array   All the p.types, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM PeripheralType";
 
         $stmt = $this->pdo->query($query);

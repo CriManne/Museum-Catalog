@@ -106,7 +106,7 @@ class ArtifactSearchEngine {
             if ($query) {
                 $unmappedResult = $artifactService->selectByKey($query);
             } else {
-                $unmappedResult = $artifactService->selectAll();
+                $unmappedResult = $artifactService->findAll();
             }
             if (count($unmappedResult) > 0) {
 

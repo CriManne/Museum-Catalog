@@ -92,7 +92,7 @@ class SupportTypeRepository extends GenericRepository {
      * Select all
      * @return ?array   The support types selected, null if no results;
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM SupportType";
 
         $stmt = $this->pdo->query($query);

@@ -74,8 +74,8 @@ class PublisherService {
      * Select all
      * @return array All the publisher
      */
-    public function selectAll(): array {
-        return $this->publisherRepository->selectAll();
+    public function findAll(): array {
+        return $this->publisherRepository->findAll();
     }
 
     /**

@@ -86,7 +86,7 @@ final class CpuRepositoryTest extends TestCase
         self::$cpuRepository->insert($cpu2);
         self::$cpuRepository->insert($cpu3);
         
-        $cpus = self::$cpuRepository->selectAll();
+        $cpus = self::$cpuRepository->findAll();
         
         $this->assertEquals(count($cpus),4);
         $this->assertNotNull($cpus[1]);       

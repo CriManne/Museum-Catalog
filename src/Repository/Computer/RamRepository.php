@@ -92,7 +92,7 @@ class RamRepository extends GenericRepository {
      * Select all rams
      * @return ?array   The rams selected, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Ram";
 
         $stmt = $this->pdo->query($query);

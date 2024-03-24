@@ -92,7 +92,7 @@ class PublisherRepository extends GenericRepository {
      * Select all publishers
      * @return ?array   The selected publishers, null if no result
      */
-    public function selectAll(): ?array {
+    public function findAll(): ?array {
         $query = "SELECT * FROM Publisher";
 
         $stmt = $this->pdo->query($query);

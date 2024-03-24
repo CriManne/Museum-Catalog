@@ -95,7 +95,7 @@ final class OsRepositoryTest extends TestCase
         self::$osRepository->insert($os2);
         self::$osRepository->insert($os3);
         
-        $oss = self::$osRepository->selectAll();
+        $oss = self::$osRepository->findAll();
         
         $this->assertEquals(count($oss),4);
         $this->assertNotNull($oss[1]);       

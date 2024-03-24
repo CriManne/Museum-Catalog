@@ -149,7 +149,7 @@ final class ComputerRepositoryTest extends TestCase
         self::$computerRepository->insert($computer2);
         self::$computerRepository->insert($computer3);
         
-        $computers = self::$computerRepository->selectAll();
+        $computers = self::$computerRepository->findAll();
         
         $this->assertEquals(count($computers),4);
         $this->assertNotNull($computers[1]);       

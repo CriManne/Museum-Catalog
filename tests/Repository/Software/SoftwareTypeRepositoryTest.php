@@ -93,7 +93,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
         self::$softwareTypeRepository->insert($softwareType2);
         self::$softwareTypeRepository->insert($softwareType3);
         
-        $softwareTypes = self::$softwareTypeRepository->selectAll();
+        $softwareTypes = self::$softwareTypeRepository->findAll();
         
         $this->assertEquals(count($softwareTypes),4);
         $this->assertNotNull($softwareTypes[1]);       

@@ -74,8 +74,8 @@ class SoftwareTypeService {
      * Select all
      * @return array All the softtype
      */
-    public function selectAll(): array {
-        return $this->softwareTypeRepository->selectAll();
+    public function findAll(): array {
+        return $this->softwareTypeRepository->findAll();
     }
 
     /**

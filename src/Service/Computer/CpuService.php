@@ -74,8 +74,8 @@ class CpuService {
      * Select all
      * @return array All the cpus
      */
-    public function selectAll(): array {
-        return $this->cpuRepository->selectAll();
+    public function findAll(): array {
+        return $this->cpuRepository->findAll();
     }
 
     /**

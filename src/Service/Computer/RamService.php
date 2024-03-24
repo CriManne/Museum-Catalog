@@ -74,8 +74,8 @@ class RamService {
      * Select all
      * @return array All the rams 
      */
-    public function selectAll(): array {
-        return $this->ramRepository->selectAll();
+    public function findAll(): array {
+        return $this->ramRepository->findAll();
     }
 
     /**

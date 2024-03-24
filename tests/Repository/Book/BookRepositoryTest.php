@@ -128,7 +128,7 @@ final class BookRepositoryTest extends TestCase
         self::$bookRepository->insert($book2);
         self::$bookRepository->insert($book3);
         
-        $books = self::$bookRepository->selectAll();
+        $books = self::$bookRepository->findAll();
         
         $this->assertEquals(count($books),4);
         $this->assertNotNull($books[1]);       

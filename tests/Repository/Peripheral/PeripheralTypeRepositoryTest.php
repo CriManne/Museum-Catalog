@@ -93,7 +93,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
         self::$peripheralTypeRepository->insert($peripheralType2);
         self::$peripheralTypeRepository->insert($peripheralType3);
         
-        $peripheralTypes = self::$peripheralTypeRepository->selectAll();
+        $peripheralTypes = self::$peripheralTypeRepository->findAll();
         
         $this->assertEquals(count($peripheralTypes),4);
         $this->assertNotNull($peripheralTypes[1]);       

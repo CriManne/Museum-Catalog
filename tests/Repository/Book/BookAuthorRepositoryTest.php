@@ -87,7 +87,7 @@ final class BookAuthorRepositoryTest extends TestCase
         self::$bookAuthorRepository->insert($bookAuthor2);
         self::$bookAuthorRepository->insert($bookAuthor3);
         
-        $bookAuthors = self::$bookAuthorRepository->selectAll();
+        $bookAuthors = self::$bookAuthorRepository->findAll();
         
         $this->assertEquals(count((array)$bookAuthors),4);
         $this->assertNotNull($bookAuthors[1]);       

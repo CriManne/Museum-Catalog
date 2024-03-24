@@ -92,7 +92,7 @@ final class SupportTypeRepositoryTest extends TestCase
         self::$supportTypeRepository->insert($supportType2);
         self::$supportTypeRepository->insert($supportType3);
         
-        $supportTypes = self::$supportTypeRepository->selectAll();
+        $supportTypes = self::$supportTypeRepository->findAll();
         
         $this->assertEquals(count($supportTypes),4);
         $this->assertNotNull($supportTypes[1]);       

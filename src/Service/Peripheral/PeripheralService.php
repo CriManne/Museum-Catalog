@@ -75,8 +75,8 @@ class PeripheralService {
      * Select all
      * @return array All the pheriperals
      */
-    public function selectAll(): array {
-        return $this->peripheralRepository->selectAll();
+    public function findAll(): array {
+        return $this->peripheralRepository->findAll();
     }
 
     /**

@@ -106,7 +106,7 @@ final class PeripheralRepositoryTest extends TestCase
         self::$peripheralRepository->insert($peripheral2);
         self::$peripheralRepository->insert($peripheral3);
 
-        $peripherals = self::$peripheralRepository->selectAll();
+        $peripherals = self::$peripheralRepository->findAll();
 
         $this->assertEquals(count($peripherals),4);
         $this->assertNotNull($peripherals[1]);

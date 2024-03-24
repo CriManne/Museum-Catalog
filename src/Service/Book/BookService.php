@@ -78,8 +78,8 @@ class BookService {
      * Select all
      * @return array All the books
      */
-    public function selectAll(): array {
-        return $this->bookRepository->selectAll();
+    public function findAll(): array {
+        return $this->bookRepository->findAll();
     }
 
     /**

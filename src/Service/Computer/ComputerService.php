@@ -74,8 +74,8 @@ class ComputerService {
      * Select all
      * @return array All of the computers
      */
-    public function selectAll(): array {
-        return $this->computerRepository->selectAll();
+    public function findAll(): array {
+        return $this->computerRepository->findAll();
     }
 
     /**

@@ -33,7 +33,7 @@ class GetController extends ControllerUtil implements ControllerInterface {
         try {
             $params = $request->getQueryParams();
 
-            $users = $this->userService->selectAll(
+            $users = $this->userService->findAll(
                 isset($params['page']) ? intval($params['page']) : null,
                 isset($params['itemsPerPage']) ? intval($params['itemsPerPage']) : null,
                 $params['query'] ?? null
