@@ -9,7 +9,7 @@ use PDO;
 use PDOStatement;
 use PHPUnit\Framework\TestCase;
 
-class BaseServiceTest extends TestCase
+abstract class BaseServiceTest extends TestCase
 {
     public PDO $pdo;
     public PDOStatement $sth;

@@ -56,7 +56,7 @@ final class SearchComponentEngineTest extends TestCase
 
     public function testGoodSelectSpecificByIdAndCategory():void{
         $obj = self::$componentSearchEngine->selectSpecificByIdAndCategory(1,"App\\Service\\Computer\\CpuService");
-        $this->assertEquals("4GHZ",$obj->Speed);
+        $this->assertEquals("4GHZ",$obj->speed);
     }
 
     public function testBadSelectSpecificByIdAndCategory(): void

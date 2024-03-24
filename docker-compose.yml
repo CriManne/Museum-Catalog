@@ -10,6 +10,8 @@ services:
       context: .
       dockerfile: Dockerfile
     command: bash -c "composer install; php -S 0.0.0.0:80 -t public"
+    env_file:
+      - .env
 
   database:
     image: mysql

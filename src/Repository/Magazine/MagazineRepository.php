@@ -213,7 +213,7 @@ class MagazineRepository extends GenericRepository {
             $stmt->execute();
 
             $query = "DELETE FROM GenericObject
-            WHERE objectId = :objectId";
+            WHERE id = :objectId";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId);
             $stmt->execute();

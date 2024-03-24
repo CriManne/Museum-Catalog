@@ -154,8 +154,8 @@ final class SearchArtifactEngineTest extends TestCase
     public function testGoodSelectSpecificByIdAndCategory(): void
     {
         $obj = self::$artifactSearchEngine->selectSpecificByIdAndCategory("OBJ1","Computer");
-        $this->assertEquals(2018,$obj->Year);
-        $this->assertEquals("Computer1", $obj->ModelName);
+        $this->assertEquals(2018,$obj->year);
+        $this->assertEquals("Computer1", $obj->modelName);
     }
 
     public function testBadSelectSpecificByIdAndCategory(): void

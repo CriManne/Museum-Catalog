@@ -168,12 +168,12 @@ class ArtifactSearchEngine {
             'Ram' => $obj->ram->modelName . ' ' . $obj->ram->size
         ];
 
-        if(isset($obj->HddSize)){
-            $description["Hdd size"] = $obj->HddSize;
+        if(isset($obj->hddSize)){
+            $description["Hdd size"] = $obj->hddSize;
         }
 
-        if(isset($obj->Os)){
-            $description["Os"] = $obj->Os->Name;
+        if(isset($obj->os)){
+            $description["Os"] = $obj->os->name;
         }
 
         return new GenericArtifactResponse(

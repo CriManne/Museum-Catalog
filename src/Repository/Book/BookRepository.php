@@ -181,7 +181,7 @@ class BookRepository extends GenericRepository {
             SET note = :note,
             url = :url,
             tag = :tag
-            WHERE objectId = :objectId";
+            WHERE id = :objectId";
 
         try {
             $this->pdo->beginTransaction();
@@ -240,7 +240,7 @@ class BookRepository extends GenericRepository {
 
             $query =
                 "DELETE FROM GenericObject
-            WHERE objectId = :objectId;";
+            WHERE id = :objectId;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId);
             $stmt->execute();

@@ -24,15 +24,11 @@ return [
         $engine->addFolder('error', $c->get('view_path') . '/error');
         return $engine;
     },
-    'authentication' => [
-        'username' => 'test',
-        'password' => 'password'
-    ],
-    'dsn' => 'mysql:host=database;',
-    'production_db' => 'dbname=museum;',
-    'username' => 'root',
+    'dsn' => getenv('DB_DSN'),
+    'production_db' => getenv('DB_PROD'),
+    'username' => getenv('DB_USERNAME'),
+    'psw' => getenv('DB_PASSWORD'),
     'db_dump' => file_get_contents("./sql/create.sql"),
-    'psw' => 'root',
     'PDO' => function (ContainerInterface $c) {
         try {
             return new PDO(

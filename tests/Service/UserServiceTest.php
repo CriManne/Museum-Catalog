@@ -31,6 +31,7 @@ final class UserServiceTest extends BaseServiceTest
 
         $this->sampleResponse = [
             "email"=>'elon@gmail.com',
+            "password"=>'password',
             "firstname"=>'Elon',
             "lastname"=>'Musk',
             "privilege"=>0
@@ -41,6 +42,7 @@ final class UserServiceTest extends BaseServiceTest
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleResponse);
+        $this->sth->method('fetchAll')->willReturn([$this->sampleResponse]);
         $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
         $this->userService->insert($user);
     }
@@ -49,6 +51,7 @@ final class UserServiceTest extends BaseServiceTest
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleResponse);
+        $this->sth->method('fetchAll')->willReturn([$this->sampleResponse]);
         $this->assertEquals("Elon",$this->userService->selectById("testemail@gmail.com")->firstname);
     }
 

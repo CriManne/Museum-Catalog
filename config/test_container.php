@@ -3,14 +3,14 @@
 declare(strict_types=1);
 
 use App\Exception\RepositoryException;
-use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
 return [
-    'dsn' => 'mysql:host=database;',
-    'test_db' => 'dbname=museum_test;',
-    'username' => 'root',
-    'psw' => '',
+    'dsn' => getenv('DB_DSN'),
+    'test_db' => getenv('DB_TEST'),
+    'username' => getenv('DB_USERNAME'),
+    'psw' => getenv('DB_PASSWORD'),
+    'db_dump' => file_get_contents("./sql/create.sql"),
     'PDO' => function (ContainerInterface $c) {
         try {
             return new PDO(
