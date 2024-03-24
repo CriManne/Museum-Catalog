@@ -67,15 +67,15 @@ final class BookServiceTest extends BaseServiceTest
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->bookRepository->method('selectById')->willReturn($this->sampleObject);
-        $this->assertEquals("1984",$this->bookService->selectById("ObjID")->title);
+        $this->bookRepository->method('findById')->willReturn($this->sampleObject);
+        $this->assertEquals("1984",$this->bookService->findById("ObjID")->title);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->bookRepository->method('selectById')->willReturn(null);
-        $this->bookService->selectById("ObjID25");
+        $this->bookRepository->method('findById')->willReturn(null);
+        $this->bookService->findById("ObjID25");
     }
     
     public function testBadSelectBytitle(): void
@@ -88,7 +88,7 @@ final class BookServiceTest extends BaseServiceTest
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);                
-        $this->bookRepository->method('selectById')->willReturn(null);
+        $this->bookRepository->method('findById')->willReturn(null);
         $this->bookService->update($this->sampleObject);
     }
     
@@ -96,7 +96,7 @@ final class BookServiceTest extends BaseServiceTest
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
         
-        $this->bookRepository->method('selectById')->willReturn(null);
+        $this->bookRepository->method('findById')->willReturn(null);
         
         $this->bookService->delete("ObjID99");
     }       

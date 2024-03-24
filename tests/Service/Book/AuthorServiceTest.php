@@ -31,21 +31,21 @@ final class AuthorServiceTest extends BaseServiceTest
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->authorService->selectById(1)->firstname,"Mario");        
+        $this->assertEquals($this->authorService->findById(1)->firstname,"Mario");        
     }
         
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Mario",$this->authorService->selectById(1)->firstname);
+        $this->assertEquals("Mario",$this->authorService->findById(1)->firstname);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->authorService->selectById(2);
+        $this->authorService->findById(2);
     }
     
     //UPDATE TESTS

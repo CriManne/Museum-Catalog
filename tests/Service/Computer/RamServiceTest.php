@@ -31,7 +31,7 @@ final class RamServiceTest extends BaseServiceTest
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->ramService->selectById(1)->modelName,"Ram 1.0");
+        $this->assertEquals($this->ramService->findById(1)->modelName,"Ram 1.0");
     }
     
     public function testBadInsert():void{
@@ -46,14 +46,14 @@ final class RamServiceTest extends BaseServiceTest
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Ram 1.0",$this->ramService->selectById(1)->modelName);
+        $this->assertEquals("Ram 1.0",$this->ramService->findById(1)->modelName);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->ramService->selectById(2);
+        $this->ramService->findById(2);
     }
     
     public function testBadSelectByName(): void

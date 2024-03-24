@@ -44,7 +44,7 @@ class UserService {
      * @throws \AbstractRepo\Exceptions\RepositoryException
      * @throws \ReflectionException
      */
-    public function selectById(string $email): User {
+    public function findById(string $email): User {
         $user = $this->userRepository->findById($email);
         if (is_null($user)) throw new ServiceException("User not found");
 

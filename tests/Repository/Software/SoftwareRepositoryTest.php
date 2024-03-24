@@ -101,7 +101,7 @@ final class SoftwareRepositoryTest extends TestCase
         
         self::$softwareRepository->insert($software);
 
-        $this->assertEquals(self::$softwareRepository->selectById("objID2")->title,"Game");
+        $this->assertEquals(self::$softwareRepository->findById("objID2")->title,"Game");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -111,12 +111,12 @@ final class SoftwareRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$softwareRepository->selectById("objID"));
+        $this->assertNotNull(self::$softwareRepository->findById("objID"));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$softwareRepository->selectById("WRONGID"));
+        $this->assertNull(self::$softwareRepository->findById("WRONGID"));
     }       
     
     public function testGoodSelectAll():void{
@@ -172,7 +172,7 @@ final class SoftwareRepositoryTest extends TestCase
         
         self::$softwareRepository->update($software);
         
-        $this->assertEquals("NEW TITLE",self::$softwareRepository->selectById("objID")->title);
+        $this->assertEquals("NEW TITLE",self::$softwareRepository->findById("objID")->title);
     }
     
     //DELETE TESTS
@@ -180,7 +180,7 @@ final class SoftwareRepositoryTest extends TestCase
         
         self::$softwareRepository->delete("objID");
         
-        $this->assertNull(self::$softwareRepository->selectById("objID"));
+        $this->assertNull(self::$softwareRepository->findById("objID"));
     }
 
     public static function tearDownAfterClass():void{

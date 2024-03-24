@@ -84,7 +84,7 @@ class ComputerRepository extends GenericRepository {
      * @param string $objectId  The object id to select
      * @return ?Computer    The computer selected, null if not found
      */
-    public function selectById(string $objectId): ?Computer {
+    public function findById(string $objectId): ?Computer {
         $query = "SELECT * FROM Computer b 
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE g.id = :objectId";
@@ -252,15 +252,15 @@ class ComputerRepository extends GenericRepository {
      */
     function returnMappedObject(array $rawComputer): Computer {
 
-        $os = isset($rawComputer["osId"]) ? $this->osRepository->selectById(intval($rawComputer["osId"])) : null;
+        $os = isset($rawComputer["osId"]) ? $this->osRepository->findById(intval($rawComputer["osId"])) : null;
 
         return new Computer(
             $rawComputer["objectId"],
             $rawComputer["modelName"],
             intval($rawComputer["year"]),
             $rawComputer["hddSize"] ?? null,
-            $this->cpuRepository->selectById(intval($rawComputer["cpuId"])),
-            $this->ramRepository->selectById(intval($rawComputer["ramId"])),
+            $this->cpuRepository->findById(intval($rawComputer["cpuId"])),
+            $this->ramRepository->findById(intval($rawComputer["ramId"])),
             $os,
             $rawComputer["note"] ?? null,
             $rawComputer["url"] ?? null,

@@ -44,18 +44,18 @@ final class BookAuthorRepositoryTest extends TestCase
 
         self::$bookAuthorRepository->insert($bookAuthor);
         
-        $this->assertEquals(self::$bookAuthorRepository->selectById("BOOK2",1)->bookId,"BOOK2");
+        $this->assertEquals(self::$bookAuthorRepository->findById("BOOK2",1)->bookId,"BOOK2");
     }
     
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$bookAuthorRepository->selectById("BOOK1",1));
+        $this->assertNotNull(self::$bookAuthorRepository->findById("BOOK1",1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$bookAuthorRepository->selectById("BOOK3",1));
+        $this->assertNull(self::$bookAuthorRepository->findById("BOOK3",1));
     }
 
     public function testGoodSelectByBookId(): void

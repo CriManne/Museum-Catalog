@@ -95,7 +95,7 @@ final class BookRepositoryTest extends TestCase
         
         self::$bookRepository->insert($book);
 
-        $this->assertEquals(self::$bookRepository->selectById("objID2")->title,"2001");
+        $this->assertEquals(self::$bookRepository->findById("objID2")->title,"2001");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -106,12 +106,12 @@ final class BookRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$bookRepository->selectById("objID"));
+        $this->assertNotNull(self::$bookRepository->findById("objID"));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$bookRepository->selectById("WRONGID"));
+        $this->assertNull(self::$bookRepository->findById("WRONGID"));
     }       
     
     public function testGoodSelectAll():void{
@@ -163,7 +163,7 @@ final class BookRepositoryTest extends TestCase
         
         self::$bookRepository->update($book);
         
-        $this->assertEquals("NEW TITLE",self::$bookRepository->selectById("objID")->title);
+        $this->assertEquals("NEW TITLE",self::$bookRepository->findById("objID")->title);
     }
     
     //DELETE TESTS
@@ -171,7 +171,7 @@ final class BookRepositoryTest extends TestCase
         
         self::$bookRepository->delete("objID");
         
-        $this->assertNull(self::$bookRepository->selectById("objID"));
+        $this->assertNull(self::$bookRepository->findById("objID"));
     }
 
     public static function tearDownAfterClass():void{

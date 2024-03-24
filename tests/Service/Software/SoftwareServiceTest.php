@@ -62,15 +62,15 @@ final class SoftwareServiceTest extends BaseServiceTest
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->softwareRepository->method('selectById')->willReturn($this->sampleObject);
-        $this->assertEquals("Paint",$this->softwareService->selectById("ObjID")->title);
+        $this->softwareRepository->method('findById')->willReturn($this->sampleObject);
+        $this->assertEquals("Paint",$this->softwareService->findById("ObjID")->title);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->softwareRepository->method('selectById')->willReturn(null);
-        $this->softwareService->selectById("ObjID25");
+        $this->softwareRepository->method('findById')->willReturn(null);
+        $this->softwareService->findById("ObjID25");
     }
     
     public function testBadSelectByName(): void
@@ -83,7 +83,7 @@ final class SoftwareServiceTest extends BaseServiceTest
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);                
-        $this->softwareRepository->method('selectById')->willReturn(null);
+        $this->softwareRepository->method('findById')->willReturn(null);
         $this->softwareService->update($this->sampleObject);
     }
     
@@ -91,7 +91,7 @@ final class SoftwareServiceTest extends BaseServiceTest
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
         
-        $this->softwareRepository->method('selectById')->willReturn(null);
+        $this->softwareRepository->method('findById')->willReturn(null);
         
         $this->softwareService->delete("ObjID99");
     }       

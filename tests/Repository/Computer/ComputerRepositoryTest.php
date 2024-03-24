@@ -103,7 +103,7 @@ final class ComputerRepositoryTest extends TestCase
         
         self::$computerRepository->insert($computer);
 
-        $this->assertEquals(self::$computerRepository->selectById("objID2")->modelName,"Computer 2");
+        $this->assertEquals(self::$computerRepository->findById("objID2")->modelName,"Computer 2");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -114,12 +114,12 @@ final class ComputerRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$computerRepository->selectById("objID"));
+        $this->assertNotNull(self::$computerRepository->findById("objID"));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$computerRepository->selectById("WRONGID"));
+        $this->assertNull(self::$computerRepository->findById("WRONGID"));
     }     
     
     public function testGoodSelectByKey():void{
@@ -173,7 +173,7 @@ final class ComputerRepositoryTest extends TestCase
         
         self::$computerRepository->update($computer);
         
-        $this->assertEquals("NEW MODELNAME",self::$computerRepository->selectById("objID")->modelName);
+        $this->assertEquals("NEW MODELNAME",self::$computerRepository->findById("objID")->modelName);
     }
     
     //DELETE TESTS
@@ -181,7 +181,7 @@ final class ComputerRepositoryTest extends TestCase
         
         self::$computerRepository->delete("objID");
         
-        $this->assertNull(self::$computerRepository->selectById("objID"));
+        $this->assertNull(self::$computerRepository->findById("objID"));
     }
 
     public static function tearDownAfterClass():void{

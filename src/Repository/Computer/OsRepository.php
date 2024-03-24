@@ -40,7 +40,7 @@ class OsRepository extends GenericRepository {
      * @param int $id     The os id to select
      * @return ?Os  The os selected, null if not found
      */
-    public function selectById(int $id): ?Os {
+    public function findById(int $id): ?Os {
         $query = "SELECT * FROM Os WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);

@@ -42,7 +42,7 @@ final class OsRepositoryTest extends TestCase
 
         self::$osRepository->insert($os);
 
-        $selectResult = self::$osRepository->selectById(2);
+        $selectResult = self::$osRepository->findById(2);
 
         $this->assertEquals($os->name,$selectResult->name);
     }
@@ -58,12 +58,12 @@ final class OsRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$osRepository->selectById(1));
+        $this->assertNotNull(self::$osRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$osRepository->selectById(3));
+        $this->assertNull(self::$osRepository->findById(3));
     }
     
     public function testGoodSelectByName(): void
@@ -107,7 +107,7 @@ final class OsRepositoryTest extends TestCase
         
         self::$osRepository->update($os);
         
-        $this->assertEquals("Linux",self::$osRepository->selectById(1)->name);
+        $this->assertEquals("Linux",self::$osRepository->findById(1)->name);
     }
     
     //DELETE TESTS
@@ -115,7 +115,7 @@ final class OsRepositoryTest extends TestCase
         
         self::$osRepository->delete(1);
         
-        $this->assertNull(self::$osRepository->selectById(1));
+        $this->assertNull(self::$osRepository->findById(1));
     }
     
     public static function tearDownAfterClass():void{

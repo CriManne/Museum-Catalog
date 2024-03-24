@@ -41,7 +41,7 @@ class RamRepository extends GenericRepository {
      * @param int $id    The ram id to select
      * @return ?Ram     The selected ram, null if not found
      */
-    public function selectById(int $id): ?Ram {
+    public function findById(int $id): ?Ram {
         $query = "SELECT * FROM Ram WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);

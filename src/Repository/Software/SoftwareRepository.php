@@ -77,7 +77,7 @@ class SoftwareRepository extends GenericRepository {
      * @param string $objectId  The object id to select
      * @return ?Software    The software selected, null if not found
      */
-    public function selectById(string $objectId): ?Software {
+    public function findById(string $objectId): ?Software {
         $query = "SELECT * FROM Software s
             INNER JOIN GenericObject g ON g.id = s.objectId 
             WHERE g.id = :objectId";
@@ -235,9 +235,9 @@ class SoftwareRepository extends GenericRepository {
         return new Software(
             $rawsoftware["objectId"],
             $rawsoftware["title"],
-            $this->osRepository->selectById(intval($rawsoftware["osId"])),
-            $this->softwareTypeRepository->selectById(intval($rawsoftware["softwareTypeId"])),
-            $this->supportTypeRepository->selectById(intval($rawsoftware["supportTypeId"])),
+            $this->osRepository->findById(intval($rawsoftware["osId"])),
+            $this->softwareTypeRepository->findById(intval($rawsoftware["softwareTypeId"])),
+            $this->supportTypeRepository->findById(intval($rawsoftware["supportTypeId"])),
             $rawsoftware["note"] ?? null,
             $rawsoftware["url"] ?? null,
             $rawsoftware["tag"] ?? null,

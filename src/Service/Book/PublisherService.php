@@ -37,8 +37,8 @@ class PublisherService {
      * @return Publisher The publisher selected
      * @throws ServiceException If the publisher is not found
      */
-    public function selectById(int $id): Publisher {
-        $publisher = $this->publisherRepository->selectById($id);
+    public function findById(int $id): Publisher {
+        $publisher = $this->publisherRepository->findById($id);
         if (is_null($publisher)) {
             throw new ServiceException("Publisher not found");
         }
@@ -85,7 +85,7 @@ class PublisherService {
      * @throws RepositoryException If the update fails
      */
     public function update(Publisher $p): void {
-        $publisher = $this->publisherRepository->selectById($p->id);
+        $publisher = $this->publisherRepository->findById($p->id);
         if (is_null($publisher)) {
             throw new ServiceException("Publisher not found!");
         }
@@ -100,7 +100,7 @@ class PublisherService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(int $id): void {
-        $p = $this->publisherRepository->selectById($id);
+        $p = $this->publisherRepository->findById($id);
         if (is_null($p)) {
             throw new ServiceException("Publisher not found!");
         }

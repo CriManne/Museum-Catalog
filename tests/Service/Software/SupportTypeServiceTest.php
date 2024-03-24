@@ -42,14 +42,14 @@ final class SupportTypeServiceTest extends BaseServiceTest
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("CD-ROM",$this->supportTypeService->selectById(1)->name);
+        $this->assertEquals("CD-ROM",$this->supportTypeService->findById(1)->name);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->supportTypeService->selectById(2);
+        $this->supportTypeService->findById(2);
     }
     
     public function testBadSelectByName(): void

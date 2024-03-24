@@ -41,7 +41,7 @@ class SupportTypeRepository extends GenericRepository {
      * @param int $id    The id to select
      * @return ?SupportType     The support type selected, null if not found
      */
-    public function selectById(int $id): ?SupportType {
+    public function findById(int $id): ?SupportType {
         $query = "SELECT * FROM SupportType WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);

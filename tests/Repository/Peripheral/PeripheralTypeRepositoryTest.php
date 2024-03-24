@@ -42,7 +42,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
 
         self::$peripheralTypeRepository->insert($peripheralType);
 
-        $this->assertEquals(self::$peripheralTypeRepository->selectById(2)->name,"Keyboard");
+        $this->assertEquals(self::$peripheralTypeRepository->findById(2)->name,"Keyboard");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -56,12 +56,12 @@ final class PeripheralTypeRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$peripheralTypeRepository->selectById(1));
+        $this->assertNotNull(self::$peripheralTypeRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$peripheralTypeRepository->selectById(3));
+        $this->assertNull(self::$peripheralTypeRepository->findById(3));
     }
     
     public function testGoodSelectByName(): void
@@ -105,7 +105,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
         
         self::$peripheralTypeRepository->update($peripheralType);
         
-        $this->assertEquals("Keyboard",self::$peripheralTypeRepository->selectById(1)->name);
+        $this->assertEquals("Keyboard",self::$peripheralTypeRepository->findById(1)->name);
     }
     
     //DELETE TESTS
@@ -113,7 +113,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
         
         self::$peripheralTypeRepository->delete(1);
         
-        $this->assertNull(self::$peripheralTypeRepository->selectById(1));
+        $this->assertNull(self::$peripheralTypeRepository->findById(1));
     }
     
     public static function tearDownAfterClass():void{

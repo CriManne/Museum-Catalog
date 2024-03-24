@@ -48,7 +48,7 @@ class ArtifactSearchEngine {
 
             $artifactService = $this->container->get($artifactServicePath);
 
-            return $artifactService->selectById($objectId);
+            return $artifactService->findById($objectId);
         } catch (Exception | ServiceException) {
         }
         throw new ServiceException("Artifact with id [$objectId] in category [$category] not found!");
@@ -71,7 +71,7 @@ class ArtifactSearchEngine {
             $artifactService = $this->container->get($artifactServicePath);
 
             try {
-                $result = $artifactService->selectById($objectId);
+                $result = $artifactService->findById($objectId);
 
                 return $this->$categoryName($result);
             } catch (ServiceException) {

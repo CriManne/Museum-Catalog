@@ -56,7 +56,7 @@ class AddController extends ControllerUtil implements ControllerInterface {
             );
         }
 
-        $user = $this->userService->selectById($_SESSION['user_email']);
+        $user = $this->userService->findById($_SESSION['user_email']);
 
         $this->pages_log->info("Successfull get page", [__CLASS__, $_SESSION['user_email']]);        
         return new Response(

@@ -74,7 +74,7 @@ final class MagazineRepositoryTest extends TestCase
         
         self::$magazineRepository->insert($magazine);
 
-        $this->assertEquals(self::$magazineRepository->selectById("objID2")->title,"Magazine 2");
+        $this->assertEquals(self::$magazineRepository->findById("objID2")->title,"Magazine 2");
     }
 
     public function testBadInsert():void{        
@@ -86,12 +86,12 @@ final class MagazineRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$magazineRepository->selectById("objID"));
+        $this->assertNotNull(self::$magazineRepository->findById("objID"));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$magazineRepository->selectById("WRONGID"));
+        $this->assertNull(self::$magazineRepository->findById("WRONGID"));
     }       
     
     public function testGoodSelectAll():void{
@@ -147,7 +147,7 @@ final class MagazineRepositoryTest extends TestCase
         
         self::$magazineRepository->update($magazine);
         
-        $this->assertEquals("NEW TITLE",self::$magazineRepository->selectById("objID")->title);
+        $this->assertEquals("NEW TITLE",self::$magazineRepository->findById("objID")->title);
     }
     
     //DELETE TESTS
@@ -155,7 +155,7 @@ final class MagazineRepositoryTest extends TestCase
         
         self::$magazineRepository->delete("objID");
         
-        $this->assertNull(self::$magazineRepository->selectById("objID"));
+        $this->assertNull(self::$magazineRepository->findById("objID"));
     }
 
     public static function tearDownAfterClass():void{

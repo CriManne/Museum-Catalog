@@ -60,15 +60,15 @@ final class MagazineServiceTest extends BaseServiceTest
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->magazineRepository->method('selectById')->willReturn($this->sampleObject);
-        $this->assertEquals("Magazine title",$this->magazineService->selectById("ObjID")->title);
+        $this->magazineRepository->method('findById')->willReturn($this->sampleObject);
+        $this->assertEquals("Magazine title",$this->magazineService->findById("ObjID")->title);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->magazineRepository->method('selectById')->willReturn(null);
-        $this->magazineService->selectById("ObjID25");
+        $this->magazineRepository->method('findById')->willReturn(null);
+        $this->magazineService->findById("ObjID25");
     }
     
     public function testBadSelectByName(): void
@@ -81,7 +81,7 @@ final class MagazineServiceTest extends BaseServiceTest
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);                
-        $this->magazineRepository->method('selectById')->willReturn(null);
+        $this->magazineRepository->method('findById')->willReturn(null);
         $this->magazineService->update($this->sampleObject);
     }
     
@@ -89,7 +89,7 @@ final class MagazineServiceTest extends BaseServiceTest
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
         
-        $this->magazineRepository->method('selectById')->willReturn(null);
+        $this->magazineRepository->method('findById')->willReturn(null);
         
         $this->magazineService->delete("ObjID99");
     }       

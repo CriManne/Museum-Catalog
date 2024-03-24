@@ -37,8 +37,8 @@ class SupportTypeService {
      * @return SupportType The SupportType selected
      * @throws ServiceException If not found
      */
-    public function selectById(int $id): SupportType {
-        $supportType = $this->supportTypeRepository->selectById($id);
+    public function findById(int $id): SupportType {
+        $supportType = $this->supportTypeRepository->findById($id);
         if (is_null($supportType)) {
             throw new ServiceException("Support Type not found");
         }
@@ -85,7 +85,7 @@ class SupportTypeService {
      * @throws RepositoryException If the update fails
      */
     public function update(SupportType $s): void {
-        $supT = $this->supportTypeRepository->selectById($s->id);
+        $supT = $this->supportTypeRepository->findById($s->id);
         if (is_null($supT)) {
             throw new ServiceException("Support Type not found!");
         }
@@ -100,7 +100,7 @@ class SupportTypeService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(int $id): void {
-        $supportType = $this->supportTypeRepository->selectById($id);
+        $supportType = $this->supportTypeRepository->findById($id);
         if (is_null($supportType)) {
             throw new ServiceException("Support Type not found!");
         }

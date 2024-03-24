@@ -42,7 +42,7 @@ class BookAuthorRepository extends GenericRepository {
      * @param int $authorId    The author id
      * @return ?BookAuthor  The selected book author, null if not found
      */
-    public function selectById(string $bookId, int $authorId): ?BookAuthor {
+    public function findById(string $bookId, int $authorId): ?BookAuthor {
         $query = "SELECT * FROM BookAuthor WHERE bookId = :bookId AND authorId = :authorId";
 
         $stmt = $this->pdo->prepare($query);

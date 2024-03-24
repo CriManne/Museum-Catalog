@@ -30,7 +30,7 @@ final class OsServiceTest extends BaseServiceTest
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->osService->selectById(1)->name,"Windows");
+        $this->assertEquals($this->osService->findById(1)->name,"Windows");
     }
     
     public function testBadInsert():void{
@@ -45,14 +45,14 @@ final class OsServiceTest extends BaseServiceTest
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Windows",$this->osService->selectById(1)->name);
+        $this->assertEquals("Windows",$this->osService->findById(1)->name);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->osService->selectById(2);
+        $this->osService->findById(2);
     }
     
     public function testBadSelectByName(): void

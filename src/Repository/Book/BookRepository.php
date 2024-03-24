@@ -83,7 +83,7 @@ class BookRepository extends GenericRepository {
      * @param string $objectId  The object id to select
      * @return ?Book    The book selected, null if not found
      */
-    public function selectById(string $objectId): ?Book {
+    public function findById(string $objectId): ?Book {
         $query = "SELECT * FROM Book b 
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE g.id = :objectId";
@@ -281,14 +281,14 @@ class BookRepository extends GenericRepository {
         $authors = [];
         if ($bookAuthors) {
             foreach ($bookAuthors as $bookAuthor) {
-                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->authorId));
+                $authors[] = $this->authorRepository->findById(intval($bookAuthor->authorId));
             }
         }
 
         return new Book(
             $rawBook["objectId"],
             $rawBook["title"],
-            $this->publisherRepository->selectById(intval($rawBook["publisherId"])),
+            $this->publisherRepository->findById(intval($rawBook["publisherId"])),
             intval($rawBook["year"]),
             $authors,
             $rawBook["note"] ?? null,

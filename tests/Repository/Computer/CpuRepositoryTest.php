@@ -41,7 +41,7 @@ final class CpuRepositoryTest extends TestCase
 
         self::$cpuRepository->insert($cpu);
 
-        $this->assertEquals(self::$cpuRepository->selectById(2)->modelName,"Cpu 2.0");
+        $this->assertEquals(self::$cpuRepository->findById(2)->modelName,"Cpu 2.0");
     }
 
     //No bad insert test because the ModelName is not unique.
@@ -49,12 +49,12 @@ final class CpuRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$cpuRepository->selectById(1));
+        $this->assertNotNull(self::$cpuRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$cpuRepository->selectById(3));
+        $this->assertNull(self::$cpuRepository->findById(3));
     }
     
     public function testGoodSelectByName(): void
@@ -98,7 +98,7 @@ final class CpuRepositoryTest extends TestCase
         
         self::$cpuRepository->update($cpu);
         
-        $this->assertEquals("Cpu 2.0",self::$cpuRepository->selectById(1)->modelName);
+        $this->assertEquals("Cpu 2.0",self::$cpuRepository->findById(1)->modelName);
     }
     
     //DELETE TESTS
@@ -106,7 +106,7 @@ final class CpuRepositoryTest extends TestCase
         
         self::$cpuRepository->delete(1);
         
-        $this->assertNull(self::$cpuRepository->selectById(1));
+        $this->assertNull(self::$cpuRepository->findById(1));
     }
     
     public static function tearDownAfterClass():void{

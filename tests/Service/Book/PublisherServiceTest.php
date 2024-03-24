@@ -30,21 +30,21 @@ final class PublisherServiceTest extends BaseServiceTest
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->publisherService->selectById(1)->name,"Mondadori");
+        $this->assertEquals($this->publisherService->findById(1)->name,"Mondadori");
     }
         
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Mondadori",$this->publisherService->selectById(1)->name);
+        $this->assertEquals("Mondadori",$this->publisherService->findById(1)->name);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->publisherService->selectById(2);
+        $this->publisherService->findById(2);
     }
     
     public function testBadSelectByName(): void

@@ -32,7 +32,7 @@ final class PeripheralTypeServiceTest extends BaseServiceTest
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->peripheralTypeService->selectById(1)->name,"Mouse");
+        $this->assertEquals($this->peripheralTypeService->findById(1)->name,"Mouse");
     }
     
     public function testBadInsert():void{
@@ -47,14 +47,14 @@ final class PeripheralTypeServiceTest extends BaseServiceTest
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Mouse",$this->peripheralTypeService->selectById(1)->name);
+        $this->assertEquals("Mouse",$this->peripheralTypeService->findById(1)->name);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->peripheralTypeService->selectById(2);
+        $this->peripheralTypeService->findById(2);
     }
     
     public function testBadSelectByName(): void

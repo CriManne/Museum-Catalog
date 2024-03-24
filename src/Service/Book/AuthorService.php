@@ -32,8 +32,8 @@ class AuthorService {
      * @return Author   The author selected
      * @throws ServiceException If not found
      */
-    public function selectById(int $id): Author {
-        $author = $this->authorRepository->selectById($id);
+    public function findById(int $id): Author {
+        $author = $this->authorRepository->findById($id);
         if (is_null($author)) {
             throw new ServiceException("Author not found");
         }
@@ -65,7 +65,7 @@ class AuthorService {
      * @throws RepositoryException If the update fails
      */
     public function update(Author $a): void {
-        $author = $this->authorRepository->selectById($a->id);
+        $author = $this->authorRepository->findById($a->id);
         if (is_null($author)) {
             throw new ServiceException("Author not found!");
         }
@@ -80,7 +80,7 @@ class AuthorService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(int $id): void {
-        $a = $this->authorRepository->selectById($id);
+        $a = $this->authorRepository->findById($id);
         if (!$a)
             throw new ServiceException("Author not found!");
 

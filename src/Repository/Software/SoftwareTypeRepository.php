@@ -40,7 +40,7 @@ class SoftwareTypeRepository extends GenericRepository {
      * @param int $id   The id to select
      * @return ?SoftwareType    The software type selected, null if not found
      */
-    public function selectById(int $id): ?SoftwareType {
+    public function findById(int $id): ?SoftwareType {
         $query = "SELECT * FROM SoftwareType WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);

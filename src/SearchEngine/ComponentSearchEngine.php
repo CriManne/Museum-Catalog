@@ -51,7 +51,7 @@ class ComponentSearchEngine {
 
             $componentService = $this->container->get($servicePath);
 
-            return $componentService->selectById($id);
+            return $componentService->findById($id);
         } catch (Exception | ServiceException) {
         }
         throw new ServiceException("Component with id [$id] not found!");

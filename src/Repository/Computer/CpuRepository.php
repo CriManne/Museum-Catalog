@@ -41,7 +41,7 @@ class CpuRepository extends GenericRepository {
      * @param int $id    The cpu id to select
      * @return ?Cpu     The selected cpu, null if not found
      */
-    public function selectById(int $id): ?Cpu {
+    public function findById(int $id): ?Cpu {
         $query = "SELECT * FROM Cpu WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);

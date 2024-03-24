@@ -37,8 +37,8 @@ class RamService {
      * @return Ram The ram selected
      * @throws ServiceException If not found
      */
-    public function selectById(int $id): Ram {
-        $ram = $this->ramRepository->selectById($id);
+    public function findById(int $id): Ram {
+        $ram = $this->ramRepository->findById($id);
         if (is_null($ram)) {
             throw new ServiceException("Ram not found");
         }
@@ -85,7 +85,7 @@ class RamService {
      * @throws RepositoryException If the update fails
      */
     public function update(Ram $r): void {
-        $ram = $this->ramRepository->selectById($r->id);
+        $ram = $this->ramRepository->findById($r->id);
         if (is_null($ram)) {
             throw new ServiceException("Ram not found!");
         }
@@ -100,7 +100,7 @@ class RamService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(int $id): void {
-        $r = $this->ramRepository->selectById($id);
+        $r = $this->ramRepository->findById($id);
         if (is_null($r)) {
             throw new ServiceException("Ram not found!");
         }

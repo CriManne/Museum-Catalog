@@ -71,7 +71,7 @@ class PeripheralRepository extends GenericRepository {
      * @param string $objectId  The object id to select
      * @return ?Peripheral    The peripheral selected, null if not found
      */
-    public function selectById(string $objectId): ?Peripheral {
+    public function findById(string $objectId): ?Peripheral {
         $query = "SELECT * FROM Peripheral p 
             INNER JOIN GenericObject g ON g.id = p.objectId 
             WHERE g.id = :objectId";
@@ -224,7 +224,7 @@ class PeripheralRepository extends GenericRepository {
         return new Peripheral(
             $rawPeripheral["objectId"],
             $rawPeripheral["modelName"],
-            $this->peripheralTypeRepository->selectById(intval($rawPeripheral["peripheralTypeId"])),
+            $this->peripheralTypeRepository->findById(intval($rawPeripheral["peripheralTypeId"])),
             $rawPeripheral["note"] ?? null,
             $rawPeripheral["url"] ?? null,
             $rawPeripheral["tag"] ?? null,

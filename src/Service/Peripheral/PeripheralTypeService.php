@@ -37,8 +37,8 @@ class PeripheralTypeService {
      * @return PeripheralType The object selected
      * @throws ServiceException If not found
      */
-    public function selectById(int $id): PeripheralType {
-        $peripheralType = $this->peripheralTypeRepository->selectById($id);
+    public function findById(int $id): PeripheralType {
+        $peripheralType = $this->peripheralTypeRepository->findById($id);
         if (is_null($peripheralType)) {
             throw new ServiceException("PeripheralType not found");
         }
@@ -85,7 +85,7 @@ class PeripheralTypeService {
      * @throws RepositoryException If the update fails
      */
     public function update(PeripheralType $pt): void {
-        $periT = $this->peripheralTypeRepository->selectById($pt->id);
+        $periT = $this->peripheralTypeRepository->findById($pt->id);
         if (is_null($periT)) {
             throw new ServiceException("PeripheralType not found!");
         }
@@ -100,7 +100,7 @@ class PeripheralTypeService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(int $id): void {
-        $pt = $this->peripheralTypeRepository->selectById($id);
+        $pt = $this->peripheralTypeRepository->findById($id);
         if (is_null($pt)) {
             throw new ServiceException("PeripheralType not found!");
         }

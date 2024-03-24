@@ -33,7 +33,7 @@ class ViewUsersController extends ControllerUtil implements ControllerInterface 
      * @throws ReflectionException
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        $user = $this->userService->selectById($_SESSION['user_email']);
+        $user = $this->userService->findById($_SESSION['user_email']);
 
         $this->pages_log->info("Successfull get page", [__CLASS__, $_SESSION['user_email']]);
         return new Response(

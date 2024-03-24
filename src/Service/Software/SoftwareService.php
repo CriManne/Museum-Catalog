@@ -37,8 +37,8 @@ class SoftwareService {
      * @return Software The software selected
      * @throws ServiceException If not found
      */
-    public function selectById(string $id): Software {
-        $software = $this->softwareRepository->selectById($id);
+    public function findById(string $id): Software {
+        $software = $this->softwareRepository->findById($id);
         if (is_null($software)) {
             throw new ServiceException("Software not found");
         }
@@ -85,7 +85,7 @@ class SoftwareService {
      * @throws RepositoryException If the update fails
      */
     public function update(Software $s): void {
-        $soft = $this->softwareRepository->selectById($s->objectId);
+        $soft = $this->softwareRepository->findById($s->objectId);
 
         if (is_null($soft)) {
             throw new ServiceException("Software not found!");
@@ -101,7 +101,7 @@ class SoftwareService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(string $id): void {
-        $s = $this->softwareRepository->selectById($id);
+        $s = $this->softwareRepository->findById($id);
         if (is_null($s)) {
             throw new ServiceException("Software not found!");
         }

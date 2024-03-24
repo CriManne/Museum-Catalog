@@ -40,7 +40,7 @@ class PublisherRepository extends GenericRepository {
      * @param int $id  The publisher id
      * @return ?Publisher   The publisher selected, null if not found         * 
      */
-    public function selectById(int $id): ?Publisher {
+    public function findById(int $id): ?Publisher {
         $query = "SELECT * FROM Publisher WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);

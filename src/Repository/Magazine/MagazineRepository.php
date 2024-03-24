@@ -75,7 +75,7 @@ class MagazineRepository extends GenericRepository {
      * @param string $objectId  The object id to select
      * @return ?Magazine    The magazine selected, null if not found
      */
-    public function selectById(string $objectId): ?Magazine {
+    public function findById(string $objectId): ?Magazine {
         $query = "SELECT * FROM Magazine b 
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE g.id = :objectId";
@@ -236,7 +236,7 @@ class MagazineRepository extends GenericRepository {
             $rawMagazine["title"],
             intval($rawMagazine["year"]),
             intval($rawMagazine["magazineNumber"]),
-            $this->publisherRepository->selectById(intval($rawMagazine["publisherId"])),
+            $this->publisherRepository->findById(intval($rawMagazine["publisherId"])),
             $rawMagazine["note"] ?? null,
             $rawMagazine["url"] ?? null,
             $rawMagazine["Tag"] ?? null,

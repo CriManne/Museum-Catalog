@@ -72,7 +72,7 @@ final class PeripheralRepositoryTest extends TestCase
 
         self::$peripheralRepository->insert($peripheral);
 
-        $this->assertEquals(self::$peripheralRepository->selectById("objID2")->modelName,"Peripheral 2");
+        $this->assertEquals(self::$peripheralRepository->findById("objID2")->modelName,"Peripheral 2");
     }
 
     public function testBadInsert():void{
@@ -84,12 +84,12 @@ final class PeripheralRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$peripheralRepository->selectById("objID"));
+        $this->assertNotNull(self::$peripheralRepository->findById("objID"));
     }
 
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$peripheralRepository->selectById("WRONGID"));
+        $this->assertNull(self::$peripheralRepository->findById("WRONGID"));
     }
 
     public function testGoodSelectAll():void{
@@ -145,7 +145,7 @@ final class PeripheralRepositoryTest extends TestCase
 
         self::$peripheralRepository->update($peripheral);
 
-        $this->assertEquals("NEW MODELNAME",self::$peripheralRepository->selectById("objID")->modelName);
+        $this->assertEquals("NEW MODELNAME",self::$peripheralRepository->findById("objID")->modelName);
     }
 
     //DELETE TESTS
@@ -153,7 +153,7 @@ final class PeripheralRepositoryTest extends TestCase
 
         self::$peripheralRepository->delete("objID");
 
-        $this->assertNull(self::$peripheralRepository->selectById("objID"));
+        $this->assertNull(self::$peripheralRepository->findById("objID"));
     }
 
     public static function tearDownAfterClass():void{

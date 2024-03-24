@@ -37,8 +37,8 @@ class SoftwareTypeService {
      * @return SoftwareType The SoftwareType selected
      * @throws ServiceException If not found
      */
-    public function selectById(int $id): SoftwareType {
-        $softwareType = $this->softwareTypeRepository->selectById($id);
+    public function findById(int $id): SoftwareType {
+        $softwareType = $this->softwareTypeRepository->findById($id);
         if (is_null($softwareType)) {
             throw new ServiceException("Software Type not found");
         }
@@ -85,7 +85,7 @@ class SoftwareTypeService {
      * @throws RepositoryException If the update fails
      */
     public function update(SoftwareType $s): void {
-        $softT = $this->softwareTypeRepository->selectById($s->id);
+        $softT = $this->softwareTypeRepository->findById($s->id);
         if (is_null($softT)) {
             throw new ServiceException("Software Type not found!");
         }
@@ -100,7 +100,7 @@ class SoftwareTypeService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(int $id): void {
-        $s = $this->softwareTypeRepository->selectById($id);
+        $s = $this->softwareTypeRepository->findById($id);
         if (is_null($s)) {
             throw new ServiceException("Software Type not found!");
         }

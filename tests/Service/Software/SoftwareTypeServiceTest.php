@@ -43,14 +43,14 @@ final class SoftwareTypeServiceTest extends BaseServiceTest
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Office",$this->softwareTypeService->selectById(1)->name);
+        $this->assertEquals("Office",$this->softwareTypeService->findById(1)->name);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->softwareTypeService->selectById(2);
+        $this->softwareTypeService->findById(2);
     }
     
     public function testBadSelectByName(): void

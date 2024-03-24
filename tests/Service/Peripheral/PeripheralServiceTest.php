@@ -56,15 +56,15 @@ final class PeripheralServiceTest extends BaseServiceTest
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->peripheralRepository->method('selectById')->willReturn($this->sampleObject);
-        $this->assertEquals("Peripheral 1.0",$this->peripheralService->selectById("ObjID")->modelName);
+        $this->peripheralRepository->method('findById')->willReturn($this->sampleObject);
+        $this->assertEquals("Peripheral 1.0",$this->peripheralService->findById("ObjID")->modelName);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->peripheralRepository->method('selectById')->willReturn(null);
-        $this->peripheralService->selectById("ObjID25");
+        $this->peripheralRepository->method('findById')->willReturn(null);
+        $this->peripheralService->findById("ObjID25");
     }
     
     public function testBadSelectByName(): void
@@ -77,7 +77,7 @@ final class PeripheralServiceTest extends BaseServiceTest
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);                
-        $this->peripheralRepository->method('selectById')->willReturn(null);
+        $this->peripheralRepository->method('findById')->willReturn(null);
         $this->peripheralService->update($this->sampleObject);
     }
     
@@ -85,7 +85,7 @@ final class PeripheralServiceTest extends BaseServiceTest
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
         
-        $this->peripheralRepository->method('selectById')->willReturn(null);
+        $this->peripheralRepository->method('findById')->willReturn(null);
         
         $this->peripheralService->delete("ObjID99");
     }       

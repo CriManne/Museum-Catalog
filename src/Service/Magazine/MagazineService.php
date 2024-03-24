@@ -37,8 +37,8 @@ class MagazineService {
      * @return Magazine The magazine selected
      * @throws ServiceException If not found
      */
-    public function selectById(string $id): Magazine {
-        $magazine = $this->magazineRepository->selectById($id);
+    public function findById(string $id): Magazine {
+        $magazine = $this->magazineRepository->findById($id);
         if (is_null($magazine)) {
             throw new ServiceException("Magazine not found");
         }
@@ -85,7 +85,7 @@ class MagazineService {
      * @throws RepositoryException If the update fails
      */
     public function update(Magazine $m): void {
-        $mag = $this->magazineRepository->selectById($m->objectId);
+        $mag = $this->magazineRepository->findById($m->objectId);
 
         if (is_null($mag)) {
             throw new ServiceException("Magazine not found!");
@@ -101,7 +101,7 @@ class MagazineService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(string $id): void {
-        $m = $this->magazineRepository->selectById($id);
+        $m = $this->magazineRepository->findById($id);
 
         if (is_null($m)) {
             throw new ServiceException("Magazine not found!");

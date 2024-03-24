@@ -40,7 +40,7 @@ class PeripheralTypeRepository extends GenericRepository {
      * @param int $id The p.type id to select
      * @return ?PeripheralType  The p.type selected, null if not found
      */
-    public function selectById(int $id): ?PeripheralType {
+    public function findById(int $id): ?PeripheralType {
         $query = "SELECT * FROM PeripheralType WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);

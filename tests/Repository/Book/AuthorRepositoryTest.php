@@ -41,18 +41,18 @@ final class AuthorRepositoryTest extends TestCase
 
         self::$authorRepository->insert($author);
 
-        $this->assertEquals(self::$authorRepository->selectById(2)->firstname,"Luca");
+        $this->assertEquals(self::$authorRepository->findById(2)->firstname,"Luca");
     }
     
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$authorRepository->selectById(1));
+        $this->assertNotNull(self::$authorRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$authorRepository->selectById(3));
+        $this->assertNull(self::$authorRepository->findById(3));
     }
     
     public function testGoodSelectByKey(): void
@@ -86,7 +86,7 @@ final class AuthorRepositoryTest extends TestCase
         
         self::$authorRepository->update($author);
         
-        $this->assertEquals("Andrea",self::$authorRepository->selectById(1)->firstname);
+        $this->assertEquals("Andrea",self::$authorRepository->findById(1)->firstname);
     }
     
     //DELETE TESTS
@@ -94,7 +94,7 @@ final class AuthorRepositoryTest extends TestCase
         
         self::$authorRepository->delete(1);
         
-        $this->assertNull(self::$authorRepository->selectById(1));
+        $this->assertNull(self::$authorRepository->findById(1));
     }
     
     public static function tearDownAfterClass():void{

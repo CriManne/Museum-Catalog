@@ -42,7 +42,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
 
         self::$softwareTypeRepository->insert($softwareType);
 
-        $this->assertEquals(self::$softwareTypeRepository->selectById(2)->name,"Game");
+        $this->assertEquals(self::$softwareTypeRepository->findById(2)->name,"Game");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -56,12 +56,12 @@ final class SoftwareTypeRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$softwareTypeRepository->selectById(1));
+        $this->assertNotNull(self::$softwareTypeRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$softwareTypeRepository->selectById(3));
+        $this->assertNull(self::$softwareTypeRepository->findById(3));
     }
     
     public function testGoodSelectByName(): void
@@ -105,7 +105,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
         
         self::$softwareTypeRepository->update($softwareType);
         
-        $this->assertEquals("Game",self::$softwareTypeRepository->selectById(1)->name);
+        $this->assertEquals("Game",self::$softwareTypeRepository->findById(1)->name);
     }
     
     //DELETE TESTS
@@ -113,7 +113,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
         
         self::$softwareTypeRepository->delete(1);
         
-        $this->assertNull(self::$softwareTypeRepository->selectById(1));
+        $this->assertNull(self::$softwareTypeRepository->findById(1));
     }
     
     public static function tearDownAfterClass():void{

@@ -62,7 +62,7 @@ class BasicAuthController extends ControllerUtil implements ControllerInterface 
 
         try {
             
-            $this->userService->selectById($_SESSION['user_email']);
+            $this->userService->findById($_SESSION['user_email']);
 
             if ($this->container->get('logging_level') === 1) {
                 $this->api_log->info("Access granted", [__CLASS__, $_SESSION['user_email'], $request->getRequestTarget()]);

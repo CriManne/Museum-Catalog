@@ -52,21 +52,21 @@ final class UserServiceTest extends BaseServiceTest
     {
         $this->sth->method('fetch')->willReturn($this->sampleResponse);
         $this->sth->method('fetchAll')->willReturn([$this->sampleResponse]);
-        $this->assertEquals("Elon",$this->userService->selectById("testemail@gmail.com")->firstname);
+        $this->assertEquals("Elon",$this->userService->findById("testemail@gmail.com")->firstname);
     }
 
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->userService->selectById("testemail@gmail.com");
+        $this->userService->findById("testemail@gmail.com");
     }
 
     public function testBadSelectByCredentials(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->userService->selectById("testemail@gmail.com");
+        $this->userService->findById("testemail@gmail.com");
     }
     
     //UPDATE TESTS

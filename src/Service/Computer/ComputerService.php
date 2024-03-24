@@ -37,8 +37,8 @@ class ComputerService {
      * @return Computer The computer selected
      * @throws ServiceException If not found
      */
-    public function selectById(string $id): Computer {
-        $computer = $this->computerRepository->selectById($id);
+    public function findById(string $id): Computer {
+        $computer = $this->computerRepository->findById($id);
         if (is_null($computer)) {
             throw new ServiceException("Computer not found");
         }
@@ -85,7 +85,7 @@ class ComputerService {
      * @throws RepositoryException If the update fails
      */
     public function update(Computer $c): void {
-        $comp = $this->computerRepository->selectById($c->objectId);
+        $comp = $this->computerRepository->findById($c->objectId);
         if (is_null($comp)) {
             throw new ServiceException("Computer not found!");
         }
@@ -100,7 +100,7 @@ class ComputerService {
      * @throws RepositoryException If the delete fails
      */
     public function delete(string $id): void {
-        $c = $this->computerRepository->selectById($id);
+        $c = $this->computerRepository->findById($id);
         if (is_null($c)) {
             throw new ServiceException("Computer not found!");
         }

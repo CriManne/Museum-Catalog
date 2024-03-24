@@ -139,7 +139,7 @@ final class SearchArtifactEngineTest extends TestCase
                 "Ram" => "Ram 1 64GB",
                 "Os" => "Windows 10"
             ],
-            $obj->Descriptors
+            $obj->descriptors
         );
         $this->assertEquals("Computer1", $obj->title);
     }

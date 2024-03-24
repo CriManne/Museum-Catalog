@@ -41,7 +41,7 @@ final class RamRepositoryTest extends TestCase
 
         self::$ramRepository->insert($ram);
 
-        $this->assertEquals(self::$ramRepository->selectById(2)->modelName,"Ram 2.0");
+        $this->assertEquals(self::$ramRepository->findById(2)->modelName,"Ram 2.0");
     }
 
     //No bad insert test because the ModelName is not unique.
@@ -52,12 +52,12 @@ final class RamRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$ramRepository->selectById(1));
+        $this->assertNotNull(self::$ramRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$ramRepository->selectById(3));
+        $this->assertNull(self::$ramRepository->findById(3));
     }
     
     public function testGoodSelectByName(): void
@@ -101,7 +101,7 @@ final class RamRepositoryTest extends TestCase
         
         self::$ramRepository->update($ram);
         
-        $this->assertEquals("Ram 2.0",self::$ramRepository->selectById(1)->modelName);
+        $this->assertEquals("Ram 2.0",self::$ramRepository->findById(1)->modelName);
     }
     
     //DELETE TESTS
@@ -109,7 +109,7 @@ final class RamRepositoryTest extends TestCase
         
         self::$ramRepository->delete(1);
         
-        $this->assertNull(self::$ramRepository->selectById(1));
+        $this->assertNull(self::$ramRepository->findById(1));
     }
     
     public static function tearDownAfterClass():void{

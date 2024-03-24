@@ -42,7 +42,7 @@ final class SupportTypeRepositoryTest extends TestCase
 
         self::$supportTypeRepository->insert($supportType);
 
-        $this->assertEquals(self::$supportTypeRepository->selectById(2)->name,"FLOPPY");
+        $this->assertEquals(self::$supportTypeRepository->findById(2)->name,"FLOPPY");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
@@ -56,12 +56,12 @@ final class SupportTypeRepositoryTest extends TestCase
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$supportTypeRepository->selectById(1));
+        $this->assertNotNull(self::$supportTypeRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$supportTypeRepository->selectById(3));
+        $this->assertNull(self::$supportTypeRepository->findById(3));
     }
     
     public function testGoodSelectByName(): void
@@ -104,7 +104,7 @@ final class SupportTypeRepositoryTest extends TestCase
         
         self::$supportTypeRepository->update($supportType);
         
-        $this->assertEquals("FLOPPY",self::$supportTypeRepository->selectById(1)->name);
+        $this->assertEquals("FLOPPY",self::$supportTypeRepository->findById(1)->name);
     }
     
     //DELETE TESTS
@@ -112,7 +112,7 @@ final class SupportTypeRepositoryTest extends TestCase
         
         self::$supportTypeRepository->delete(1);
         
-        $this->assertNull(self::$supportTypeRepository->selectById(1));
+        $this->assertNull(self::$supportTypeRepository->findById(1));
     }
     
     public static function tearDownAfterClass():void{

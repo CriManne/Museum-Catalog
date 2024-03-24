@@ -31,7 +31,7 @@ final class CpuServiceTest extends BaseServiceTest
     //INSERT TESTS
     public function testGoodInsert():void{
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->cpuService->selectById(1)->modelName,"Cpu 1.0");
+        $this->assertEquals($this->cpuService->findById(1)->modelName,"Cpu 1.0");
     }
     
     public function testBadInsert():void{
@@ -46,14 +46,14 @@ final class CpuServiceTest extends BaseServiceTest
     public function testGoodSelectById(): void
     {
         $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Cpu 1.0",$this->cpuService->selectById(1)->modelName);
+        $this->assertEquals("Cpu 1.0",$this->cpuService->findById(1)->modelName);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->cpuService->selectById(2);
+        $this->cpuService->findById(2);
     }
     
     public function testBadSelectByName(): void
