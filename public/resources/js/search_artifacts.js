@@ -44,7 +44,7 @@ function loadResult(search = "") {
 
     $("#tb-container").empty();
 
-    if (result.status) {
+    if (result.status !== 200) {
         $("#tb-container").hide();
         createAlert(result);
     } else {

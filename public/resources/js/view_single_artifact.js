@@ -47,23 +47,23 @@ $(document).ready(function () {
     $("#object-id").append(response.objectId);
     $("#object-title").append(response.title);
 
-    for (const [key, value] of Object.entries(response.Descriptors)) {
+    for (const [key, value] of Object.entries(response.descriptors)) {
         $("#object-description").append("<p><b>" + key + "</b>: " + value + "</p>");
     }
 
-    if (response.Tag !== null) {
-        $("#object-tags").append("<b>Tags:</b> " + response.Tag);
+    if (response.tag !== null) {
+        $("#object-tags").append("<b>tags:</b> " + response.tag);
     }
-    if (response.Url !== null) {
+    if (response.url !== null) {
         const conditions = ["http://", "https://"];
-        if (!conditions.some((el) => response.Url.includes(el))) {
-            response.Url = "https://" + response.Url;
+        if (!conditions.some((el) => response.url.includes(el))) {
+            response.url = "https://" + response.url;
         }
         $("#object-url").append(
-            "<b>Url:</b> <a href='" + response.Url + "' target='_blank'>Segui il link</a>"
+            "<b>url:</b> <a href='" + response.url + "' target='_blank'>Segui il link</a>"
         );
     }
-    if (response.Note !== null) {
-        $("#object-note").append("<b>Note:</b> " + response.Note);
+    if (response.note !== null) {
+        $("#object-note").append("<b>note:</b> " + response.note);
     }
 });

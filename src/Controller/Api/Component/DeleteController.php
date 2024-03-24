@@ -15,9 +15,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use Throwable;
 
-class DeleteController extends ControllerUtil implements ControllerInterface {
+class DeleteController extends ControllerUtil implements ControllerInterface
+{
+    protected mixed $componentService;
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
 
         $params = $request->getQueryParams();
 
@@ -36,18 +39,18 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
 
         $error_message = null;
 
-        if(!$category){
+        if (!$category) {
             $error_message = "No category set!";
-        }else if(!$id){
+        } else if (!$id) {
             $error_message = "No id set!";
-        }else if(!is_numeric($id)){
+        } else if (!is_numeric($id)) {
             $error_message = "Id must be numeric!";
-        }else if(!in_array($category,$Componentscategories)){
+        } else if (!in_array($category, $Componentscategories)) {
             $error_message = "Category not found!";
         }
 
         if ($error_message) {
-            $this->api_log->info($error_message,[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
@@ -68,21 +71,21 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
                 $this->componentService->delete(intval($id));
 
                 $message = "$category deleted successfully!";
-                $this->api_log->info($message,[__CLASS__,$_SESSION['user_email']]);
+                $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     200,
                     [],
                     $this->getResponse($message)
                 );
             } catch (ServiceException $e) {
-                $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
+                $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     404,
                     [],
                     $this->getResponse($e->getMessage(), 404)
                 );
             } catch (RepositoryException $e) {
-                $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
+                $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     400,
                     [],
@@ -92,7 +95,7 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             }
         }
 
-        $this->api_log->info("Bad request",[__CLASS__,$_SESSION['user_email']]);
+        $this->api_log->info("Bad request", [__CLASS__, $_SESSION['user_email']]);
         return new Response(
             400,
             [],

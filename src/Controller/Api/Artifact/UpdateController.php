@@ -18,6 +18,8 @@ use Throwable;
 class UpdateController extends ControllerUtil implements ControllerInterface {
 
     protected ArtifactSearchEngine $artifactSearchEngine;
+    protected mixed $artifactService;
+    protected mixed $artifactRepository;
 
     public function __construct(ArtifactSearchEngine $artifactSearchEngine) {
         parent::__construct();        
@@ -71,9 +73,9 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
             /**
              * Get repository class, throws an exception if not found
              */
-            $this->artifactRepo = $this->container->get($repoPath);
+            $this->artifactRepository = $this->container->get($repoPath);
 
-            $instantiatedObject = $this->artifactRepo->returnMappedObject($params);
+            $instantiatedObject = $this->artifactRepository->returnMappedObject($params);
 
             $this->artifactService->update($instantiatedObject);
 

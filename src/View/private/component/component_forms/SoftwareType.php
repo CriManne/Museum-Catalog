@@ -7,13 +7,13 @@
     if (isset($_GET['id'])) {
     ?>
         <div class="form-outline mb-4">
-            <label class="form-label" for="SoftwareTypeID">IDENTIFICATIVO COMPONENTE</label>
-            <input type="number" min="1" name="SoftwareTypeID" id="SoftwareTypeID" class="form-control" readonly="readonly" />
+            <label class="form-label" for="id">ID</label>
+            <input type="number" min="1" name="id" id="id" class="form-control" readonly="readonly" />
         </div>
     <?php } ?>
     <div class="form-outline mb-4">
-        <label class="form-label" for="Name">Nome del tipo di software</label>
-        <input type="text" name="Name" id="Name" class="form-control" required />
+        <label class="form-label" for="name">Name</label>
+        <input type="text" name="name" id="name" class="form-control" required />
     </div>
     <input type='hidden' name='category' value='SoftwareType'>
     <input type='submit' class='btn btn-primary' id='btn-submit'>

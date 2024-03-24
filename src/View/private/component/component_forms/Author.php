@@ -7,16 +7,16 @@
     if (isset($_GET['id'])) {
     ?>
         <div class="form-outline mb-4">
-            <label class="form-label" for="AuthorID">IDENTIFICATIVO COMPONENTE</label>
-            <input type="number" min="1" name="AuthorID" id="AuthorID" class="form-control" readonly="readonly" />
+            <label class="form-label" for="authorId">ID</label>
+            <input type="number" min="1" name="authorId" id="authorId" class="form-control" readonly="readonly" />
         </div>
     <?php } ?>
     <div class="form-outline mb-4">
-        <label class="form-label" for="firstname">Nome autore</label>
+        <label class="form-label" for="firstname">Firstname</label>
         <input type="text" name="firstname" id="firstname" class="form-control" required />
     </div>
     <div class="form-outline mb-4">
-        <label class="form-label" for="lastname">Cognome autore</label>
+        <label class="form-label" for="lastname">Lastname</label>
         <input type="text" name="lastname" id="lastname" class="form-control" required />
     </div>
     <input type='hidden' name='category' value='Author'>

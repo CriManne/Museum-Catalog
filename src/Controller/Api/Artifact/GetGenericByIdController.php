@@ -14,12 +14,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-class GetGenericByIdController extends ControllerUtil implements ControllerInterface {
-
+class GetGenericByIdController extends ControllerUtil implements ControllerInterface
+{
     protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(ArtifactSearchEngine $artifactSearchEngine) {
-        parent::__construct();        
+    public function __construct(ArtifactSearchEngine $artifactSearchEngine)
+    {
+        parent::__construct();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
@@ -27,7 +28,8 @@ class GetGenericByIdController extends ControllerUtil implements ControllerInter
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
 
         $params = $request->getQueryParams();
 
@@ -35,7 +37,7 @@ class GetGenericByIdController extends ControllerUtil implements ControllerInter
 
         if (!$id) {
             $error_message = "No id set!";
-            $this->api_log->info($error_message,[__CLASS__]);
+            $this->api_log->info($error_message, [__CLASS__]);
             return new Response(
                 400,
                 [],
@@ -46,17 +48,17 @@ class GetGenericByIdController extends ControllerUtil implements ControllerInter
         try {
             $obj = $this->artifactSearchEngine->selectGenericById($id);
 
-            if($this->container->get('logging_level')===1){
-                $this->api_log->info("Successfull get of generic artifact by id",[__CLASS__]);
+            if ($this->container->get('logging_level') === 1) {
+                $this->api_log->info("Successfull get of generic artifact by id", [__CLASS__]);
             }
-            
+
             return new Response(
                 200,
                 [],
                 json_encode($obj)
             );
         } catch (ServiceException $e) {
-            $this->api_log->info($e->getMessage(),[__CLASS__]);
+            $this->api_log->info($e->getMessage(), [__CLASS__]);
             return new Response(
                 404,
                 [],

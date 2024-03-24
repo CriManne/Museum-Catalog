@@ -32,7 +32,7 @@ function fillUpdateForm() {
 
     const object = makeRequest(urlSpecificArtifact + "?id=" + objectId + "&category=" + category);
 
-    if (object.status == "404") {
+    if (object.status === "404") {
         createAlert(object);
     } else {
         for (const property in object) {
@@ -44,14 +44,17 @@ function fillUpdateForm() {
                     innerObject = [innerObject];
                 }
                 let selectResetted = false;
+
                 for (const item of innerObject) {
-                    for (const property2 in item) {
-                        if (property2.includes("id")) {
+                    for (let propertyComponent in item) {
+                        if (propertyComponent.includes("id")) {
+                            let idSelector = property + "Id";
+
                             if (!selectResetted) {
-                                $("#" + property2 + " option").attr("selected", false);
+                                $("#" + idSelector + " option").attr("selected", false);
                                 selectResetted = true;
                             }
-                            $("#" + property2 + " option[value='" + item[property2] + "']").attr("selected", true);
+                            $("#" + idSelector + " option[value='" + item[propertyComponent] + "']").attr("selected", true);
                         }
                     }
                 }

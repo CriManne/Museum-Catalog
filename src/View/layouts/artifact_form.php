@@ -19,25 +19,25 @@
     <div id="alert-container"></div>
     <form id='artifact-form' method="POST" enctype="multipart/form-data">
         <div class="form-outline mb-4">
-            <label class="form-label" for="objectId">IDENTIFICATIVO CATALOGO</label>
+            <label class="form-label" for="objectId">ID</label>
             <input type="text" minlength="20" maxlength="20" name="objectId" id="objectId" class="form-control" <?php if (!isset($_GET['id'])) { ?> required <?php } else { ?> readonly="readonly" <?php } ?> />
         </div>
         <?= $this->section('content'); ?>
         <div class="form-outline mb-4">
-            <label class="form-label" for="Note">Note</label>
-            <textarea class="form-control" name="Note" id="Note" rows="3"></textarea>
+            <label class="form-label" for="note">Note</label>
+            <textarea class="form-control" name="note" id="note" rows="3"></textarea>
         </div>
         <div class="form-outline mb-4">
-            <label class="form-label" for="Url">URL</label>
-            <input type="text" name="Url" id="Url" class="form-control" />
+            <label class="form-label" for="url">Url</label>
+            <input type="text" name="url" id="url" class="form-control" />
         </div>
         <div class="form-outline mb-4">
-            <label class="form-label" for="Tag">Tag</label>
-            <input type="text" name="Tag" id="Tag" class="form-control" />
+            <label class="form-label" for="tag">Tag</label>
+            <input type="text" name="tag" id="tag" class="form-control" />
         </div>
         <div class="form-outline mb-4" id="images-outer-container"></div>
         <div class="mb-3">
-            <label for="images" class="form-label">Immagini del reperto</label>
+            <label for="images" class="form-label">Images</label>
             <input class="form-control" id="images" name="images[]" type="file" multiple="multiple" accept="image/*">
         </div>
         <input type='submit' class='btn btn-primary' id='btn-submit'>

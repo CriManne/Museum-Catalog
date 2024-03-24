@@ -15,11 +15,12 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-class GetGenericsController extends ControllerUtil implements ControllerInterface {
-
+class GetGenericsController extends ControllerUtil implements ControllerInterface
+{
     protected ComponentSearchEngine $componentSearchEngine;
 
-    public function __construct(ComponentSearchEngine $componentSearchEngine) {
+    public function __construct(ComponentSearchEngine $componentSearchEngine)
+    {
         parent::__construct();
         $this->componentSearchEngine = $componentSearchEngine;
     }
@@ -29,7 +30,8 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
      * @throws ServiceException
      * @throws DependencyException
      */
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
         $params = $request->getQueryParams();
 
         $query = $params["q"] ?? null;
@@ -48,9 +50,9 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
 
         $error_message = null;
 
-        if(!$category){
+        if (!$category) {
             $error_message = "No category set!";
-        }else if(!in_array($category,$Componentscategories)){
+        } else if (!in_array($category, $Componentscategories)) {
             $error_message = "Category not found!";
         }
 
@@ -63,7 +65,7 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
             );
         }
 
-        if ($query) {            
+        if ($query) {
 
             $keywords = explode(" ", $query);
 
@@ -104,8 +106,8 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
         /**
          * When loading components list
          */
-        if($this->container->get('logging_level')===1){            
-            $this->api_log->info("Successfull get of generic components",[__CLASS__,$_SESSION['user_email']]);
+        if ($this->container->get('logging_level') === 1) {
+            $this->api_log->info("Successfull get of generic components", [__CLASS__, $_SESSION['user_email']]);
         }
         return new Response(
             200,

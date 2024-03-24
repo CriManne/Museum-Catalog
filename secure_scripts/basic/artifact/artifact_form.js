@@ -32,7 +32,7 @@ function handleSubmit(e) {
     );
 
     createAlert(response);
-    if (response.status === "200") {
+    if (response.status === 200) {
         fillUpdateForm();
     }
 }

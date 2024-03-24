@@ -14,12 +14,13 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-class GetGenericsController extends ControllerUtil implements ControllerInterface {
-
+class GetGenericsController extends ControllerUtil implements ControllerInterface
+{
     protected ArtifactSearchEngine $artifactSearchEngine;
 
-    public function __construct(ArtifactSearchEngine $artifactSearchEngine) {
-        parent::__construct();        
+    public function __construct(ArtifactSearchEngine $artifactSearchEngine)
+    {
+        parent::__construct();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
@@ -27,7 +28,8 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
         $params = $request->getQueryParams();
 
         $query = $params["q"] ?? null;
@@ -78,7 +80,7 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
             /**
              * This happens when a user search and no results matches
              */
-            if($this->container->get('logging_level')===1){
+            if ($this->container->get('logging_level') === 1) {
                 $this->api_log->info("No object found!", [__CLASS__]);
             }
             return new Response(
@@ -93,8 +95,8 @@ class GetGenericsController extends ControllerUtil implements ControllerInterfac
             $result = [array_pop($result)];
         }
 
-        if($this->container->get('logging_level')===1){
-            $this->api_log->info("Successfull get of generics artifacts!",[__CLASS__]);
+        if ($this->container->get('logging_level') === 1) {
+            $this->api_log->info("Successfull get of generics artifacts!", [__CLASS__]);
         }
 
         return new Response(

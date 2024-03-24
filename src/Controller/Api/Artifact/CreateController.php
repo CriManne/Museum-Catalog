@@ -16,17 +16,20 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use Throwable;
 
-class CreateController extends ControllerUtil implements ControllerInterface {
-
+class CreateController extends ControllerUtil implements ControllerInterface
+{
     protected ArtifactSearchEngine $artifactSearchEngine;
+    protected mixed $artifactService;
+    protected mixed $artifactRepository;
 
-    public function __construct(ArtifactSearchEngine $artifactSearchEngine) {
+    public function __construct(ArtifactSearchEngine $artifactSearchEngine)
+    {
         parent::__construct();
         $this->artifactSearchEngine = $artifactSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
         $params = $request->getParsedBody();
 
         $category = $params["category"] ?? null;
@@ -72,10 +75,9 @@ class CreateController extends ControllerUtil implements ControllerInterface {
             /**
              * Get repository class, throws an exception if not found
              */
-            $this->artifactRepo = $this->container->get($repoPath);
+            $this->artifactRepository = $this->container->get($repoPath);
 
-
-            $instantiatedObject = $this->artifactRepo->returnMappedObject($params);
+            $instantiatedObject = $this->artifactRepository->returnMappedObject($params);
 
             $this->artifactService->insert($instantiatedObject);
 

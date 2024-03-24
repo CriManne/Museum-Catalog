@@ -14,7 +14,7 @@
 </div>
 <div id="main-container" class="d-none">
     <form id='component-search-form'>
-        <h3>Visualizza componenti</h3>
+        <h3>View components</h3>
         <div class="input-group mb-3">
             <select class="input-select" id="category-select"></select>
             <input type="text" class="form-control" placeholder="Search components" aria-label="Artifact's search" id="component-search">

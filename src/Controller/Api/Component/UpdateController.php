@@ -16,17 +16,19 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use Throwable;
 
-class UpdateController extends ControllerUtil implements ControllerInterface {
-
+class UpdateController extends ControllerUtil implements ControllerInterface
+{
+    protected mixed $componentService;
     protected ComponentSearchEngine $componentSearchEngine;
 
-    public function __construct(ComponentSearchEngine $componentSearchEngine) {
+    public function __construct(ComponentSearchEngine $componentSearchEngine)
+    {
         parent::__construct();
         $this->componentSearchEngine = $componentSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
         $params = $request->getParsedBody();
 
         $category = $params["category"] ?? null;
@@ -46,9 +48,9 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
          */
         $error_message = null;
 
-        if(!$category){
+        if (!$category) {
             $error_message = "No category set!";
-        }else if(!in_array($category,$Componentscategories)){
+        } else if (!in_array($category, $Componentscategories)) {
             $error_message = "Category not found!";
         }
 
@@ -78,9 +80,9 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
                 $instantiatedObject = ORM::getNewInstance($classPath, $params);
 
                 $this->componentService->update($instantiatedObject);
-                
+
                 $message = "$category updated successfully!";
-                $this->api_log->info($message,[__CLASS__,$_SESSION['user_email']]);
+                $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     200,
                     [],

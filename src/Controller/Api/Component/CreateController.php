@@ -16,17 +16,19 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use Throwable;
 
-class CreateController extends ControllerUtil implements ControllerInterface {
-
+class CreateController extends ControllerUtil implements ControllerInterface
+{
+    protected mixed $componentService;
     protected ComponentSearchEngine $componentSearchEngine;
 
-    public function __construct(ComponentSearchEngine $componentSearchEngine) {
+    public function __construct(ComponentSearchEngine $componentSearchEngine)
+    {
         parent::__construct();
         $this->componentSearchEngine = $componentSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
         $params = $request->getParsedBody();
 
         $category = $params["category"] ?? null;
@@ -46,14 +48,14 @@ class CreateController extends ControllerUtil implements ControllerInterface {
          */
         $error_message = null;
 
-        if(!$category){
+        if (!$category) {
             $error_message = "No category set!";
-        }else if(!in_array($category,$Componentscategories)){
+        } else if (!in_array($category, $Componentscategories)) {
             $error_message = "Category not found!";
         }
 
         if ($error_message) {
-            $this->api_log->info($error_message,[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
@@ -80,14 +82,14 @@ class CreateController extends ControllerUtil implements ControllerInterface {
                 $this->componentService->insert($instantiatedObject);
 
                 $message = "$category inserted successfully!";
-                $this->api_log->info($message,[__CLASS__,$_SESSION['user_email']]);
+                $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     200,
                     [],
                     $this->getResponse($message)
                 );
             } catch (ServiceException $e) {
-                $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
+                $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     400,
                     [],
@@ -98,7 +100,7 @@ class CreateController extends ControllerUtil implements ControllerInterface {
         }
 
         $error_message = "Bad request!";
-        $this->api_log->info($error_message,[__CLASS__,$_SESSION['user_email']]);
+        $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
         return new Response(
             400,
             [],

@@ -14,9 +14,12 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use Throwable;
 
-class DeleteController extends ControllerUtil implements ControllerInterface {
+class DeleteController extends ControllerUtil implements ControllerInterface
+{
+    protected mixed $artifactService;
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
 
         $params = $request->getQueryParams();
 
@@ -27,16 +30,16 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
 
         $error_message = null;
 
-        if(!$category){
+        if (!$category) {
             $error_message = "No category set!";
-        }else if(!in_array($category, $categories)){
+        } else if (!in_array($category, $categories)) {
             $error_message = "Category not found!";
-        }else if(!$id){
+        } else if (!$id) {
             $error_message = "No id set!";
         }
 
         if ($error_message) {
-            $this->api_log->info($error_message,[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],
@@ -56,21 +59,21 @@ class DeleteController extends ControllerUtil implements ControllerInterface {
             $this->artifactService->delete($id);
             ImagesDeleteController::deleteImages($id);
 
-            $this->api_log->info("Artifact with id {' . $id . '} deleted!",[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info("Artifact with id {' . $id . '} deleted!", [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 200,
                 [],
                 $this->getResponse('Artifact with id {' . $id . '} deleted!')
             );
         } catch (ServiceException $e) {
-            $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 404,
                 [],
                 $this->getResponse($e->getMessage(), 404)
             );
         } catch (Throwable $e) {
-            $this->api_log->info($e->getMessage(),[__CLASS__,$_SESSION['user_email']]);
+            $this->api_log->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 400,
                 [],

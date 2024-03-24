@@ -15,16 +15,18 @@ use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 use Throwable;
 
-class GetSpecificByIdController extends ControllerUtil implements ControllerInterface {
-
+class GetSpecificByIdController extends ControllerUtil implements ControllerInterface
+{
     protected ComponentSearchEngine $componentSearchEngine;
 
-    public function __construct(ComponentSearchEngine $componentSearchEngine) {
+    public function __construct(ComponentSearchEngine $componentSearchEngine)
+    {
         parent::__construct();
         $this->componentSearchEngine = $componentSearchEngine;
     }
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
 
         $params = $request->getQueryParams();
 
@@ -46,13 +48,13 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
          */
         $error_message = null;
 
-        if(!$category){
+        if (!$category) {
             $error_message = "No category set!";
-        }else if(!in_array($category,$Componentscategories)){
+        } else if (!in_array($category, $Componentscategories)) {
             $error_message = "Category not found!";
-        }else if(!$id){
+        } else if (!$id) {
             $error_message = "No id set!";
-        }else if(!is_numeric($id)){
+        } else if (!is_numeric($id)) {
             $error_message = "Id must be numeric!";
         }
 
@@ -77,8 +79,8 @@ class GetSpecificByIdController extends ControllerUtil implements ControllerInte
 
                 $object = $this->componentSearchEngine->selectSpecificByIdAndCategory(intval($id), $servicePath);
 
-                
-                $this->api_log->info("Successfull get of specific component by id",[__CLASS__,$_SESSION['user_email']]);
+
+                $this->api_log->info("Successfull get of specific component by id", [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     200,
                     [],

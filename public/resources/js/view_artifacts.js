@@ -11,7 +11,7 @@ function displayResult(result) {
     result.forEach(function (elem) {
         let description = [];
 
-        for (const [key, value] of Object.entries(elem.Descriptors)) {
+        for (const [key, value] of Object.entries(elem.descriptors)) {
             description.push("<b>" + key + "</b>: " + value);
         }
 
@@ -30,7 +30,7 @@ function displayResult(result) {
             description.join("<br>") +
             "</p>" +
             '        <p class="card-text p-y-1">' +
-            elem.Category +
+            elem.category +
             "</p>" +
             "  </div>" +
             "</div>"

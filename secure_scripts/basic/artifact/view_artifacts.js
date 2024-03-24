@@ -57,9 +57,10 @@ function displayResult(result) {
         let category = $(this).attr('data-category');
         if (confirm("Sei sicuro di voler eliminare il reperto {" + id + "}?")) {
             let response = makeRequest(urlArtifactDelete + "?id=" + id + "&category=" + category, 'DELETE');
-            if (response.status === "200") {
+            if (response.status === 200) {
                 loadResult("?q=" + $("#artifact-search").val());
             }
+
             createAlert(response);
         }
     });

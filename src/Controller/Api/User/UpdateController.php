@@ -33,8 +33,8 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
             $params = $request->getParsedBody();
 
             if (
-                !isset($params['Email']) ||
-                !isset($params['Password']) ||
+                !isset($params['email']) ||
+                !isset($params['password']) ||
                 !isset($params['firstname']) ||
                 !isset($params['lastname'])
             ) {
@@ -51,13 +51,16 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
                 $params["privilege"] = 1;
             }
 
+            /**
+             * @var User $user
+             */
             $user = ORM::getNewInstance(User::class, $params);
 
-            $user->Password = password_hash($user->Password, PASSWORD_BCRYPT, [
+            $user->password = password_hash($user->password, PASSWORD_BCRYPT, [
                 'cost' => 11
             ]);
 
-            if ($user->Email !== $_SESSION['user_email']) {
+            if ($user->email !== $_SESSION['user_email']) {
                 $error_message = "Unauthorized access!";
                 $this->api_log->info($error_message, [__CLASS__, $_SESSION['user_email']]);
                 return new HaltResponse(
@@ -69,7 +72,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
 
             $this->userService->update($user);
 
-            $message = 'User with email {' . $params['Email'] . '} inserted successfully!';
+            $message = 'User with email {' . $params['email'] . '} inserted successfully!';
             $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 200,

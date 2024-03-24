@@ -1,25 +1,25 @@
 <?php $this->layout('layouts::artifact_form', ['title' => $title, 'user' => $user]) ?>
 
 <div class="form-outline mb-4">
-    <label class="form-label" for="title">Titolo</label>
+    <label class="form-label" for="title">Title</label>
     <input type="text" name="title" id="title" class="form-control" required />
 </div>
 <div class="form-outline mb-4">
-    <label class="form-label" for="OsID">Sistema operativo</label>
-    <select id="OsID" name="OsID" class="form-select" aria-label="Seleziona un sistema operativo" required>
-        <option value="" hidden selected>Seleziona un sistema operativo</option>
+    <label class="form-label" for="osId">Operative System</label>
+    <select id="osId" name="osId" class="form-select" aria-label="Select the operative system">
+        <option value="" hidden selected>Select the operative system</option>
     </select>
 </div>
 <div class="form-outline mb-4">
-    <label class="form-label" for="SoftwareTypeID">Tipologia di software</label>
-    <select id="SoftwareTypeID" name="SoftwareTypeID" class="form-select" aria-label="Seleziona una tipologia software" required>
-        <option value="" hidden selected>Seleziona una tipologia software</option>
+    <label class="form-label" for="softwareTypeId">Software type</label>
+    <select id="softwareTypeId" name="softwareTypeId" class="form-select" aria-label="Select the software type" required>
+        <option value="" hidden selected>Select the software type</option>
     </select>
 </div>
 <div class="form-outline mb-4">
-    <label class="form-label" for="SupportTypeID">Supporto</label>
-    <select id="SupportTypeID" name="SupportTypeID" class="form-select" aria-label="Seleziona un supporto" required>
-        <option value="" hidden selected>Seleziona un supporto</option>
+    <label class="form-label" for="supportTypeId">Support type</label>
+    <select id="supportTypeId" name="supportTypeId" class="form-select" aria-label="Select a support type" required>
+        <option value="" hidden selected>Select a support type</option>
     </select>
 </div>
 <input type='hidden' name='category' value='Software'>
@@ -27,10 +27,10 @@
 <?php $this->push('scripts_inner') ?>
 <script>
     let urlOs = "/api/generic/components?category=Os";
-    loadSelect(urlOs, "#OsID");
+    loadSelect(urlOs, "#osId");
     let urlSoftwareType = "/api/generic/components?category=SoftwareType";
-    loadSelect(urlSoftwareType, "#SoftwareTypeID");
+    loadSelect(urlSoftwareType, "#softwareTypeId");
     let urlSupportType = "/api/generic/components?category=SupportType";
-    loadSelect(urlSupportType, "#SupportTypeID");
+    loadSelect(urlSupportType, "#supportTypeId");
 </script>
 <?php $this->end(); ?>

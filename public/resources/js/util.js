@@ -9,8 +9,8 @@ function createAlert(response, container = "#alert-container") {
         scrollTop: 0
     }, 50);
     $(container).prepend(
-        '<div class="alert alert-' + (response.status === "200" ? "success" : "danger") + ' alert-dismissible fade show" role="alert" id="alert">' +
-        '<p><strong>' + (response.status === "200" ? "Success!" : "Error!") + '</strong></p>' + response.message +
+        '<div class="alert alert-' + (response.status === 200 ? "success" : "danger") + ' alert-dismissible fade show" role="alert" id="alert">' +
+        '<p><strong>' + (response.status === 200 ? "Success!" : "Error!") + '</strong></p>' + response.message +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
     );
     $("#alert").fadeTo(3000, 0).slideUp(500, function () {
@@ -23,8 +23,8 @@ function createStaticAlert(response, container = "#alert-container") {
         scrollTop: 0
     }, 50);
     $(container).prepend(
-        '<div class="alert alert-' + (response.status === "200" ? "success" : "danger") + ' alert-dismissible fade show" role="alert" id="alert">' +
-        '<p><strong>' + (response.status === "200" ? "Success!" : "Error!") + '</strong></p>' + response.message +
+        '<div class="alert alert-' + (response.status === 200 ? "success" : "danger") + ' alert-dismissible fade show" role="alert" id="alert">' +
+        '<p><strong>' + (response.status === 200 ? "Success!" : "Error!") + '</strong></p>' + response.message +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
     );
 }
@@ -46,6 +46,7 @@ function makeRequest(url, method = 'GET', headers = [], params = [], dataType = 
         },
         success: function (data, textStatus, xhr) {
             returnData = JSON.parse(data);
+            returnData.status = xhr.status;
         },
         error: function (xhr, status, error) {
             returnData.message = JSON.parse(xhr.responseText).message;
