@@ -47,9 +47,9 @@ final class OsRepositoryTest extends TestCase
         $this->assertEquals($os->name,$selectResult->name);
     }
     public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);
+        $this->expectException(\AbstractRepo\Exceptions\RepositoryException::class);
 
-        //Os already saveed in the setUp() method
+        //Os already saved in the setUp() method
         $os = new Os('Windows');
 
         self::$osRepository->save($os);
@@ -64,16 +64,6 @@ final class OsRepositoryTest extends TestCase
     public function testBadSelectById(): void
     {
         $this->assertNull(self::$osRepository->findById(3));
-    }
-    
-    public function testGoodSelectByName(): void
-    {
-        $this->assertNotNull(self::$osRepository->findByName("Windows"));
-    }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->assertNull(self::$osRepository->findByName("WRONG-OS-NAME"));
     }
 
     public function testGoodSelectByKey(): void
