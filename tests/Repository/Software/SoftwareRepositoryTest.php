@@ -78,14 +78,14 @@ final class SoftwareRepositoryTest extends TestCase
         );
 
 
-        self::$softwareTypeRepository->insert(self::$sampleSoftwareType);
-        self::$supportTypeRepository->insert(self::$sampleSupportType);
-        self::$osRepository->insert(self::$sampleOs);
+        self::$softwareTypeRepository->save(self::$sampleSoftwareType);
+        self::$supportTypeRepository->save(self::$sampleSupportType);
+        self::$osRepository->save(self::$sampleOs);
     }
 
     public function setUp():void{
-        //Software inserted to test duplicated supports errors
-        self::$softwareRepository->insert(self::$sampleSoftware);
+        //Software saveed to test duplicated supports errors
+        self::$softwareRepository->save(self::$sampleSoftware);
     }
 
     public function tearDown():void{
@@ -99,14 +99,14 @@ final class SoftwareRepositoryTest extends TestCase
         $software->objectId = "objID2";
         $software->title = "Game";
         
-        self::$softwareRepository->insert($software);
+        self::$softwareRepository->save($software);
 
         $this->assertEquals(self::$softwareRepository->findById("objID2")->title,"Game");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
-        //Software already inserted in the setUp() method  
-        self::$softwareRepository->insert(self::$sampleSoftware);
+        //Software already saveed in the setUp() method  
+        self::$softwareRepository->save(self::$sampleSoftware);
     }
     //SELECT TESTS
     public function testGoodSelectById(): void
@@ -129,9 +129,9 @@ final class SoftwareRepositoryTest extends TestCase
         $software3 = clone self::$sampleSoftware;
         $software3->objectId = "objID3";
                 
-        self::$softwareRepository->insert($software1);
-        self::$softwareRepository->insert($software2);
-        self::$softwareRepository->insert($software3);
+        self::$softwareRepository->save($software1);
+        self::$softwareRepository->save($software2);
+        self::$softwareRepository->save($software3);
         
         $softwares = self::$softwareRepository->findAll();
         
@@ -145,7 +145,7 @@ final class SoftwareRepositoryTest extends TestCase
         $software->objectId = "objID2";
         $software->title = "Visual studio";
         
-        self::$softwareRepository->insert($software);
+        self::$softwareRepository->save($software);
 
         $this->assertEquals(self::$softwareRepository->findByTitle("Visual studio")->title,"Visual studio");
     }
@@ -156,7 +156,7 @@ final class SoftwareRepositoryTest extends TestCase
         $software->objectId = "objID2";
         $software->title = "Visual studio";
         
-        self::$softwareRepository->insert($software);
+        self::$softwareRepository->save($software);
 
         $this->assertEquals(count(self::$softwareRepository->findByKey("oFFic")),2);
     }

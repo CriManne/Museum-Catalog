@@ -26,9 +26,9 @@ final class PublisherRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Publisher inserted to test duplicated cpu errors
+        //Publisher saveed to test duplicated cpu errors
         $publisher= new Publisher('Mondadori');
-        self::$publisherRepository->insert($publisher);        
+        self::$publisherRepository->save($publisher);        
     }
 
     public function tearDown():void{
@@ -40,7 +40,7 @@ final class PublisherRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $publisher= new Publisher('Einaudi');
 
-        self::$publisherRepository->insert($publisher);
+        self::$publisherRepository->save($publisher);
 
         $this->assertEquals(self::$publisherRepository->findById(2)->name,"Einaudi");
     }
@@ -49,7 +49,7 @@ final class PublisherRepositoryTest extends TestCase
         $this->expectException(RepositoryException::class);        
         $publisher= new Publisher('Mondadori');
 
-        self::$publisherRepository->insert($publisher);
+        self::$publisherRepository->save($publisher);
     }
     
     //SELECT TESTS
@@ -88,9 +88,9 @@ final class PublisherRepositoryTest extends TestCase
         $publisher1 = new Publisher('P1');
         $publisher2 = new Publisher('P2');
         $publisher3 = new Publisher('P3');
-        self::$publisherRepository->insert($publisher1);
-        self::$publisherRepository->insert($publisher2);
-        self::$publisherRepository->insert($publisher3);
+        self::$publisherRepository->save($publisher1);
+        self::$publisherRepository->save($publisher2);
+        self::$publisherRepository->save($publisher3);
         
         $publishers = self::$publisherRepository->findAll();
         

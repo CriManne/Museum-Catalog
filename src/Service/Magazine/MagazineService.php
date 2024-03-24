@@ -19,16 +19,16 @@ class MagazineService {
 
     /**
      * Insert magazine
-     * @param Magazine $m The magazine to insert
+     * @param Magazine $m The magazine to save
      * @throws ServiceException If the title is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(Magazine $m): void {
+    public function save(Magazine $m): void {
         $magazine = $this->magazineRepository->findByTitle($m->title);
         if ($magazine)
             throw new ServiceException("Magazine title already used!");
 
-        $this->magazineRepository->insert($m);
+        $this->magazineRepository->save($m);
     }
 
     /**

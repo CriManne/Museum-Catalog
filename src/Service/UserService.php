@@ -22,13 +22,13 @@ class UserService {
 
     /**
      * Insert user
-     * @param User $u The user to insert
+     * @param User $u The user to save
      * @throws ReflectionException
      * @throws ServiceException If the email is already user
      * @throws \AbstractRepo\Exceptions\RepositoryException
      * @throws \ReflectionException
      */
-    public function insert(User $u): void {
+    public function save(User $u): void {
         if ($this->userRepository->findById($u->email) != null)
             throw new ServiceException("email already used!");
 

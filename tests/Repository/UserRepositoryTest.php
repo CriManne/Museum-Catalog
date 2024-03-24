@@ -51,7 +51,7 @@ final class UserRepositoryTest extends TestCase
      */
     public function setUp(): void
     {
-        //User inserted to test duplicated user errors
+        //User saveed to test duplicated user errors
         $user = new User('testemail@gmail.com', password_hash("admin", PASSWORD_BCRYPT, ['cost' => 11]), 'Bill', 'Gates', 1);
         self::$userRepository->save($user);
     }
@@ -92,7 +92,7 @@ final class UserRepositoryTest extends TestCase
     {
         $this->expectException(\AbstractRepo\Exceptions\RepositoryException::class);
 
-        //User already inserted in the setUp() method
+        //User already saveed in the setUp() method
         $user = new User('testemail@gmail.com', 'admin', 'Bill', 'Gates', 1);
 
         self::$userRepository->save($user);

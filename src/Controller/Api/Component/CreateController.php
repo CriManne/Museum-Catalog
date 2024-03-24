@@ -79,9 +79,9 @@ class CreateController extends ControllerUtil implements ControllerInterface
 
                 $instantiatedObject = ORM::getNewInstance($classPath, $params);
 
-                $this->componentService->insert($instantiatedObject);
+                $this->componentService->save($instantiatedObject);
 
-                $message = "$category inserted successfully!";
+                $message = "$category saveed successfully!";
                 $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
                 return new Response(
                     200,

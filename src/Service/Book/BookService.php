@@ -19,11 +19,11 @@ class BookService {
 
     /**
      * Insert book
-     * @param Book $b The book to insert
+     * @param Book $b The book to save
      * @throws ServiceException If the title is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(Book $b): void {
+    public function save(Book $b): void {
         $book = $this->bookRepository->findByTitle($b->title);
         if ($book)
             throw new ServiceException("Book title already used!");
@@ -32,7 +32,7 @@ class BookService {
         if ($book)
             throw new ServiceException("Object ID already used!");
 
-        $this->bookRepository->insert($b);
+        $this->bookRepository->save($b);
     }
 
     /**

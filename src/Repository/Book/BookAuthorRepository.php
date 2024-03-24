@@ -15,10 +15,10 @@ class BookAuthorRepository extends GenericRepository {
 
     /**
      * Insert a book author
-     * @param BookAuthor $bookAuthor    The book author to insert
-     * @throws RepositoryException  If the insert fails
+     * @param BookAuthor $bookAuthor    The book author to save
+     * @throws RepositoryException  If the save fails
      */
-    public function insert(BookAuthor $bookAuthor): void {
+    public function save(BookAuthor $bookAuthor): void {
 
         $query =
             "INSERT INTO BookAuthor 
@@ -32,7 +32,7 @@ class BookAuthorRepository extends GenericRepository {
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the book author {" . $bookAuthor->bookId . "," . $bookAuthor->authorId . "}");
+            throw new RepositoryException("Error while saveing the book author {" . $bookAuthor->bookId . "," . $bookAuthor->authorId . "}");
         }
     }
 

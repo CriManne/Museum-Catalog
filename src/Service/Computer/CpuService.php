@@ -19,16 +19,16 @@ class CpuService {
 
     /**
      * Insert a cpu
-     * @param Cpu $c The cpu to insert
-     * @throws ServiceException If the cpu name is already inserted
-     * @throws RepositoryException If the insert fails
+     * @param Cpu $c The cpu to save
+     * @throws ServiceException If the cpu name is already saveed
+     * @throws RepositoryException If the save fails
      */
-    public function insert(Cpu $c): void {
+    public function save(Cpu $c): void {
         $cpu = $this->cpuRepository->selectByName($c->modelName);
         if ($cpu && $cpu->speed == $c->speed)
             throw new ServiceException("Cpu name and speed already used!");
 
-        $this->cpuRepository->insert($c);
+        $this->cpuRepository->save($c);
     }
 
     /**

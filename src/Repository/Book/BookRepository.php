@@ -32,10 +32,10 @@ class BookRepository extends GenericRepository {
 
     /**
      * Insert Book
-     * @param Book $book    The book to insert
-     * @throws RepositoryException  If the insert fails         * 
+     * @param Book $book    The book to save
+     * @throws RepositoryException  If the save fails         * 
      */
-    public function insert(Book $book): void {
+    public function save(Book $book): void {
 
         $queryBook =
             "INSERT INTO Book
@@ -68,13 +68,13 @@ class BookRepository extends GenericRepository {
 
             $stmt->execute();
             foreach ($book->authors as $author) {
-                $this->bookAuthorRepository->insert(new BookAuthor($book->objectId, $author->id));
+                $this->bookAuthorRepository->save(new BookAuthor($book->objectId, $author->id));
             }
 
             $this->pdo->commit();
         } catch (PDOException) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while inserting the book with id: {" . $book->objectId . "}");
+            throw new RepositoryException("Error while saveing the book with id: {" . $book->objectId . "}");
         }
     }
 
@@ -205,7 +205,7 @@ class BookRepository extends GenericRepository {
             $this->bookAuthorRepository->deleteById($b->objectId);
 
             foreach ($b->authors as $author) {
-                $this->bookAuthorRepository->insert(new BookAuthor($b->objectId, $author->id));
+                $this->bookAuthorRepository->save(new BookAuthor($b->objectId, $author->id));
             }
 
             $this->pdo->commit();
@@ -266,10 +266,10 @@ class BookRepository extends GenericRepository {
     function returnMappedObject(array $rawBook): Book {
         $bookAuthors = [];
         /**
-         * This method can be called both when fetching the book and when inserting the book
-         * So when a book is inserted it has no relation with bookauthor so we can't fetch it
+         * This method can be called both when fetching the book and when saveing the book
+         * So when a book is saveed it has no relation with bookauthor so we can't fetch it
          * from the bookauthor repository but we need to create BookAuthor entity inside the
-         * book entity so in the insert method of BookRepository it will add the columns in bookauthor
+         * book entity so in the save method of BookRepository it will add the columns in bookauthor
          */
         if (isset($rawBook["newAuthors"])) {
             foreach ($rawBook["newAuthors"] as $key => $value) {

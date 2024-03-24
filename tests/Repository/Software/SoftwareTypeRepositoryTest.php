@@ -26,9 +26,9 @@ final class SoftwareTypeRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Support inserted to test duplicated supports errors
+        //Support saveed to test duplicated supports errors
         $softwareType = new SoftwareType('Office');
-        self::$softwareTypeRepository->insert($softwareType);
+        self::$softwareTypeRepository->save($softwareType);
     }
 
     public function tearDown():void{
@@ -40,17 +40,17 @@ final class SoftwareTypeRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $softwareType = new SoftwareType('Game');
 
-        self::$softwareTypeRepository->insert($softwareType);
+        self::$softwareTypeRepository->save($softwareType);
 
         $this->assertEquals(self::$softwareTypeRepository->findById(2)->name,"Game");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
 
-        //SoftwareType already inserted in the setUp() method
+        //SoftwareType already saveed in the setUp() method
         $softwareType = new SoftwareType('Office');
 
-        self::$softwareTypeRepository->insert($softwareType);
+        self::$softwareTypeRepository->save($softwareType);
     }
     
     //SELECT TESTS
@@ -89,9 +89,9 @@ final class SoftwareTypeRepositoryTest extends TestCase
         $softwareType1 = new SoftwareType('S1');
         $softwareType2 = new SoftwareType('S2');
         $softwareType3 = new SoftwareType('S3');
-        self::$softwareTypeRepository->insert($softwareType1);
-        self::$softwareTypeRepository->insert($softwareType2);
-        self::$softwareTypeRepository->insert($softwareType3);
+        self::$softwareTypeRepository->save($softwareType1);
+        self::$softwareTypeRepository->save($softwareType2);
+        self::$softwareTypeRepository->save($softwareType3);
         
         $softwareTypes = self::$softwareTypeRepository->findAll();
         

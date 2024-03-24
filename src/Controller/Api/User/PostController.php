@@ -62,9 +62,9 @@ class PostController extends ControllerUtil implements ControllerInterface {
             $user->password = password_hash($user->password, PASSWORD_BCRYPT, [
                 'cost' => 11
             ]);
-            $this->userService->insert($user);
+            $this->userService->save($user);
 
-            $message = 'User with email {' . $params['email'] . '} inserted successfully!';
+            $message = 'User with email {' . $params['email'] . '} saveed successfully!';
             $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 200,

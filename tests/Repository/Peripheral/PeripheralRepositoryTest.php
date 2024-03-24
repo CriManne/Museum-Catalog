@@ -51,12 +51,12 @@ final class PeripheralRepositoryTest extends TestCase
             null,
         );
 
-        self::$peripheralTypeRepository->insert(self::$samplePeripheralType);
+        self::$peripheralTypeRepository->save(self::$samplePeripheralType);
     }
 
     public function setUp():void{
-        //Peripheral inserted to test duplicated supports errors
-        self::$peripheralRepository->insert(self::$samplePeripheral);
+        //Peripheral saveed to test duplicated supports errors
+        self::$peripheralRepository->save(self::$samplePeripheral);
     }
 
     public function tearDown():void{
@@ -70,15 +70,15 @@ final class PeripheralRepositoryTest extends TestCase
         $peripheral->objectId = "objID2";
         $peripheral->modelName = "Peripheral 2";
 
-        self::$peripheralRepository->insert($peripheral);
+        self::$peripheralRepository->save($peripheral);
 
         $this->assertEquals(self::$peripheralRepository->findById("objID2")->modelName,"Peripheral 2");
     }
 
     public function testBadInsert():void{
         $this->expectException(RepositoryException::class);
-        //Peripheral already inserted in the setUp() method  
-        self::$peripheralRepository->insert(self::$samplePeripheral);
+        //Peripheral already saveed in the setUp() method  
+        self::$peripheralRepository->save(self::$samplePeripheral);
     }
 
     //SELECT TESTS
@@ -102,9 +102,9 @@ final class PeripheralRepositoryTest extends TestCase
         $peripheral3 = clone self::$samplePeripheral;
         $peripheral3->objectId = "objID3";
 
-        self::$peripheralRepository->insert($peripheral1);
-        self::$peripheralRepository->insert($peripheral2);
-        self::$peripheralRepository->insert($peripheral3);
+        self::$peripheralRepository->save($peripheral1);
+        self::$peripheralRepository->save($peripheral2);
+        self::$peripheralRepository->save($peripheral3);
 
         $peripherals = self::$peripheralRepository->findAll();
 
@@ -118,7 +118,7 @@ final class PeripheralRepositoryTest extends TestCase
         $peripheral->objectId = "objID2";
         $peripheral->modelName = "Peripheral Test";
 
-        self::$peripheralRepository->insert($peripheral);
+        self::$peripheralRepository->save($peripheral);
 
         $this->assertEquals(self::$peripheralRepository->findByModelName("Peripheral Test")->modelName,"Peripheral Test");
     }
@@ -129,7 +129,7 @@ final class PeripheralRepositoryTest extends TestCase
         $peripheral->objectId = "objID2";
         $peripheral->modelName = "Peripheral Test";
 
-        self::$peripheralRepository->insert($peripheral);
+        self::$peripheralRepository->save($peripheral);
 
         $this->assertEquals(count(self::$peripheralRepository->findByKey("mous")),2);
     }

@@ -25,9 +25,9 @@ final class AuthorRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Author inserted to test duplicated author errors
+        //Author saveed to test duplicated author errors
         $author= new Author('Mario',"Rossi");
-        self::$authorRepository->insert($author);        
+        self::$authorRepository->save($author);        
     }
 
     public function tearDown():void{
@@ -39,7 +39,7 @@ final class AuthorRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $author= new Author('Luca',"Verdi");
 
-        self::$authorRepository->insert($author);
+        self::$authorRepository->save($author);
 
         $this->assertEquals(self::$authorRepository->findById(2)->firstname,"Luca");
     }
@@ -70,9 +70,9 @@ final class AuthorRepositoryTest extends TestCase
         $author1 = new Author('Sara',"Neri");
         $author2 = new Author('Tommaso',"Gialli");
         $author3 = new Author('Franco',"Verdi");
-        self::$authorRepository->insert($author1);
-        self::$authorRepository->insert($author2);
-        self::$authorRepository->insert($author3);
+        self::$authorRepository->save($author1);
+        self::$authorRepository->save($author2);
+        self::$authorRepository->save($author3);
         
         $authors = self::$authorRepository->findAll();
         

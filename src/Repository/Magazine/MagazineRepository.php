@@ -28,10 +28,10 @@ class MagazineRepository extends GenericRepository {
 
     /**
      * Insert Magazine
-     * @param Magazine $magazine    The magazine to insert
-     * @throws RepositoryException  If the insert fails         * 
+     * @param Magazine $magazine    The magazine to save
+     * @throws RepositoryException  If the save fails         * 
      */
-    public function insert(Magazine $magazine): void {
+    public function save(Magazine $magazine): void {
 
         $queryMagazine =
             "INSERT INTO Magazine
@@ -66,7 +66,7 @@ class MagazineRepository extends GenericRepository {
             $this->pdo->commit();
         } catch (PDOException) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while inserting the magazine with id: {" . $magazine->objectId . "}");
+            throw new RepositoryException("Error while saveing the magazine with id: {" . $magazine->objectId . "}");
         }
     }
 

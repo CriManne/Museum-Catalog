@@ -19,16 +19,16 @@ class PublisherService {
 
     /**
      * Insert a publisher
-     * @param Publisher $p  The publisher to insert
+     * @param Publisher $p  The publisher to save
      * @throws ServiceException If the publisher name already exists
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(Publisher $p): void {
+    public function save(Publisher $p): void {
         $publisher = $this->publisherRepository->selectByName($p->name);
         if ($publisher)
             throw new ServiceException("Publisher name already used!");
 
-        $this->publisherRepository->insert($p);
+        $this->publisherRepository->save($p);
     }
 
     /**

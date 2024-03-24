@@ -19,16 +19,16 @@ class SupportTypeService {
 
     /**
      * Insert SupportType
-     * @param SupportType $s The SupportType to insert
+     * @param SupportType $s The SupportType to save
      * @throws ServiceException If the name is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(SupportType $s): void {
+    public function save(SupportType $s): void {
         $sType = $this->supportTypeRepository->selectByName($s->name);
         if ($sType)
             throw new ServiceException("Support Type name already used!");
 
-        $this->supportTypeRepository->insert($s);
+        $this->supportTypeRepository->save($s);
     }
 
     /**

@@ -25,9 +25,9 @@ final class CpuRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Cpu inserted to test duplicated cpu errors
+        //Cpu saveed to test duplicated cpu errors
         $cpu= new Cpu('Cpu 1.0',"4GHZ");
-        self::$cpuRepository->insert($cpu);        
+        self::$cpuRepository->save($cpu);        
     }
 
     public function tearDown():void{
@@ -39,12 +39,12 @@ final class CpuRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $cpu= new Cpu('Cpu 2.0',"4GHZ");
 
-        self::$cpuRepository->insert($cpu);
+        self::$cpuRepository->save($cpu);
 
         $this->assertEquals(self::$cpuRepository->findById(2)->modelName,"Cpu 2.0");
     }
 
-    //No bad insert test because the ModelName is not unique.
+    //No bad save test because the ModelName is not unique.
     
     //SELECT TESTS
     public function testGoodSelectById(): void
@@ -82,9 +82,9 @@ final class CpuRepositoryTest extends TestCase
         $cpu1 = new Cpu('Cpu 4.0',"4GHZ");
         $cpu2 = new Cpu('Cpu 5.0',"8GHZ");
         $cpu3 = new Cpu('Cpu 6.0',"12GHZ");
-        self::$cpuRepository->insert($cpu1);
-        self::$cpuRepository->insert($cpu2);
-        self::$cpuRepository->insert($cpu3);
+        self::$cpuRepository->save($cpu1);
+        self::$cpuRepository->save($cpu2);
+        self::$cpuRepository->save($cpu3);
         
         $cpus = self::$cpuRepository->findAll();
         

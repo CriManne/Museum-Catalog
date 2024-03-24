@@ -19,16 +19,16 @@ class RamService {
 
     /**
      * Insert ram
-     * @param Ram $r The ram to insert
-     * @throws ServiceException If the same ram is already inserted
-     * @throws RepositoryException If the insert fails
+     * @param Ram $r The ram to save
+     * @throws ServiceException If the same ram is already saveed
+     * @throws RepositoryException If the save fails
      */
-    public function insert(Ram $r): void {
+    public function save(Ram $r): void {
         $ram = $this->ramRepository->selectByName($r->modelName);
         if ($ram && $ram->size == $r->size)
             throw new ServiceException("Ram name and size already used!");
 
-        $this->ramRepository->insert($r);
+        $this->ramRepository->save($r);
     }
 
     /**

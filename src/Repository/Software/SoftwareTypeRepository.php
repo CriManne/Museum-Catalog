@@ -15,10 +15,10 @@ class SoftwareTypeRepository extends GenericRepository {
 
     /**
      * Insert softwaretype
-     * @param SoftwareType  $softwareType   The software type to insert
-     * @throws RepositoryException If the insert fails
+     * @param SoftwareType  $softwareType   The software type to save
+     * @throws RepositoryException If the save fails
      */
-    public function insert(SoftwareType $softwareType): void {
+    public function save(SoftwareType $softwareType): void {
 
         $query =
             "INSERT INTO SoftwareType 
@@ -31,7 +31,7 @@ class SoftwareTypeRepository extends GenericRepository {
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the software type with name: {" . $softwareType->name . "}");
+            throw new RepositoryException("Error while saveing the software type with name: {" . $softwareType->name . "}");
         }
     }
 

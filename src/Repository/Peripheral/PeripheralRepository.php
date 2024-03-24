@@ -26,10 +26,10 @@ class PeripheralRepository extends GenericRepository {
 
     /**
      * Insert Peripheral
-     * @param Peripheral $peripheral    The peripheral to insert
-     * @throws RepositoryException  If the insert fails          
+     * @param Peripheral $peripheral    The peripheral to save
+     * @throws RepositoryException  If the save fails          
      */
-    public function insert(Peripheral $peripheral): void {
+    public function save(Peripheral $peripheral): void {
 
         $queryPeripheral =
             "INSERT INTO Peripheral
@@ -62,7 +62,7 @@ class PeripheralRepository extends GenericRepository {
             $this->pdo->commit();
         } catch (PDOException) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while inserting the peripheral with id: {" . $peripheral->objectId . "}");
+            throw new RepositoryException("Error while saveing the peripheral with id: {" . $peripheral->objectId . "}");
         }
     }
 

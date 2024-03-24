@@ -25,9 +25,9 @@ final class RamRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Ram inserted to test duplicated ram errors
+        //Ram saveed to test duplicated ram errors
         $ram= new Ram('Ram 1.0',"256KB");
-        self::$ramRepository->insert($ram);        
+        self::$ramRepository->save($ram);        
     }
 
     public function tearDown():void{
@@ -39,12 +39,12 @@ final class RamRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $ram= new Ram('Ram 2.0',"256KB");
 
-        self::$ramRepository->insert($ram);
+        self::$ramRepository->save($ram);
 
         $this->assertEquals(self::$ramRepository->findById(2)->modelName,"Ram 2.0");
     }
 
-    //No bad insert test because the ModelName is not unique.
+    //No bad save test because the ModelName is not unique.
     //E.G:
     //Ram1 model: Logitech size: 125KB
     //Ram2 model: Logitech size:512KB
@@ -85,9 +85,9 @@ final class RamRepositoryTest extends TestCase
         $ram1 = new Ram('Ram 4.0',"256KB");
         $ram2 = new Ram('Ram 5.0',"1024KB");
         $ram3 = new Ram('Ram 6.0',"512KB");
-        self::$ramRepository->insert($ram1);
-        self::$ramRepository->insert($ram2);
-        self::$ramRepository->insert($ram3);
+        self::$ramRepository->save($ram1);
+        self::$ramRepository->save($ram2);
+        self::$ramRepository->save($ram3);
         
         $rams = self::$ramRepository->findAll();
         

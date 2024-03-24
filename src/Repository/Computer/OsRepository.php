@@ -15,10 +15,10 @@ class OsRepository extends GenericRepository {
 
     /**
      * Insert a os
-     * @param Os $os    The os to insert
-     * @throws RepositoryException  If the insert fails
+     * @param Os $os    The os to save
+     * @throws RepositoryException  If the save fails
      */
-    public function insert(Os $os): void {
+    public function save(Os $os): void {
 
         $query =
             "INSERT INTO Os 
@@ -31,7 +31,7 @@ class OsRepository extends GenericRepository {
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the os with name: {" . $os->name . "}");
+            throw new RepositoryException("Error while saveing the os with name: {" . $os->name . "}");
         }
     }
 

@@ -19,16 +19,16 @@ class OsService {
 
     /**
      * Insert os
-     * @param Os $os The os to insert
+     * @param Os $os The os to save
      * @throws ServiceException If the os name is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(Os $os): void {
+    public function save(Os $os): void {
         $osFetch = $this->osRepository->selectByName($os->name);
         if ($osFetch)
             throw new ServiceException("Os name already used!");
 
-        $this->osRepository->insert($os);
+        $this->osRepository->save($os);
     }
 
     /**

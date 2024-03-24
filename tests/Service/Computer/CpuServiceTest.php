@@ -38,7 +38,7 @@ final class CpuServiceTest extends BaseServiceTest
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
         $cpu = new Cpu('Cpu 1.0','4GHZ',1);
-        $this->cpuService->insert($cpu);
+        $this->cpuService->save($cpu);
     }
 
     

@@ -80,14 +80,14 @@ final class ComputerRepositoryTest extends TestCase
             null,
         );
 
-        self::$osRepository->insert(self::$sampleOs);
-        self::$cpuRepository->insert(self::$sampleCpu);
-        self::$ramRepository->insert(self::$sampleRam);
+        self::$osRepository->save(self::$sampleOs);
+        self::$cpuRepository->save(self::$sampleCpu);
+        self::$ramRepository->save(self::$sampleRam);
     }
 
     public function setUp():void{
-        //Computer inserted to test duplicated supports errors
-        self::$computerRepository->insert(self::$sampleComputer);
+        //Computer saveed to test duplicated supports errors
+        self::$computerRepository->save(self::$sampleComputer);
     }
 
     public function tearDown():void{
@@ -101,14 +101,14 @@ final class ComputerRepositoryTest extends TestCase
         $computer->objectId = "objID2";
         $computer->modelName = "Computer 2";
         
-        self::$computerRepository->insert($computer);
+        self::$computerRepository->save($computer);
 
         $this->assertEquals(self::$computerRepository->findById("objID2")->modelName,"Computer 2");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
-        //Computer already inserted in the setUp() method  
-        self::$computerRepository->insert(self::$sampleComputer);
+        //Computer already saveed in the setUp() method  
+        self::$computerRepository->save(self::$sampleComputer);
     }
     
     //SELECT TESTS
@@ -126,7 +126,7 @@ final class ComputerRepositoryTest extends TestCase
         $newPc = clone self::$sampleComputer;
         $newPc->objectId = "OBJ2";
         $newPc->modelName = "Computer 2";
-        self::$computerRepository->insert($newPc);
+        self::$computerRepository->save($newPc);
 
         $this->assertEquals(count(self::$computerRepository->findByKey("comp")),2);
     }
@@ -145,9 +145,9 @@ final class ComputerRepositoryTest extends TestCase
         $computer3 = clone self::$sampleComputer;
         $computer3->objectId = "objID3";
                 
-        self::$computerRepository->insert($computer1);
-        self::$computerRepository->insert($computer2);
-        self::$computerRepository->insert($computer3);
+        self::$computerRepository->save($computer1);
+        self::$computerRepository->save($computer2);
+        self::$computerRepository->save($computer3);
         
         $computers = self::$computerRepository->findAll();
         
@@ -161,7 +161,7 @@ final class ComputerRepositoryTest extends TestCase
         $computer->objectId = "objID2";
         $computer->modelName = "Computer Test";
         
-        self::$computerRepository->insert($computer);
+        self::$computerRepository->save($computer);
 
         $this->assertEquals(self::$computerRepository->findByModelName("Computer Test")->modelName,"Computer Test");
     }

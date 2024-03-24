@@ -15,10 +15,10 @@ class CpuRepository extends GenericRepository {
 
     /**
      * Insert a cpu
-     * @param Cpu $cpu  The cpu to insert
-     * @throws RepositoryException  If the insert fails
+     * @param Cpu $cpu  The cpu to save
+     * @throws RepositoryException  If the save fails
      */
-    public function insert(Cpu $cpu): void {
+    public function save(Cpu $cpu): void {
 
         $query =
             "INSERT INTO Cpu 
@@ -32,7 +32,7 @@ class CpuRepository extends GenericRepository {
         try {
             $stmt->execute();
         } catch (PDOException $e) {
-            throw new RepositoryException("Error while inserting the cpu with name: {" . $cpu->modelName . "}");
+            throw new RepositoryException("Error while saveing the cpu with name: {" . $cpu->modelName . "}");
         }
     }
 

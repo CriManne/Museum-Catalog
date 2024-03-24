@@ -79,7 +79,7 @@ class CreateController extends ControllerUtil implements ControllerInterface
 
             $instantiatedObject = $this->artifactRepository->returnMappedObject($params);
 
-            $this->artifactService->insert($instantiatedObject);
+            $this->artifactService->save($instantiatedObject);
 
             //Delete remained old files
             DeleteController::deleteImages($instantiatedObject->objectId);
@@ -87,7 +87,7 @@ class CreateController extends ControllerUtil implements ControllerInterface
             //Upload new files           
             UploadController::uploadFiles($instantiatedObject->objectId, 'images');
 
-            $message = "$category inserted successfully!";
+            $message = "$category saveed successfully!";
             $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
 
             return new Response(

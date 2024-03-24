@@ -19,11 +19,11 @@ class AuthorService {
 
     /**
      * Insert an author
-     * @param Author $a The author to insert
-     * @throws RepositoryException If the insert fails         * 
+     * @param Author $a The author to save
+     * @throws RepositoryException If the save fails         * 
      */
-    public function insert(Author $a): void {
-        $this->authorRepository->insert($a);
+    public function save(Author $a): void {
+        $this->authorRepository->save($a);
     }
 
     /**

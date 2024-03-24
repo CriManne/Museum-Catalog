@@ -51,7 +51,7 @@ final class PeripheralServiceTest extends BaseServiceTest
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->peripheralRepository->method('findByModelName')->willReturn($this->sampleObject);
-        $this->peripheralService->insert($this->sampleObject);
+        $this->peripheralService->save($this->sampleObject);
     }
     //SELECT TESTS
     public function testGoodSelectById(): void

@@ -19,16 +19,16 @@ class PeripheralTypeService {
 
     /**
      * Insert peripheral type
-     * @param PeripheralType $pt The object to insert
+     * @param PeripheralType $pt The object to save
      * @throws ServiceException If the name is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(PeripheralType $pt): void {
+    public function save(PeripheralType $pt): void {
         $pType = $this->peripheralTypeRepository->selectByName($pt->name);
         if ($pType)
             throw new ServiceException("PeripheralType name already used!");
 
-        $this->peripheralTypeRepository->insert($pt);
+        $this->peripheralTypeRepository->save($pt);
     }
 
     /**

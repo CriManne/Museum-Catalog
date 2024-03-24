@@ -96,11 +96,11 @@ final class SearchArtifactEngineTest extends TestCase
         $os = new Os("Windows 10", 1);
         $publisher = new Publisher("Einaudi", 1);
 
-        self::$cpuRepository->insert($cpu);
-        self::$ramRepository->insert($ram);
-        self::$osRepository->insert($os);
+        self::$cpuRepository->save($cpu);
+        self::$ramRepository->save($ram);
+        self::$osRepository->save($os);
 
-        self::$computerRepository->insert(new Computer(
+        self::$computerRepository->save(new Computer(
             "OBJ1",
             "Computer1",
             2018,
@@ -113,9 +113,9 @@ final class SearchArtifactEngineTest extends TestCase
             null,
         ));
 
-        $publisherRepository->insert($publisher);
+        $publisherRepository->save($publisher);
 
-        self::$magazineRepository->insert(new Magazine(
+        self::$magazineRepository->save(new Magazine(
             "OBJ2",
             "Compass",
             2017,

@@ -39,7 +39,7 @@ final class PeripheralTypeServiceTest extends BaseServiceTest
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
         $peripheralType = new PeripheralType('Mouse');
-        $this->peripheralTypeService->insert($peripheralType);
+        $this->peripheralTypeService->save($peripheralType);
     }
 
     

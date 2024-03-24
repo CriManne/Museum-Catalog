@@ -26,9 +26,9 @@ final class PeripheralTypeRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //PeripheralType inserted to test duplicated os errors
+        //PeripheralType saveed to test duplicated os errors
         $peripheralType = new PeripheralType('Mouse');
-        self::$peripheralTypeRepository->insert($peripheralType);
+        self::$peripheralTypeRepository->save($peripheralType);
     }
 
     public function tearDown():void{
@@ -40,17 +40,17 @@ final class PeripheralTypeRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $peripheralType = new PeripheralType('Keyboard');
 
-        self::$peripheralTypeRepository->insert($peripheralType);
+        self::$peripheralTypeRepository->save($peripheralType);
 
         $this->assertEquals(self::$peripheralTypeRepository->findById(2)->name,"Keyboard");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
 
-        //PeripheralType already inserted in the setUp() method
+        //PeripheralType already saveed in the setUp() method
         $peripheralType = new PeripheralType('Mouse');
 
-        self::$peripheralTypeRepository->insert($peripheralType);
+        self::$peripheralTypeRepository->save($peripheralType);
     }
     
     //SELECT TESTS
@@ -89,9 +89,9 @@ final class PeripheralTypeRepositoryTest extends TestCase
         $peripheralType1 = new PeripheralType('PT1');
         $peripheralType2 = new PeripheralType('PT2');
         $peripheralType3 = new PeripheralType('PT3');
-        self::$peripheralTypeRepository->insert($peripheralType1);
-        self::$peripheralTypeRepository->insert($peripheralType2);
-        self::$peripheralTypeRepository->insert($peripheralType3);
+        self::$peripheralTypeRepository->save($peripheralType1);
+        self::$peripheralTypeRepository->save($peripheralType2);
+        self::$peripheralTypeRepository->save($peripheralType3);
         
         $peripheralTypes = self::$peripheralTypeRepository->findAll();
         

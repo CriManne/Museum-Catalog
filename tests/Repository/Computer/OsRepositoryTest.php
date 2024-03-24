@@ -26,9 +26,9 @@ final class OsRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Os inserted to test duplicated os errors
+        //Os saveed to test duplicated os errors
         $os = new Os('Windows');
-        self::$osRepository->insert($os);
+        self::$osRepository->save($os);
     }
 
     public function tearDown():void{
@@ -40,7 +40,7 @@ final class OsRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $os = new Os('Linux');
 
-        self::$osRepository->insert($os);
+        self::$osRepository->save($os);
 
         $selectResult = self::$osRepository->findById(2);
 
@@ -49,10 +49,10 @@ final class OsRepositoryTest extends TestCase
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
 
-        //Os already inserted in the setUp() method
+        //Os already saveed in the setUp() method
         $os = new Os('Windows');
 
-        self::$osRepository->insert($os);
+        self::$osRepository->save($os);
     }
     
     //SELECT TESTS
@@ -91,9 +91,9 @@ final class OsRepositoryTest extends TestCase
         $os1 = new Os('S1');
         $os2 = new Os('S2');
         $os3 = new Os('S3');
-        self::$osRepository->insert($os1);
-        self::$osRepository->insert($os2);
-        self::$osRepository->insert($os3);
+        self::$osRepository->save($os1);
+        self::$osRepository->save($os2);
+        self::$osRepository->save($os3);
         
         $oss = self::$osRepository->findAll();
         

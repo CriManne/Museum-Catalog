@@ -15,10 +15,10 @@ class PeripheralTypeRepository extends GenericRepository {
 
     /**
      * Insert a peripheral type
-     * @param PeripheralType $peripheralType    The p.type to insert
-     * @throws RepositoryException  If the insert fails
+     * @param PeripheralType $peripheralType    The p.type to save
+     * @throws RepositoryException  If the save fails
      */
-    public function insert(PeripheralType $peripheralType): void {
+    public function save(PeripheralType $peripheralType): void {
 
         $query =
             "INSERT INTO PeripheralType 
@@ -31,7 +31,7 @@ class PeripheralTypeRepository extends GenericRepository {
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the peripheraltype with name: {" . $peripheralType->name . "}");
+            throw new RepositoryException("Error while saveing the peripheraltype with name: {" . $peripheralType->name . "}");
         }
     }
 

@@ -19,16 +19,16 @@ class SoftwareTypeService {
 
     /**
      * Insert SoftwareType
-     * @param SoftwareType $s The SoftwareType to insert
+     * @param SoftwareType $s The SoftwareType to save
      * @throws ServiceException If the name is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(SoftwareType $s): void {
+    public function save(SoftwareType $s): void {
         $sType = $this->softwareTypeRepository->selectByName($s->name);
         if ($sType)
             throw new ServiceException("Software Type name already used!");
 
-        $this->softwareTypeRepository->insert($s);
+        $this->softwareTypeRepository->save($s);
     }
 
     /**

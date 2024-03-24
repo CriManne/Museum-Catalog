@@ -73,13 +73,13 @@ final class BookRepositoryTest extends TestCase
             95,
         );
 
-        self::$authorRepository->insert(self::$sampleAuthor);
-        self::$publisherRepository->insert(self::$samplePublisher);
+        self::$authorRepository->save(self::$sampleAuthor);
+        self::$publisherRepository->save(self::$samplePublisher);
     }
 
     public function setUp():void{
-        //Book inserted to test duplicated supports errors
-        self::$bookRepository->insert(self::$sampleBook);
+        //Book saveed to test duplicated supports errors
+        self::$bookRepository->save(self::$sampleBook);
     }
 
     public function tearDown():void{
@@ -93,14 +93,14 @@ final class BookRepositoryTest extends TestCase
         $book->objectId = "objID2";
         $book->title = "2001";
         
-        self::$bookRepository->insert($book);
+        self::$bookRepository->save($book);
 
         $this->assertEquals(self::$bookRepository->findById("objID2")->title,"2001");
     }
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
-        //Book already inserted in the setUp() method  
-        self::$bookRepository->insert(self::$sampleBook);
+        //Book already saveed in the setUp() method  
+        self::$bookRepository->save(self::$sampleBook);
     }
     
     //SELECT TESTS
@@ -124,9 +124,9 @@ final class BookRepositoryTest extends TestCase
         $book3 = clone self::$sampleBook;
         $book3->objectId = "objID3";
                 
-        self::$bookRepository->insert($book1);
-        self::$bookRepository->insert($book2);
-        self::$bookRepository->insert($book3);
+        self::$bookRepository->save($book1);
+        self::$bookRepository->save($book2);
+        self::$bookRepository->save($book3);
         
         $books = self::$bookRepository->findAll();
         
@@ -140,7 +140,7 @@ final class BookRepositoryTest extends TestCase
         $book->objectId = "objID2";
         $book->title = "Big Bang";
         
-        self::$bookRepository->insert($book);
+        self::$bookRepository->save($book);
 
         $this->assertEquals(self::$bookRepository->findByTitle("Big Bang")->title,"Big Bang");
     }
@@ -151,7 +151,7 @@ final class BookRepositoryTest extends TestCase
         $book->objectId = "objID2";
         $book->title = "Big Bang";
 
-        self::$bookRepository->insert($book);
+        self::$bookRepository->save($book);
 
         $this->assertEquals(count(self::$bookRepository->findByKey("gEoRge")),2);
     }

@@ -44,7 +44,7 @@ final class UserServiceTest extends BaseServiceTest
         $this->sth->method('fetch')->willReturn($this->sampleResponse);
         $this->sth->method('fetchAll')->willReturn([$this->sampleResponse]);
         $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
-        $this->userService->insert($user);
+        $this->userService->save($user);
     }
     
     //SELECT TESTS

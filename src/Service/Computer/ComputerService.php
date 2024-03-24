@@ -19,16 +19,16 @@ class ComputerService {
 
     /**
      * Insert computer
-     * @param Computer $c The computer to insert
+     * @param Computer $c The computer to save
      * @throws ServiceException If the ModelName is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(Computer $c): void {
+    public function save(Computer $c): void {
         $computer = $this->computerRepository->findByModelName($c->modelName);
         if ($computer)
             throw new ServiceException("Computer model name already used!");
 
-        $this->computerRepository->insert($c);
+        $this->computerRepository->save($c);
     }
 
     /**

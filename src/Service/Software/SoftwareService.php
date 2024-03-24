@@ -19,16 +19,16 @@ class SoftwareService {
 
     /**
      * Insert software
-     * @param Software $s The software to insert
+     * @param Software $s The software to save
      * @throws ServiceException If the title is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(Software $s): void {
+    public function save(Software $s): void {
         $software = $this->softwareRepository->findByTitle($s->title);
         if ($software)
             throw new ServiceException("Software title already used!");
 
-        $this->softwareRepository->insert($s);
+        $this->softwareRepository->save($s);
     }
 
     /**

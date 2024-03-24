@@ -57,7 +57,7 @@ final class SoftwareServiceTest extends BaseServiceTest
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->softwareRepository->method('findByTitle')->willReturn($this->sampleObject);
-        $this->softwareService->insert($this->sampleObject);
+        $this->softwareService->save($this->sampleObject);
     }
     //SELECT TESTS
     public function testGoodSelectById(): void

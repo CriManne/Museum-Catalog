@@ -35,7 +35,7 @@ final class SoftwareTypeServiceTest extends BaseServiceTest
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
         $softwareType = new SoftwareType('Office');
-        $this->softwareTypeService->insert($softwareType);
+        $this->softwareTypeService->save($softwareType);
     }
 
     

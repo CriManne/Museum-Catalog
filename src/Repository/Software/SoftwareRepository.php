@@ -31,10 +31,10 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Insert software
-     * @param Software $software    The software to insert
-     * @throws RepositoryException  If the insert fails         * 
+     * @param Software $software    The software to save
+     * @throws RepositoryException  If the save fails         * 
      */
-    public function insert(Software $software): void {
+    public function save(Software $software): void {
 
         $querySoftware =
             "INSERT INTO Software
@@ -68,7 +68,7 @@ class SoftwareRepository extends GenericRepository {
             $this->pdo->commit();
         } catch (PDOException) {
             $this->pdo->rollBack();
-            throw new RepositoryException("Error while inserting the software with id: {" . $software->objectId . "}");
+            throw new RepositoryException("Error while saveing the software with id: {" . $software->objectId . "}");
         }
     }
 

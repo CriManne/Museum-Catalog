@@ -42,12 +42,12 @@ final class SearchComponentEngineTest extends TestCase
         $cpu3 = new Cpu("I5", "8GHZ", 3);
         $ram3 = new Ram("Ram 3", "32GB", 3);
 
-        self::$cpuRepository->insert($cpu);
-        self::$ramRepository->insert($ram);
-        self::$cpuRepository->insert($cpu2);
-        self::$ramRepository->insert($ram2);
-        self::$cpuRepository->insert($cpu3);
-        self::$ramRepository->insert($ram3);
+        self::$cpuRepository->save($cpu);
+        self::$ramRepository->save($ram);
+        self::$cpuRepository->save($cpu2);
+        self::$ramRepository->save($ram2);
+        self::$cpuRepository->save($cpu3);
+        self::$ramRepository->save($ram3);
 
         self::$componentSearchEngine = new ComponentSearchEngine(
             "config/test_container.php"

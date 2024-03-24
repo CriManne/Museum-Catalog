@@ -15,10 +15,10 @@ class PublisherRepository extends GenericRepository {
 
     /**
      * Insert a publisher
-     * @param Publisher $publisher  The publisher to insert
-     * @throws RepositoryException  If the insert fails
+     * @param Publisher $publisher  The publisher to save
+     * @throws RepositoryException  If the save fails
      */
-    public function insert(Publisher $publisher): void {
+    public function save(Publisher $publisher): void {
 
         $query =
             "INSERT INTO Publisher 
@@ -31,7 +31,7 @@ class PublisherRepository extends GenericRepository {
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the publisher with name: {" . $publisher->name . "}");
+            throw new RepositoryException("Error while saveing the publisher with name: {" . $publisher->name . "}");
         }
     }
 

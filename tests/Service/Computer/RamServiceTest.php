@@ -38,7 +38,7 @@ final class RamServiceTest extends BaseServiceTest
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
         $ram = new Ram('Ram 1.0','512KB',1);
-        $this->ramService->insert($ram);
+        $this->ramService->save($ram);
     }
 
     

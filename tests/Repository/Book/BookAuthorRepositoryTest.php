@@ -28,9 +28,9 @@ final class BookAuthorRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Author inserted to test duplicated cpu errors        
+        //Author saveed to test duplicated cpu errors        
         $bookAuthor= new BookAuthor("BOOK1",1);
-        self::$bookAuthorRepository->insert($bookAuthor);        
+        self::$bookAuthorRepository->save($bookAuthor);        
     }
 
     public function tearDown():void{
@@ -42,7 +42,7 @@ final class BookAuthorRepositoryTest extends TestCase
     public function testGoodInsert():void{                
         $bookAuthor= new BookAuthor('BOOK2',1);
 
-        self::$bookAuthorRepository->insert($bookAuthor);
+        self::$bookAuthorRepository->save($bookAuthor);
         
         $this->assertEquals(self::$bookAuthorRepository->findById("BOOK2",1)->bookId,"BOOK2");
     }
@@ -83,9 +83,9 @@ final class BookAuthorRepositoryTest extends TestCase
         $bookAuthor1 = new BookAuthor("BOOK2",5);
         $bookAuthor2 = new BookAuthor("BOOK3",3);
         $bookAuthor3 = new BookAuthor("BOOK4",1);
-        self::$bookAuthorRepository->insert($bookAuthor1);
-        self::$bookAuthorRepository->insert($bookAuthor2);
-        self::$bookAuthorRepository->insert($bookAuthor3);
+        self::$bookAuthorRepository->save($bookAuthor1);
+        self::$bookAuthorRepository->save($bookAuthor2);
+        self::$bookAuthorRepository->save($bookAuthor3);
         
         $bookAuthors = self::$bookAuthorRepository->findAll();
         

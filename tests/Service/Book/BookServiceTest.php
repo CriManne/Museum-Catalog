@@ -62,7 +62,7 @@ final class BookServiceTest extends BaseServiceTest
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
         $this->bookRepository->method('findByTitle')->willReturn($this->sampleObject);
-        $this->bookService->insert($this->sampleObject);
+        $this->bookService->save($this->sampleObject);
     }
     //SELECT TESTS
     public function testGoodSelectById(): void

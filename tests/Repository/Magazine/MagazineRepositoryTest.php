@@ -53,12 +53,12 @@ final class MagazineRepositoryTest extends TestCase
             null,
         );
 
-        self::$publisherRepository->insert(self::$samplePublisher);
+        self::$publisherRepository->save(self::$samplePublisher);
     }
 
     public function setUp():void{
-        //Magazine inserted to test duplicated supports errors
-        self::$magazineRepository->insert(self::$sampleMagazine);
+        //Magazine saveed to test duplicated supports errors
+        self::$magazineRepository->save(self::$sampleMagazine);
     }
 
     public function tearDown():void{
@@ -72,15 +72,15 @@ final class MagazineRepositoryTest extends TestCase
         $magazine->objectId = "objID2";
         $magazine->title = "Magazine 2";
         
-        self::$magazineRepository->insert($magazine);
+        self::$magazineRepository->save($magazine);
 
         $this->assertEquals(self::$magazineRepository->findById("objID2")->title,"Magazine 2");
     }
 
     public function testBadInsert():void{        
         $this->expectException(RepositoryException::class);
-        //Magazine already inserted in the setUp() method  
-        self::$magazineRepository->insert(self::$sampleMagazine);
+        //Magazine already saveed in the setUp() method  
+        self::$magazineRepository->save(self::$sampleMagazine);
     }
     
     //SELECT TESTS
@@ -104,9 +104,9 @@ final class MagazineRepositoryTest extends TestCase
         $magazine3 = clone self::$sampleMagazine;
         $magazine3->objectId = "objID3";
                 
-        self::$magazineRepository->insert($magazine1);
-        self::$magazineRepository->insert($magazine2);
-        self::$magazineRepository->insert($magazine3);
+        self::$magazineRepository->save($magazine1);
+        self::$magazineRepository->save($magazine2);
+        self::$magazineRepository->save($magazine3);
         
         $magazines = self::$magazineRepository->findAll();
         
@@ -120,7 +120,7 @@ final class MagazineRepositoryTest extends TestCase
         $magazine->objectId = "objID2";
         $magazine->title = "Magazine Test";
         
-        self::$magazineRepository->insert($magazine);
+        self::$magazineRepository->save($magazine);
 
         $this->assertEquals(self::$magazineRepository->findByTitle("Magazine Test")->title,"Magazine Test");
     }
@@ -131,7 +131,7 @@ final class MagazineRepositoryTest extends TestCase
         $magazine->objectId = "objID2";
         $magazine->title = "Magazine Test";
         
-        self::$magazineRepository->insert($magazine);
+        self::$magazineRepository->save($magazine);
 
         $this->assertEquals(count(self::$magazineRepository->findByKey("maGazIn")),2);
     }

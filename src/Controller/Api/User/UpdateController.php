@@ -72,7 +72,7 @@ class UpdateController extends ControllerUtil implements ControllerInterface {
 
             $this->userService->update($user);
 
-            $message = 'User with email {' . $params['email'] . '} inserted successfully!';
+            $message = 'User with email {' . $params['email'] . '} saveed successfully!';
             $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 200,

@@ -37,7 +37,7 @@ final class OsServiceTest extends BaseServiceTest
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn($this->sampleObject);
         $os = new Os('Windows');
-        $this->osService->insert($os);
+        $this->osService->save($os);
     }
 
     

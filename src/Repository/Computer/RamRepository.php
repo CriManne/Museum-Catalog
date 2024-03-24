@@ -15,10 +15,10 @@ class RamRepository extends GenericRepository {
 
     /**
      * Insert a ram
-     * @param Ram $ram  The ram to insert
-     * @throws RepositoryException  If the insert fails
+     * @param Ram $ram  The ram to save
+     * @throws RepositoryException  If the save fails
      */
-    public function insert(Ram $ram): void {
+    public function save(Ram $ram): void {
 
         $query =
             "INSERT INTO Ram 
@@ -32,7 +32,7 @@ class RamRepository extends GenericRepository {
         try {
             $stmt->execute();
         } catch (PDOException) {
-            throw new RepositoryException("Error while inserting the ram with name: {" . $ram->modelName . "}");
+            throw new RepositoryException("Error while saveing the ram with name: {" . $ram->modelName . "}");
         }
     }
 

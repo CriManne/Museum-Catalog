@@ -19,16 +19,16 @@ class PeripheralService {
 
     /**
      * Insert peripheral
-     * @param Peripheral $p The peripheral to insert
+     * @param Peripheral $p The peripheral to save
      * @throws ServiceException If the ModelName is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(Peripheral $p): void {
+    public function save(Peripheral $p): void {
         $peripheral = $this->peripheralRepository->findByModelName($p->modelName);
         if ($peripheral)
             throw new ServiceException("Peripheral model name already used!");
 
-        $this->peripheralRepository->insert($p);
+        $this->peripheralRepository->save($p);
     }
 
     /**
