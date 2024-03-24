@@ -66,8 +66,8 @@ class CpuService {
      * @param string $key The key to search
      * @return array The cpus selected 
      */
-    public function selectByKey(string $key): array {
-        return $this->cpuRepository->selectByKey($key);
+    public function findByKey(string $key): array {
+        return $this->cpuRepository->findByKey($key);
     }
 
     /**

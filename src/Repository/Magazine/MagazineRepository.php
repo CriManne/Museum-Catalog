@@ -95,7 +95,7 @@ class MagazineRepository extends GenericRepository {
      * @param string $title     The magazine title to select
      * @return ?Magazine    The magazine selected, null if not found
      */
-    public function selectByTitle(string $title): ?Magazine {
+    public function findByTitle(string $title): ?Magazine {
         $query = "SELECT * FROM Magazine b
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE title LIKE :title";
@@ -117,7 +117,7 @@ class MagazineRepository extends GenericRepository {
      * @param string $key The key given
      * @return array   All magazines, empty array if no result
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,m.* FROM Magazine m
             INNER JOIN GenericObject g ON g.id = m.objectId
             INNER JOIN Publisher p ON m.publisherId = p.id

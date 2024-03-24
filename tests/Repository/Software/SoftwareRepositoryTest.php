@@ -147,7 +147,7 @@ final class SoftwareRepositoryTest extends TestCase
         
         self::$softwareRepository->insert($software);
 
-        $this->assertEquals(self::$softwareRepository->selectByTitle("Visual studio")->title,"Visual studio");
+        $this->assertEquals(self::$softwareRepository->findByTitle("Visual studio")->title,"Visual studio");
     }
 
     public function testGoodSelectByKey():void{
@@ -158,11 +158,11 @@ final class SoftwareRepositoryTest extends TestCase
         
         self::$softwareRepository->insert($software);
 
-        $this->assertEquals(count(self::$softwareRepository->selectByKey("oFFic")),2);
+        $this->assertEquals(count(self::$softwareRepository->findByKey("oFFic")),2);
     }
 
     public function testBadSelectByKey():void{
-        $this->assertEquals(self::$softwareRepository->selectByKey("wrongkey"),[]);
+        $this->assertEquals(self::$softwareRepository->findByKey("wrongkey"),[]);
     }
 
     //UPDATE TESTS

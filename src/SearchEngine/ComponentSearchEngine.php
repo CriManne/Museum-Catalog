@@ -81,7 +81,7 @@ class ComponentSearchEngine {
                 $classPath = "App\\Model\\$categoryName\\$category";
                 $unmappedResult = null;
                 if ($query) {
-                    $unmappedResult = $artifactService->selectByKey($query);
+                    $unmappedResult = $artifactService->findByKey($query);
                 } else {
                     $unmappedResult = $artifactService->findAll();
                 }

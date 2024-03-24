@@ -77,7 +77,7 @@ class CpuRepository extends GenericRepository {
      * @param string $key     The key to search
      * @return array     The cpus selected
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT * FROM Cpu WHERE modelName LIKE :key OR speed LIKE :key";
 
         $key = '%' . $key . '%';

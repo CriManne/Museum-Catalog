@@ -76,7 +76,7 @@ class OsRepository extends GenericRepository {
      * @param string $key  The key to search 
      * @return array  The selected oss
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT * FROM Os WHERE name LIKE :key";
 
         $key = '%' . $key . '%';

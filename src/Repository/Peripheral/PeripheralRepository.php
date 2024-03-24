@@ -91,7 +91,7 @@ class PeripheralRepository extends GenericRepository {
      * @param string $modelName     The peripheral modelName to select
      * @return ?Peripheral    The peripheral selected, null if not found
      */
-    public function selectBymodelName(string $modelName): ?Peripheral {
+    public function findByModelName(string $modelName): ?Peripheral {
         $query = "SELECT * FROM Peripheral p
             INNER JOIN GenericObject g ON g.id = p.objectId 
             WHERE modelName LIKE :modelName";
@@ -113,7 +113,7 @@ class PeripheralRepository extends GenericRepository {
      * @param string $key     The key given
      * @return array The peripherals, empty array if no result
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,p.* FROM Peripheral p
             INNER JOIN GenericObject g ON g.id = p.objectId
             INNER JOIN PeripheralType pt ON p.peripheralTypeId = pt.id

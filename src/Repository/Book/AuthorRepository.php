@@ -60,7 +60,7 @@ class AuthorRepository extends GenericRepository {
      * @param string $key  The key to search
      * @return array  The selected Authors
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT * FROM Author WHERE 
         Concat(firstname,' ',lastname) LIKE :key OR 
         Concat(lastname,' ',firstname) = :key";

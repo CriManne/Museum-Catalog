@@ -24,7 +24,7 @@ class ComputerService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Computer $c): void {
-        $computer = $this->computerRepository->selectByModelName($c->modelName);
+        $computer = $this->computerRepository->findByModelName($c->modelName);
         if ($computer)
             throw new ServiceException("Computer model name already used!");
 
@@ -52,8 +52,8 @@ class ComputerService {
      * @return Computer The computer selected
      * @throws ServiceException If not found
      */
-    public function selectByModelName(string $ModelName): Computer {
-        $computer = $this->computerRepository->selectByModelName($ModelName);
+    public function findByModelName(string $ModelName): Computer {
+        $computer = $this->computerRepository->findByModelName($ModelName);
         if (is_null($computer)) {
             throw new ServiceException("Computer not found");
         }
@@ -66,8 +66,8 @@ class ComputerService {
      * @param string $key The key given
      * @return array The array of computers, empty if no result
      */
-    public function selectByKey(string $key): array {
-        return $this->computerRepository->selectByKey($key);
+    public function findByKey(string $key): array {
+        return $this->computerRepository->findByKey($key);
     }
 
     /**

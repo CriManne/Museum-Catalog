@@ -76,7 +76,7 @@ class SoftwareTypeRepository extends GenericRepository {
      * @param string $key  The key to search
      * @return array The software types selected
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT * FROM SoftwareType WHERE name LIKE :key";
 
         $key = '%' . $key . '%';

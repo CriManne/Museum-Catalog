@@ -77,7 +77,7 @@ class RamRepository extends GenericRepository {
      * @param string $key     The key to search
      * @return array     The rams selected
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT * FROM Ram WHERE modelName LIKE :key OR size LIKE :key";
 
         $key = '%' . $key . '%';

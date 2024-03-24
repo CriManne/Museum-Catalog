@@ -61,7 +61,7 @@ final class BookServiceTest extends BaseServiceTest
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->bookRepository->method('selectByTitle')->willReturn($this->sampleObject);
+        $this->bookRepository->method('findByTitle')->willReturn($this->sampleObject);
         $this->bookService->insert($this->sampleObject);
     }
     //SELECT TESTS
@@ -81,8 +81,8 @@ final class BookServiceTest extends BaseServiceTest
     public function testBadSelectBytitle(): void
     {
         $this->expectException(ServiceException::class);
-        $this->bookRepository->method('selectByTitle')->willReturn(null);
-        $this->bookService->selectByTitle("WRONG");
+        $this->bookRepository->method('findByTitle')->willReturn(null);
+        $this->bookService->findByTitle("WRONG");
     }
     
     //UPDATE TESTS

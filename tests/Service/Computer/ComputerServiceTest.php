@@ -60,7 +60,7 @@ final class ComputerServiceTest extends BaseServiceTest
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->computerRepository->method('selectByModelName')->willReturn($this->sampleObject);
+        $this->computerRepository->method('findByModelName')->willReturn($this->sampleObject);
         $this->computerService->insert($this->sampleObject);
     }
     //SELECT TESTS
@@ -80,8 +80,8 @@ final class ComputerServiceTest extends BaseServiceTest
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->computerRepository->method('selectByModelName')->willReturn(null);
-        $this->computerService->selectByModelName("WRONG");
+        $this->computerRepository->method('findByModelName')->willReturn(null);
+        $this->computerService->findByModelName("WRONG");
     }
     
     //UPDATE TESTS

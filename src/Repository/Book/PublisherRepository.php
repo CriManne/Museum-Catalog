@@ -76,7 +76,7 @@ class PublisherRepository extends GenericRepository {
      * @param string $key
      * @return array   The publishers selected
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT * FROM Publisher WHERE name LIKE :key";
 
         $key = '%' . $key . '%';

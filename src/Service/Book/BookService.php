@@ -24,7 +24,7 @@ class BookService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Book $b): void {
-        $book = $this->bookRepository->selectByTitle($b->title);
+        $book = $this->bookRepository->findByTitle($b->title);
         if ($book)
             throw new ServiceException("Book title already used!");
 
@@ -56,8 +56,8 @@ class BookService {
      * @return Book The book selected
      * @throws ServiceException If not found
      */
-    public function selectByTitle(string $title): Book {
-        $book = $this->bookRepository->selectByTitle($title);
+    public function findByTitle(string $title): Book {
+        $book = $this->bookRepository->findByTitle($title);
         if (is_null($book)) {
             throw new ServiceException("Book not found");
         }
@@ -70,8 +70,8 @@ class BookService {
      * @param string $key The key given
      * @return array The array of books, empty if no result
      */
-    public function selectByKey(string $key): array {
-        return $this->bookRepository->selectByKey($key);
+    public function findByKey(string $key): array {
+        return $this->bookRepository->findByKey($key);
     }
 
     /**

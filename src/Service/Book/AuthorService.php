@@ -46,8 +46,8 @@ class AuthorService {
      * @param string $key  The key to search
      * @return array The authors selected
      */
-    public function selectByKey(string $key): array {
-        return $this->authorRepository->selectByKey($key);
+    public function findByKey(string $key): array {
+        return $this->authorRepository->findByKey($key);
     }
 
     /**

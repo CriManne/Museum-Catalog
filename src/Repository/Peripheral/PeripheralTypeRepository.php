@@ -76,7 +76,7 @@ class PeripheralTypeRepository extends GenericRepository {
      * @param string $key The key to search
      * @return array  The p.types selected
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT * FROM PeripheralType WHERE name LIKE :key";
 
         $key = '%' . $key . '%';

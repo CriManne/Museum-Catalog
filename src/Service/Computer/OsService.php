@@ -66,8 +66,8 @@ class OsService {
      * @param string $key The key to search
      * @return array The oss selected
      */
-    public function selectByKey(string $key): array {
-        return $this->osRepository->selectByKey($key);
+    public function findByKey(string $key): array {
+        return $this->osRepository->findByKey($key);
     }
 
     /**

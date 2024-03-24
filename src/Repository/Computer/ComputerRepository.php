@@ -104,7 +104,7 @@ class ComputerRepository extends GenericRepository {
      * @param string $modelName     The computer model name to select
      * @return ?Computer    The computer selected, null if not found
      */
-    public function selectBymodelName(string $modelName): ?Computer {
+    public function findByModelName(string $modelName): ?Computer {
         $query = "SELECT * FROM Computer b
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE modelName LIKE :modelName";
@@ -126,7 +126,7 @@ class ComputerRepository extends GenericRepository {
      * @param string $key The key given
      * @return array   All computers, empty if no result
      */
-    public function selectByKey(string $key): array {
+    public function findByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,c.* FROM Computer c
             INNER JOIN GenericObject g ON g.id = c.objectId
             INNER JOIN Cpu cp ON cp.id = c.cpuId

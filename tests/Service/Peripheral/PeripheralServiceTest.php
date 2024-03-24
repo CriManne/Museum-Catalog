@@ -50,7 +50,7 @@ final class PeripheralServiceTest extends BaseServiceTest
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->peripheralRepository->method('selectByModelName')->willReturn($this->sampleObject);
+        $this->peripheralRepository->method('findByModelName')->willReturn($this->sampleObject);
         $this->peripheralService->insert($this->sampleObject);
     }
     //SELECT TESTS
@@ -70,8 +70,8 @@ final class PeripheralServiceTest extends BaseServiceTest
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->peripheralRepository->method('selectByModelName')->willReturn(null);
-        $this->peripheralService->selectByModelName("WRONG");
+        $this->peripheralRepository->method('findByModelName')->willReturn(null);
+        $this->peripheralService->findByModelName("WRONG");
     }
     
     //UPDATE TESTS

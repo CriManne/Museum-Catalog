@@ -24,7 +24,7 @@ class MagazineService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Magazine $m): void {
-        $magazine = $this->magazineRepository->selectByTitle($m->title);
+        $magazine = $this->magazineRepository->findByTitle($m->title);
         if ($magazine)
             throw new ServiceException("Magazine title already used!");
 
@@ -52,8 +52,8 @@ class MagazineService {
      * @return Magazine The magazine selected
      * @throws ServiceException If not found
      */
-    public function selectByTitle(string $title): Magazine {
-        $magazine = $this->magazineRepository->selectByTitle($title);
+    public function findByTitle(string $title): Magazine {
+        $magazine = $this->magazineRepository->findByTitle($title);
         if (is_null($magazine)) {
             throw new ServiceException("Magazine not found");
         }
@@ -66,8 +66,8 @@ class MagazineService {
      * @param string $key The key given
      * @return array Magazines selected, empty array if no result
      */
-    public function selectByKey(string $key): array {
-        return $this->magazineRepository->selectByKey($key);
+    public function findByKey(string $key): array {
+        return $this->magazineRepository->findByKey($key);
     }
 
     /**

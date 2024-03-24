@@ -66,8 +66,8 @@ class SoftwareTypeService {
      * @param string $key The key to search
      * @return array The SoftwareTypes selected
      */
-    public function selectByKey(string $key): array {
-        return $this->softwareTypeRepository->selectByKey($key);
+    public function findByKey(string $key): array {
+        return $this->softwareTypeRepository->findByKey($key);
     }
 
     /**

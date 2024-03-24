@@ -66,8 +66,8 @@ class PublisherService {
      * @param string $key The key to search
      * @return array The publishers selected
      */
-    public function selectByKey(string $key): array {
-        return $this->publisherRepository->selectByKey($key);
+    public function findByKey(string $key): array {
+        return $this->publisherRepository->findByKey($key);
     }
 
     /**

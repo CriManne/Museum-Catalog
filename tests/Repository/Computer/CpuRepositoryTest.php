@@ -69,12 +69,12 @@ final class CpuRepositoryTest extends TestCase
 
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$cpuRepository->selectByKey("pu 1"));
+        $this->assertNotEmpty(self::$cpuRepository->findByKey("pu 1"));
     }
     
     public function testBadSelectByKey(): void
     {
-        $this->assertEmpty(self::$cpuRepository->selectByKey("WRONG-CPU-NAME"));
+        $this->assertEmpty(self::$cpuRepository->findByKey("WRONG-CPU-NAME"));
     }
     
     

@@ -24,7 +24,7 @@ class PeripheralService {
      * @throws RepositoryException If the insert fails
      */
     public function insert(Peripheral $p): void {
-        $peripheral = $this->peripheralRepository->selectByModelName($p->modelName);
+        $peripheral = $this->peripheralRepository->findByModelName($p->modelName);
         if ($peripheral)
             throw new ServiceException("Peripheral model name already used!");
 
@@ -53,8 +53,8 @@ class PeripheralService {
      * @return Peripheral The peripheral selected
      * @throws ServiceException If not found
      */
-    public function selectByModelName(string $ModelName): Peripheral {
-        $peripheral = $this->peripheralRepository->selectByModelName($ModelName);
+    public function findByModelName(string $ModelName): Peripheral {
+        $peripheral = $this->peripheralRepository->findByModelName($ModelName);
         if (is_null($peripheral)) {
             throw new ServiceException("Peripheral not found");
         }
@@ -67,8 +67,8 @@ class PeripheralService {
      * @param string $key The key given
      * @return array The pheriperals selected, empty if no result
      */
-    public function selectByKey(string $key): array {
-        return $this->peripheralRepository->selectByKey($key);
+    public function findByKey(string $key): array {
+        return $this->peripheralRepository->findByKey($key);
     }
 
     /**

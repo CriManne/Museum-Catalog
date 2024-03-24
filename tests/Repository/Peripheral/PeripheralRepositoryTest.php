@@ -112,7 +112,7 @@ final class PeripheralRepositoryTest extends TestCase
         $this->assertNotNull($peripherals[1]);
     }
 
-    public function testGoodSelectByModelName():void{
+    public function testGoodfindByModelName():void{
 
         $peripheral = clone self::$samplePeripheral;
         $peripheral->objectId = "objID2";
@@ -120,7 +120,7 @@ final class PeripheralRepositoryTest extends TestCase
 
         self::$peripheralRepository->insert($peripheral);
 
-        $this->assertEquals(self::$peripheralRepository->selectByModelName("Peripheral Test")->modelName,"Peripheral Test");
+        $this->assertEquals(self::$peripheralRepository->findByModelName("Peripheral Test")->modelName,"Peripheral Test");
     }
 
     public function testGoodSelectByKey():void{
@@ -131,11 +131,11 @@ final class PeripheralRepositoryTest extends TestCase
 
         self::$peripheralRepository->insert($peripheral);
 
-        $this->assertEquals(count(self::$peripheralRepository->selectByKey("mous")),2);
+        $this->assertEquals(count(self::$peripheralRepository->findByKey("mous")),2);
     }
 
     public function testBadSelectByKey():void{
-        $this->assertEquals(self::$peripheralRepository->selectByKey("wrongkey"),[]);
+        $this->assertEquals(self::$peripheralRepository->findByKey("wrongkey"),[]);
     }
 
     //UPDATE TESTS
