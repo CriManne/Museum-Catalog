@@ -78,8 +78,8 @@ class SoftwareRepository extends GenericRepository {
      * @return ?Software    The software selected, null if not found
      */
     public function selectById(string $objectId): ?Software {
-        $query = "SELECT * FROM Software 
-            INNER JOIN GenericObject g ON g.id = software.objectId 
+        $query = "SELECT * FROM Software s
+            INNER JOIN GenericObject g ON g.id = s.objectId 
             WHERE g.id = :objectId";
 
         $stmt = $this->pdo->prepare($query);
@@ -98,8 +98,8 @@ class SoftwareRepository extends GenericRepository {
      * @return ?Software    The software selected, null if not found
      */
     public function selectByTitle(string $title): ?Software {
-        $query = "SELECT * FROM Software 
-            INNER JOIN GenericObject g ON g.id = software.objectId 
+        $query = "SELECT * FROM Software s
+            INNER JOIN GenericObject g ON g.id = s.objectId 
             WHERE title = :title";
 
         $stmt = $this->pdo->prepare($query);
@@ -120,13 +120,13 @@ class SoftwareRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,s.* FROM Software s
             INNER JOIN GenericObject g ON g.id = s.objectId 
-            INNER JOIN Os o ON s.osId = o.osId
-            INNER JOIN SoftwareType st ON s.softwareTypeId = st.softwareTypeId
-            INNER JOIN SupportType supt ON s.supportTypeId = supt.supportTypeId
+            INNER JOIN Os o ON s.osId = o.id
+            INNER JOIN SoftwareType st ON s.softwareTypeId = st.id
+            INNER JOIN SupportType supt ON s.supportTypeId = supt.id
             WHERE s.title LIKE :key OR
-            o.Name LIKE :key OR
-            st.Name LIKE :key OR
-            supt.Name LIKE :key OR
+            o.name LIKE :key OR
+            st.name LIKE :key OR
+            supt.name LIKE :key OR
             g.note LIKE :key OR
             g.tag LIKE :key OR
             g.id LIKE :key";
@@ -144,8 +144,8 @@ class SoftwareRepository extends GenericRepository {
      * @return ?array   All software, null if no results
      */
     public function selectAll(): ?array {
-        $query = "SELECT * FROM Software
-            INNER JOIN GenericObject g ON g.id = software.objectId";
+        $query = "SELECT * FROM Software s
+            INNER JOIN GenericObject g ON g.id = s.objectId";
 
         $stmt = $this->pdo->query($query);
 

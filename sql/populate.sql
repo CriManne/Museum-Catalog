@@ -108,5 +108,4 @@ INSERT INTO User(email,password,firstname,lastname,privilege) VALUES
 ('test7','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
 ('test8','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
 ('test9','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0),
-('test10','$2y$11$M' ||
-          'cH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0);
+('test10','$2y$11$McH3cxMJ1J/R1rj4DH4B8uxWIYJAdD2JuMWKGI0EwypAgqqbPO9dO','Test','Test',0);

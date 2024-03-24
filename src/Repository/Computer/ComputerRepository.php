@@ -129,9 +129,9 @@ class ComputerRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,c.* FROM Computer c
             INNER JOIN GenericObject g ON g.id = c.objectId
-            INNER JOIN Cpu cp ON c.cpuId = cp.cpuId
-            INNER JOIN Ram r ON r.ramId = c.ramId
-            INNER JOIN Os o ON c.osId = o.osId
+            INNER JOIN Cpu cp ON cp.id = c.cpuId
+            INNER JOIN Ram r ON r.id = c.ramId
+            INNER JOIN Os o ON o.id = c.osId
             WHERE c.modelName LIKE :key OR
             year LIKE :key OR
             hddSize LIKE :key OR

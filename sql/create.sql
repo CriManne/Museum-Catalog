@@ -152,9 +152,9 @@ CREATE TABLE Software(
 
 CREATE TABLE User(
     email VARCHAR(100) NOT NULL,
-    password VARCHAR(100) NOT NULL,
+    password VARCHAR(255) NOT NULL,
     firstname VARCHAR(100) NOT NULL,
     lastname VARCHAR(100) NOT NULL,
-    privilege SMALLINT NOT NULL, -- employee = 0, admin = 1
+    privilege SMALLINT DEFAULT 0 NOT NULL, -- employee = 0, admin = 1
     PRIMARY KEY (email)
 );

@@ -2,9 +2,9 @@ const urlObject = "/api/generic/artifact";
 
 $(document).ready(function () {
   const urlSearchParams = new URLSearchParams(window.location.search);
-  const objectID = Object.fromEntries(urlSearchParams.entries())["id"];
+  const objectId = Object.fromEntries(urlSearchParams.entries())["id"];
 
-  const response = makeRequest(urlObject + "?id=" + objectID);
+  const response = makeRequest(urlObject + "?id=" + objectId);
 
   if (response.status == "404") {
     $("#artifact").hide();
@@ -12,7 +12,7 @@ $(document).ready(function () {
   } else {
     $("#artifact").removeClass("d-none");
 
-    let images = makeRequest(urlImagesNames + "?id=" + objectID);
+    let images = makeRequest(urlImagesNames + "?id=" + objectId);
 
     if (images.length == 1) {
       $("#single-img").attr("src", images[0]);

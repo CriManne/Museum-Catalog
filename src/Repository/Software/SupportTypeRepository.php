@@ -59,7 +59,7 @@ class SupportTypeRepository extends GenericRepository {
      * @param string $name  The name to select
      * @return ?SupportType The support type selected, null if not found
      */
-    public function selectByname(string $name): ?SupportType {
+    public function selectByName(string $name): ?SupportType {
         $query = "SELECT * FROM SupportType WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);

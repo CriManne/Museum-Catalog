@@ -58,7 +58,7 @@ class PublisherRepository extends GenericRepository {
      * @param string $name  The publisher name
      * @return ?Publisher   The publisher selected,null if not found
      */
-    public function selectByname(string $name): ?Publisher {
+    public function selectByName(string $name): ?Publisher {
         $query = "SELECT * FROM Publisher WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);

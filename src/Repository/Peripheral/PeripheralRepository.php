@@ -55,7 +55,7 @@ class PeripheralRepository extends GenericRepository {
             $stmt = $this->pdo->prepare($queryPeripheral);
             $stmt->bindParam("objectId", $peripheral->objectId);
             $stmt->bindParam("modelName", $peripheral->modelName);
-            $stmt->bindParam("peripheralTypeId", $peripheral->PeripheralType->peripheralTypeId, PDO::PARAM_INT);
+            $stmt->bindParam("peripheralTypeId", $peripheral->peripheralType->id, PDO::PARAM_INT);
 
             $stmt->execute();
 
@@ -116,9 +116,9 @@ class PeripheralRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,p.* FROM Peripheral p
             INNER JOIN GenericObject g ON g.id = p.objectId
-            INNER JOIN PeripheralType pt ON p.peripheralTypeId = pt.peripheralTypeId
+            INNER JOIN PeripheralType pt ON p.peripheralTypeId = pt.id
             WHERE p.modelName LIKE :key OR
-            pt.Name LIKE :key OR
+            pt.name LIKE :key OR
             g.note LIKE :key OR
             g.tag LIKE :key OR
             g.id LIKE :key";

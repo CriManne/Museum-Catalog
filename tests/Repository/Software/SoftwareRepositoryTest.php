@@ -90,7 +90,7 @@ final class SoftwareRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE software; TRUNCATE TABLE genericobject; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Software; TRUNCATE TABLE GenericObject; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS

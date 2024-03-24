@@ -44,11 +44,11 @@ final class PeripheralRepositoryTest extends TestCase
 
         self::$samplePeripheral = new Peripheral(
             "objID",
-            null,
-            null,
-            null,
             "Peripheral 1.0",
-            self::$samplePeripheralType
+            self::$samplePeripheralType,
+            null,
+            null,
+            null,
         );
 
         self::$peripheralTypeRepository->insert(self::$samplePeripheralType);
@@ -68,11 +68,11 @@ final class PeripheralRepositoryTest extends TestCase
     public function testGoodInsert():void{
         $peripheral = clone self::$samplePeripheral;
         $peripheral->objectId = "objID2";
-        $peripheral->ModelName = "Peripheral 2";
+        $peripheral->modelName = "Peripheral 2";
 
         self::$peripheralRepository->insert($peripheral);
 
-        $this->assertEquals(self::$peripheralRepository->selectById("objID2")->ModelName,"Peripheral 2");
+        $this->assertEquals(self::$peripheralRepository->selectById("objID2")->modelName,"Peripheral 2");
     }
 
     public function testBadInsert():void{
@@ -116,18 +116,18 @@ final class PeripheralRepositoryTest extends TestCase
 
         $peripheral = clone self::$samplePeripheral;
         $peripheral->objectId = "objID2";
-        $peripheral->ModelName = "Peripheral Test";
+        $peripheral->modelName = "Peripheral Test";
 
         self::$peripheralRepository->insert($peripheral);
 
-        $this->assertEquals(self::$peripheralRepository->selectByModelName("Peripheral Test")->ModelName,"Peripheral Test");
+        $this->assertEquals(self::$peripheralRepository->selectByModelName("Peripheral Test")->modelName,"Peripheral Test");
     }
 
     public function testGoodSelectByKey():void{
 
         $peripheral = clone self::$samplePeripheral;
         $peripheral->objectId = "objID2";
-        $peripheral->ModelName = "Peripheral Test";
+        $peripheral->modelName = "Peripheral Test";
 
         self::$peripheralRepository->insert($peripheral);
 
@@ -141,11 +141,11 @@ final class PeripheralRepositoryTest extends TestCase
     //UPDATE TESTS
     public function testGoodUpdate():void{
         $peripheral = clone self::$samplePeripheral;
-        $peripheral->ModelName = "NEW MODELNAME";
+        $peripheral->modelName = "NEW MODELNAME";
 
         self::$peripheralRepository->update($peripheral);
 
-        $this->assertEquals("NEW MODELNAME",self::$peripheralRepository->selectById("objID")->ModelName);
+        $this->assertEquals("NEW MODELNAME",self::$peripheralRepository->selectById("objID")->modelName);
     }
 
     //DELETE TESTS

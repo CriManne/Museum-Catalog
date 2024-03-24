@@ -120,7 +120,7 @@ class MagazineRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,m.* FROM Magazine m
             INNER JOIN GenericObject g ON g.id = m.objectId
-            INNER JOIN Publisher p ON m.publisherId = p.publisherId
+            INNER JOIN Publisher p ON m.publisherId = p.id
             WHERE m.title LIKE :key OR
             m.magazineNumber LIKE :key OR
             m.year LIKE :key OR
@@ -179,14 +179,14 @@ class MagazineRepository extends GenericRepository {
             $stmt->bindParam("title", $m->title);
             $stmt->bindParam("year", $m->year, PDO::PARAM_INT);
             $stmt->bindParam("magazineNumber", $m->magazineNumber, PDO::PARAM_INT);
-            $stmt->bindParam("publisherId", $m->Publisher->publisherId, PDO::PARAM_INT);
+            $stmt->bindParam("publisherId", $m->publisher->id, PDO::PARAM_INT);
             $stmt->bindParam("objectId", $m->objectId);
             $stmt->execute();
 
             $stmt = $this->pdo->prepare($queryObject);
             $stmt->bindParam("note", $m->note);
             $stmt->bindParam("url", $m->url);
-            $stmt->bindParam("Tag", $m->Tag);
+            $stmt->bindParam("Tag", $m->tag);
             $stmt->bindParam("objectId", $m->objectId);
             $stmt->execute();
 

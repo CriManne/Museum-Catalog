@@ -13,6 +13,9 @@ class Book extends GenericObject
         public string    $title,
         public Publisher $publisher,
         public int       $year,
+        /**
+         * @var Author[]
+         */
         public array     $authors,
         string           $note = null,
         string           $url = null,

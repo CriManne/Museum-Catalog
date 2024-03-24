@@ -68,7 +68,7 @@ class BookRepository extends GenericRepository {
 
             $stmt->execute();
             foreach ($book->authors as $author) {
-                $this->bookAuthorRepository->insert(new BookAuthor($book->objectId, $author->AuthorID));
+                $this->bookAuthorRepository->insert(new BookAuthor($book->objectId, $author->id));
             }
 
             $this->pdo->commit();
@@ -128,9 +128,9 @@ class BookRepository extends GenericRepository {
     public function selectByKey(string $key): array {
         $query = "SELECT DISTINCT g.*,b.* FROM Book b
             INNER JOIN GenericObject g ON g.id = b.objectId 
-            INNER JOIN Publisher p ON b.publisherId = p.publisherId
-            INNER JOIN BookAuthor ba ON b.objectId = ba.BookID
-            INNER JOIN Author a ON ba.AuthorID = a.AuthorID
+            INNER JOIN Publisher p ON b.publisherId = p.id
+            INNER JOIN BookAuthor ba ON b.objectId = ba.bookId
+            INNER JOIN Author a ON ba.authorId = a.id
             WHERE title LIKE :key OR
             year LIKE :key OR
             isbn LIKE :key OR
@@ -205,7 +205,7 @@ class BookRepository extends GenericRepository {
             $this->bookAuthorRepository->deleteById($b->objectId);
 
             foreach ($b->authors as $author) {
-                $this->bookAuthorRepository->insert(new BookAuthor($b->objectId, $author->AuthorID));
+                $this->bookAuthorRepository->insert(new BookAuthor($b->objectId, $author->id));
             }
 
             $this->pdo->commit();
@@ -226,7 +226,7 @@ class BookRepository extends GenericRepository {
 
             $query =
                 "DELETE FROM BookAuthor
-            WHERE bookID = :objectId;";
+            WHERE bookId = :objectId;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId);
             $stmt->execute();
@@ -273,15 +273,15 @@ class BookRepository extends GenericRepository {
          */
         if (isset($rawBook["newAuthors"])) {
             foreach ($rawBook["newAuthors"] as $key => $value) {
-                $bookAuthors[] = ORM::getNewInstance(BookAuthor::class, [$rawBook["objectID"], $value]);
+                $bookAuthors[] = ORM::getNewInstance(BookAuthor::class, [$rawBook["objectId"], $value]);
             }
         } else {
-            $bookAuthors = $this->bookAuthorRepository->selectByBookId($rawBook["objectID"]);
+            $bookAuthors = $this->bookAuthorRepository->selectByBookId($rawBook["objectId"]);
         }
         $authors = [];
         if ($bookAuthors) {
             foreach ($bookAuthors as $bookAuthor) {
-                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->AuthorID));
+                $authors[] = $this->authorRepository->selectById(intval($bookAuthor->authorId));
             }
         }
 

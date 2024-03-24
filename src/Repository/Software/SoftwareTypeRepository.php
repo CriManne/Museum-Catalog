@@ -58,7 +58,7 @@ class SoftwareTypeRepository extends GenericRepository {
      * @param string $name  The name to select
      * @return ?SoftwareType    The software type selected, null if not found
      */
-    public function selectByname(string $name): ?SoftwareType {
+    public function selectByName(string $name): ?SoftwareType {
         $query = "SELECT * FROM SoftwareType WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);

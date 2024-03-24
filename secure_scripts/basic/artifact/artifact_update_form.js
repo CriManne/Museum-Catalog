@@ -27,10 +27,10 @@ function imageDelBtnHandler(){
 
 function fillUpdateForm(){
     const urlSearchParams = new URLSearchParams(window.location.search);
-    const objectID = Object.fromEntries(urlSearchParams.entries())['id'];
+    const objectId = Object.fromEntries(urlSearchParams.entries())['id'];
     const category = Object.fromEntries(urlSearchParams.entries())['category'];
 
-    const object = makeRequest(urlSpecificArtifact + "?id=" + objectID+"&category="+category);
+    const object = makeRequest(urlSpecificArtifact + "?id=" + objectId+"&category="+category);
 
     if (object.status == "404") {
         createAlert(object);
@@ -64,7 +64,7 @@ function fillUpdateForm(){
                 $("#"+property).prop("defaultValue","");
             }
         }
-        let images = makeRequest(urlImagesNames+"?id="+objectID);
+        let images = makeRequest(urlImagesNames+"?id="+objectId);
 
         if(images.length>0){
             $("#images-outer-container").empty();

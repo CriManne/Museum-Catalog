@@ -33,7 +33,7 @@ class UserRepository extends Repository\AbstractRepository implements Interfaces
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if($user){
             if(password_verify($password,$user["password"])){
-                unset($user["Password"]);
+                unset($user["password"]);
                 return ORM::getNewInstance(UserResponse::class, $user);
             }
         }
