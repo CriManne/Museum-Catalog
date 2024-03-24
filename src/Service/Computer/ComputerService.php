@@ -24,7 +24,7 @@ class ComputerService {
      * @throws RepositoryException If the save fails
      */
     public function save(Computer $c): void {
-        $computer = $this->computerRepository->findByModelName($c->modelName);
+        $computer = $this->computerRepository->findByName($c->modelName);
         if ($computer)
             throw new ServiceException("Computer model name already used!");
 
@@ -52,8 +52,8 @@ class ComputerService {
      * @return Computer The computer selected
      * @throws ServiceException If not found
      */
-    public function findByModelName(string $ModelName): Computer {
-        $computer = $this->computerRepository->findByModelName($ModelName);
+    public function findByName(string $ModelName): Computer {
+        $computer = $this->computerRepository->findByName($ModelName);
         if (is_null($computer)) {
             throw new ServiceException("Computer not found");
         }

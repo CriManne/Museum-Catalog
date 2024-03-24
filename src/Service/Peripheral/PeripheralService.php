@@ -24,7 +24,7 @@ class PeripheralService {
      * @throws RepositoryException If the save fails
      */
     public function save(Peripheral $p): void {
-        $peripheral = $this->peripheralRepository->findByModelName($p->modelName);
+        $peripheral = $this->peripheralRepository->findByName($p->modelName);
         if ($peripheral)
             throw new ServiceException("Peripheral model name already used!");
 
@@ -53,8 +53,8 @@ class PeripheralService {
      * @return Peripheral The peripheral selected
      * @throws ServiceException If not found
      */
-    public function findByModelName(string $ModelName): Peripheral {
-        $peripheral = $this->peripheralRepository->findByModelName($ModelName);
+    public function findByName(string $ModelName): Peripheral {
+        $peripheral = $this->peripheralRepository->findByName($ModelName);
         if (is_null($peripheral)) {
             throw new ServiceException("Peripheral not found");
         }

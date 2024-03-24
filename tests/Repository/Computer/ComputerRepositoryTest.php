@@ -155,7 +155,7 @@ final class ComputerRepositoryTest extends TestCase
         $this->assertNotNull($computers[1]);       
     } 
     
-    public function testGoodfindByModelName():void{
+    public function testGoodfindByName():void{
 
         $computer = clone self::$sampleComputer;
         $computer->objectId = "objID2";
@@ -163,7 +163,7 @@ final class ComputerRepositoryTest extends TestCase
         
         self::$computerRepository->save($computer);
 
-        $this->assertEquals(self::$computerRepository->findByModelName("Computer Test")->modelName,"Computer Test");
+        $this->assertEquals(self::$computerRepository->findByName("Computer Test")->modelName,"Computer Test");
     }
 
     //UPDATE TESTS

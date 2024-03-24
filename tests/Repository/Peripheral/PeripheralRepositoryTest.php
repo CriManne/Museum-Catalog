@@ -112,7 +112,7 @@ final class PeripheralRepositoryTest extends TestCase
         $this->assertNotNull($peripherals[1]);
     }
 
-    public function testGoodfindByModelName():void{
+    public function testGoodfindByName():void{
 
         $peripheral = clone self::$samplePeripheral;
         $peripheral->objectId = "objID2";
@@ -120,7 +120,7 @@ final class PeripheralRepositoryTest extends TestCase
 
         self::$peripheralRepository->save($peripheral);
 
-        $this->assertEquals(self::$peripheralRepository->findByModelName("Peripheral Test")->modelName,"Peripheral Test");
+        $this->assertEquals(self::$peripheralRepository->findByName("Peripheral Test")->modelName,"Peripheral Test");
     }
 
     public function testGoodSelectByKey():void{
