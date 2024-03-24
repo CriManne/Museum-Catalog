@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
+use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Exceptions\ReflectionException;
+use AbstractRepo\Exceptions\RepositoryException;
 use AbstractRepo\Interfaces;
 use AbstractRepo\Repository;
 use App\DataModels\User\UserResponse;
@@ -23,18 +26,22 @@ class UserRepository extends Repository\AbstractRepository implements Interfaces
      * @param string $email
      * @param string $password
      * @return ?UserResponse            The user selected, null if not found
+     * @throws ReflectionException
+     * @throws RepositoryException
+     * @throws \ReflectionException
      */
     public function selectByCredentials(string $email, string $password): ?UserResponse {
-        $query = "SELECT email,password,firstname,lastname,privilege FROM User WHERE email = :email";
+        $user = $this->findFirst(new FetchParams(
+           conditions: "email = :email",
+           bind: [
+               "email" => $email
+            ]
+        ));
 
-        $stmt = $this->pdo->prepare($query);
-        $stmt->bindParam("email", $email);
-        $stmt->execute();
-        $user = $stmt->fetch(PDO::FETCH_ASSOC);
         if($user){
-            if(password_verify($password,$user["password"])){
-                unset($user["password"]);
-                return ORM::getNewInstance(UserResponse::class, $user);
+            if(password_verify($password,$user->password)){
+                unset($user->password);
+                return ORM::getNewInstance(UserResponse::class, (array)$user);
             }
         }
         return null;
