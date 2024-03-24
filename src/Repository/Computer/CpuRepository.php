@@ -4,15 +4,12 @@ declare(strict_types=1);
 
 namespace App\Repository\Computer;
 
-use AbstractRepo\DataModels\FetchParams;
-use AbstractRepo\Exceptions\ReflectionException;
-use AbstractRepo\Interfaces\IModel;
 use AbstractRepo\Interfaces\IRepository;
 use AbstractRepo\Repository\AbstractRepository;
 use App\Model\Computer\Cpu;
 
-class CpuRepository extends AbstractRepository implements IRepository {
-
+class CpuRepository extends AbstractRepository implements IRepository
+{
     public static function getModel(): string
     {
         return Cpu::class;
