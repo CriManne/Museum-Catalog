@@ -96,8 +96,8 @@ class UserService {
                 data:  array_map(
                     fn(User $u) => [
                         "email" => $u->email,
-                        "Firstname" => $u->firstname,
-                        "Lastname" =>  $u->lastname,
+                        "firstname" => $u->firstname,
+                        "lastname" =>  $u->lastname,
                         "privilege" => $u->privilege
                     ],
                     $users->getData()

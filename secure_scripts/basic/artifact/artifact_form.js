@@ -3,7 +3,7 @@ $(document).ready(function () {
     $("#artifact-form").on("submit", handleSubmit);
     $("#loading-container").remove();
     $("#main-container").removeClass("d-none");
-   
+
 });
 
 function handleSubmit(e) {
@@ -12,13 +12,13 @@ function handleSubmit(e) {
 
     let toBeRemoved = [];
 
-    for(let [key,value] of formData){
-        if(isEmptyOrSpaces(value)){
+    for (let [key, value] of formData) {
+        if (isEmptyOrSpaces(value)) {
             toBeRemoved.push(key);
         }
-    }    
+    }
 
-    for(const value of toBeRemoved){
+    for (const value of toBeRemoved) {
         formData.delete(value);
     }
 
@@ -32,15 +32,15 @@ function handleSubmit(e) {
     );
 
     createAlert(response);
-    if(response.status=="200"){
+    if (response.status === "200") {
         fillUpdateForm();
     }
 }
 
-function isEmptyOrSpaces(str){
+function isEmptyOrSpaces(str) {
     str = str.toString();
-    return str === null || 
-    str === undefined || 
-    str === "" ||
-    str.trim().length === 0;
+    return str === null ||
+        str === undefined ||
+        str === "" ||
+        str.trim().length === 0;
 }

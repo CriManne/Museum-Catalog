@@ -1,6 +1,6 @@
 let category = "";
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $("#tb-container").hide();
     $("#error-alert").hide();
@@ -9,24 +9,24 @@ $(document).ready(function() {
 
     loadResult();
 
-    $("#category-select").on('change', function() {
+    $("#category-select").on('change', function () {
         let value = this.value;
         category = value;
-        loadResult("?category=" + category+"&q="+$("#artifact-search").val());
+        loadResult("?category=" + category + "&q=" + $("#artifact-search").val());
     })
 
-    $("#artifact-search-form").on('submit', function(e) {
+    $("#artifact-search-form").on('submit', function (e) {
         e.preventDefault();
         let q = $("#artifact-search").val();
 
         let search = "";
 
-        if (q != "") {
+        if (q !== "") {
             search = "?q=" + q;
         }
 
-        if (category != "") {
-            if (q != "") {
+        if (category !== "") {
+            if (q !== "") {
                 search += "&";
             } else {
                 search += "?";
@@ -39,12 +39,12 @@ $(document).ready(function() {
     });
 });
 
-function loadResult(search="") {
+function loadResult(search = "") {
     var result = makeRequest(urlSearchArtifacts + search);
 
     $("#tb-container").empty();
 
-    if (result.status) {        
+    if (result.status) {
         $("#tb-container").hide();
         createAlert(result);
     } else {
@@ -58,7 +58,7 @@ function loadResult(search="") {
 function loadSelect() {
     let data = makeRequest(urlListArtifacts);
     if (data) {
-        data.forEach(function(elem) {
+        data.forEach(function (elem) {
             $("#category-select").append($('<option>', {
                 value: elem,
                 text: elem

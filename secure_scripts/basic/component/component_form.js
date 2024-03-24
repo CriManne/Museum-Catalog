@@ -3,7 +3,7 @@ $(document).ready(function () {
     $("#component-form").on("submit", handleSubmit);
     $("#loading-container").remove();
     $("#main-container").removeClass("d-none");
-   
+
 });
 
 function handleSubmit(e) {
@@ -20,16 +20,16 @@ function handleSubmit(e) {
     );
 
     createAlert(response);
-    
-    if(response.status=="200"){
+
+    if (response.status === "200") {
         fillUpdateForm();
     }
 }
 
-function isEmptyOrSpaces(str){
+function isEmptyOrSpaces(str) {
     str = str.toString();
-    return str === null || 
-    str === undefined || 
-    str === "" ||
-    str.trim().length === 0;
+    return str === null ||
+        str === undefined ||
+        str === "" ||
+        str.trim().length === 0;
 }

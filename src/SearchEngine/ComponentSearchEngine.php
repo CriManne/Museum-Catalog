@@ -103,7 +103,7 @@ class ComponentSearchEngine {
 
         //SORT BY OBJECT ID
         usort($result, function ($a, $b) {
-            return $a->ID - $b->ID;
+            return $a->id - $b->id;
         });
         return $result;
     }

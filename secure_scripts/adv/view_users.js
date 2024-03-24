@@ -17,16 +17,16 @@ const urlFetchUsers = "/api/user";
 
 const urlDeleteUser = "/api/user/delete";
 
-$(document).ready(function() {
-    
+$(document).ready(function () {
+
     $("#loading-container").remove();
     $("#main-container").removeClass("d-none");
-    
+
 
     loadPage();
 
     //When the per page limit select is changed
-    $("#page-limit").unbind().on('change', function() {
+    $("#page-limit").unbind().on('change', function () {
         limitPerPage = parseInt(this.value);
         currentPage = 0;
 
@@ -35,14 +35,14 @@ $(document).ready(function() {
     });
 
     //When the user type in the search bar
-    $("#user-search").unbind().on('input copy paste cut', function() {
+    $("#user-search").unbind().on('input copy paste cut', function () {
         searchTerm = this.value.toLowerCase();
         currentPage = 0;
         loadPage();
     });
 
     //When the user go to the prev page
-    $("#navigation-prev").unbind().on('click', function() {
+    $("#navigation-prev").unbind().on('click', function () {
         if (currentPage > 0) {
             currentPage--;
             loadPage();
@@ -50,7 +50,7 @@ $(document).ready(function() {
     });
 
     //When the user go to the next page
-    $("#navigation-next").unbind().on('click', function() {
+    $("#navigation-next").unbind().on('click', function () {
         if (currentPage < pages - 1) {
             currentPage++;
             loadPage();
@@ -66,7 +66,7 @@ function loadPage() {
         url
     );
 
-    if(response.status === "401"){
+    if (response.status === "401") {
         window.location.reload();
     }
 
@@ -101,7 +101,7 @@ function createPaginationButtons() {
     //If the current page is the 4th or more create a button with the first page link
     if (currentPage >= 3) {
         $('#paginations').append('<li class="page-item"><button class="page-link" id="change-page-' + 0 + '" data-page=' + 0 + '>' + 1 + '</button></li>');
-        $("#change-page-0").unbind().on("click", function() {
+        $("#change-page-0").unbind().on("click", function () {
             currentPage = 0;
             loadPage();
         });
@@ -119,8 +119,8 @@ function createPaginationButtons() {
         }
         $('#paginations').append('<li class="page-item"><button class="page-link' + (currentPage == i ? " bg-info" : "") + '" id="change-page-' + i + '" data-page=' + i + '>' + (i + 1) + '</button></li>');
 
-        $("#change-page-" + i).unbind().on("click", function() {
-            if (currentPage == parseInt($(this).data('page'))) {
+        $("#change-page-" + i).unbind().on("click", function () {
+            if (currentPage === parseInt($(this).data('page'))) {
                 return;
             }
             currentPage = parseInt($(this).data('page'));
@@ -136,7 +136,7 @@ function createPaginationButtons() {
     //Add a button with the last page link
     if (currentPage < pages - 3) {
         $('#paginations').append('<li class="page-item"><button class="page-link" id="change-page-' + (pages - 1) + '" data-page=' + (pages - 1) + '>' + pages + '</button></li>');
-        $("#change-page-" + (pages - 1)).unbind().on("click", function() {
+        $("#change-page-" + (pages - 1)).unbind().on("click", function () {
             currentPage = pages - 1;
             loadPage();
         });
@@ -160,7 +160,7 @@ function fillTable(data) {
     );
 
 
-    data.forEach(function(elem) {
+    data.forEach(function (elem) {
 
         let email = elem.email;
         let firstname = elem.firstname;
@@ -181,7 +181,7 @@ function fillTable(data) {
     });
 
     //Delete user button handler
-    $(".delete-user").unbind().on('click', function() {
+    $(".delete-user").unbind().on('click', function () {
         let email = $(this).data("id");
         if (confirm("Sei sicuro di voler eliminare l'utente {" + email + "}?")) {
             let response = makeRequest(urlDeleteUser + "?id=" + email, 'DELETE');
@@ -195,7 +195,7 @@ function fillTable(data) {
 //Custom compare function 
 function compare(property, direction) {
     return (a, b) => {
-        if (direction == 1) {
+        if (direction === 1) {
             return a[property] > b[property] ? 1 : -1;
         }
         return a[property] < b[property] ? 1 : -1;

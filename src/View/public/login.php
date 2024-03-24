@@ -23,12 +23,12 @@ $this->layout('layouts::homepage', ['title' => $title]);
                                     </div>
 
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="Email" name="Email" type="text" placeholder="name@example.com" required/>
-                                        <label for="Email">Email</label>
+                                        <input class="form-control" id="email" name="email" type="text" placeholder="name@example.com" required/>
+                                        <label for="email">Email</label>
                                     </div>
                                     <div class="form-floating mb-3">
-                                        <input class="form-control" id="Password" name="Password" type="password" placeholder="Password" required/>
-                                        <label for="Password">Password</label>
+                                        <input class="form-control" id="password" name="password" type="password" placeholder="Password" required/>
+                                        <label for="password">Password</label>
                                     </div>
                                     <div class="form-outline mb-4">
                                         <input type="checkbox" id="show_psw" onclick="showPsw()">
