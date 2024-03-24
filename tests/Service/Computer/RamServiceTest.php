@@ -16,27 +16,31 @@ use PDOStatement;
 final class RamServiceTest extends BaseServiceTest
 {
     public RamService $ramService;
+    public RamRepository $ramRepository;
     
     public function setUp(): void
-    {        
-        $this->ramService = new RamService(new RamRepository($this->pdo));
+    {
+        $this->ramRepository = $this->createMock(RamRepository::class);
+        $this->ramService = new RamService($this->ramRepository);
 
-        $this->sampleObject = [
-            "id"=>1,
-            "modelName"=>'Ram 1.0',
-            "size"=>"512KB"
-        ];        
+        $this->sampleObject = new Ram(
+            modelName: 'Ram 1.0',
+            size: '512KB',
+            id: 1
+        );
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->ramService->findById(1)->modelName,"Ram 1.0");
+        $this->expectNotToPerformAssertions();
+        $this->ramRepository->method('findFirst')->willReturn(null);
+        $ram = new Ram('Ram 1.0','512KB',1);
+        $this->ramService->save($ram);
     }
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $this->ramRepository->method('findFirst')->willReturn($this->sampleObject);
         $ram = new Ram('Ram 1.0','512KB',1);
         $this->ramService->save($ram);
     }
@@ -45,38 +49,31 @@ final class RamServiceTest extends BaseServiceTest
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $this->ramRepository->method('findById')->willReturn($this->sampleObject);
         $this->assertEquals("Ram 1.0",$this->ramService->findById(1)->modelName);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
+        $this->ramRepository->method('findById')->willReturn(null);
         $this->ramService->findById(2);
-    }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
-        $this->ramService->findByName("WRONG NAME");
     }
     
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
         $ram = new Ram("Ram 2.5","512KB",1);
-        
-        $this->sth->method('fetch')->willReturn(null);
+
+        $this->ramRepository->method('findById')->willReturn(null);
         $this->ramService->update($ram);
     }
     
     //DELETE TESTS
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
-        
-        $this->sth->method('fetch')->willReturn(null);
+
+        $this->ramRepository->method('findById')->willReturn(null);
         
         $this->ramService->delete(5);
     }   

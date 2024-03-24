@@ -4,6 +4,9 @@ declare(strict_types=1);
 
 namespace App\Service\Computer;
 
+use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
+use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
 use App\Model\Computer\Ram;
 use App\Repository\Computer\RamRepository;
@@ -20,13 +23,21 @@ class RamService {
     /**
      * Insert ram
      * @param Ram $r The ram to save
-     * @throws ServiceException If the same ram is already saveed
-     * @throws RepositoryException If the save fails
+     * @throws AbstractRepositoryException
+     * @throws ServiceException If the same ram is already saved
      */
     public function save(Ram $r): void {
-        $ram = $this->ramRepository->findByName($r->modelName);
-        if ($ram && $ram->size == $r->size)
+        $ram = $this->ramRepository->findFirst(
+            new FetchParams(
+                conditions: "modelName = :modelName",
+                bind: [
+                    "modelName" => $r->modelName,
+                ]
+            )
+        );
+        if ($ram && $ram->size == $r->size) {
             throw new ServiceException("Ram name and size already used!");
+        }
 
         $this->ramRepository->save($r);
     }
@@ -34,26 +45,12 @@ class RamService {
     /**
      * Select ram by id
      * @param int $id The id to select
-     * @return Ram The ram selected
+     * @return Ram|IModel The ram selected
+     * @throws AbstractRepositoryException
      * @throws ServiceException If not found
      */
-    public function findById(int $id): Ram {
+    public function findById(int $id): Ram|IModel {
         $ram = $this->ramRepository->findById($id);
-        if (is_null($ram)) {
-            throw new ServiceException("Ram not found");
-        }
-
-        return $ram;
-    }
-
-    /**
-     * Select ram by name
-     * @param string $name The name to select
-     * @return Ram The Ram selected
-     * @throws ServiceException If not found
-     */
-    public function findByName(string $name): Ram {
-        $ram = $this->ramRepository->findByName($name);
         if (is_null($ram)) {
             throw new ServiceException("Ram not found");
         }
@@ -64,7 +61,8 @@ class RamService {
     /**
      * Select ram by key
      * @param string $key The key to search
-     * @return array The Rams selected
+     * @return Ram[]|IModel[] The Rams selected
+     * @throws AbstractRepositoryException
      */
     public function findByQuery(string $key): array {
         return $this->ramRepository->findByQuery($key);
@@ -72,7 +70,8 @@ class RamService {
 
     /**
      * Select all
-     * @return array All the rams 
+     * @return Ram[]|IModel[] All the rams
+     * @throws AbstractRepositoryException
      */
     public function find(): array {
         return $this->ramRepository->find();
@@ -81,8 +80,8 @@ class RamService {
     /**
      * Update a ram
      * @param Ram $r The ram to update
+     * @throws AbstractRepositoryException
      * @throws ServiceException If not found
-     * @throws RepositoryException If the update fails
      */
     public function update(Ram $r): void {
         $ram = $this->ramRepository->findById($r->id);
@@ -96,8 +95,8 @@ class RamService {
     /**
      * Delete ram
      * @param int $id The id to delete
+     * @throws AbstractRepositoryException
      * @throws ServiceException If not found
-     * @throws RepositoryException If the delete fails
      */
     public function delete(int $id): void {
         $r = $this->ramRepository->findById($id);
