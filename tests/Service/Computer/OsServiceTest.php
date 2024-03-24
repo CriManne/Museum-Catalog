@@ -59,7 +59,7 @@ final class OsServiceTest extends BaseServiceTest
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->osService->selectByName("Windows");
+        $this->osService->findByName("Windows");
     }
     
     //UPDATE TESTS

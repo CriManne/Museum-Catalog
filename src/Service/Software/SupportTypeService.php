@@ -24,7 +24,7 @@ class SupportTypeService {
      * @throws RepositoryException If the save fails
      */
     public function save(SupportType $s): void {
-        $sType = $this->supportTypeRepository->selectByName($s->name);
+        $sType = $this->supportTypeRepository->findByName($s->name);
         if ($sType)
             throw new ServiceException("Support Type name already used!");
 
@@ -52,8 +52,8 @@ class SupportTypeService {
      * @return SupportType The SupportType selected
      * @throws ServiceException If not found
      */
-    public function selectByName(string $name): SupportType {
-        $supportType = $this->supportTypeRepository->selectByName($name);
+    public function findByName(string $name): SupportType {
+        $supportType = $this->supportTypeRepository->findByName($name);
         if (is_null($supportType)) {
             throw new ServiceException("Support Type not found");
         }

@@ -56,7 +56,7 @@ final class SupportTypeServiceTest extends BaseServiceTest
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->supportTypeService->selectByName("CD-ROM");
+        $this->supportTypeService->findByName("CD-ROM");
     }
     
     //UPDATE TESTS

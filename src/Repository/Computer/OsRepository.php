@@ -58,7 +58,7 @@ class OsRepository extends GenericRepository {
      * @param string $name  The os name to select 
      * @return ?Os  The selected os, null if not found
      */
-    public function selectByName(string $name): ?Os {
+    public function findByName(string $name): ?Os {
         $query = "SELECT * FROM Os WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);

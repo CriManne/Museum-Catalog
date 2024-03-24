@@ -30,7 +30,7 @@ class UserRepository extends Repository\AbstractRepository implements Interfaces
      * @throws RepositoryException
      * @throws \ReflectionException
      */
-    public function selectByCredentials(string $email, string $password): ?UserResponse {
+    public function findByCredentials(string $email, string $password): ?UserResponse {
         $user = $this->findFirst(new FetchParams(
            conditions: "email = :email",
            bind: [

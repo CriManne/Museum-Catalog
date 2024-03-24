@@ -59,7 +59,7 @@ class RamRepository extends GenericRepository {
      * @param string $modelName     The ram name to select
      * @return ?Ram     The ram selected,null if not found
      */
-    public function selectByName(string $modelName): ?Ram {
+    public function findByName(string $modelName): ?Ram {
         $query = "SELECT * FROM Ram WHERE modelName = :modelName";
 
         $stmt = $this->pdo->prepare($query);

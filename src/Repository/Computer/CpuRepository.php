@@ -59,7 +59,7 @@ class CpuRepository extends GenericRepository {
      * @param string $modelName     The cpu name to select
      * @return ?Cpu     The cpu selected, null if not found
      */
-    public function selectByName(string $modelName): ?Cpu {
+    public function findByName(string $modelName): ?Cpu {
         $query = "SELECT * FROM Cpu WHERE modelName = :modelName";
 
         $stmt = $this->pdo->prepare($query);

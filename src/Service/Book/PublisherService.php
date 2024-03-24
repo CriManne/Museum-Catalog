@@ -24,7 +24,7 @@ class PublisherService {
      * @throws RepositoryException If the save fails
      */
     public function save(Publisher $p): void {
-        $publisher = $this->publisherRepository->selectByName($p->name);
+        $publisher = $this->publisherRepository->findByName($p->name);
         if ($publisher)
             throw new ServiceException("Publisher name already used!");
 
@@ -52,8 +52,8 @@ class PublisherService {
      * @return Publisher The publisher selected
      * @throws ServiceException If not found
      */
-    public function selectByName(string $name): Publisher {
-        $publisher = $this->publisherRepository->selectByName($name);
+    public function findByName(string $name): Publisher {
+        $publisher = $this->publisherRepository->findByName($name);
         if (is_null($publisher)) {
             throw new ServiceException("Publisher not found");
         }

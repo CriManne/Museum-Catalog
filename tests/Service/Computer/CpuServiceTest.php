@@ -60,7 +60,7 @@ final class CpuServiceTest extends BaseServiceTest
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->cpuService->selectByName("WRONG NAME");
+        $this->cpuService->findByName("WRONG NAME");
     }
     
     //UPDATE TESTS

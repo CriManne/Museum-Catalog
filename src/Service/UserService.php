@@ -58,8 +58,8 @@ class UserService {
      * @return UserResponse     The user selected
      * @throws ServiceException     If no user is found
      */
-    public function selectByCredentials(string $email, string $password): UserResponse {
-        $user = $this->userRepository->selectByCredentials($email, $password);
+    public function findByCredentials(string $email, string $password): UserResponse {
+        $user = $this->userRepository->findByCredentials($email, $password);
         if (is_null($user)) throw new ServiceException("Wrong credentials");
 
         return $user;

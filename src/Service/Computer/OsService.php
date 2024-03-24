@@ -24,7 +24,7 @@ class OsService {
      * @throws RepositoryException If the save fails
      */
     public function save(Os $os): void {
-        $osFetch = $this->osRepository->selectByName($os->name);
+        $osFetch = $this->osRepository->findByName($os->name);
         if ($osFetch)
             throw new ServiceException("Os name already used!");
 
@@ -52,8 +52,8 @@ class OsService {
      * @return Os The os selected
      * @throws ServiceException If not found
      */
-    public function selectByName(string $name): Os {
-        $os = $this->osRepository->selectByName($name);
+    public function findByName(string $name): Os {
+        $os = $this->osRepository->findByName($name);
         if (is_null($os)) {
             throw new ServiceException("Os not found");
         }

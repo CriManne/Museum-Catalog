@@ -24,7 +24,7 @@ class PeripheralTypeService {
      * @throws RepositoryException If the save fails
      */
     public function save(PeripheralType $pt): void {
-        $pType = $this->peripheralTypeRepository->selectByName($pt->name);
+        $pType = $this->peripheralTypeRepository->findByName($pt->name);
         if ($pType)
             throw new ServiceException("PeripheralType name already used!");
 
@@ -52,8 +52,8 @@ class PeripheralTypeService {
      * @return PeripheralType The object selected
      * @throws ServiceException If not found
      */
-    public function selectByName(string $name): PeripheralType {
-        $peripheralType = $this->peripheralTypeRepository->selectByName($name);
+    public function findByName(string $name): PeripheralType {
+        $peripheralType = $this->peripheralTypeRepository->findByName($name);
         if (is_null($peripheralType)) {
             throw new ServiceException("PeripheralType not found");
         }

@@ -66,12 +66,12 @@ final class PeripheralTypeRepositoryTest extends TestCase
     
     public function testGoodSelectByName(): void
     {
-        $this->assertNotNull(self::$peripheralTypeRepository->selectByName("Mouse"));
+        $this->assertNotNull(self::$peripheralTypeRepository->findByName("Mouse"));
     }
     
     public function testBadSelectByName(): void
     {
-        $this->assertNull(self::$peripheralTypeRepository->selectByName("WRONG-PERIPHERALTYPE-NAME"));
+        $this->assertNull(self::$peripheralTypeRepository->findByName("WRONG-PERIPHERALTYPE-NAME"));
     }
 
     public function testGoodSelectByKey(): void

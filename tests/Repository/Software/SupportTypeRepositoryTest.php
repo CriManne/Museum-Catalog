@@ -66,12 +66,12 @@ final class SupportTypeRepositoryTest extends TestCase
     
     public function testGoodSelectByName(): void
     {
-        $this->assertNotNull(self::$supportTypeRepository->selectByName("CD-ROM"));
+        $this->assertNotNull(self::$supportTypeRepository->findByName("CD-ROM"));
     }
     
     public function testBadSelectByName(): void
     {
-        $this->assertNull(self::$supportTypeRepository->selectByName("WRONG-SUPPORT"));
+        $this->assertNull(self::$supportTypeRepository->findByName("WRONG-SUPPORT"));
     }
     
     public function testGoodSelectByKey(): void

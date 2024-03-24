@@ -24,7 +24,7 @@ class SoftwareTypeService {
      * @throws RepositoryException If the save fails
      */
     public function save(SoftwareType $s): void {
-        $sType = $this->softwareTypeRepository->selectByName($s->name);
+        $sType = $this->softwareTypeRepository->findByName($s->name);
         if ($sType)
             throw new ServiceException("Software Type name already used!");
 
@@ -52,8 +52,8 @@ class SoftwareTypeService {
      * @return SoftwareType The SoftwareType selected
      * @throws ServiceException If not found
      */
-    public function selectByName(string $name): SoftwareType {
-        $softwareType = $this->softwareTypeRepository->selectByName($name);
+    public function findByName(string $name): SoftwareType {
+        $softwareType = $this->softwareTypeRepository->findByName($name);
         if (is_null($softwareType)) {
             throw new ServiceException("Software Type not found");
         }

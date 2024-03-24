@@ -60,22 +60,22 @@ final class BookAuthorRepositoryTest extends TestCase
 
     public function testGoodSelectByBookId(): void
     {
-        $this->assertEquals(count((array)self::$bookAuthorRepository->selectByBookID("BOOK1")),1);
+        $this->assertEquals(count((array)self::$bookAuthorRepository->findByBookID("BOOK1")),1);
     }
     
     public function testBadSelectByBookId(): void
     {
-        $this->assertNull(self::$bookAuthorRepository->selectByBookID("WRONG BOOK ID"));
+        $this->assertNull(self::$bookAuthorRepository->findByBookID("WRONG BOOK ID"));
     }
     
     public function testGoodSelectByAuthorID(): void
     {        
-        $this->assertEquals(count((array)self::$bookAuthorRepository->selectByAuthorID(1)),1);
+        $this->assertEquals(count((array)self::$bookAuthorRepository->findByAuthorID(1)),1);
     }
     
     public function testBadSelectByAuthorID(): void
     {
-        $this->assertNull(self::$bookAuthorRepository->selectByAuthorID(3));
+        $this->assertNull(self::$bookAuthorRepository->findByAuthorID(3));
     }
     
     
@@ -98,7 +98,7 @@ final class BookAuthorRepositoryTest extends TestCase
         
         self::$bookAuthorRepository->deleteById("BOOK1",1);
         
-        $this->assertNull(self::$bookAuthorRepository->selectByBookID("BOOK1"));
+        $this->assertNull(self::$bookAuthorRepository->findByBookID("BOOK1"));
     }
     
     public static function tearDownAfterClass():void{

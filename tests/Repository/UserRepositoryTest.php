@@ -127,7 +127,7 @@ final class UserRepositoryTest extends TestCase
      */
     public function testGoodSelectByCredentials(): void
     {
-        $this->assertNotNull(self::$userRepository->selectByCredentials("testemail@gmail.com", "admin"));
+        $this->assertNotNull(self::$userRepository->findByCredentials("testemail@gmail.com", "admin"));
     }
 
     /**
@@ -135,7 +135,7 @@ final class UserRepositoryTest extends TestCase
      */
     public function testBadSelectByCredentials(): void
     {
-        $this->assertNull(self::$userRepository->selectByCredentials("wrong@gmail.com", "wrong"));
+        $this->assertNull(self::$userRepository->findByCredentials("wrong@gmail.com", "wrong"));
     }
 
 
@@ -144,7 +144,7 @@ final class UserRepositoryTest extends TestCase
      */
     public function testBadSelectByCredentialsCaseSensitive(): void
     {
-        $this->assertNull(self::$userRepository->selectByCredentials("testemail@gmail.com", "ADMIN"));
+        $this->assertNull(self::$userRepository->findByCredentials("testemail@gmail.com", "ADMIN"));
     }
 
     /**

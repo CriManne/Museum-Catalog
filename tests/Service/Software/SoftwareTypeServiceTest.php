@@ -57,7 +57,7 @@ final class SoftwareTypeServiceTest extends BaseServiceTest
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->softwareTypeService->selectByName("WRONG");
+        $this->softwareTypeService->findByName("WRONG");
     }
     
     //UPDATE TESTS

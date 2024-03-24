@@ -276,7 +276,7 @@ class BookRepository extends GenericRepository {
                 $bookAuthors[] = ORM::getNewInstance(BookAuthor::class, [$rawBook["objectId"], $value]);
             }
         } else {
-            $bookAuthors = $this->bookAuthorRepository->selectByBookId($rawBook["objectId"]);
+            $bookAuthors = $this->bookAuthorRepository->findByBookId($rawBook["objectId"]);
         }
         $authors = [];
         if ($bookAuthors) {

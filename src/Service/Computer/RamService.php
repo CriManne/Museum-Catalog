@@ -24,7 +24,7 @@ class RamService {
      * @throws RepositoryException If the save fails
      */
     public function save(Ram $r): void {
-        $ram = $this->ramRepository->selectByName($r->modelName);
+        $ram = $this->ramRepository->findByName($r->modelName);
         if ($ram && $ram->size == $r->size)
             throw new ServiceException("Ram name and size already used!");
 
@@ -52,8 +52,8 @@ class RamService {
      * @return Ram The Ram selected
      * @throws ServiceException If not found
      */
-    public function selectByName(string $name): Ram {
-        $ram = $this->ramRepository->selectByName($name);
+    public function findByName(string $name): Ram {
+        $ram = $this->ramRepository->findByName($name);
         if (is_null($ram)) {
             throw new ServiceException("Ram not found");
         }

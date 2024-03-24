@@ -62,7 +62,7 @@ class LoginController extends ControllerUtil implements ControllerInterface {
             if($sessionValid){
                 $user = $this->userService->findById($_SESSION['user_email']);
             }else{
-                $user = $this->userService->selectByCredentials($credentials["email"], $credentials["password"]);
+                $user = $this->userService->findByCredentials($credentials["email"], $credentials["password"]);
             }
 
             $_SESSION['user_email'] = $user->email;

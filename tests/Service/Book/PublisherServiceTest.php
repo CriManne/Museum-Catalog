@@ -51,7 +51,7 @@ final class PublisherServiceTest extends BaseServiceTest
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->publisherService->selectByName("WRONG NAME");
+        $this->publisherService->findByName("WRONG NAME");
     }
     
     //UPDATE TESTS

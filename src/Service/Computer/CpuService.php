@@ -24,7 +24,7 @@ class CpuService {
      * @throws RepositoryException If the save fails
      */
     public function save(Cpu $c): void {
-        $cpu = $this->cpuRepository->selectByName($c->modelName);
+        $cpu = $this->cpuRepository->findByName($c->modelName);
         if ($cpu && $cpu->speed == $c->speed)
             throw new ServiceException("Cpu name and speed already used!");
 
@@ -52,8 +52,8 @@ class CpuService {
      * @return Cpu The cpu selected 
      * @throws ServiceException If not found
      */
-    public function selectByName(string $name): Cpu {
-        $cpu = $this->cpuRepository->selectByName($name);
+    public function findByName(string $name): Cpu {
+        $cpu = $this->cpuRepository->findByName($name);
         if (is_null($cpu)) {
             throw new ServiceException("Cpu not found");
         }

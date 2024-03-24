@@ -60,7 +60,7 @@ final class RamServiceTest extends BaseServiceTest
     {
         $this->expectException(ServiceException::class);
         $this->sth->method('fetch')->willReturn(null);
-        $this->ramService->selectByName("WRONG NAME");
+        $this->ramService->findByName("WRONG NAME");
     }
     
     //UPDATE TESTS

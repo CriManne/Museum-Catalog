@@ -68,12 +68,12 @@ final class OsRepositoryTest extends TestCase
     
     public function testGoodSelectByName(): void
     {
-        $this->assertNotNull(self::$osRepository->selectByName("Windows"));
+        $this->assertNotNull(self::$osRepository->findByName("Windows"));
     }
     
     public function testBadSelectByName(): void
     {
-        $this->assertNull(self::$osRepository->selectByName("WRONG-OS-NAME"));
+        $this->assertNull(self::$osRepository->findByName("WRONG-OS-NAME"));
     }
 
     public function testGoodSelectByKey(): void
