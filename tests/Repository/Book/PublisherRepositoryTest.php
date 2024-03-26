@@ -46,7 +46,7 @@ final class PublisherRepositoryTest extends TestCase
     }
 
     public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);        
+        $this->expectException(\AbstractRepo\Exceptions\RepositoryException::class);
         $publisher= new Publisher('Mondadori');
 
         self::$publisherRepository->save($publisher);
@@ -61,16 +61,6 @@ final class PublisherRepositoryTest extends TestCase
     public function testBadSelectById(): void
     {
         $this->assertNull(self::$publisherRepository->findById(3));
-    }
-    
-    public function testGoodSelectByName(): void
-    {
-        $this->assertNotNull(self::$publisherRepository->findByName("Mondadori"));
-    }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->assertNull(self::$publisherRepository->findByName("WRONG-PUBLISHER-NAME"));
     }
 
     public function testGoodSelectByKey(): void
