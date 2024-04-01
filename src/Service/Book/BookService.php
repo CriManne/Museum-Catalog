@@ -9,11 +9,12 @@ use App\Exception\ServiceException;
 use App\Model\Book\Book;
 use App\Repository\Book\BookRepository;
 
-class BookService {
-
+class BookService
+{
     public BookRepository $bookRepository;
 
-    public function __construct(BookRepository $bookRepository) {
+    public function __construct(BookRepository $bookRepository)
+    {
         $this->bookRepository = $bookRepository;
     }
 
@@ -23,7 +24,8 @@ class BookService {
      * @throws ServiceException If the title is already used
      * @throws RepositoryException If the save fails
      */
-    public function save(Book $b): void {
+    public function save(Book $b): void
+    {
         $book = $this->bookRepository->findByTitle($b->title);
         if ($book)
             throw new ServiceException("Book title already used!");
@@ -41,7 +43,8 @@ class BookService {
      * @return Book The book selected
      * @throws ServiceException If not found
      */
-    public function findById(string $id): Book {
+    public function findById(string $id): Book
+    {
         $book = $this->bookRepository->findById($id);
         if (is_null($book)) {
             throw new ServiceException("Book not found");
@@ -56,7 +59,8 @@ class BookService {
      * @return Book The book selected
      * @throws ServiceException If not found
      */
-    public function findByTitle(string $title): Book {
+    public function findByTitle(string $title): Book
+    {
         $book = $this->bookRepository->findByTitle($title);
         if (is_null($book)) {
             throw new ServiceException("Book not found");
@@ -70,7 +74,8 @@ class BookService {
      * @param string $key The key given
      * @return array The array of books, empty if no result
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         return $this->bookRepository->findByQuery($key);
     }
 
@@ -78,7 +83,8 @@ class BookService {
      * Select all
      * @return array All the books
      */
-    public function find(): array {
+    public function find(): array
+    {
         return $this->bookRepository->find();
     }
 
@@ -88,7 +94,8 @@ class BookService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Book $b): void {
+    public function update(Book $b): void
+    {
         $book = $this->bookRepository->findById($b->objectId);
         if (is_null($book)) {
             throw new ServiceException("Book not found!");
@@ -103,7 +110,8 @@ class BookService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $id): void {
+    public function delete(string $id): void
+    {
         $b = $this->bookRepository->findById($id);
         if (is_null($b)) {
             throw new ServiceException("Book not found!");

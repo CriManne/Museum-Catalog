@@ -12,18 +12,19 @@ use App\Model\Computer\Computer;
 use PDO;
 use PDOException;
 
-class ComputerRepository extends GenericRepository {
-
+class ComputerRepository extends GenericRepository
+{
     public cpuRepository $cpuRepository;
     public ramRepository $ramRepository;
     public osRepository $osRepository;
 
     public function __construct(
-        PDO $pdo,
+        PDO           $pdo,
         cpuRepository $cpuRepository,
         ramRepository $ramRepository,
-        osRepository $osRepository
-    ) {
+        osRepository  $osRepository
+    )
+    {
         parent::__construct($pdo);
         $this->cpuRepository = $cpuRepository;
         $this->ramRepository = $ramRepository;
@@ -32,10 +33,11 @@ class ComputerRepository extends GenericRepository {
 
     /**
      * Insert Computer
-     * @param Computer $computer    The computer to save
-     * @throws RepositoryException  If the save fails     
+     * @param Computer $computer The computer to save
+     * @throws RepositoryException  If the save fails
      */
-    public function save(Computer $computer): void {
+    public function save(Computer $computer): void
+    {
 
         $queryComputer =
             "INSERT INTO Computer
@@ -81,10 +83,11 @@ class ComputerRepository extends GenericRepository {
 
     /**
      * Select computer by id
-     * @param string $objectId  The object id to select
+     * @param string $objectId The object id to select
      * @return ?Computer    The computer selected, null if not found
      */
-    public function findById(string $objectId): ?Computer {
+    public function findById(string $objectId): ?Computer
+    {
         $query = "SELECT * FROM Computer b 
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE g.id = :objectId";
@@ -101,10 +104,11 @@ class ComputerRepository extends GenericRepository {
 
     /**
      * Select computer by model name
-     * @param string $modelName     The computer model name to select
+     * @param string $modelName The computer model name to select
      * @return ?Computer    The computer selected, null if not found
      */
-    public function findByName(string $modelName): ?Computer {
+    public function findByName(string $modelName): ?Computer
+    {
         $query = "SELECT * FROM Computer b
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE modelName LIKE :modelName";
@@ -126,7 +130,8 @@ class ComputerRepository extends GenericRepository {
      * @param string $key The key given
      * @return array   All computers, empty if no result
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         $query = "SELECT DISTINCT g.*,c.* FROM Computer c
             INNER JOIN GenericObject g ON g.id = c.objectId
             INNER JOIN Cpu cp ON cp.id = c.cpuId
@@ -156,7 +161,8 @@ class ComputerRepository extends GenericRepository {
      * Select all computers
      * @return ?array   All computers, null if no result
      */
-    public function find(): ?array {
+    public function find(): ?array
+    {
         $query = "SELECT * FROM Computer b
             INNER JOIN GenericObject g ON g.id = b.objectId";
 
@@ -170,7 +176,8 @@ class ComputerRepository extends GenericRepository {
      * @param Computer $b
      * @throws RepositoryException If the update fails
      */
-    public function update(Computer $b): void {
+    public function update(Computer $b): void
+    {
         $queryComputer =
             "UPDATE Computer
             SET modelName = :modelName,
@@ -219,10 +226,11 @@ class ComputerRepository extends GenericRepository {
 
     /**
      * Delete a computer
-     * @param string $objectId  The object id to delete
+     * @param string $objectId The object id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(string $objectId): void {
+    public function delete(string $objectId): void
+    {
         try {
             $this->pdo->beginTransaction();
 
@@ -247,10 +255,11 @@ class ComputerRepository extends GenericRepository {
 
     /**
      * Return a new instance of Computer from an array
-     * @param array $rawComputer    The raw computer object
+     * @param array $rawComputer The raw computer object
      * @return Computer The new instance of computer with the fk filled with the result of selects
      */
-    function returnMappedObject(array $rawComputer): Computer {
+    function returnMappedObject(array $rawComputer): Computer
+    {
 
         $os = isset($rawComputer["osId"]) ? $this->osRepository->findById(intval($rawComputer["osId"])) : null;
 

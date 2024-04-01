@@ -12,11 +12,12 @@ use App\Model\User;
 use App\Repository\UserRepository;
 use App\Exception\RepositoryException;
 
-class UserService {
-
+class UserService
+{
     public UserRepository $userRepository;
 
-    public function __construct(UserRepository $userRepository) {
+    public function __construct(UserRepository $userRepository)
+    {
         $this->userRepository = $userRepository;
     }
 
@@ -28,7 +29,8 @@ class UserService {
      * @throws \AbstractRepo\Exceptions\RepositoryException
      * @throws \ReflectionException
      */
-    public function save(User $u): void {
+    public function save(User $u): void
+    {
         if ($this->userRepository->findById($u->email) != null)
             throw new ServiceException("email already used!");
 
@@ -44,7 +46,8 @@ class UserService {
      * @throws \AbstractRepo\Exceptions\RepositoryException
      * @throws \ReflectionException
      */
-    public function findById(string $email): User {
+    public function findById(string $email): User
+    {
         $user = $this->userRepository->findById($email);
         if (is_null($user)) throw new ServiceException("User not found");
 
@@ -58,7 +61,8 @@ class UserService {
      * @return UserResponse     The user selected
      * @throws ServiceException     If no user is found
      */
-    public function findByCredentials(string $email, string $password): UserResponse {
+    public function findByCredentials(string $email, string $password): UserResponse
+    {
         $user = $this->userRepository->findByCredentials($email, $password);
         if (is_null($user)) throw new ServiceException("Wrong credentials");
 
@@ -93,11 +97,11 @@ class UserService {
                 page: $users->getCurrentPage(),
                 itemsPerPage: $users->getItemsPerPage(),
                 totalPages: $users->getTotalPages(),
-                data:  array_map(
+                data: array_map(
                     fn(User $u) => [
                         "email" => $u->email,
                         "firstname" => $u->firstname,
-                        "lastname" =>  $u->lastname,
+                        "lastname" => $u->lastname,
                         "privilege" => $u->privilege
                     ],
                     $users->getData()
@@ -116,7 +120,8 @@ class UserService {
      * @throws \AbstractRepo\Exceptions\RepositoryException
      * @throws \ReflectionException
      */
-    public function update(User $u): void {
+    public function update(User $u): void
+    {
         $user = $this->userRepository->findById($u->email);
         if (is_null($user)) {
             throw new ServiceException("User not found!");
@@ -133,7 +138,8 @@ class UserService {
      * @throws \AbstractRepo\Exceptions\RepositoryException
      * @throws \ReflectionException
      */
-    public function delete(string $email): void {
+    public function delete(string $email): void
+    {
         $user = $this->userRepository->findById($email);
         if (is_null($user)) {
             throw new ServiceException("User not found!");

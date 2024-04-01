@@ -9,11 +9,12 @@ use App\Model\Software\SoftwareType;
 use App\Repository\Software\SoftwareTypeRepository;
 use App\Exception\RepositoryException;
 
-class SoftwareTypeService {
-
+class SoftwareTypeService
+{
     public SoftwareTypeRepository $softwareTypeRepository;
 
-    public function __construct(SoftwareTypeRepository $softwareTypeRepository) {
+    public function __construct(SoftwareTypeRepository $softwareTypeRepository)
+    {
         $this->softwareTypeRepository = $softwareTypeRepository;
     }
 
@@ -23,7 +24,8 @@ class SoftwareTypeService {
      * @throws ServiceException If the name is already used
      * @throws RepositoryException If the save fails
      */
-    public function save(SoftwareType $s): void {
+    public function save(SoftwareType $s): void
+    {
         $sType = $this->softwareTypeRepository->findByName($s->name);
         if ($sType)
             throw new ServiceException("Software Type name already used!");
@@ -37,7 +39,8 @@ class SoftwareTypeService {
      * @return SoftwareType The SoftwareType selected
      * @throws ServiceException If not found
      */
-    public function findById(int $id): SoftwareType {
+    public function findById(int $id): SoftwareType
+    {
         $softwareType = $this->softwareTypeRepository->findById($id);
         if (is_null($softwareType)) {
             throw new ServiceException("Software Type not found");
@@ -52,7 +55,8 @@ class SoftwareTypeService {
      * @return SoftwareType The SoftwareType selected
      * @throws ServiceException If not found
      */
-    public function findByName(string $name): SoftwareType {
+    public function findByName(string $name): SoftwareType
+    {
         $softwareType = $this->softwareTypeRepository->findByName($name);
         if (is_null($softwareType)) {
             throw new ServiceException("Software Type not found");
@@ -66,7 +70,8 @@ class SoftwareTypeService {
      * @param string $key The key to search
      * @return array The SoftwareTypes selected
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         return $this->softwareTypeRepository->findByQuery($key);
     }
 
@@ -74,7 +79,8 @@ class SoftwareTypeService {
      * Select all
      * @return array All the softtype
      */
-    public function find(): array {
+    public function find(): array
+    {
         return $this->softwareTypeRepository->find();
     }
 
@@ -84,7 +90,8 @@ class SoftwareTypeService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(SoftwareType $s): void {
+    public function update(SoftwareType $s): void
+    {
         $softT = $this->softwareTypeRepository->findById($s->id);
         if (is_null($softT)) {
             throw new ServiceException("Software Type not found!");
@@ -99,7 +106,8 @@ class SoftwareTypeService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): void {
+    public function delete(int $id): void
+    {
         $s = $this->softwareTypeRepository->findById($id);
         if (is_null($s)) {
             throw new ServiceException("Software Type not found!");

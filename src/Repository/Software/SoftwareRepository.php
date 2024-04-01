@@ -11,18 +11,19 @@ use App\Repository\Computer\OsRepository;
 use PDO;
 use PDOException;
 
-class SoftwareRepository extends GenericRepository {
-
+class SoftwareRepository extends GenericRepository
+{
     public SoftwareTypeRepository $softwareTypeRepository;
     public SupportTypeRepository $supportTypeRepository;
     public OsRepository $osRepository;
 
     public function __construct(
-        PDO $pdo,
+        PDO                    $pdo,
         SoftwareTypeRepository $softwareTypeRepository,
-        SupportTypeRepository $supportTypeRepository,
-        OsRepository $osRepository
-    ) {
+        SupportTypeRepository  $supportTypeRepository,
+        OsRepository           $osRepository
+    )
+    {
         parent::__construct($pdo);
         $this->softwareTypeRepository = $softwareTypeRepository;
         $this->supportTypeRepository = $supportTypeRepository;
@@ -31,10 +32,11 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Insert software
-     * @param Software $software    The software to save
-     * @throws RepositoryException  If the save fails         * 
+     * @param Software $software The software to save
+     * @throws RepositoryException  If the save fails         *
      */
-    public function save(Software $software): void {
+    public function save(Software $software): void
+    {
 
         $querySoftware =
             "INSERT INTO Software
@@ -74,10 +76,11 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Select software by id
-     * @param string $objectId  The object id to select
+     * @param string $objectId The object id to select
      * @return ?Software    The software selected, null if not found
      */
-    public function findById(string $objectId): ?Software {
+    public function findById(string $objectId): ?Software
+    {
         $query = "SELECT * FROM Software s
             INNER JOIN GenericObject g ON g.id = s.objectId 
             WHERE g.id = :objectId";
@@ -94,10 +97,11 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Select software by title
-     * @param string $title     The software title to select
+     * @param string $title The software title to select
      * @return ?Software    The software selected, null if not found
      */
-    public function findByTitle(string $title): ?Software {
+    public function findByTitle(string $title): ?Software
+    {
         $query = "SELECT * FROM Software s
             INNER JOIN GenericObject g ON g.id = s.objectId 
             WHERE title = :title";
@@ -114,10 +118,11 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Select software by key
-     * @param string $key     The key given
+     * @param string $key The key given
      * @return array    Software(s) selected, empty array if no result
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         $query = "SELECT DISTINCT g.*,s.* FROM Software s
             INNER JOIN GenericObject g ON g.id = s.objectId 
             INNER JOIN Os o ON s.osId = o.id
@@ -143,7 +148,8 @@ class SoftwareRepository extends GenericRepository {
      * Select all software
      * @return ?array   All software, null if no results
      */
-    public function find(): ?array {
+    public function find(): ?array
+    {
         $query = "SELECT * FROM Software s
             INNER JOIN GenericObject g ON g.id = s.objectId";
 
@@ -154,10 +160,11 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Update a software
-     * @param Software $s   The software to update
+     * @param Software $s The software to update
      * @throws RepositoryException  If the update fails
      */
-    public function update(Software $s): void {
+    public function update(Software $s): void
+    {
         $querySoftware =
             "UPDATE Software
             SET title = :title,
@@ -200,10 +207,11 @@ class SoftwareRepository extends GenericRepository {
 
     /**
      * Delete a software
-     * @param string $objectId  The object id to delete
+     * @param string $objectId The object id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(string $objectId): void {
+    public function delete(string $objectId): void
+    {
         try {
             $this->pdo->beginTransaction();
 
@@ -231,7 +239,8 @@ class SoftwareRepository extends GenericRepository {
      * @param array $rawsoftware
      * @return Software The new instance of software with the fk filled with the result of selects
      */
-    function returnMappedObject(array $rawsoftware): Software {
+    function returnMappedObject(array $rawsoftware): Software
+    {
         return new Software(
             $rawsoftware["objectId"],
             $rawsoftware["title"],

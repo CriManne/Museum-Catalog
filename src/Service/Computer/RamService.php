@@ -10,13 +10,13 @@ use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
 use App\Model\Computer\Ram;
 use App\Repository\Computer\RamRepository;
-use App\Exception\RepositoryException;
 
-class RamService {
-
+class RamService
+{
     public RamRepository $ramRepository;
 
-    public function __construct(RamRepository $ramRepository) {
+    public function __construct(RamRepository $ramRepository)
+    {
         $this->ramRepository = $ramRepository;
     }
 
@@ -26,7 +26,8 @@ class RamService {
      * @throws AbstractRepositoryException
      * @throws ServiceException If the same ram is already saved
      */
-    public function save(Ram $r): void {
+    public function save(Ram $r): void
+    {
         $ram = $this->ramRepository->findFirst(
             new FetchParams(
                 conditions: "modelName = :modelName",
@@ -49,7 +50,8 @@ class RamService {
      * @throws AbstractRepositoryException
      * @throws ServiceException If not found
      */
-    public function findById(int $id): Ram|IModel {
+    public function findById(int $id): Ram|IModel
+    {
         $ram = $this->ramRepository->findById($id);
         if (is_null($ram)) {
             throw new ServiceException("Ram not found");
@@ -64,7 +66,8 @@ class RamService {
      * @return Ram[]|IModel[] The Rams selected
      * @throws AbstractRepositoryException
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         return $this->ramRepository->findByQuery($key);
     }
 
@@ -73,7 +76,8 @@ class RamService {
      * @return Ram[]|IModel[] All the rams
      * @throws AbstractRepositoryException
      */
-    public function find(): array {
+    public function find(): array
+    {
         return $this->ramRepository->find();
     }
 
@@ -83,7 +87,8 @@ class RamService {
      * @throws AbstractRepositoryException
      * @throws ServiceException If not found
      */
-    public function update(Ram $r): void {
+    public function update(Ram $r): void
+    {
         $ram = $this->ramRepository->findById($r->id);
         if (is_null($ram)) {
             throw new ServiceException("Ram not found!");
@@ -98,7 +103,8 @@ class RamService {
      * @throws AbstractRepositoryException
      * @throws ServiceException If not found
      */
-    public function delete(int $id): void {
+    public function delete(int $id): void
+    {
         $r = $this->ramRepository->findById($id);
         if (is_null($r)) {
             throw new ServiceException("Ram not found!");

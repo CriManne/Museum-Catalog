@@ -11,14 +11,15 @@ use PDO;
 use PDOException;
 use App\Util\ORM;
 
-class SoftwareTypeRepository extends GenericRepository {
-
+class SoftwareTypeRepository extends GenericRepository
+{
     /**
      * Insert softwaretype
-     * @param SoftwareType  $softwareType   The software type to save
+     * @param SoftwareType $softwareType The software type to save
      * @throws RepositoryException If the save fails
      */
-    public function save(SoftwareType $softwareType): void {
+    public function save(SoftwareType $softwareType): void
+    {
 
         $query =
             "INSERT INTO SoftwareType 
@@ -37,10 +38,11 @@ class SoftwareTypeRepository extends GenericRepository {
 
     /**
      * Select by id
-     * @param int $id   The id to select
+     * @param int $id The id to select
      * @return ?SoftwareType    The software type selected, null if not found
      */
-    public function findById(int $id): ?SoftwareType {
+    public function findById(int $id): ?SoftwareType
+    {
         $query = "SELECT * FROM SoftwareType WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
@@ -55,10 +57,11 @@ class SoftwareTypeRepository extends GenericRepository {
 
     /**
      * Select by name
-     * @param string $name  The name to select
+     * @param string $name The name to select
      * @return ?SoftwareType    The software type selected, null if not found
      */
-    public function findByName(string $name): ?SoftwareType {
+    public function findByName(string $name): ?SoftwareType
+    {
         $query = "SELECT * FROM SoftwareType WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
@@ -73,10 +76,11 @@ class SoftwareTypeRepository extends GenericRepository {
 
     /**
      * Select by key
-     * @param string $key  The key to search
+     * @param string $key The key to search
      * @return array The software types selected
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         $query = "SELECT * FROM SoftwareType WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
@@ -88,10 +92,11 @@ class SoftwareTypeRepository extends GenericRepository {
     }
 
     /**
-     * Select all 
+     * Select all
      * @return ?array   The software types selected, null if no result
      */
-    public function find(): ?array {
+    public function find(): ?array
+    {
         $query = "SELECT * FROM SoftwareType";
 
         $stmt = $this->pdo->query($query);
@@ -104,7 +109,8 @@ class SoftwareTypeRepository extends GenericRepository {
      * @param SoftwareType $s
      * @throws RepositoryException If the update fails
      */
-    public function update(SoftwareType $s): void {
+    public function update(SoftwareType $s): void
+    {
         $query =
             "UPDATE SoftwareType 
             SET name = :name            
@@ -122,10 +128,11 @@ class SoftwareTypeRepository extends GenericRepository {
 
     /**
      * Delete software type
-     * @param int $id   The id to delete
+     * @param int $id The id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(int $id): void {
+    public function delete(int $id): void
+    {
         $query =
             "DELETE FROM SoftwareType       
             WHERE id = :id;";

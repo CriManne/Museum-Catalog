@@ -9,11 +9,12 @@ use App\Model\Magazine\Magazine;
 use App\Repository\Magazine\MagazineRepository;
 use App\Exception\RepositoryException;
 
-class MagazineService {
-
+class MagazineService
+{
     public MagazineRepository $magazineRepository;
 
-    public function __construct(MagazineRepository $magazineRepository) {
+    public function __construct(MagazineRepository $magazineRepository)
+    {
         $this->magazineRepository = $magazineRepository;
     }
 
@@ -23,7 +24,8 @@ class MagazineService {
      * @throws ServiceException If the title is already used
      * @throws RepositoryException If the save fails
      */
-    public function save(Magazine $m): void {
+    public function save(Magazine $m): void
+    {
         $magazine = $this->magazineRepository->findByTitle($m->title);
         if ($magazine)
             throw new ServiceException("Magazine title already used!");
@@ -37,7 +39,8 @@ class MagazineService {
      * @return Magazine The magazine selected
      * @throws ServiceException If not found
      */
-    public function findById(string $id): Magazine {
+    public function findById(string $id): Magazine
+    {
         $magazine = $this->magazineRepository->findById($id);
         if (is_null($magazine)) {
             throw new ServiceException("Magazine not found");
@@ -52,7 +55,8 @@ class MagazineService {
      * @return Magazine The magazine selected
      * @throws ServiceException If not found
      */
-    public function findByTitle(string $title): Magazine {
+    public function findByTitle(string $title): Magazine
+    {
         $magazine = $this->magazineRepository->findByTitle($title);
         if (is_null($magazine)) {
             throw new ServiceException("Magazine not found");
@@ -66,7 +70,8 @@ class MagazineService {
      * @param string $key The key given
      * @return array Magazines selected, empty array if no result
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         return $this->magazineRepository->findByQuery($key);
     }
 
@@ -74,7 +79,8 @@ class MagazineService {
      * Select all
      * @return array All the magazines
      */
-    public function find(): array {
+    public function find(): array
+    {
         return $this->magazineRepository->find();
     }
 
@@ -84,7 +90,8 @@ class MagazineService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Magazine $m): void {
+    public function update(Magazine $m): void
+    {
         $mag = $this->magazineRepository->findById($m->objectId);
 
         if (is_null($mag)) {
@@ -100,7 +107,8 @@ class MagazineService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $id): void {
+    public function delete(string $id): void
+    {
         $m = $this->magazineRepository->findById($id);
 
         if (is_null($m)) {

@@ -12,24 +12,26 @@ use App\Model\Peripheral\Peripheral;
 use PDO;
 use PDOException;
 
-class PeripheralRepository extends GenericRepository {
-
+class PeripheralRepository extends GenericRepository
+{
     public PeripheralTypeRepository $peripheralTypeRepository;
 
     public function __construct(
-        PDO $pdo,
+        PDO                      $pdo,
         PeripheralTypeRepository $peripheralTypeRepository
-    ) {
+    )
+    {
         parent::__construct($pdo);
         $this->peripheralTypeRepository = $peripheralTypeRepository;
     }
 
     /**
      * Insert Peripheral
-     * @param Peripheral $peripheral    The peripheral to save
-     * @throws RepositoryException  If the save fails          
+     * @param Peripheral $peripheral The peripheral to save
+     * @throws RepositoryException  If the save fails
      */
-    public function save(Peripheral $peripheral): void {
+    public function save(Peripheral $peripheral): void
+    {
 
         $queryPeripheral =
             "INSERT INTO Peripheral
@@ -68,10 +70,11 @@ class PeripheralRepository extends GenericRepository {
 
     /**
      * Select peripheral by id
-     * @param string $objectId  The object id to select
+     * @param string $objectId The object id to select
      * @return ?Peripheral    The peripheral selected, null if not found
      */
-    public function findById(string $objectId): ?Peripheral {
+    public function findById(string $objectId): ?Peripheral
+    {
         $query = "SELECT * FROM Peripheral p 
             INNER JOIN GenericObject g ON g.id = p.objectId 
             WHERE g.id = :objectId";
@@ -88,15 +91,16 @@ class PeripheralRepository extends GenericRepository {
 
     /**
      * Select peripheral by modelName
-     * @param string $modelName     The peripheral modelName to select
+     * @param string $modelName The peripheral modelName to select
      * @return ?Peripheral    The peripheral selected, null if not found
      */
-    public function findByName(string $modelName): ?Peripheral {
+    public function findByName(string $modelName): ?Peripheral
+    {
         $query = "SELECT * FROM Peripheral p
             INNER JOIN GenericObject g ON g.id = p.objectId 
             WHERE modelName LIKE :modelName";
-        
-        $modelName = '%'.$modelName.'%';
+
+        $modelName = '%' . $modelName . '%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("modelName", $modelName);
@@ -110,10 +114,11 @@ class PeripheralRepository extends GenericRepository {
 
     /**
      * Select by key
-     * @param string $key     The key given
+     * @param string $key The key given
      * @return array The peripherals, empty array if no result
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         $query = "SELECT DISTINCT g.*,p.* FROM Peripheral p
             INNER JOIN GenericObject g ON g.id = p.objectId
             INNER JOIN PeripheralType pt ON p.peripheralTypeId = pt.id
@@ -136,7 +141,8 @@ class PeripheralRepository extends GenericRepository {
      * Select all peripherals
      * @return ?array   All peripherals, null if no result
      */
-    public function find(): ?array {
+    public function find(): ?array
+    {
         $query = "SELECT * FROM Peripheral p
             INNER JOIN GenericObject g ON g.id = p.objectId";
 
@@ -147,10 +153,11 @@ class PeripheralRepository extends GenericRepository {
 
     /**
      * Update a peripheral
-     * @param Peripheral $p   The peripheral to update
+     * @param Peripheral $p The peripheral to update
      * @throws RepositoryException  If the update fails
      */
-    public function update(Peripheral $p): void {
+    public function update(Peripheral $p): void
+    {
         $queryPeripheral =
             "UPDATE Peripheral
             SET modelName = :modelName,
@@ -189,10 +196,11 @@ class PeripheralRepository extends GenericRepository {
 
     /**
      * Delete a peripheral
-     * @param string $objectId  The object id to delete
+     * @param string $objectId The object id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(string $objectId): void {
+    public function delete(string $objectId): void
+    {
         try {
             $this->pdo->beginTransaction();
 
@@ -217,10 +225,11 @@ class PeripheralRepository extends GenericRepository {
 
     /**
      * Return a new instance of Peripheral from an array
-     * @param array $rawPeripheral    The raw peripheral object
+     * @param array $rawPeripheral The raw peripheral object
      * @return Peripheral The new instance of peripheral with the fk filled with the result of selects
      */
-    function returnMappedObject(array $rawPeripheral): Peripheral {
+    function returnMappedObject(array $rawPeripheral): Peripheral
+    {
         return new Peripheral(
             $rawPeripheral["objectId"],
             $rawPeripheral["modelName"],

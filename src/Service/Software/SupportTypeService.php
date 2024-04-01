@@ -9,11 +9,12 @@ use App\Model\Software\SupportType;
 use App\Repository\Software\SupportTypeRepository;
 use App\Exception\RepositoryException;
 
-class SupportTypeService {
-
+class SupportTypeService
+{
     public SupportTypeRepository $supportTypeRepository;
 
-    public function __construct(SupportTypeRepository $supportTypeRepository) {
+    public function __construct(SupportTypeRepository $supportTypeRepository)
+    {
         $this->supportTypeRepository = $supportTypeRepository;
     }
 
@@ -23,7 +24,8 @@ class SupportTypeService {
      * @throws ServiceException If the name is already used
      * @throws RepositoryException If the save fails
      */
-    public function save(SupportType $s): void {
+    public function save(SupportType $s): void
+    {
         $sType = $this->supportTypeRepository->findByName($s->name);
         if ($sType)
             throw new ServiceException("Support Type name already used!");
@@ -37,7 +39,8 @@ class SupportTypeService {
      * @return SupportType The SupportType selected
      * @throws ServiceException If not found
      */
-    public function findById(int $id): SupportType {
+    public function findById(int $id): SupportType
+    {
         $supportType = $this->supportTypeRepository->findById($id);
         if (is_null($supportType)) {
             throw new ServiceException("Support Type not found");
@@ -52,7 +55,8 @@ class SupportTypeService {
      * @return SupportType The SupportType selected
      * @throws ServiceException If not found
      */
-    public function findByName(string $name): SupportType {
+    public function findByName(string $name): SupportType
+    {
         $supportType = $this->supportTypeRepository->findByName($name);
         if (is_null($supportType)) {
             throw new ServiceException("Support Type not found");
@@ -66,7 +70,8 @@ class SupportTypeService {
      * @param string $key The key to search
      * @return array The SupportTypes selected
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         return $this->supportTypeRepository->findByQuery($key);
     }
 
@@ -74,7 +79,8 @@ class SupportTypeService {
      * Select all
      * @return array All the supptype
      */
-    public function find(): array {
+    public function find(): array
+    {
         return $this->supportTypeRepository->find();
     }
 
@@ -84,7 +90,8 @@ class SupportTypeService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(SupportType $s): void {
+    public function update(SupportType $s): void
+    {
         $supT = $this->supportTypeRepository->findById($s->id);
         if (is_null($supT)) {
             throw new ServiceException("Support Type not found!");
@@ -99,7 +106,8 @@ class SupportTypeService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): void {
+    public function delete(int $id): void
+    {
         $supportType = $this->supportTypeRepository->findById($id);
         if (is_null($supportType)) {
             throw new ServiceException("Support Type not found!");

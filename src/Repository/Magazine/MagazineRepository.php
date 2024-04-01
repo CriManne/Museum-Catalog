@@ -14,24 +14,26 @@ use App\Repository\Book\PublisherRepository;
 use PDO;
 use PDOException;
 
-class MagazineRepository extends GenericRepository {
-
+class MagazineRepository extends GenericRepository
+{
     public PublisherRepository $publisherRepository;
 
     public function __construct(
-        PDO $pdo,
+        PDO                 $pdo,
         PublisherRepository $publisherRepository
-    ) {
+    )
+    {
         parent::__construct($pdo);
         $this->publisherRepository = $publisherRepository;
     }
 
     /**
      * Insert Magazine
-     * @param Magazine $magazine    The magazine to save
-     * @throws RepositoryException  If the save fails         * 
+     * @param Magazine $magazine The magazine to save
+     * @throws RepositoryException  If the save fails         *
      */
-    public function save(Magazine $magazine): void {
+    public function save(Magazine $magazine): void
+    {
 
         $queryMagazine =
             "INSERT INTO Magazine
@@ -72,10 +74,11 @@ class MagazineRepository extends GenericRepository {
 
     /**
      * Select magazine by id
-     * @param string $objectId  The object id to select
+     * @param string $objectId The object id to select
      * @return ?Magazine    The magazine selected, null if not found
      */
-    public function findById(string $objectId): ?Magazine {
+    public function findById(string $objectId): ?Magazine
+    {
         $query = "SELECT * FROM Magazine b 
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE g.id = :objectId";
@@ -92,15 +95,16 @@ class MagazineRepository extends GenericRepository {
 
     /**
      * Select magazine by title
-     * @param string $title     The magazine title to select
+     * @param string $title The magazine title to select
      * @return ?Magazine    The magazine selected, null if not found
      */
-    public function findByTitle(string $title): ?Magazine {
+    public function findByTitle(string $title): ?Magazine
+    {
         $query = "SELECT * FROM Magazine b
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE title LIKE :title";
 
-        $title = '%'.$title.'%';
+        $title = '%' . $title . '%';
 
         $stmt = $this->pdo->prepare($query);
         $stmt->bindParam("title", $title);
@@ -117,7 +121,8 @@ class MagazineRepository extends GenericRepository {
      * @param string $key The key given
      * @return array   All magazines, empty array if no result
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         $query = "SELECT DISTINCT g.*,m.* FROM Magazine m
             INNER JOIN GenericObject g ON g.id = m.objectId
             INNER JOIN Publisher p ON m.publisherId = p.id
@@ -142,7 +147,8 @@ class MagazineRepository extends GenericRepository {
      * Select all magazines
      * @return ?array   All magazines, null if no result
      */
-    public function find(): ?array {
+    public function find(): ?array
+    {
         $query = "SELECT * FROM Magazine b
             INNER JOIN GenericObject g ON g.id = b.objectId";
 
@@ -156,7 +162,8 @@ class MagazineRepository extends GenericRepository {
      * @param Magazine $m
      * @throws RepositoryException If the update fails
      */
-    public function update(Magazine $m): void {
+    public function update(Magazine $m): void
+    {
         $queryMagazine =
             "UPDATE Magazine
             SET title = :title,
@@ -199,10 +206,11 @@ class MagazineRepository extends GenericRepository {
 
     /**
      * Delete a magazine
-     * @param string $objectId  The object id to delete
+     * @param string $objectId The object id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(string $objectId): void {
+    public function delete(string $objectId): void
+    {
         try {
             $this->pdo->beginTransaction();
 
@@ -227,10 +235,11 @@ class MagazineRepository extends GenericRepository {
 
     /**
      * Return a new instance of Magazine from an array
-     * @param array $rawMagazine    The raw magazine object
+     * @param array $rawMagazine The raw magazine object
      * @return Magazine The new instance of magazine with the fk filled with the result of selects
      */
-    function returnMappedObject(array $rawMagazine): Magazine {
+    function returnMappedObject(array $rawMagazine): Magazine
+    {
         return new Magazine(
             $rawMagazine["objectId"],
             $rawMagazine["title"],

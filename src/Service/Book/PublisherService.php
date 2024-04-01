@@ -6,16 +6,13 @@ namespace App\Service\Book;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Interfaces\IModel;
-use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\Book\Publisher;
 use App\Repository\Book\PublisherRepository;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
-use IMAP\Connection;
 
 class PublisherService
 {
-
     public PublisherRepository $publisherRepository;
 
     public function __construct(PublisherRepository $publisherRepository)

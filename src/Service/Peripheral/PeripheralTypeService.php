@@ -9,11 +9,12 @@ use App\Model\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Exception\RepositoryException;
 
-class PeripheralTypeService {
-
+class PeripheralTypeService
+{
     public PeripheralTypeRepository $peripheralTypeRepository;
 
-    public function __construct(PeripheralTypeRepository $peripheralTypeRepository) {
+    public function __construct(PeripheralTypeRepository $peripheralTypeRepository)
+    {
         $this->peripheralTypeRepository = $peripheralTypeRepository;
     }
 
@@ -23,7 +24,8 @@ class PeripheralTypeService {
      * @throws ServiceException If the name is already used
      * @throws RepositoryException If the save fails
      */
-    public function save(PeripheralType $pt): void {
+    public function save(PeripheralType $pt): void
+    {
         $pType = $this->peripheralTypeRepository->findByName($pt->name);
         if ($pType)
             throw new ServiceException("PeripheralType name already used!");
@@ -37,7 +39,8 @@ class PeripheralTypeService {
      * @return PeripheralType The object selected
      * @throws ServiceException If not found
      */
-    public function findById(int $id): PeripheralType {
+    public function findById(int $id): PeripheralType
+    {
         $peripheralType = $this->peripheralTypeRepository->findById($id);
         if (is_null($peripheralType)) {
             throw new ServiceException("PeripheralType not found");
@@ -52,7 +55,8 @@ class PeripheralTypeService {
      * @return PeripheralType The object selected
      * @throws ServiceException If not found
      */
-    public function findByName(string $name): PeripheralType {
+    public function findByName(string $name): PeripheralType
+    {
         $peripheralType = $this->peripheralTypeRepository->findByName($name);
         if (is_null($peripheralType)) {
             throw new ServiceException("PeripheralType not found");
@@ -66,7 +70,8 @@ class PeripheralTypeService {
      * @param string $key The key to search
      * @return array The objects selected
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         return $this->peripheralTypeRepository->findByQuery($key);
     }
 
@@ -74,7 +79,8 @@ class PeripheralTypeService {
      * Select all
      * @return array All the ptype
      */
-    public function find(): array {
+    public function find(): array
+    {
         return $this->peripheralTypeRepository->find();
     }
 
@@ -84,7 +90,8 @@ class PeripheralTypeService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(PeripheralType $pt): void {
+    public function update(PeripheralType $pt): void
+    {
         $periT = $this->peripheralTypeRepository->findById($pt->id);
         if (is_null($periT)) {
             throw new ServiceException("PeripheralType not found!");
@@ -99,7 +106,8 @@ class PeripheralTypeService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): void {
+    public function delete(int $id): void
+    {
         $pt = $this->peripheralTypeRepository->findById($id);
         if (is_null($pt)) {
             throw new ServiceException("PeripheralType not found!");

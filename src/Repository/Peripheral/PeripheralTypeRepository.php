@@ -11,14 +11,15 @@ use PDO;
 use PDOException;
 use App\Util\ORM;
 
-class PeripheralTypeRepository extends GenericRepository {
-
+class PeripheralTypeRepository extends GenericRepository
+{
     /**
      * Insert a peripheral type
-     * @param PeripheralType $peripheralType    The p.type to save
+     * @param PeripheralType $peripheralType The p.type to save
      * @throws RepositoryException  If the save fails
      */
-    public function save(PeripheralType $peripheralType): void {
+    public function save(PeripheralType $peripheralType): void
+    {
 
         $query =
             "INSERT INTO PeripheralType 
@@ -40,7 +41,8 @@ class PeripheralTypeRepository extends GenericRepository {
      * @param int $id The p.type id to select
      * @return ?PeripheralType  The p.type selected, null if not found
      */
-    public function findById(int $id): ?PeripheralType {
+    public function findById(int $id): ?PeripheralType
+    {
         $query = "SELECT * FROM PeripheralType WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
@@ -58,7 +60,8 @@ class PeripheralTypeRepository extends GenericRepository {
      * @param string $name The p.type id to select
      * @return ?PeripheralType  The p.type selected, null if not found
      */
-    public function findByName(string $name): ?PeripheralType {
+    public function findByName(string $name): ?PeripheralType
+    {
         $query = "SELECT * FROM PeripheralType WHERE name = :name";
 
         $stmt = $this->pdo->prepare($query);
@@ -76,7 +79,8 @@ class PeripheralTypeRepository extends GenericRepository {
      * @param string $key The key to search
      * @return array  The p.types selected
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         $query = "SELECT * FROM PeripheralType WHERE name LIKE :key";
 
         $key = '%' . $key . '%';
@@ -91,7 +95,8 @@ class PeripheralTypeRepository extends GenericRepository {
      * Select all p.type
      * @return ?array   All the p.types, null if no result
      */
-    public function find(): ?array {
+    public function find(): ?array
+    {
         $query = "SELECT * FROM PeripheralType";
 
         $stmt = $this->pdo->query($query);
@@ -101,10 +106,11 @@ class PeripheralTypeRepository extends GenericRepository {
 
     /**
      * Update p.type
-     * @param PeripheralType $pt    The p.type to update
+     * @param PeripheralType $pt The p.type to update
      * @throws RepositoryException  If the update fails
      */
-    public function update(PeripheralType $pt): void {
+    public function update(PeripheralType $pt): void
+    {
         $query =
             "UPDATE PeripheralType 
             SET name = :name            
@@ -125,7 +131,8 @@ class PeripheralTypeRepository extends GenericRepository {
      * @param int $id The p.type id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(int $id): void {
+    public function delete(int $id): void
+    {
         $query =
             "DELETE FROM PeripheralType          
             WHERE id = :id;";

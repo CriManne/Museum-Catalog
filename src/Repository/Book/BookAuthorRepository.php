@@ -11,14 +11,15 @@ use PDO;
 use PDOException;
 use App\Util\ORM;
 
-class BookAuthorRepository extends GenericRepository {
-
+class BookAuthorRepository extends GenericRepository
+{
     /**
      * Insert a book author
-     * @param BookAuthor $bookAuthor    The book author to save
+     * @param BookAuthor $bookAuthor The book author to save
      * @throws RepositoryException  If the save fails
      */
-    public function save(BookAuthor $bookAuthor): void {
+    public function save(BookAuthor $bookAuthor): void
+    {
 
         $query =
             "INSERT INTO BookAuthor 
@@ -38,11 +39,12 @@ class BookAuthorRepository extends GenericRepository {
 
     /**
      * Select book author by id
-     * @param string $bookId   The book id
-     * @param int $authorId    The author id
+     * @param string $bookId The book id
+     * @param int $authorId The author id
      * @return ?BookAuthor  The selected book author, null if not found
      */
-    public function findById(string $bookId, int $authorId): ?BookAuthor {
+    public function findById(string $bookId, int $authorId): ?BookAuthor
+    {
         $query = "SELECT * FROM BookAuthor WHERE bookId = :bookId AND authorId = :authorId";
 
         $stmt = $this->pdo->prepare($query);
@@ -60,10 +62,11 @@ class BookAuthorRepository extends GenericRepository {
 
     /**
      * Select book authors by book id
-     * @param string $bookId   The book id
+     * @param string $bookId The book id
      * @return ?BookAuthor  The selected book author, null if not found
      */
-    public function findByBookId(string $bookId): ?array {
+    public function findByBookId(string $bookId): ?array
+    {
         $query = "SELECT * FROM BookAuthor WHERE bookId = :bookId";
 
         $stmt = $this->pdo->prepare($query);
@@ -80,10 +83,11 @@ class BookAuthorRepository extends GenericRepository {
 
     /**
      * Select book authors by author id
-     * @param int $authorId    The author id
+     * @param int $authorId The author id
      * @return ?BookAuthor  The selected book author, null if not found
      */
-    public function findByAuthorId(int $authorId): ?array {
+    public function findByAuthorId(int $authorId): ?array
+    {
         $query = "SELECT * FROM BookAuthor WHERE authorId = :authorId";
 
         $stmt = $this->pdo->prepare($query);
@@ -102,7 +106,8 @@ class BookAuthorRepository extends GenericRepository {
      * Select all book authors
      * @return ?BookAuthor  The selected book author, null if not found
      */
-    public function find(): ?array {
+    public function find(): ?array
+    {
         $query = "SELECT * FROM BookAuthor";
 
         $stmt = $this->pdo->prepare($query);
@@ -121,7 +126,8 @@ class BookAuthorRepository extends GenericRepository {
      * @param string $bookId The book id
      * @throws RepositoryException
      */
-    public function deleteById(string $bookId): void {
+    public function deleteById(string $bookId): void
+    {
         $query =
             "DELETE FROM BookAuthor                      
             WHERE bookId = :bookId";

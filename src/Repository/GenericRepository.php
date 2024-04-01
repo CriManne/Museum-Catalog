@@ -6,11 +6,12 @@ namespace App\Repository;
 
 use PDO;
 
-class GenericRepository {
-
+class GenericRepository
+{
     public PDO $pdo;
 
-    public function __construct(PDO $pdo) {
+    public function __construct(PDO $pdo)
+    {
         $this->pdo = $pdo;
     }
 }

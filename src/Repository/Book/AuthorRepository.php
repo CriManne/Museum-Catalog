@@ -11,14 +11,15 @@ use PDO;
 use PDOException;
 use App\Util\ORM;
 
-class AuthorRepository extends GenericRepository {
-
+class AuthorRepository extends GenericRepository
+{
     /**
      * Insert an author
-     * @param Author $author    The author to save
+     * @param Author $author The author to save
      * @throws RepositoryException  If the save fails
      */
-    public function save(Author $author): void {
+    public function save(Author $author): void
+    {
 
         $query =
             "INSERT INTO Author 
@@ -39,10 +40,11 @@ class AuthorRepository extends GenericRepository {
 
     /**
      * Select author by id
-     * @param int $id   The author id
+     * @param int $id The author id
      * @return ?Author  The selected author, null if not found
      */
-    public function findById(int $id): ?Author {
+    public function findById(int $id): ?Author
+    {
         $query = "SELECT * FROM Author WHERE id = :id";
 
         $stmt = $this->pdo->prepare($query);
@@ -57,10 +59,11 @@ class AuthorRepository extends GenericRepository {
 
     /**
      * Select by key
-     * @param string $key  The key to search
+     * @param string $key The key to search
      * @return array  The selected Authors
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         $query = "SELECT * FROM Author WHERE 
         Concat(firstname,' ',lastname) LIKE :key OR 
         Concat(lastname,' ',firstname) = :key";
@@ -77,7 +80,8 @@ class AuthorRepository extends GenericRepository {
      * Select all authors
      * @return ?array   All the authors, null if author table is empty
      */
-    public function find(): ?array {
+    public function find(): ?array
+    {
         $query = "SELECT * FROM Author";
 
         $stmt = $this->pdo->query($query);
@@ -90,7 +94,8 @@ class AuthorRepository extends GenericRepository {
      * @param Author $author
      * @throws RepositoryException If the update fails
      */
-    public function update(Author $author): void {
+    public function update(Author $author): void
+    {
         $query =
             "UPDATE Author 
             SET firstname = :firstname,
@@ -110,10 +115,11 @@ class AuthorRepository extends GenericRepository {
 
     /**
      * Delete an author
-     * @param int $id     The author id to delete
+     * @param int $id The author id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(int $id): void {
+    public function delete(int $id): void
+    {
         $query =
             "DELETE FROM Author                      
             WHERE id = :id;";

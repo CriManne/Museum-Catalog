@@ -9,11 +9,12 @@ use App\Model\Software\Software;
 use App\Repository\Software\SoftwareRepository;
 use App\Exception\RepositoryException;
 
-class SoftwareService {
-
+class SoftwareService
+{
     public SoftwareRepository $softwareRepository;
 
-    public function __construct(SoftwareRepository $softwareRepository) {
+    public function __construct(SoftwareRepository $softwareRepository)
+    {
         $this->softwareRepository = $softwareRepository;
     }
 
@@ -23,7 +24,8 @@ class SoftwareService {
      * @throws ServiceException If the title is already used
      * @throws RepositoryException If the save fails
      */
-    public function save(Software $s): void {
+    public function save(Software $s): void
+    {
         $software = $this->softwareRepository->findByTitle($s->title);
         if ($software)
             throw new ServiceException("Software title already used!");
@@ -37,7 +39,8 @@ class SoftwareService {
      * @return Software The software selected
      * @throws ServiceException If not found
      */
-    public function findById(string $id): Software {
+    public function findById(string $id): Software
+    {
         $software = $this->softwareRepository->findById($id);
         if (is_null($software)) {
             throw new ServiceException("Software not found");
@@ -52,7 +55,8 @@ class SoftwareService {
      * @return Software The software selected
      * @throws ServiceException If not found
      */
-    public function findByTitle(string $title): Software {
+    public function findByTitle(string $title): Software
+    {
         $software = $this->softwareRepository->findByTitle($title);
         if (is_null($software)) {
             throw new ServiceException("Software not found");
@@ -66,7 +70,8 @@ class SoftwareService {
      * @param string $key The key given
      * @return array Software(s) selected, empty array if no result
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         return $this->softwareRepository->findByQuery($key);
     }
 
@@ -74,7 +79,8 @@ class SoftwareService {
      * Select all
      * @return array All the Software(s)
      */
-    public function find(): array {
+    public function find(): array
+    {
         return $this->softwareRepository->find();
     }
 
@@ -84,7 +90,8 @@ class SoftwareService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(Software $s): void {
+    public function update(Software $s): void
+    {
         $soft = $this->softwareRepository->findById($s->objectId);
 
         if (is_null($soft)) {
@@ -100,7 +107,8 @@ class SoftwareService {
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(string $id): void {
+    public function delete(string $id): void
+    {
         $s = $this->softwareRepository->findById($id);
         if (is_null($s)) {
             throw new ServiceException("Software not found!");

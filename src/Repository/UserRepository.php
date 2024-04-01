@@ -12,10 +12,9 @@ use AbstractRepo\Repository;
 use App\DataModels\User\UserResponse;
 use App\Model\User;
 use App\Util\ORM;
-use PDO;
 
-class UserRepository extends Repository\AbstractRepository implements Interfaces\IRepository {
-
+class UserRepository extends Repository\AbstractRepository implements Interfaces\IRepository
+{
     public static function getModel(): string
     {
         return User::class;
@@ -30,16 +29,17 @@ class UserRepository extends Repository\AbstractRepository implements Interfaces
      * @throws RepositoryException
      * @throws \ReflectionException
      */
-    public function findByCredentials(string $email, string $password): ?UserResponse {
+    public function findByCredentials(string $email, string $password): ?UserResponse
+    {
         $user = $this->findFirst(new FetchParams(
-           conditions: "email = :email",
-           bind: [
-               "email" => $email
+            conditions: "email = :email",
+            bind: [
+                "email" => $email
             ]
         ));
 
-        if($user){
-            if(password_verify($password,$user->password)){
+        if ($user) {
+            if (password_verify($password, $user->password)) {
                 unset($user->password);
                 return ORM::getNewInstance(UserResponse::class, (array)$user);
             }

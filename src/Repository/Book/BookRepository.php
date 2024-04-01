@@ -12,18 +12,19 @@ use App\Util\ORM;
 use PDO;
 use PDOException;
 
-class BookRepository extends GenericRepository {
-
+class BookRepository extends GenericRepository
+{
     public PublisherRepository $publisherRepository;
     public AuthorRepository $authorRepository;
     public BookAuthorRepository $bookAuthorRepository;
 
     public function __construct(
-        PDO $pdo,
-        PublisherRepository $publisherRepository,
-        AuthorRepository $authorRepository,
+        PDO                  $pdo,
+        PublisherRepository  $publisherRepository,
+        AuthorRepository     $authorRepository,
         BookAuthorRepository $bookAuthorRepository
-    ) {
+    )
+    {
         parent::__construct($pdo);
         $this->publisherRepository = $publisherRepository;
         $this->authorRepository = $authorRepository;
@@ -32,10 +33,11 @@ class BookRepository extends GenericRepository {
 
     /**
      * Insert Book
-     * @param Book $book    The book to save
-     * @throws RepositoryException  If the save fails         * 
+     * @param Book $book The book to save
+     * @throws RepositoryException  If the save fails         *
      */
-    public function save(Book $book): void {
+    public function save(Book $book): void
+    {
 
         $queryBook =
             "INSERT INTO Book
@@ -80,10 +82,11 @@ class BookRepository extends GenericRepository {
 
     /**
      * Select book by id
-     * @param string $objectId  The object id to select
+     * @param string $objectId The object id to select
      * @return ?Book    The book selected, null if not found
      */
-    public function findById(string $objectId): ?Book {
+    public function findById(string $objectId): ?Book
+    {
         $query = "SELECT * FROM Book b 
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE g.id = :objectId";
@@ -100,10 +103,11 @@ class BookRepository extends GenericRepository {
 
     /**
      * Select book by title
-     * @param string $title     The book title to select
+     * @param string $title The book title to select
      * @return ?Book    The book selected, null if not found
      */
-    public function findByTitle(string $title): ?Book {
+    public function findByTitle(string $title): ?Book
+    {
         $query = "SELECT * FROM Book b
             INNER JOIN GenericObject g ON g.id = b.objectId 
             WHERE title LIKE :title";
@@ -122,10 +126,11 @@ class BookRepository extends GenericRepository {
 
     /**
      * Select book by key
-     * @param string $key     The key given
+     * @param string $key The key given
      * @return array    The books selected, empty array if no result
      */
-    public function findByQuery(string $key): array {
+    public function findByQuery(string $key): array
+    {
         $query = "SELECT DISTINCT g.*,b.* FROM Book b
             INNER JOIN GenericObject g ON g.id = b.objectId 
             INNER JOIN Publisher p ON b.publisherId = p.id
@@ -152,7 +157,8 @@ class BookRepository extends GenericRepository {
      * Select all books
      * @return ?array   All books, null if no result
      */
-    public function find(): ?array {
+    public function find(): ?array
+    {
         $query = "SELECT * FROM Book b
             INNER JOIN GenericObject g ON g.id = b.objectId";
 
@@ -166,7 +172,8 @@ class BookRepository extends GenericRepository {
      * @param Book $b
      * @throws RepositoryException If the update fails
      */
-    public function update(Book $b): void {
+    public function update(Book $b): void
+    {
         $queryBook =
             "UPDATE Book
             SET title = :title,
@@ -217,10 +224,11 @@ class BookRepository extends GenericRepository {
 
     /**
      * Delete a book
-     * @param string $objectId  The object id to delete
+     * @param string $objectId The object id to delete
      * @throws RepositoryException  If the delete fails
      */
-    public function delete(string $objectId): void {
+    public function delete(string $objectId): void
+    {
         try {
             $this->pdo->beginTransaction();
 
@@ -260,10 +268,11 @@ class BookRepository extends GenericRepository {
 
     /**
      * Return a new instance of Book from an array
-     * @param array $rawBook    The raw book object
+     * @param array $rawBook The raw book object
      * @return Book The new instance of book with the fk filled with the result of selects
      */
-    function returnMappedObject(array $rawBook): Book {
+    function returnMappedObject(array $rawBook): Book
+    {
         $bookAuthors = [];
         /**
          * This method can be called both when fetching the book and when saveing the book
