@@ -9,7 +9,7 @@ use AbstractRepo\Attributes\Key;
 use AbstractRepo\Attributes\Searchable;
 use AbstractRepo\Interfaces\IModel;
 
-#[Entity('Os')]
+#[Entity]
 class Os implements IModel
 {
     public function __construct(

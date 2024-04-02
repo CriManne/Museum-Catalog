@@ -16,13 +16,13 @@ services:
   database:
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: museum
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    command: --lower_case_table_names=0
     ports:
       - "3306:3306"
     volumes:
       - ./sql/create.sql:/docker-entrypoint-initdb.d/create.sql
-      - ./my.cnf:/etc/mysql/my.cnf
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -32,7 +32,7 @@ services:
       - "8080:80"
     environment:
       PMA_HOST: database
-      PMA_USER: root
-      PMA_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: museum
+      PMA_USER: ${DB_USERNAME}
+      PMA_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
