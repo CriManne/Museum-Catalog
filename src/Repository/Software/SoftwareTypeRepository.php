@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repository\Software;
 
-use App\Repository\GenericRepository;
+use App\Repository\BaseRepository;
 use App\Exception\RepositoryException;
 use App\Model\Software\SoftwareType;
 use PDO;
 use PDOException;
 use App\Util\ORM;
 
-class SoftwareTypeRepository extends GenericRepository
+class SoftwareTypeRepository extends BaseRepository
 {
     /**
      * Insert softwaretype

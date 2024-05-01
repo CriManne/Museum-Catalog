@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repository\Book;
 
-use App\Repository\GenericRepository;
+use App\Repository\BaseRepository;
 use App\Exception\RepositoryException;
 use App\Model\Book\BookAuthor;
 use PDO;
 use PDOException;
 use App\Util\ORM;
 
-class BookAuthorRepository extends GenericRepository
+class BookAuthorRepository extends BaseRepository
 {
     /**
      * Insert a book author

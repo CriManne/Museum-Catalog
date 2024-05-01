@@ -1,7 +1,7 @@
 version: '3'
 services:
   webserver:
-    image: php:8.2-cli
+    image: php:8.3-cli
     ports:
       - "80:80"
     volumes:

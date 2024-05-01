@@ -4,13 +4,23 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-class GenericObject
+use AbstractRepo\Attributes\Entity;
+use AbstractRepo\Attributes\PrimaryKey;
+use AbstractRepo\Attributes\Searchable;
+use AbstractRepo\Interfaces\IModel;
+
+#[Entity('GenericObject')]
+class GenericObject implements IModel
 {
     public function __construct(
-        public string $objectId,
-        public ?string $note,
-        public ?string $url,
-        public ?string $tag
+        #[PrimaryKey(autoIncrement: false)]
+        public string  $id,
+        #[Searchable]
+        public ?string $note = null,
+        #[Searchable]
+        public ?string $url = null,
+        #[Searchable]
+        public ?string $tag = null
     )
     {
     }

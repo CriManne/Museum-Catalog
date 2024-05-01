@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repository\Software;
 
-use App\Repository\GenericRepository;
+use App\Repository\BaseRepository;
 use App\Exception\RepositoryException;
 use App\Model\Software\SupportType;
 use PDO;
 use PDOException;
 use App\Util\ORM;
 
-class SupportTypeRepository extends GenericRepository
+class SupportTypeRepository extends BaseRepository
 {
     /**
      * Insert support type

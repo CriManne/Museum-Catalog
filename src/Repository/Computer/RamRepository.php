@@ -8,7 +8,7 @@ use AbstractRepo\Interfaces\IRepository;
 use AbstractRepo\Repository\AbstractRepository;
 use App\Model\Computer\Ram;
 
-class RamRepository extends AbstractRepository implements IRepository
+class RamRepository extends AbstractRepository
 {
     public static function getModel(): string
     {

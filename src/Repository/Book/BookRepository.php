@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository\Book;
 
-use App\Repository\GenericRepository;
+use App\Repository\BaseRepository;
 use App\Exception\RepositoryException;
 use App\Model\Book\Book;
 use App\Model\Book\BookAuthor;
@@ -12,7 +12,7 @@ use App\Util\ORM;
 use PDO;
 use PDOException;
 
-class BookRepository extends GenericRepository
+class BookRepository extends BaseRepository
 {
     public PublisherRepository $publisherRepository;
     public AuthorRepository $authorRepository;

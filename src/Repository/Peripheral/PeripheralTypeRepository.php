@@ -4,14 +4,14 @@ declare(strict_types=1);
 
 namespace App\Repository\Peripheral;
 
-use App\Repository\GenericRepository;
+use App\Repository\BaseRepository;
 use App\Exception\RepositoryException;
 use App\Model\Peripheral\PeripheralType;
 use PDO;
 use PDOException;
 use App\Util\ORM;
 
-class PeripheralTypeRepository extends GenericRepository
+class PeripheralTypeRepository extends BaseRepository
 {
     /**
      * Insert a peripheral type

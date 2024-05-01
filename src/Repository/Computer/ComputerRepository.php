@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository\Computer;
 
-use App\Repository\GenericRepository;
+use App\Repository\BaseRepository;
 use App\Exception\RepositoryException;
 
 use App\Model\Computer\Computer;
@@ -12,7 +12,7 @@ use App\Model\Computer\Computer;
 use PDO;
 use PDOException;
 
-class ComputerRepository extends GenericRepository
+class ComputerRepository extends BaseRepository
 {
     public cpuRepository $cpuRepository;
     public ramRepository $ramRepository;

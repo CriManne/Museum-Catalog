@@ -3,15 +3,14 @@ declare(strict_types=1);
 
 namespace App\Test\Repository;
 
+use AbstractRepo\Exceptions\ReflectionException;
 use DI\DependencyException;
 use DI\NotFoundException;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\UserRepository;
-use App\Exception\RepositoryException;
 use App\Model\User;
-use ReflectionException;
-
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 /**
  *
  */
@@ -28,10 +27,9 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @throws AbstractRepositoryException
      * @throws DependencyException
      * @throws NotFoundException
-     * @throws ReflectionException
      */
     public static function setUpBeforeClass(): void
     {
@@ -45,13 +43,11 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\ReflectionException
-     * @throws \AbstractRepo\Exceptions\RepositoryException
-     * @throws ReflectionException
+     * @throws AbstractRepositoryException
      */
     public function setUp(): void
     {
-        //User saveed to test duplicated user errors
+        //User saved to test duplicated user errors
         $user = new User('testemail@gmail.com', password_hash("admin", PASSWORD_BCRYPT, ['cost' => 11]), 'Bill', 'Gates', 1);
         self::$userRepository->save($user);
     }
@@ -69,9 +65,7 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\ReflectionException
-     * @throws \AbstractRepo\Exceptions\RepositoryException
-     * @throws ReflectionException
+     * @throws AbstractRepositoryException
      */
     public function testGoodInsert(): void
     {
@@ -84,13 +78,11 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\ReflectionException
-     * @throws \AbstractRepo\Exceptions\RepositoryException
-     * @throws ReflectionException
+     * @throws AbstractRepositoryException
      */
     public function testBadInsert(): void
     {
-        $this->expectException(\AbstractRepo\Exceptions\RepositoryException::class);
+        $this->expectException(AbstractRepositoryException::class);
 
         //User already saveed in the setUp() method
         $user = new User('testemail@gmail.com', 'admin', 'Bill', 'Gates', 1);
@@ -102,9 +94,7 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\ReflectionException
-     * @throws \AbstractRepo\Exceptions\RepositoryException
-     * @throws ReflectionException
+     * @throws AbstractRepositoryException
      */
     public function testGoodSelectById(): void
     {
@@ -113,9 +103,7 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\ReflectionException
-     * @throws \AbstractRepo\Exceptions\RepositoryException
-     * @throws ReflectionException
+     * @throws AbstractRepositoryException
      */
     public function testBadSelectById(): void
     {
@@ -124,6 +112,7 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
+     * @throws AbstractRepositoryException
      */
     public function testGoodSelectByCredentials(): void
     {
@@ -149,9 +138,7 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\ReflectionException
-     * @throws \AbstractRepo\Exceptions\RepositoryException
-     * @throws ReflectionException
+     * @throws AbstractRepositoryException
      */
     public function testGoodSelectAll(): void
     {
@@ -176,9 +163,7 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\ReflectionException
-     * @throws \AbstractRepo\Exceptions\RepositoryException
-     * @throws ReflectionException
+     * @throws \AbstractRepo\Exceptions\AbstractRepositoryException
      */
     public function testGoodUpdate(): void
     {
@@ -193,9 +178,7 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\ReflectionException
-     * @throws \AbstractRepo\Exceptions\RepositoryException
-     * @throws ReflectionException
+     * @throws AbstractRepositoryException
      */
     public function testGoodDelete(): void
     {

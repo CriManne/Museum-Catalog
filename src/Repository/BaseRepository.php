@@ -6,7 +6,7 @@ namespace App\Repository;
 
 use PDO;
 
-class GenericRepository
+class BaseRepository
 {
     public PDO $pdo;
 

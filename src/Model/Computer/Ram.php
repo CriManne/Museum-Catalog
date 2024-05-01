@@ -5,11 +5,11 @@ declare(strict_types=1);
 namespace App\Model\Computer;
 
 use AbstractRepo\Attributes\Entity;
-use AbstractRepo\Attributes\Key;
+use AbstractRepo\Attributes\PrimaryKey;
 use AbstractRepo\Attributes\Searchable;
 use AbstractRepo\Interfaces\IModel;
 
-#[Entity]
+#[Entity('Ram')]
 class Ram implements IModel
 {
     public function __construct(
@@ -17,7 +17,7 @@ class Ram implements IModel
         public string $modelName,
         #[Searchable]
         public string $size,
-        #[Key(identity: true)]
+        #[PrimaryKey(autoIncrement: true)]
         public ?int   $id = null
     )
     {

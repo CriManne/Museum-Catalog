@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Repository\Peripheral;
 
-use App\Repository\GenericRepository;
+use App\Repository\BaseRepository;
 use App\Exception\RepositoryException;
 
 use App\Model\Peripheral\Peripheral;
@@ -12,7 +12,7 @@ use App\Model\Peripheral\Peripheral;
 use PDO;
 use PDOException;
 
-class PeripheralRepository extends GenericRepository
+class PeripheralRepository extends BaseRepository
 {
     public PeripheralTypeRepository $peripheralTypeRepository;
 

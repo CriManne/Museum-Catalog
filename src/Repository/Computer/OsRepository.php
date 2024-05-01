@@ -8,7 +8,7 @@ use AbstractRepo\Interfaces\IRepository;
 use AbstractRepo\Repository\AbstractRepository;
 use App\Model\Computer\Os;
 
-class OsRepository extends AbstractRepository implements IRepository
+class OsRepository extends AbstractRepository
 {
     public static function getModel(): string
     {

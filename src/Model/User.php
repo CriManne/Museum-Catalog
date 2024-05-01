@@ -4,20 +4,22 @@ declare(strict_types=1);
 
 namespace App\Model;
 
-use AbstractRepo\Attributes;
+use AbstractRepo\Attributes\Entity;
+use AbstractRepo\Attributes\PrimaryKey;
+use AbstractRepo\Attributes\Searchable;
 use AbstractRepo\Interfaces;
 
-#[Attributes\Entity('User')]
+#[Entity('User')]
 class User implements Interfaces\IModel
 {
     public function __construct(
-        #[Attributes\Key]
-        #[Attributes\Searchable]
+        #[PrimaryKey]
+        #[Searchable]
         public string $email,
         public string $password,
-        #[Attributes\Searchable]
+        #[Searchable]
         public string $firstname,
-        #[Attributes\Searchable]
+        #[Searchable]
         public string $lastname,
         public int    $privilege = 0
     )
