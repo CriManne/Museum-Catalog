@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Peripheral;
 
+use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
 use App\Model\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralTypeRepository;
@@ -26,9 +27,19 @@ class PeripheralTypeService
      */
     public function save(PeripheralType $pt): void
     {
-        $pType = $this->peripheralTypeRepository->findByName($pt->name);
-        if ($pType)
+        $pType = $this->peripheralTypeRepository->findFirst(
+            new FetchParams(
+                conditions: "name = :name",
+                bind: [
+                    "name" => $pt->name,
+                ]
+            )
+
+        );
+
+        if ($pType){
             throw new ServiceException("PeripheralType name already used!");
+        }
 
         $this->peripheralTypeRepository->save($pt);
     }
@@ -57,7 +68,16 @@ class PeripheralTypeService
      */
     public function findByName(string $name): PeripheralType
     {
-        $peripheralType = $this->peripheralTypeRepository->findByName($name);
+        $peripheralType = $this->peripheralTypeRepository->findFirst(
+            new FetchParams(
+                conditions: "name = :name",
+                bind: [
+                    "name" => $name,
+                ]
+            )
+
+        );
+
         if (is_null($peripheralType)) {
             throw new ServiceException("PeripheralType not found");
         }

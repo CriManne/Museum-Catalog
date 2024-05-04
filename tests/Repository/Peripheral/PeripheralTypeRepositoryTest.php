@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Exception\RepositoryException;
 use App\Model\Peripheral\PeripheralType;
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
 final class PeripheralTypeRepositoryTest extends TestCase
 {
@@ -45,9 +46,9 @@ final class PeripheralTypeRepositoryTest extends TestCase
         $this->assertEquals(self::$peripheralTypeRepository->findById(2)->name,"Keyboard");
     }
     public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);
+        $this->expectException(AbstractRepositoryException::class);
 
-        //PeripheralType already saveed in the setUp() method
+        //PeripheralType already saved in the setUp() method
         $peripheralType = new PeripheralType('Mouse');
 
         self::$peripheralTypeRepository->save($peripheralType);
@@ -62,16 +63,6 @@ final class PeripheralTypeRepositoryTest extends TestCase
     public function testBadSelectById(): void
     {
         $this->assertNull(self::$peripheralTypeRepository->findById(3));
-    }
-    
-    public function testGoodSelectByName(): void
-    {
-        $this->assertNotNull(self::$peripheralTypeRepository->findByName("Mouse"));
-    }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->assertNull(self::$peripheralTypeRepository->findByName("WRONG-PERIPHERALTYPE-NAME"));
     }
 
     public function testGoodSelectByKey(): void
