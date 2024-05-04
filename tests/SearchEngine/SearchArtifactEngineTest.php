@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace App\Test\SearchEngine;
 
+use App\Model\GenericObject;
+use App\Repository\GenericObjectRepository;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -32,6 +34,7 @@ use App\Repository\Software\SupportTypeRepository;
 
 final class SearchArtifactEngineTest extends TestCase
 {
+    public static GenericObjectRepository $genericObjectRepository;
     public static ArtifactSearchEngine $artifactSearchEngine;
     public static SoftwareRepository $softwareRepository;
     public static ComputerRepository $computerRepository;
@@ -50,6 +53,8 @@ final class SearchArtifactEngineTest extends TestCase
 
         self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
         self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
+
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
 
         self::$softwareRepository = new SoftwareRepository(
             self::$pdo,
@@ -91,6 +96,20 @@ final class SearchArtifactEngineTest extends TestCase
             "config/test_container.php"
         );
 
+        $genericObject1 = new GenericObject(
+            id: 'OBJ1',
+            note: null,
+            url: null,
+            tag: null
+        );
+
+        $genericObject2 = new GenericObject(
+            id: 'OBJ2',
+            note: null,
+            url: null,
+            tag: null
+        );
+
         $cpu = new Cpu("I7", "4GHZ", 1);
         $ram = new Ram("Ram 1", "64GB", 1);
         $os = new Os("Windows 10", 1);
@@ -115,15 +134,15 @@ final class SearchArtifactEngineTest extends TestCase
 
         $publisherRepository->save($publisher);
 
+
+        self::$genericObjectRepository->save($genericObject2);
+
         self::$magazineRepository->save(new Magazine(
-            "OBJ2",
+            $genericObject2,
             "Compass",
             2017,
             23,
-            $publisher,
-            null,
-            null,
-            null,
+            $publisher
         ));
     }
 

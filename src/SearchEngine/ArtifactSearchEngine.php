@@ -194,17 +194,17 @@ class ArtifactSearchEngine {
      */
     public function Magazine(Magazine $obj): GenericArtifactResponse {
         return new GenericArtifactResponse(
-            $obj->objectId,
-            $obj->title,
-            [
+            objectId: $obj->genericObject->id,
+            title: $obj->title,
+            descriptors: [
                 'Magazine number' => $obj->magazineNumber,
                 'Publisher' => $obj->publisher->name,
                 'Year' => $obj->year
             ],
-            "Magazine",
-            $obj->note,
-            $obj->url,
-            $obj->tag
+            category: "Magazine",
+            note: $obj->genericObject->note,
+            url: $obj->genericObject->url,
+            tag: $obj->genericObject->tag
         );
     }
 

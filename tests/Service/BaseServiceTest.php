@@ -14,6 +14,7 @@ abstract class BaseServiceTest extends TestCase
     public PDO $pdo;
     public PDOStatement $sth;
     public UserService $userService;
+    public mixed $sampleGenericObject;
     public mixed $sampleObject;
     public mixed $sampleObjectRaw;
     public mixed $sampleResponse;

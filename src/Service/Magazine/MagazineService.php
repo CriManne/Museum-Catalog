@@ -92,7 +92,7 @@ class MagazineService
      */
     public function update(Magazine $m): void
     {
-        $mag = $this->magazineRepository->findById($m->objectId);
+        $mag = $this->magazineRepository->findById($m->genericObject->id);
 
         if (is_null($mag)) {
             throw new ServiceException("Magazine not found!");

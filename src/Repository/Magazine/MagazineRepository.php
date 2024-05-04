@@ -15,6 +15,7 @@ use App\Model\Magazine\Magazine;
 
 use App\Repository\Book\PublisherRepository;
 
+use App\Util\ORM;
 use PDO;
 use PDOException;
 
@@ -57,25 +58,15 @@ class MagazineRepository extends AbstractRepository
      * Return a new instance of Magazine from an array
      * @param array $rawMagazine The raw magazine object
      * @return Magazine The new instance of magazine with the fk filled with the result of selects
-     * @throws \AbstractRepo\Exceptions\RepositoryException
      */
     function returnMappedObject(array $rawMagazine): Magazine
     {
-        /**
-         * @var Publisher $publisher
-         */
-        $publisher = $this->publisherRepository->findById(intval($rawMagazine["publisherId"]));
         return new Magazine(
-            new GenericObject(
-                $rawMagazine["objectId"],
-                $rawMagazine["note"] ?? null,
-                $rawMagazine["url"] ?? null,
-                $rawMagazine["Tag"] ?? null
-            ),
+            ORM::getNewInstance(GenericObject::class, $rawMagazine['genericObject']),
             $rawMagazine["title"],
             intval($rawMagazine["year"]),
             intval($rawMagazine["magazineNumber"]),
-            $publisher
+            ORM::getNewInstance(Publisher::class, $rawMagazine['publisher'])
         );
     }
 }

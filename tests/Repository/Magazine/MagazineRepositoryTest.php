@@ -171,17 +171,9 @@ final class MagazineRepositoryTest extends TestCase
     //UPDATE TESTS
     public function testGoodUpdate(): void
     {
-        $genericObject = clone self::$sampleGenericObject;
-
-        $genericObject->id = "objID1";
-
-        self::$genericObjectRepository->save($genericObject);
-
         $magazine = clone self::$sampleMagazine;
         $magazine->title = "NEW TITLE";
-        $magazine->genericObject = $genericObject;
 
-        var_dump($magazine);
         self::$magazineRepository->update($magazine);
 
         $this->assertEquals("NEW TITLE", self::$magazineRepository->findById("objID")->title);

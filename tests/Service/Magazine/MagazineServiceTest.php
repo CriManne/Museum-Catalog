@@ -3,6 +3,8 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Magazine;
 
+use App\Model\GenericObject;
+use App\Repository\GenericObjectRepository;
 use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
@@ -16,24 +18,30 @@ use App\Service\Magazine\MagazineService;
 final class MagazineServiceTest extends BaseServiceTest
 {
     public MagazineRepository $magazineRepository;
+    public GenericObjectRepository $genericObjectRepository;
     public MagazineService $magazineService;
     
 
     public function setUp(): void
     {
+        $this->genericObjectRepository = $this->createMock(GenericObjectRepository::class);
         $this->magazineRepository = $this->createMock(MagazineRepository::class);
 
         $this->magazineService = new MagazineService($this->magazineRepository);
 
-        $this->sampleObject = new Magazine(
+        $this->sampleGenericObject = new GenericObject(
             "objID",
+            null,
+            null,
+            null
+        );
+
+        $this->sampleObject = new Magazine(
+            $this->sampleGenericObject,
             'Magazine title',
             2005,
             205,
-            new Publisher('Publisher 1',1),
-            null,
-            null,
-            null,
+            new Publisher('Publisher 1',1)
         );
         
         $this->sampleObjectRaw = [
