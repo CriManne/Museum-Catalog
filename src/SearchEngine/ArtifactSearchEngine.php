@@ -177,13 +177,13 @@ class ArtifactSearchEngine {
         }
 
         return new GenericArtifactResponse(
-            $obj->objectId,
+            $obj->genericObject->id,
             $obj->modelName,
             $description,
             "Computer",
-            $obj->note,
-            $obj->url,
-            $obj->tag
+            $obj->genericObject->note,
+            $obj->genericObject->url,
+            $obj->genericObject->tag
         );
     }
 

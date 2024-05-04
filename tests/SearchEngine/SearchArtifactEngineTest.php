@@ -119,21 +119,18 @@ final class SearchArtifactEngineTest extends TestCase
         self::$ramRepository->save($ram);
         self::$osRepository->save($os);
 
+        self::$genericObjectRepository->save($genericObject1);
         self::$computerRepository->save(new Computer(
-            "OBJ1",
+            $genericObject1,
             "Computer1",
             2018,
             "1TB",
             $cpu,
             $ram,
             $os,
-            null,
-            null,
-            null,
         ));
 
         $publisherRepository->save($publisher);
-
 
         self::$genericObjectRepository->save($genericObject2);
 

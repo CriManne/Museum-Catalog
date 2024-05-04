@@ -92,7 +92,7 @@ class ComputerService
      */
     public function update(Computer $c): void
     {
-        $comp = $this->computerRepository->findById($c->objectId);
+        $comp = $this->computerRepository->findById($c->genericObject->id);
         if (is_null($comp)) {
             throw new ServiceException("Computer not found!");
         }

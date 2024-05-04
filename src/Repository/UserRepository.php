@@ -5,15 +5,13 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use AbstractRepo\DataModels\FetchParams;
-use AbstractRepo\Exceptions\ReflectionException;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
-use AbstractRepo\Interfaces;
-use AbstractRepo\Repository;
+use AbstractRepo\Repository\AbstractRepository;
 use App\DataModels\User\UserResponse;
 use App\Model\User;
 use App\Util\ORM;
 
-class UserRepository extends Repository\AbstractRepository
+class UserRepository extends AbstractRepository
 {
     public static function getModel(): string
     {
@@ -30,6 +28,9 @@ class UserRepository extends Repository\AbstractRepository
      */
     public function findByCredentials(string $email, string $password): ?UserResponse
     {
+        /**
+         * @var User|null $user
+         */
         $user = $this->findFirst(new FetchParams(
             conditions: "email = :email",
             bind: [

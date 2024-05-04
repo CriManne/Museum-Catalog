@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Util;
 
 use ReflectionClass;
+use ReflectionException;
 
 class ORM {
 
@@ -13,7 +14,7 @@ class ORM {
      * @param string $className The class name of the new instance
      * @param array $obj The params to fill the class with
      * @return object The new instance of the object
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function getNewInstance(string $className, array $obj): object {
         $reflectionClass = new ReflectionClass($className);
