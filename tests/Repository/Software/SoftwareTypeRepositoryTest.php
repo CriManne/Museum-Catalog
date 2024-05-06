@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use App\Repository\Software\SoftwareTypeRepository;
 use App\Exception\RepositoryException;
 use App\Model\Software\SoftwareType;
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
 final class SoftwareTypeRepositoryTest extends TestCase
 {
@@ -45,9 +46,9 @@ final class SoftwareTypeRepositoryTest extends TestCase
         $this->assertEquals(self::$softwareTypeRepository->findById(2)->name,"Game");
     }
     public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);
+        $this->expectException(AbstractRepositoryException::class);
 
-        //SoftwareType already saveed in the setUp() method
+        //SoftwareType already saved in the setUp() method
         $softwareType = new SoftwareType('Office');
 
         self::$softwareTypeRepository->save($softwareType);
@@ -62,16 +63,6 @@ final class SoftwareTypeRepositoryTest extends TestCase
     public function testBadSelectById(): void
     {
         $this->assertNull(self::$softwareTypeRepository->findById(3));
-    }
-    
-    public function testGoodSelectByName(): void
-    {
-        $this->assertNotNull(self::$softwareTypeRepository->findByName("Office"));
-    }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->assertNull(self::$softwareTypeRepository->findByName("WRONG-SOFTWAERE-TYPE"));
     }
 
     public function testGoodSelectByKey(): void

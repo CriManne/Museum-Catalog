@@ -7,7 +7,6 @@ use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Peripheral\PeripheralTypeRepository;
-use App\Exception\RepositoryException;
 use App\Model\Peripheral\PeripheralType;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 

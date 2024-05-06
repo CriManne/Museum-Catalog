@@ -20,20 +20,26 @@ final class SoftwareTypeServiceTest extends BaseServiceTest
 
     public function setUp(): void
     {        
-        $this->softwareTypeRepository = new SoftwareTypeRepository($this->pdo);
+        $this->softwareTypeRepository = $this->createMock(SoftwareTypeRepository::class);
         $this->softwareTypeService = new SoftwareTypeService($this->softwareTypeRepository);        
 
-        $this->sampleObject = [
-            "id"=>1,
-            "name"=>'Office'
-        ];        
+        $this->sampleObject = new SoftwareType(
+            name: 'Office',
+            id: 1
+        );
     }
     
     //INSERT TESTS
-    
+    public function testGoodInsert():void{
+        $this->expectNotToPerformAssertions();
+        $this->softwareTypeRepository->method('findFirst')->willReturn(null);
+        $softwareType = new SoftwareType('Office');
+        $this->softwareTypeService->save($softwareType);
+    }
+
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $this->softwareTypeRepository->method('findFirst')->willReturn($this->sampleObject);
         $softwareType = new SoftwareType('Office');
         $this->softwareTypeService->save($softwareType);
     }
@@ -42,21 +48,21 @@ final class SoftwareTypeServiceTest extends BaseServiceTest
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $this->softwareTypeRepository->method('findById')->willReturn($this->sampleObject);
         $this->assertEquals("Office",$this->softwareTypeService->findById(1)->name);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
+        $this->softwareTypeRepository->method('findFirst')->willReturn(null);
         $this->softwareTypeService->findById(2);
     }
     
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
+        $this->softwareTypeRepository->method('findFirst')->willReturn(null);
         $this->softwareTypeService->findByName("WRONG");
     }
     
@@ -64,17 +70,15 @@ final class SoftwareTypeServiceTest extends BaseServiceTest
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
         $softwareType = new SoftwareType("Office",1);
-        
-        $this->sth->method('fetch')->willReturn(null);
+        $this->softwareTypeRepository->method('findFirst')->willReturn(null);
         $this->softwareTypeService->update($softwareType);
     }
     
     //DELETE TESTS
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
-        
-        $this->sth->method('fetch')->willReturn(null);
-        
+
+        $this->softwareTypeRepository->method('findFirst')->willReturn(null);
         $this->softwareTypeService->delete(5);
     }   
 }

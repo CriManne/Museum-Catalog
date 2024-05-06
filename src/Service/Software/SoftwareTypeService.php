@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Software;
 
+use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
 use App\Model\Software\SoftwareType;
 use App\Repository\Software\SoftwareTypeRepository;
@@ -22,13 +23,20 @@ class SoftwareTypeService
      * Insert SoftwareType
      * @param SoftwareType $s The SoftwareType to save
      * @throws ServiceException If the name is already used
-     * @throws RepositoryException If the save fails
+     * @throws \AbstractRepo\Exceptions\RepositoryException If the save fails
      */
     public function save(SoftwareType $s): void
     {
-        $sType = $this->softwareTypeRepository->findByName($s->name);
-        if ($sType)
+        $softwareType = $this->softwareTypeRepository->findFirst(new FetchParams(
+            conditions: "name = :name",
+            bind: [
+                "name" => $s->name
+            ]
+        ));
+
+        if ($softwareType) {
             throw new ServiceException("Software Type name already used!");
+        }
 
         $this->softwareTypeRepository->save($s);
     }
@@ -38,6 +46,7 @@ class SoftwareTypeService
      * @param int $id The id to select
      * @return SoftwareType The SoftwareType selected
      * @throws ServiceException If not found
+     * @throws \AbstractRepo\Exceptions\RepositoryException
      */
     public function findById(int $id): SoftwareType
     {
@@ -53,11 +62,17 @@ class SoftwareTypeService
      * Select by name
      * @param string $name The name to select
      * @return SoftwareType The SoftwareType selected
-     * @throws ServiceException If not found
+     * @throws ServiceException
+     * @throws \AbstractRepo\Exceptions\RepositoryException If not found
      */
     public function findByName(string $name): SoftwareType
     {
-        $softwareType = $this->softwareTypeRepository->findByName($name);
+        $softwareType = $this->softwareTypeRepository->findFirst(new FetchParams(
+            conditions: "name = :name",
+            bind: [
+                "name" => $name
+            ]
+        ));
         if (is_null($softwareType)) {
             throw new ServiceException("Software Type not found");
         }
@@ -69,6 +84,7 @@ class SoftwareTypeService
      * Select by key
      * @param string $key The key to search
      * @return array The SoftwareTypes selected
+     * @throws \AbstractRepo\Exceptions\RepositoryException
      */
     public function findByQuery(string $key): array
     {
