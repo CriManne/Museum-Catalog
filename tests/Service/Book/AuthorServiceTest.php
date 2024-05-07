@@ -15,36 +15,38 @@ use PDOStatement;
 
 final class AuthorServiceTest extends BaseServiceTest
 {
+    public AuthorRepository $authorRepository;
     public AuthorService $authorService;
     
     public function setUp(): void
     {
-        $this->authorService = new AuthorService(new AuthorRepository($this->pdo));
+        $this->authorRepository = $this->createMock(AuthorRepository::class);
+        $this->authorService = new AuthorService($this->authorRepository);
 
-        $this->sampleObject = [
-            "id"=>1,
-            "firstname"=>'Mario',
-            "lastname"=>"Rossi"
-        ];        
+        $this->sampleObject = new Author(
+            firstname: "Mario",
+            lastname: "Rossi",
+            id: 1
+        );
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $this->authorRepository->method('findById')->willReturn($this->sampleObject);
         $this->assertEquals($this->authorService->findById(1)->firstname,"Mario");        
     }
         
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $this->authorRepository->method('findById')->willReturn($this->sampleObject);
         $this->assertEquals("Mario",$this->authorService->findById(1)->firstname);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
+        $this->authorRepository->method('findById')->willReturn(null);
         $this->authorService->findById(2);
     }
     
@@ -53,7 +55,7 @@ final class AuthorServiceTest extends BaseServiceTest
         $this->expectException(ServiceException::class);
         $author = new Author("WRONG AUTHOR","Rossi",1);
         
-        $this->sth->method('fetch')->willReturn(null);
+        $this->authorRepository->method('findFirst')->willReturn(null);
         $this->authorService->update($author);
     }
     
@@ -61,7 +63,7 @@ final class AuthorServiceTest extends BaseServiceTest
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
         
-        $this->sth->method('fetch')->willReturn(null);
+        $this->authorRepository->method('findFirst')->willReturn(null);
         
         $this->authorService->delete(5);
     }   

@@ -57,7 +57,7 @@ final class AuthorRepositoryTest extends TestCase
     
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$authorRepository->findByQuery("mario ros"));
+        $this->assertNotEmpty(self::$authorRepository->findByQuery("mari"));
     }
     
     public function testBadSelectByFullName(): void
