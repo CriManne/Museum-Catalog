@@ -14,29 +14,10 @@ use App\Model\Computer\Os;
 use App\Model\Computer\Ram;
 use App\Model\GenericObject;
 use App\Util\ORM;
-use PDO;
-use PDOException;
 use ReflectionException;
 
 class ComputerRepository extends AbstractRepository
 {
-    public cpuRepository $cpuRepository;
-    public ramRepository $ramRepository;
-    public osRepository $osRepository;
-
-    public function __construct(
-        PDO           $pdo,
-        cpuRepository $cpuRepository,
-        ramRepository $ramRepository,
-        osRepository  $osRepository
-    )
-    {
-        parent::__construct($pdo);
-        $this->cpuRepository = $cpuRepository;
-        $this->ramRepository = $ramRepository;
-        $this->osRepository = $osRepository;
-    }
-
     /**
      * @return string
      */

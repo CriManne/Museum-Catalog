@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Software;
 
+use App\Model\GenericObject;
 use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
@@ -27,15 +28,14 @@ final class SoftwareServiceTest extends BaseServiceTest
 
         $this->softwareService = new SoftwareService($this->softwareRepository);        
 
+        $this->sampleGenericObject = new GenericObject("objID");
+
         $this->sampleObject = new Software(
-            "objID",
+            $this->sampleGenericObject,
             'Paint',
             new Os('Windows',1),
             new SoftwareType('Office',1),
             new SupportType('Support',1),
-            null,
-            null,
-            null,
         );
         
         $this->sampleObjectRaw = [
@@ -56,7 +56,7 @@ final class SoftwareServiceTest extends BaseServiceTest
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->softwareRepository->method('findByTitle')->willReturn($this->sampleObject);
+        $this->softwareRepository->method('findFirst')->willReturn($this->sampleObject);
         $this->softwareService->save($this->sampleObject);
     }
     //SELECT TESTS
@@ -76,7 +76,7 @@ final class SoftwareServiceTest extends BaseServiceTest
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->softwareRepository->method('findByTitle')->willReturn(null);
+        $this->softwareRepository->method('findFirst')->willReturn(null);
         $this->softwareService->findByTitle("WRONG");
     }
     

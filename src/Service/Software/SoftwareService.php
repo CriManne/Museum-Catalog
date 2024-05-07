@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Software;
 
+use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
 use App\Model\Software\Software;
 use App\Repository\Software\SoftwareRepository;
@@ -26,7 +27,11 @@ class SoftwareService
      */
     public function save(Software $s): void
     {
-        $software = $this->softwareRepository->findByTitle($s->title);
+        $software = $this->softwareRepository->findFirst(new FetchParams(
+            conditions: "title = :title",
+            bind: ["title" => $s->title]
+        ));
+
         if ($software)
             throw new ServiceException("Software title already used!");
 
@@ -57,7 +62,11 @@ class SoftwareService
      */
     public function findByTitle(string $title): Software
     {
-        $software = $this->softwareRepository->findByTitle($title);
+        $software = $this->softwareRepository->findFirst(new FetchParams(
+            conditions: "title = :title",
+            bind: ["title" => $title]
+        ));
+
         if (is_null($software)) {
             throw new ServiceException("Software not found");
         }
@@ -92,7 +101,7 @@ class SoftwareService
      */
     public function update(Software $s): void
     {
-        $soft = $this->softwareRepository->findById($s->objectId);
+        $soft = $this->softwareRepository->findById($s->genericObject->id);
 
         if (is_null($soft)) {
             throw new ServiceException("Software not found!");

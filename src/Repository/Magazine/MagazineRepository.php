@@ -22,22 +22,10 @@ use ReflectionException;
 
 class MagazineRepository extends AbstractRepository
 {
-    public PublisherRepository $publisherRepository;
-
-    public function __construct(
-        PDO                 $pdo,
-        PublisherRepository $publisherRepository
-    )
-    {
-        parent::__construct($pdo);
-        $this->publisherRepository = $publisherRepository;
-    }
-
     public static function getModel(): string
     {
         return Magazine::class;
     }
-
 
     /**
      * Select magazine by title
