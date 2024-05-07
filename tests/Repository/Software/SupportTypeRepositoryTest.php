@@ -9,6 +9,7 @@ use PHPUnit\Framework\TestCase;
 use App\Repository\Software\SupportTypeRepository;
 use App\Exception\RepositoryException;
 use App\Model\Software\SupportType;
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
 final class SupportTypeRepositoryTest extends TestCase
 {
@@ -45,9 +46,9 @@ final class SupportTypeRepositoryTest extends TestCase
         $this->assertEquals(self::$supportTypeRepository->findById(2)->name,"FLOPPY");
     }
     public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);
+        $this->expectException(AbstractRepositoryException::class);
 
-        //SupportType already saveed in the setUp() method
+        //SupportType already saved in the setUp() method
         $supportType = new SupportType('CD-ROM');
 
         self::$supportTypeRepository->save($supportType);
@@ -62,16 +63,6 @@ final class SupportTypeRepositoryTest extends TestCase
     public function testBadSelectById(): void
     {
         $this->assertNull(self::$supportTypeRepository->findById(3));
-    }
-    
-    public function testGoodSelectByName(): void
-    {
-        $this->assertNotNull(self::$supportTypeRepository->findByName("CD-ROM"));
-    }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->assertNull(self::$supportTypeRepository->findByName("WRONG-SUPPORT"));
     }
     
     public function testGoodSelectByKey(): void

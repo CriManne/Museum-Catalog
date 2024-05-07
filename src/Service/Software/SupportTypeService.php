@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Software;
 
+use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
 use App\Model\Software\SupportType;
 use App\Repository\Software\SupportTypeRepository;
@@ -26,7 +27,11 @@ class SupportTypeService
      */
     public function save(SupportType $s): void
     {
-        $sType = $this->supportTypeRepository->findByName($s->name);
+        $sType = $this->supportTypeRepository->findFirst(new FetchParams(
+            conditions: "name = :name",
+            bind: ["name" => $s->name]
+        ));
+
         if ($sType)
             throw new ServiceException("Support Type name already used!");
 
@@ -57,7 +62,11 @@ class SupportTypeService
      */
     public function findByName(string $name): SupportType
     {
-        $supportType = $this->supportTypeRepository->findByName($name);
+        $supportType = $this->supportTypeRepository->findFirst(new FetchParams(
+            conditions: "name = :name",
+            bind: ["name" => $name]
+        ));
+
         if (is_null($supportType)) {
             throw new ServiceException("Support Type not found");
         }
