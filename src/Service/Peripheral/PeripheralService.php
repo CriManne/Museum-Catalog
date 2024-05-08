@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Peripheral;
 
+use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
 use App\Model\Peripheral\Peripheral;
 use App\Repository\Peripheral\PeripheralRepository;
@@ -26,9 +27,14 @@ class PeripheralService
      */
     public function save(Peripheral $p): void
     {
-        $peripheral = $this->peripheralRepository->findByName($p->modelName);
-        if ($peripheral)
+        $peripheral = $this->peripheralRepository->findFirst(new FetchParams(
+            conditions: "modelName = :modelName",
+            bind: ["modelName" => $p->modelName]
+        ));
+
+        if ($peripheral){
             throw new ServiceException("Peripheral model name already used!");
+        }
 
         $this->peripheralRepository->save($p);
     }
@@ -56,9 +62,13 @@ class PeripheralService
      * @return Peripheral The peripheral selected
      * @throws ServiceException If not found
      */
-    public function findByName(string $ModelName): Peripheral
+    public function findByName(string $modelName): Peripheral
     {
-        $peripheral = $this->peripheralRepository->findByName($ModelName);
+        $peripheral = $this->peripheralRepository->findFirst(new FetchParams(
+            conditions: "modelName = :modelName",
+            bind: ["modelName" => $modelName]
+        ));
+
         if (is_null($peripheral)) {
             throw new ServiceException("Peripheral not found");
         }
@@ -93,7 +103,7 @@ class PeripheralService
      */
     public function update(Peripheral $p): void
     {
-        $per = $this->peripheralRepository->findById($p->objectId);
+        $per = $this->peripheralRepository->findById($p->genericObject->id);
         if (is_null($per)) {
             throw new ServiceException("Peripheral not found!");
         }

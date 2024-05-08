@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Peripheral;
 
+use App\Model\GenericObject;
 use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
@@ -25,13 +26,11 @@ final class PeripheralServiceTest extends BaseServiceTest
 
         $this->peripheralService = new PeripheralService($this->peripheralRepository);        
 
+        $this->sampleGenericObject = new GenericObject("objID");
         $this->sampleObject = new Peripheral(
-            "objID",
+            $this->sampleGenericObject,
             'Peripheral 1.0',
-            new PeripheralType('PeripheralType 1',1),
-            null,
-            null,
-            null,
+            new PeripheralType('PeripheralType 1',1)
         );
 
         $this->sampleObjectRaw = [
@@ -50,7 +49,7 @@ final class PeripheralServiceTest extends BaseServiceTest
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->peripheralRepository->method('findByName')->willReturn($this->sampleObject);
+        $this->peripheralRepository->method('findFirst')->willReturn($this->sampleObject);
         $this->peripheralService->save($this->sampleObject);
     }
     //SELECT TESTS
@@ -70,7 +69,7 @@ final class PeripheralServiceTest extends BaseServiceTest
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->peripheralRepository->method('findByName')->willReturn(null);
+        $this->peripheralRepository->method('findFirst')->willReturn(null);
         $this->peripheralService->findByName("WRONG");
     }
     

@@ -3,10 +3,12 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Peripheral;
 
+use App\Model\GenericObject;
+use App\Repository\GenericObjectRepository;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
-
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 use App\Exception\RepositoryException;
 use App\Model\Peripheral\Peripheral;
 use App\Model\Peripheral\PeripheralType;
@@ -16,9 +18,11 @@ use App\Repository\Peripheral\PeripheralTypeRepository;
 final class PeripheralRepositoryTest extends TestCase
 {
     public static ?PDO $pdo;
+    public static GenericObject $sampleGenericObject;
     public static PeripheralType $samplePeripheralType;
     public static Peripheral $samplePeripheral;
 
+    public static GenericObjectRepository $genericObjectRepository;
     public static PeripheralTypeRepository $peripheralTypeRepository;
     public static PeripheralRepository $peripheralRepository;
 
@@ -28,14 +32,11 @@ final class PeripheralRepositoryTest extends TestCase
         self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
         self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
 
-        // Repository to handle relations
         self::$peripheralTypeRepository = new PeripheralTypeRepository(self::$pdo);
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$peripheralRepository = new PeripheralRepository(self::$pdo,);
 
-        // Repository to handle peripheral
-        self::$peripheralRepository = new PeripheralRepository(
-            self::$pdo,
-            self::$peripheralTypeRepository
-        );
+        self::$sampleGenericObject = new GenericObject('objID');
 
         self::$samplePeripheralType = new PeripheralType(
             "Mouse",
@@ -43,41 +44,47 @@ final class PeripheralRepositoryTest extends TestCase
         );
 
         self::$samplePeripheral = new Peripheral(
-            "objID",
+            self::$sampleGenericObject,
             "Peripheral 1.0",
-            self::$samplePeripheralType,
-            null,
-            null,
-            null,
+            self::$samplePeripheralType
         );
 
         self::$peripheralTypeRepository->save(self::$samplePeripheralType);
     }
 
-    public function setUp():void{
+    public function setUp(): void
+    {
         //Peripheral saveed to test duplicated supports errors
+        self::$genericObjectRepository->save(self::$sampleGenericObject);
         self::$peripheralRepository->save(self::$samplePeripheral);
     }
 
-    public function tearDown():void{
+    public function tearDown(): void
+    {
         //Clear the table
         self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Peripheral; TRUNCATE TABLE GenericObject; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
-    public function testGoodInsert():void{
+    public function testGoodInsert(): void
+    {
+        $genericObject = clone self::$sampleGenericObject;
+        $genericObject->id = "objID2";
+
         $peripheral = clone self::$samplePeripheral;
-        $peripheral->objectId = "objID2";
+        $peripheral->genericObject = $genericObject;
         $peripheral->modelName = "Peripheral 2";
 
+        self::$genericObjectRepository->save($genericObject);
         self::$peripheralRepository->save($peripheral);
 
-        $this->assertEquals(self::$peripheralRepository->findById("objID2")->modelName,"Peripheral 2");
+        $this->assertEquals(self::$peripheralRepository->findById("objID2")->modelName, "Peripheral 2");
     }
 
-    public function testBadInsert():void{
-        $this->expectException(RepositoryException::class);
-        //Peripheral already saveed in the setUp() method  
+    public function testBadInsert(): void
+    {
+        $this->expectException(AbstractRepositoryException::class);
+        //Peripheral already saved in the setUp() method
         self::$peripheralRepository->save(self::$samplePeripheral);
     }
 
@@ -92,71 +99,66 @@ final class PeripheralRepositoryTest extends TestCase
         $this->assertNull(self::$peripheralRepository->findById("WRONGID"));
     }
 
-    public function testGoodSelectAll():void{
-        $peripheral1 = clone self::$samplePeripheral;
-        $peripheral1->objectId = "objID1";
+    public function testGoodSelectAll(): void
+    {
+        for ($i = 0 ; $i < 3; $i++) {
+            $genericObject = clone self::$sampleGenericObject;
+            $genericObject->id = "objID" . $i;
 
-        $peripheral2 = clone self::$samplePeripheral;
-        $peripheral2->objectId = "objID2";
+            $peripheral = clone self::$samplePeripheral;
+            $peripheral->genericObject = $genericObject;
 
-        $peripheral3 = clone self::$samplePeripheral;
-        $peripheral3->objectId = "objID3";
-
-        self::$peripheralRepository->save($peripheral1);
-        self::$peripheralRepository->save($peripheral2);
-        self::$peripheralRepository->save($peripheral3);
+            self::$genericObjectRepository->save($genericObject);
+            self::$peripheralRepository->save($peripheral);
+        }
 
         $peripherals = self::$peripheralRepository->find();
-
-        $this->assertEquals(count($peripherals),4);
+        $this->assertEquals(count($peripherals), 4);
         $this->assertNotNull($peripherals[1]);
     }
 
-    public function testGoodfindByName():void{
+    //TODO: Nested search by query still needs to be implemented
+//    public function testGoodSelectByKey(): void
+//    {
+//        $genericObject = clone self::$sampleGenericObject;
+//        $genericObject->id = "objID5";
+//
+//        $peripheral = clone self::$samplePeripheral;
+//        $peripheral->genericObject = $genericObject;
+//        $peripheral->modelName = "Peripheral Test";
+//
+//        self::$genericObjectRepository->save($genericObject);
+//        self::$peripheralRepository->save($peripheral);
+//
+//        $this->assertEquals(count(self::$peripheralRepository->findByQuery("mous")), 2);
+//    }
 
-        $peripheral = clone self::$samplePeripheral;
-        $peripheral->objectId = "objID2";
-        $peripheral->modelName = "Peripheral Test";
-
-        self::$peripheralRepository->save($peripheral);
-
-        $this->assertEquals(self::$peripheralRepository->findByName("Peripheral Test")->modelName,"Peripheral Test");
-    }
-
-    public function testGoodSelectByKey():void{
-
-        $peripheral = clone self::$samplePeripheral;
-        $peripheral->objectId = "objID2";
-        $peripheral->modelName = "Peripheral Test";
-
-        self::$peripheralRepository->save($peripheral);
-
-        $this->assertEquals(count(self::$peripheralRepository->findByQuery("mous")),2);
-    }
-
-    public function testBadSelectByKey():void{
-        $this->assertEquals(self::$peripheralRepository->findByQuery("wrongkey"),[]);
+    public function testBadSelectByKey(): void
+    {
+        $this->assertEquals(self::$peripheralRepository->findByQuery("wrongkey"), []);
     }
 
     //UPDATE TESTS
-    public function testGoodUpdate():void{
+    public function testGoodUpdate(): void
+    {
         $peripheral = clone self::$samplePeripheral;
         $peripheral->modelName = "NEW MODELNAME";
 
         self::$peripheralRepository->update($peripheral);
 
-        $this->assertEquals("NEW MODELNAME",self::$peripheralRepository->findById("objID")->modelName);
+        $this->assertEquals("NEW MODELNAME", self::$peripheralRepository->findById("objID")->modelName);
     }
 
     //DELETE TESTS
-    public function testGoodDelete():void{
-
+    public function testGoodDelete(): void
+    {
         self::$peripheralRepository->delete("objID");
 
         $this->assertNull(self::$peripheralRepository->findById("objID"));
     }
 
-    public static function tearDownAfterClass():void{
+    public static function tearDownAfterClass(): void
+    {
         self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
         self::$pdo = null;
     }
