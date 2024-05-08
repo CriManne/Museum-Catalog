@@ -61,7 +61,11 @@ final class ComputerServiceTest extends BaseServiceTest
     
     
     //INSERT TESTS
-    //TODO: fix
+    public function testBadInsert():void{
+        $this->expectException(ServiceException::class);
+        $this->computerRepository->method('findFirst')->willReturn($this->sampleObject);
+        $this->computerService->save($this->sampleObject);
+    }
 
     //SELECT TESTS
     public function testGoodSelectById(): void

@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Computer;
 
+use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
 use App\Model\Computer\Computer;
 use App\Repository\Computer\ComputerRepository;
@@ -26,7 +27,11 @@ class ComputerService
      */
     public function save(Computer $c): void
     {
-        $computer = $this->computerRepository->findByName($c->modelName);
+        $computer = $this->computerRepository->findFirst(new FetchParams(
+            conditions: "modelName = :modelName",
+            bind: ["modelName" => $c->modelName]
+        ));
+
         if ($computer)
             throw new ServiceException("Computer model name already used!");
 
@@ -42,22 +47,6 @@ class ComputerService
     public function findById(string $id): Computer
     {
         $computer = $this->computerRepository->findById($id);
-        if (is_null($computer)) {
-            throw new ServiceException("Computer not found");
-        }
-
-        return $computer;
-    }
-
-    /**
-     * Select by ModelName
-     * @param string $ModelName The ModelName to select
-     * @return Computer The computer selected
-     * @throws ServiceException If not found
-     */
-    public function findByName(string $ModelName): Computer
-    {
-        $computer = $this->computerRepository->findByName($ModelName);
         if (is_null($computer)) {
             throw new ServiceException("Computer not found");
         }
