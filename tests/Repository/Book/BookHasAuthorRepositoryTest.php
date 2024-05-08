@@ -6,12 +6,12 @@ namespace App\Test\Repository\Book;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
-use App\Repository\Book\BookAuthorRepository;
-use App\Model\Book\BookAuthor;
+use App\Repository\Book\BookHasAuthorRepository;
+use App\Model\Book\BookHasAuthor;
 
-final class BookAuthorRepositoryTest extends TestCase
+final class BookHasAuthorRepositoryTest extends TestCase
 {
-    public static BookAuthorRepository $bookAuthorRepository;
+    public static BookHasAuthorRepository $bookAuthorRepository;
     public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
@@ -24,23 +24,23 @@ final class BookAuthorRepositoryTest extends TestCase
         self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
         self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
 
-        self::$bookAuthorRepository = new BookAuthorRepository(self::$pdo);          
+        self::$bookAuthorRepository = new BookHasAuthorRepository(self::$pdo);
     }
 
     public function setUp():void{
         //Author saveed to test duplicated cpu errors        
-        $bookAuthor= new BookAuthor("BOOK1",1);
+        $bookAuthor= new BookHasAuthor("BOOK1",1);
         self::$bookAuthorRepository->save($bookAuthor);        
     }
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("TRUNCATE TABLE BookAuthor;");
+        self::$pdo->exec("TRUNCATE TABLE BookHasAuthor;");
     }
 
     //INSERT TESTS
     public function testGoodInsert():void{                
-        $bookAuthor= new BookAuthor('BOOK2',1);
+        $bookAuthor= new BookHasAuthor('BOOK2',1);
 
         self::$bookAuthorRepository->save($bookAuthor);
         
@@ -80,9 +80,9 @@ final class BookAuthorRepositoryTest extends TestCase
     
     
     public function testGoodSelectAll():void{
-        $bookAuthor1 = new BookAuthor("BOOK2",5);
-        $bookAuthor2 = new BookAuthor("BOOK3",3);
-        $bookAuthor3 = new BookAuthor("BOOK4",1);
+        $bookAuthor1 = new BookHasAuthor("BOOK2",5);
+        $bookAuthor2 = new BookHasAuthor("BOOK3",3);
+        $bookAuthor3 = new BookHasAuthor("BOOK4",1);
         self::$bookAuthorRepository->save($bookAuthor1);
         self::$bookAuthorRepository->save($bookAuthor2);
         self::$bookAuthorRepository->save($bookAuthor3);
@@ -94,7 +94,7 @@ final class BookAuthorRepositoryTest extends TestCase
     }
     
     //DELETE TESTS
-    public function testGoodDeleteByBookAuthorID():void{       
+    public function testGoodDeleteByBookAuthorID():void{
         
         self::$bookAuthorRepository->deleteById("BOOK1",1);
         

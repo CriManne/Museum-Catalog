@@ -9,7 +9,7 @@ use App\Exception\ServiceException;
 
 use App\Model\Book\Book;
 use App\Model\Book\Author;
-use App\Model\Book\BookAuthor;
+use App\Model\Book\BookHasAuthor;
 use App\Model\Book\Publisher;
 
 use App\Repository\Book\BookRepository;

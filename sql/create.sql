@@ -97,7 +97,7 @@ CREATE TABLE Author(
     PRIMARY KEY (id)
 );
 
-CREATE TABLE BookAuthor(
+CREATE TABLE BookHasAuthor(
     bookId VARCHAR(20) NOT NULL,
     authorId INTEGER NOT NULL,
     PRIMARY KEY (bookId, authorId),

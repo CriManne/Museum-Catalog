@@ -10,7 +10,7 @@ use PHPUnit\Framework\TestCase;
 use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\Book\AuthorRepository;
-use App\Repository\Book\BookAuthorRepository;
+use App\Repository\Book\BookHasAuthorRepository;
 
 use App\Exception\RepositoryException;
 use App\Model\Book\Author;
@@ -26,7 +26,7 @@ final class BookRepositoryTest extends TestCase
 
     public static PublisherRepository $publisherRepository;
     public static AuthorRepository $authorRepository;
-    public static BookAuthorRepository $bookAuthorRepository;
+    public static BookHasAuthorRepository $bookAuthorRepository;
     public static BookRepository $bookRepository;
 
     public static function setUpBeforeClass(): void
@@ -37,7 +37,7 @@ final class BookRepositoryTest extends TestCase
 
         // Repository to handle relations
         self::$authorRepository = new AuthorRepository(self::$pdo);
-        self::$bookAuthorRepository = new BookAuthorRepository(self::$pdo);
+        self::$bookAuthorRepository = new BookHasAuthorRepository(self::$pdo);
         self::$publisherRepository = new PublisherRepository(self::$pdo);
 
 
@@ -84,7 +84,7 @@ final class BookRepositoryTest extends TestCase
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Book; TRUNCATE TABLE GenericObject; TRUNCATE TABLE BookAuthor; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Book; TRUNCATE TABLE GenericObject; TRUNCATE TABLE BookHasAuthor; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS

@@ -7,7 +7,7 @@ namespace App\Repository\Book;
 use App\Repository\BaseRepository;
 use App\Exception\RepositoryException;
 use App\Model\Book\Book;
-use App\Model\Book\BookAuthor;
+use App\Model\Book\BookHasAuthor;
 use App\Util\ORM;
 use PDO;
 use PDOException;
@@ -16,13 +16,13 @@ class BookRepository extends BaseRepository
 {
     public PublisherRepository $publisherRepository;
     public AuthorRepository $authorRepository;
-    public BookAuthorRepository $bookAuthorRepository;
+    public BookHasAuthorRepository $bookAuthorRepository;
 
     public function __construct(
         PDO                  $pdo,
         PublisherRepository  $publisherRepository,
         AuthorRepository     $authorRepository,
-        BookAuthorRepository $bookAuthorRepository
+        BookHasAuthorRepository $bookAuthorRepository
     )
     {
         parent::__construct($pdo);
@@ -70,7 +70,7 @@ class BookRepository extends BaseRepository
 
             $stmt->execute();
             foreach ($book->authors as $author) {
-                $this->bookAuthorRepository->save(new BookAuthor($book->objectId, $author->id));
+                $this->bookAuthorRepository->save(new BookHasAuthor($book->objectId, $author->id));
             }
 
             $this->pdo->commit();
@@ -134,7 +134,7 @@ class BookRepository extends BaseRepository
         $query = "SELECT DISTINCT g.*,b.* FROM Book b
             INNER JOIN GenericObject g ON g.id = b.objectId 
             INNER JOIN Publisher p ON b.publisherId = p.id
-            INNER JOIN BookAuthor ba ON b.objectId = ba.bookId
+            INNER JOIN BookHasAuthor ba ON b.objectId = ba.bookId
             INNER JOIN Author a ON ba.authorId = a.id
             WHERE title LIKE :key OR
             year LIKE :key OR
@@ -212,7 +212,7 @@ class BookRepository extends BaseRepository
             $this->bookAuthorRepository->deleteById($b->objectId);
 
             foreach ($b->authors as $author) {
-                $this->bookAuthorRepository->save(new BookAuthor($b->objectId, $author->id));
+                $this->bookAuthorRepository->save(new BookHasAuthor($b->objectId, $author->id));
             }
 
             $this->pdo->commit();
@@ -233,7 +233,7 @@ class BookRepository extends BaseRepository
             $this->pdo->beginTransaction();
 
             $query =
-                "DELETE FROM BookAuthor
+                "DELETE FROM BookHasAuthor
             WHERE bookId = :objectId;";
             $stmt = $this->pdo->prepare($query);
             $stmt->bindParam("objectId", $objectId);
@@ -277,12 +277,12 @@ class BookRepository extends BaseRepository
         /**
          * This method can be called both when fetching the book and when saveing the book
          * So when a book is saveed it has no relation with bookauthor so we can't fetch it
-         * from the bookauthor repository but we need to create BookAuthor entity inside the
+         * from the bookauthor repository but we need to create BookHasAuthor entity inside the
          * book entity so in the save method of BookRepository it will add the columns in bookauthor
          */
         if (isset($rawBook["newAuthors"])) {
             foreach ($rawBook["newAuthors"] as $key => $value) {
-                $bookAuthors[] = ORM::getNewInstance(BookAuthor::class, [$rawBook["objectId"], $value]);
+                $bookAuthors[] = ORM::getNewInstance(BookHasAuthor::class, [$rawBook["objectId"], $value]);
             }
         } else {
             $bookAuthors = $this->bookAuthorRepository->findByBookId($rawBook["objectId"]);

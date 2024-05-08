@@ -33,8 +33,8 @@ INSERT INTO Book(objectId,title,publisherId,year,pages,isbn) VALUES
 ("OBJ11","Refactoring",1,1998,405,"ABCDEFG"),
 ("OBJ12","C++",1,1998,405,"ABCDEFG");
 
--- POPULATE BOOK AUTHOR
-INSERT INTO BookAuthor(bookId,authorId) VALUES
+-- POPULATE BOOK HAS AUTHOR
+INSERT INTO BookHasAuthor(bookId,authorId) VALUES
 ("OBJ3",1);
 
 -- POPULATE CPU

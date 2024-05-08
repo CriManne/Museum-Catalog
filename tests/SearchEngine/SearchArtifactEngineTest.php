@@ -18,7 +18,7 @@ use App\Model\Computer\Os;
 use App\Model\Computer\Ram;
 use App\Model\Magazine\Magazine;
 use App\Repository\Book\AuthorRepository;
-use App\Repository\Book\BookAuthorRepository;
+use App\Repository\Book\BookHasAuthorRepository;
 use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\Computer\ComputerRepository;
@@ -78,7 +78,7 @@ final class SearchArtifactEngineTest extends TestCase
             self::$pdo,
             new PublisherRepository(self::$pdo),
             new AuthorRepository(self::$pdo),
-            new BookAuthorRepository(self::$pdo)
+            new BookHasAuthorRepository(self::$pdo)
         );
 
         $publisherRepository = new PublisherRepository(self::$pdo);
