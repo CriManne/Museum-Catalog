@@ -9,7 +9,6 @@ use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
-use App\Exception\RepositoryException;
 use App\Model\Peripheral\Peripheral;
 use App\Model\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralRepository;
@@ -117,21 +116,20 @@ final class PeripheralRepositoryTest extends TestCase
         $this->assertNotNull($peripherals[1]);
     }
 
-    //TODO: Nested search by query still needs to be implemented
-//    public function testGoodSelectByKey(): void
-//    {
-//        $genericObject = clone self::$sampleGenericObject;
-//        $genericObject->id = "objID5";
-//
-//        $peripheral = clone self::$samplePeripheral;
-//        $peripheral->genericObject = $genericObject;
-//        $peripheral->modelName = "Peripheral Test";
-//
-//        self::$genericObjectRepository->save($genericObject);
-//        self::$peripheralRepository->save($peripheral);
-//
-//        $this->assertEquals(count(self::$peripheralRepository->findByQuery("mous")), 2);
-//    }
+    public function testGoodSelectByKey(): void
+    {
+        $genericObject = clone self::$sampleGenericObject;
+        $genericObject->id = "objID5";
+
+        $peripheral = clone self::$samplePeripheral;
+        $peripheral->genericObject = $genericObject;
+        $peripheral->modelName = "Peripheral Test";
+
+        self::$genericObjectRepository->save($genericObject);
+        self::$peripheralRepository->save($peripheral);
+
+        $this->assertEquals(count(self::$peripheralRepository->findByQuery("mous")), 2);
+    }
 
     public function testBadSelectByKey(): void
     {

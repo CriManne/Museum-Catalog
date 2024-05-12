@@ -148,21 +148,20 @@ final class SoftwareRepositoryTest extends TestCase
         $this->assertNotNull($software[1]);
     }
 
-    //TODO: Nested search by query still needs to be implemented
-//    public function testGoodSelectByKey(): void
-//    {
-//        $genericObject = clone self::$sampleGenericObject;
-//        $genericObject->id = "objID2";
-//
-//        $software = clone self::$sampleSoftware;
-//        $software->genericObject = $genericObject;
-//        $software->title = "Visual studio";
-//
-//        self::$genericObjectRepository->save($genericObject);
-//        self::$softwareRepository->save($software);
-//
-//        $this->assertEquals(count(self::$softwareRepository->findByQuery("oFFic")), 2);
-//    }
+    public function testGoodSelectByKey(): void
+    {
+        $genericObject = clone self::$sampleGenericObject;
+        $genericObject->id = "objID2";
+
+        $software = clone self::$sampleSoftware;
+        $software->genericObject = $genericObject;
+        $software->title = "Visual studio";
+
+        self::$genericObjectRepository->save($genericObject);
+        self::$softwareRepository->save($software);
+
+        $this->assertEquals(count(self::$softwareRepository->findByQuery("oFFic")), 2);
+    }
 
     public function testBadSelectByKey(): void
     {

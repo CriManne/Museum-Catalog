@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace App\Model\Computer;
 
 use AbstractRepo\Attributes\Entity;
-use AbstractRepo\Attributes\ForeignKey;
+use AbstractRepo\Attributes\ManyToOne;
+use AbstractRepo\Attributes\OneToOne;
 use AbstractRepo\Attributes\PrimaryKey;
 use AbstractRepo\Attributes\Searchable;
-use AbstractRepo\Enums\Relationship;
 use AbstractRepo\Interfaces\IModel;
 use App\Model\GenericObject;
 
@@ -17,7 +17,7 @@ class Computer implements IModel
 {
     public function __construct(
         #[PrimaryKey(autoIncrement: false)]
-        #[ForeignKey(relationship: Relationship::ONE_TO_ONE, columnName: 'objectId')]
+        #[OneToOne(columnName: 'objectId')]
         public GenericObject    $genericObject,
         #[Searchable]
         public string  $modelName,
@@ -25,11 +25,11 @@ class Computer implements IModel
         public int     $year,
         #[Searchable]
         public ?string $hddSize,
-        #[ForeignKey(relationship: Relationship::MANY_TO_ONE, columnName: 'cpuId')]
+        #[ManyToOne(columnName: 'cpuId')]
         public Cpu     $cpu,
-        #[ForeignKey(relationship: Relationship::MANY_TO_ONE, columnName: 'ramId')]
+        #[ManyToOne(columnName: 'ramId')]
         public Ram     $ram,
-        #[ForeignKey(relationship: Relationship::MANY_TO_ONE, columnName: 'osId')]
+        #[ManyToOne(columnName: 'osId')]
         public ?Os     $os
     )
     {
