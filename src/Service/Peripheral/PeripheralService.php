@@ -6,17 +6,22 @@ namespace App\Service\Peripheral;
 
 use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
+use App\Model\GenericObject;
 use App\Model\Peripheral\Peripheral;
+use App\Model\Peripheral\PeripheralType;
+use App\Repository\GenericObjectRepository;
 use App\Repository\Peripheral\PeripheralRepository;
 use App\Exception\RepositoryException;
+use App\Repository\Peripheral\PeripheralTypeRepository;
 
 class PeripheralService
 {
-    public PeripheralRepository $peripheralRepository;
-
-    public function __construct(PeripheralRepository $peripheralRepository)
+    public function __construct(
+        public GenericObjectRepository $genericObjectRepository,
+        public PeripheralRepository $peripheralRepository,
+        public PeripheralTypeRepository $peripheralTypeRepository
+    )
     {
-        $this->peripheralRepository = $peripheralRepository;
     }
 
     /**
@@ -36,6 +41,7 @@ class PeripheralService
             throw new ServiceException("Peripheral model name already used!");
         }
 
+        $this->genericObjectRepository->save($p->genericObject);
         $this->peripheralRepository->save($p);
     }
 
@@ -125,5 +131,37 @@ class PeripheralService
         }
 
         $this->peripheralRepository->delete($id);
+    }
+
+    /**
+     * @param array $request
+     *
+     * @return Peripheral
+     * @throws ServiceException
+     * @throws \AbstractRepo\Exceptions\RepositoryException
+     */
+    public function fromRequest(array $request): Peripheral
+    {
+        $genericObject = new GenericObject(
+            $request["objectId"],
+            $request["note"] ?? null,
+            $request["url"] ?? null,
+            $request["tag"] ?? null
+        );
+
+        /**
+         * @var PeripheralType|null $peripheralType
+         */
+        $peripheralType = $this->peripheralTypeRepository->findById($request["peripheralTypeId"]);
+
+        if(!$peripheralType) {
+            throw new ServiceException('peripheral_type_not_found');
+        }
+
+        return new Peripheral(
+            genericObject: $genericObject,
+            modelName: $request["modelName"],
+            peripheralType: $peripheralType
+        );
     }
 }

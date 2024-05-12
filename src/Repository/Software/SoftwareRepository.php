@@ -19,21 +19,4 @@ class SoftwareRepository extends AbstractRepository
     {
         return Software::class;
     }
-
-    /**
-     * Return a new instance of Software from an array
-     * @param array $rawSoftware
-     * @return Software The new instance of software with the fk filled with the result of selects
-     * @throws ReflectionException
-     */
-    function returnMappedObject(array $rawSoftware): Software
-    {
-        return new Software(
-            ORM::getNewInstance(GenericObject::class, $rawSoftware["genericObject"]),
-            $rawSoftware["title"],
-            ORM::getNewInstance(Os::class, $rawSoftware["os"]),
-            ORM::getNewInstance(SoftwareType::class, $rawSoftware["softwareType"]),
-            ORM::getNewInstance(SupportType::class, $rawSoftware["supportType"])
-        );
-    }
 }

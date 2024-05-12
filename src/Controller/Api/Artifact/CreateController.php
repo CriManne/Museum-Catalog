@@ -72,20 +72,15 @@ class CreateController extends ControllerUtil implements ControllerInterface
              */
             $this->artifactService = $this->container->get($servicePath);
 
-            /**
-             * Get repository class, throws an exception if not found
-             */
-            $this->artifactRepository = $this->container->get($repoPath);
-
-            $instantiatedObject = $this->artifactRepository->returnMappedObject($params);
+            $instantiatedObject = $this->artifactService->fromRequest($params);
 
             $this->artifactService->save($instantiatedObject);
 
             //Delete remained old files
-            DeleteController::deleteImages($instantiatedObject->objectId);
+            DeleteController::deleteImages($instantiatedObject->genericObject->id);
 
             //Upload new files           
-            UploadController::uploadFiles($instantiatedObject->objectId, 'images');
+            UploadController::uploadFiles($instantiatedObject->genericObject->id, 'images');
 
             $message = "$category saveed successfully!";
             $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);

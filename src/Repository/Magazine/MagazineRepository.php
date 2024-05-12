@@ -37,21 +37,4 @@ class MagazineRepository extends AbstractRepository
             ]
         ));
     }
-
-    /**
-     * Return a new instance of Magazine from an array
-     * @param array $rawMagazine The raw magazine object
-     * @return Magazine The new instance of magazine with the fk filled with the result of selects
-     * @throws ReflectionException
-     */
-    function returnMappedObject(array $rawMagazine): Magazine
-    {
-        return new Magazine(
-            ORM::getNewInstance(GenericObject::class, $rawMagazine['genericObject']),
-            $rawMagazine["title"],
-            intval($rawMagazine["year"]),
-            intval($rawMagazine["magazineNumber"]),
-            ORM::getNewInstance(Publisher::class, $rawMagazine['publisher'])
-        );
-    }
 }
