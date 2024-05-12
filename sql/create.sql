@@ -98,9 +98,11 @@ CREATE TABLE Author(
 );
 
 CREATE TABLE BookHasAuthor(
+    id INTEGER NOT NULL AUTO_INCREMENT,
     bookId VARCHAR(20) NOT NULL,
     authorId INTEGER NOT NULL,
-    PRIMARY KEY (bookId, authorId),
+    PRIMARY KEY (id),
+    CONSTRAINT UNIQUE(bookId, authorId),
     FOREIGN KEY (bookId) REFERENCES Book(objectId),
     FOREIGN KEY (authorId) REFERENCES Author(id)
 );
