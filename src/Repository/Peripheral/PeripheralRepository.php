@@ -9,6 +9,7 @@ use App\Model\GenericObject;
 use App\Model\Peripheral\Peripheral;
 use App\Model\Peripheral\PeripheralType;
 use App\Util\ORM;
+use ReflectionException;
 
 class PeripheralRepository extends AbstractRepository
 {
@@ -24,7 +25,7 @@ class PeripheralRepository extends AbstractRepository
      * Return a new instance of Peripheral from an array
      * @param array $rawPeripheral The raw peripheral object
      * @return Peripheral The new instance of peripheral with the fk filled with the result of selects
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     function returnMappedObject(array $rawPeripheral): Peripheral
     {

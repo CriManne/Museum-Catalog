@@ -6,18 +6,13 @@ namespace App\Repository\Magazine;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Interfaces\IModel;
-use AbstractRepo\Interfaces\IRepository;
 use AbstractRepo\Repository\AbstractRepository;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 use App\Model\Book\Publisher;
 use App\Model\GenericObject;
 use App\Model\Magazine\Magazine;
 
-use App\Repository\Book\PublisherRepository;
-
 use App\Util\ORM;
-use PDO;
-use PDOException;
 use ReflectionException;
 
 class MagazineRepository extends AbstractRepository

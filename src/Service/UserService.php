@@ -10,7 +10,6 @@ use App\DataModels\User\UserResponse;
 use App\Exception\ServiceException;
 use App\Model\User;
 use App\Repository\UserRepository;
-use App\Exception\RepositoryException;
 
 class UserService
 {
