@@ -3,13 +3,12 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Book;
 
+use App\Model\GenericObject;
+use App\Repository\GenericObjectRepository;
 use App\Test\Service\BaseServiceTest;
-use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
-
 use App\Model\Book\Book;
 use App\Model\Book\Author;
-use App\Model\Book\BookHasAuthor;
 use App\Model\Book\Publisher;
 
 use App\Repository\Book\BookRepository;
@@ -17,6 +16,7 @@ use App\Service\Book\BookService;
 
 final class BookServiceTest extends BaseServiceTest
 {
+    public GenericObjectRepository $genericObjectRepository;
     public BookRepository $bookRepository;
     public BookService $bookService;
     
@@ -25,35 +25,21 @@ final class BookServiceTest extends BaseServiceTest
     {                
         $this->bookRepository = $this->createMock(BookRepository::class);
 
-        $this->bookService = new BookService($this->bookRepository);        
+        $this->bookService = new BookService($this->bookRepository);
+
+        $this->sampleGenericObject = new GenericObject("objID");
 
         $this->sampleObject = new Book(
-            "objID",
+            $this->sampleGenericObject,
             '1984',
             new Publisher("Mondadori",1),
             1945,
             [
                 new Author("George","Orwell",1)
             ],
-            null,
-            null,
-            null,
             "ALSKDI82SB",
             245,
         );
-        
-        $this->sampleObjectRaw = [
-            'title' => '1984',
-            'publisherId' => 1,
-            'year' => 1945,
-            'isbn' => 'ALSKDI82SB',
-            'pages' => 245,
-            'objectId' => 'objID',
-            'note' => null,
-            'url' => null,
-            'tag' => null,
-            'active' => '1'
-        ];        
     }
     
     
@@ -61,7 +47,7 @@ final class BookServiceTest extends BaseServiceTest
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->bookRepository->method('findByTitle')->willReturn($this->sampleObject);
+        $this->bookRepository->method('findFirst')->willReturn($this->sampleObject);
         $this->bookService->save($this->sampleObject);
     }
     //SELECT TESTS
@@ -76,13 +62,6 @@ final class BookServiceTest extends BaseServiceTest
         $this->expectException(ServiceException::class);
         $this->bookRepository->method('findById')->willReturn(null);
         $this->bookService->findById("ObjID25");
-    }
-    
-    public function testBadSelectBytitle(): void
-    {
-        $this->expectException(ServiceException::class);
-        $this->bookRepository->method('findByTitle')->willReturn(null);
-        $this->bookService->findByTitle("WRONG");
     }
     
     //UPDATE TESTS

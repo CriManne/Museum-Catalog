@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace App\Service\Book;
 
+use AbstractRepo\DataModels\FetchParams;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Model\Book\Book;
@@ -26,11 +27,17 @@ class BookService
      */
     public function save(Book $b): void
     {
-        $book = $this->bookRepository->findByTitle($b->title);
+        $book = $this->bookRepository->findFirst(
+            new FetchParams(
+                conditions: "title = :title",
+                bind: ["title" => $b->title]
+            )
+        );
+
         if ($book)
             throw new ServiceException("Book title already used!");
 
-        $book = $this->bookRepository->findById($b->objectId);
+        $book = $this->bookRepository->findById($b->genericObject->id);
         if ($book)
             throw new ServiceException("Object ID already used!");
 
@@ -61,7 +68,13 @@ class BookService
      */
     public function findByTitle(string $title): Book
     {
-        $book = $this->bookRepository->findByTitle($title);
+        $book = $this->bookRepository->findFirst(
+            new FetchParams(
+                conditions: "title = :title",
+                bind: ["title" => $title]
+            )
+        );
+
         if (is_null($book)) {
             throw new ServiceException("Book not found");
         }
@@ -96,7 +109,7 @@ class BookService
      */
     public function update(Book $b): void
     {
-        $book = $this->bookRepository->findById($b->objectId);
+        $book = $this->bookRepository->findById($b->genericObject->id);
         if (is_null($book)) {
             throw new ServiceException("Book not found!");
         }

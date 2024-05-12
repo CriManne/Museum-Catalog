@@ -9,30 +9,34 @@ use AbstractRepo\Attributes\ManyToOne;
 use AbstractRepo\Attributes\OneToMany;
 use AbstractRepo\Attributes\OneToOne;
 use AbstractRepo\Attributes\PrimaryKey;
+use AbstractRepo\Attributes\Searchable;
+use AbstractRepo\Interfaces\IModel;
 use App\Model\GenericObject;
 
 #[Entity('Book')]
-class Book extends GenericObject
+class Book implements IModel
 {
     public function __construct(
         #[PrimaryKey(autoIncrement: false)]
-        public string    $objectId,
+        #[OneToOne(columnName: 'objectId')]
+        public GenericObject    $genericObject,
+        #[Searchable]
         public string    $title,
         #[ManyToOne(columnName: 'publisherId')]
+        #[Searchable]
         public Publisher $publisher,
+        #[Searchable]
         public int       $year,
         #[OneToMany(
             referencedColumn: 'bookId',
             referencedClass: BookHasAuthor::class
         )]
-        public ?array     $authors,
-        string           $note = null,
-        string           $url = null,
-        string           $tag = null,
+        public ?array     $authors = null,
+        #[Searchable]
         public ?string   $isbn = null,
+        #[Searchable]
         public ?int      $pages = null,
     )
     {
-        parent::__construct($objectId, $note, $url, $tag);
     }
 }

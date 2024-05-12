@@ -29,12 +29,7 @@ final class MagazineServiceTest extends BaseServiceTest
 
         $this->magazineService = new MagazineService($this->magazineRepository);
 
-        $this->sampleGenericObject = new GenericObject(
-            "objID",
-            null,
-            null,
-            null
-        );
+        $this->sampleGenericObject = new GenericObject("objID");
 
         $this->sampleObject = new Magazine(
             $this->sampleGenericObject,
@@ -43,18 +38,6 @@ final class MagazineServiceTest extends BaseServiceTest
             205,
             new Publisher('Publisher 1',1)
         );
-        
-        $this->sampleObjectRaw = [
-            'title' => 'Magazine title',
-            'year' => 2005,
-            'magazineNumber' => 205,
-            'publisherId' => 1,
-            'objectId' => 'objID',
-            'note' => null,
-            'url' => null,
-            'tag' => null,
-            'active' => '1'
-        ];        
     }
     
     

@@ -11,6 +11,8 @@ services:
     command: bash -c "composer install; composer update; php -S 0.0.0.0:80 -t public"
     env_file:
       - .env
+    expose:
+      - 9000
 
   database:
     image: mysql

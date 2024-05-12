@@ -7,9 +7,11 @@ use AbstractRepo\Exceptions\RepositoryException;
 use App\Model\Book\Author;
 use App\Model\Book\Book;
 use App\Model\Book\Publisher;
+use App\Model\GenericObject;
 use App\Repository\Book\AuthorRepository;
 use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
+use App\Repository\GenericObjectRepository;
 use App\Test\Repository\BaseRepositoryTest;
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -18,11 +20,13 @@ use App\Model\Book\BookHasAuthor;
 
 final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
 {
+    public static GenericObjectRepository $genericObjectRepository;
     public static PublisherRepository     $publisherRepository;
     public static BookRepository          $bookRepository;
     public static AuthorRepository        $authorRepository;
     public static BookHasAuthorRepository $bookHasAuthorRepository;
 
+    public static GenericObject $sampleGenericObject;
     public static Publisher     $samplePublisher;
     public static Book          $sampleBook;
     public static Author        $sampleAuthor;
@@ -37,14 +41,16 @@ final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
         self::$bookHasAuthorRepository = new BookHasAuthorRepository(self::$pdo);
         self::$authorRepository        = new AuthorRepository(self::$pdo);
         self::$publisherRepository     = new PublisherRepository(self::$pdo);
         self::$bookRepository          = new BookRepository(self::$pdo, self::$publisherRepository, self::$authorRepository, self::$bookHasAuthorRepository);
 
+        self::$sampleGenericObject = new GenericObject("OBJ1");
         self::$samplePublisher     = new Publisher("PUB");
         self::$sampleBook          = new Book(
-            "OBJ1",
+            self::$sampleGenericObject,
             "BOOK2",
             self::$samplePublisher,
             2000,
@@ -57,6 +63,7 @@ final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
     public function setUp(): void
     {
         self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0;");
+        self::$pdo->exec("TRUNCATE TABLE GenericObject;");
         self::$pdo->exec("TRUNCATE TABLE BookHasAuthor;");
         self::$pdo->exec("TRUNCATE TABLE Book;");
         self::$pdo->exec("TRUNCATE TABLE Author;");
@@ -71,6 +78,7 @@ final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
      */
     public function testGoodInsert(): void
     {
+        self::$genericObjectRepository->save(self::$sampleGenericObject);
         self::$publisherRepository->save(self::$samplePublisher);
         self::$authorRepository->save(self::$sampleAuthor);
         self::$bookRepository->save(self::$sampleBook);
@@ -92,7 +100,8 @@ final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
      * @return void
      * @throws RepositoryException
      */
-    public function testGoodDeleteByBookAuthorID():void{
+    public function testGoodDeleteByBookAuthorID(): void
+    {
 
         self::$bookHasAuthorRepository->delete(1);
 

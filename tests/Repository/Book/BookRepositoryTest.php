@@ -3,179 +3,165 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Book;
 
-use App\Test\Repository\RepositoryTestUtil;
-use PDO;
-use PHPUnit\Framework\TestCase;
-
+use App\Model\GenericObject;
+use App\Repository\GenericObjectRepository;
+use App\Test\Repository\BaseRepositoryTest;
 use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\Book\AuthorRepository;
 use App\Repository\Book\BookHasAuthorRepository;
-
-use App\Exception\RepositoryException;
+use AbstractRepo\Exceptions\RepositoryException AS AbstractRepositoryException;
 use App\Model\Book\Author;
 use App\Model\Book\Book;
 use App\Model\Book\Publisher;
 
-final class BookRepositoryTest extends TestCase
+final class BookRepositoryTest extends BaseRepositoryTest
 {
-    public static ?PDO $pdo;
-    public static Author $sampleAuthor;
-    public static Book $sampleBook;
-    public static Publisher $samplePublisher;
+    public static GenericObject $sampleGenericObject;
+    public static Author        $sampleAuthor;
+    public static Book          $sampleBook;
+    public static Publisher     $samplePublisher;
 
-    public static PublisherRepository $publisherRepository;
-    public static AuthorRepository $authorRepository;
+    public static GenericObjectRepository $genericObjectRepository;
+    public static PublisherRepository     $publisherRepository;
+    public static AuthorRepository        $authorRepository;
     public static BookHasAuthorRepository $bookAuthorRepository;
-    public static BookRepository $bookRepository;
+    public static BookRepository          $bookRepository;
 
-//    public static function setUpBeforeClass(): void
-//    {
-//        self::$pdo = RepositoryTestUtil::getTestPdo();
-//        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-//        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-//
-//        // Repository to handle relations
-//        self::$authorRepository = new AuthorRepository(self::$pdo);
-//        self::$bookAuthorRepository = new BookHasAuthorRepository(self::$pdo);
-//        self::$publisherRepository = new PublisherRepository(self::$pdo);
-//
-//
-//        // Repository to handle book
-//        self::$bookRepository = new BookRepository(
-//            self::$pdo,
-//            self::$publisherRepository,
-//            self::$authorRepository,
-//            self::$bookAuthorRepository
-//        );
-//
-//        self::$sampleAuthor = new Author(
-//            "George",
-//            "Orwell",
-//            1
-//        );
-//
-//        self::$samplePublisher = new Publisher(
-//            'Einaudi',
-//            1
-//        );
-//
-//        self::$sampleBook = new Book(
-//            "objID",
-//            "1984",
-//            self::$samplePublisher,
-//            1984,
-//            [self::$sampleAuthor],
-//            null,
-//            null,
-//            null,
-//            "AAABBBCCC",
-//            95,
-//        );
-//
-//        self::$authorRepository->save(self::$sampleAuthor);
-//        self::$publisherRepository->save(self::$samplePublisher);
-//    }
-//
-//    public function setUp():void{
-//        //Book saveed to test duplicated supports errors
-//        self::$bookRepository->save(self::$sampleBook);
-//    }
-//
-//    public function tearDown():void{
-//        //Clear the table
-//        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Book; TRUNCATE TABLE GenericObject; TRUNCATE TABLE BookHasAuthor; SET FOREIGN_KEY_CHECKS=1;");
-//    }
-//
-//    //INSERT TESTS
-//    public function testGoodInsert():void{
-//        $book = clone self::$sampleBook;
-//        $book->objectId = "objID2";
-//        $book->title = "2001";
-//
-//        self::$bookRepository->save($book);
-//
-//        $this->assertEquals(self::$bookRepository->findById("objID2")->title,"2001");
-//    }
-//    public function testBadInsert():void{
-//        $this->expectException(RepositoryException::class);
-//        //Book already saveed in the setUp() method
-//        self::$bookRepository->save(self::$sampleBook);
-//    }
-//
-//    //SELECT TESTS
-//    public function testGoodSelectById(): void
-//    {
-//        $this->assertNotNull(self::$bookRepository->findById("objID"));
-//    }
-//
-//    public function testBadSelectById(): void
-//    {
-//        $this->assertNull(self::$bookRepository->findById("WRONGID"));
-//    }
-//
-//    public function testGoodSelectAll():void{
-//        $book1 = clone self::$sampleBook;
-//        $book1->objectId = "objID1";
-//
-//        $book2 = clone self::$sampleBook;
-//        $book2->objectId = "objID2";
-//
-//        $book3 = clone self::$sampleBook;
-//        $book3->objectId = "objID3";
-//
-//        self::$bookRepository->save($book1);
-//        self::$bookRepository->save($book2);
-//        self::$bookRepository->save($book3);
-//
-//        $books = self::$bookRepository->find();
-//
-//        $this->assertEquals(count($books),4);
-//        $this->assertNotNull($books[1]);
-//    }
-//
-//    public function testGoodSelectBytitle():void{
-//
-//        $book = clone self::$sampleBook;
-//        $book->objectId = "objID2";
-//        $book->title = "Big Bang";
-//
-//        self::$bookRepository->save($book);
-//
-//        $this->assertEquals(self::$bookRepository->findByTitle("Big Bang")->title,"Big Bang");
-//    }
-//
-//    public function testGoodSelectByKey(): void {
-//
-//        $book = clone self::$sampleBook;
-//        $book->objectId = "objID2";
-//        $book->title = "Big Bang";
-//
-//        self::$bookRepository->save($book);
-//
-//        $this->assertEquals(count(self::$bookRepository->findByQuery("gEoRge")),2);
-//    }
-//
-//    //UPDATE TESTS
-//    public function testGoodUpdate():void{
-//        $book = clone self::$sampleBook;
-//        $book->title = "NEW TITLE";
-//
-//        self::$bookRepository->update($book);
-//
-//        $this->assertEquals("NEW TITLE",self::$bookRepository->findById("objID")->title);
-//    }
-//
-//    //DELETE TESTS
-//    public function testGoodDelete():void{
-//
-//        self::$bookRepository->delete("objID");
-//
-//        $this->assertNull(self::$bookRepository->findById("objID"));
-//    }
-//
-//    public static function tearDownAfterClass():void{
-//        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-//        self::$pdo = null;
-//    }
+    public static function setUpBeforeClass(): void
+    {
+        parent::setUpBeforeClass();
+
+        // Repository to handle relations
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$authorRepository        = new AuthorRepository(self::$pdo);
+        self::$bookAuthorRepository    = new BookHasAuthorRepository(self::$pdo);
+        self::$publisherRepository     = new PublisherRepository(self::$pdo);
+        self::$bookRepository          = new BookRepository(self::$pdo);
+
+
+        self::$sampleGenericObject = new GenericObject("objID");
+
+        self::$sampleAuthor = new Author(
+            "George",
+            "Orwell",
+            1
+        );
+
+        self::$samplePublisher = new Publisher(
+            'Einaudi',
+            1
+        );
+
+        self::$sampleBook = new Book(
+            self::$sampleGenericObject,
+            "1984",
+            self::$samplePublisher,
+            1984,
+            null,
+            "AAABBBCCC",
+            95,
+        );
+
+        self::$authorRepository->save(self::$sampleAuthor);
+        self::$publisherRepository->save(self::$samplePublisher);
+    }
+
+    public function setUp(): void
+    {
+        self::$genericObjectRepository->save(self::$sampleGenericObject);
+        self::$bookRepository->save(self::$sampleBook);
+    }
+
+    public function tearDown(): void
+    {
+        //Clear the table
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Book; TRUNCATE TABLE GenericObject; TRUNCATE TABLE BookHasAuthor; SET FOREIGN_KEY_CHECKS=1;");
+    }
+
+    //INSERT TESTS
+    public function testGoodInsert(): void
+    {
+        $genericObject = clone self::$sampleGenericObject;
+        $genericObject->id = "objID2";
+
+        $book           = clone self::$sampleBook;
+        $book->genericObject = $genericObject;
+        $book->title    = "2001";
+
+        self::$genericObjectRepository->save($genericObject);
+        self::$bookRepository->save($book);
+
+        $this->assertEquals(self::$bookRepository->findById("objID2")->title, "2001");
+    }
+
+    public function testBadInsert(): void
+    {
+        $this->expectException(AbstractRepositoryException::class);
+        self::$bookRepository->save(self::$sampleBook);
+    }
+
+    //SELECT TESTS
+    public function testGoodSelectById(): void
+    {
+        $this->assertNotNull(self::$bookRepository->findById("objID"));
+    }
+
+    public function testBadSelectById(): void
+    {
+        $this->assertNull(self::$bookRepository->findById("WRONGID"));
+    }
+
+    public function testGoodSelectAll(): void
+    {
+        for ($i = 1; $i < 4; $i++) {
+            $genericObject = clone self::$sampleGenericObject;
+            $genericObject->id = "objID" . $i;
+
+            $book           = clone self::$sampleBook;
+            $book->genericObject = $genericObject;
+            $book->title    = "Test";
+
+            self::$genericObjectRepository->save($genericObject);
+            self::$bookRepository->save($book);
+        }
+        $books = self::$bookRepository->find();
+
+        $this->assertEquals(count($books), 4);
+    }
+
+
+    public function testGoodSelectByKey(): void
+    {
+        $genericObject = clone self::$sampleGenericObject;
+        $genericObject->id = "objID4";
+
+        $book           = clone self::$sampleBook;
+        $book->genericObject = $genericObject;
+        $book->title    = "1984 Second edition";
+
+        self::$genericObjectRepository->save($genericObject);
+        self::$bookRepository->save($book);
+
+        $this->assertCount( 2, self::$bookRepository->findByQuery("84"));
+    }
+
+    //UPDATE TESTS
+    public function testGoodUpdate(): void
+    {
+        $book        = clone self::$sampleBook;
+        $book->title = "NEW TITLE";
+
+        self::$bookRepository->update($book);
+
+        $this->assertEquals("NEW TITLE", self::$bookRepository->findById("objID")->title);
+    }
+
+    //DELETE TESTS
+    public function testGoodDelete(): void
+    {
+        self::$bookRepository->delete("objID");
+
+        $this->assertNull(self::$bookRepository->findById("objID"));
+    }
 }
