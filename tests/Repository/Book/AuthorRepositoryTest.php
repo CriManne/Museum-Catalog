@@ -25,7 +25,7 @@ final class AuthorRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Author saveed to test duplicated author errors
+        //Author saved to test duplicated author errors
         $author= new Author('Mario',"Rossi");
         self::$authorRepository->save($author);        
     }

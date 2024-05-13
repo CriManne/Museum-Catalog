@@ -82,7 +82,7 @@ class CreateController extends ControllerUtil implements ControllerInterface
             //Upload new files           
             UploadController::uploadFiles($instantiatedObject->genericObject->id, 'images');
 
-            $message = "$category saveed successfully!";
+            $message = "$category saved successfully!";
             $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
 
             return new Response(

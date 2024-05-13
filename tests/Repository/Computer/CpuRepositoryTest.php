@@ -25,7 +25,7 @@ final class CpuRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Cpu saveed to test duplicated cpu errors
+        //Cpu saved to test duplicated cpu errors
         $cpu= new Cpu('Cpu 1.0',"4GHZ");
         self::$cpuRepository->save($cpu);        
     }

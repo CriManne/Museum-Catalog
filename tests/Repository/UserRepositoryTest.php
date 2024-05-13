@@ -84,7 +84,7 @@ final class UserRepositoryTest extends TestCase
     {
         $this->expectException(AbstractRepositoryException::class);
 
-        //User already saveed in the setUp() method
+        //User already saved in the setUp() method
         $user = new User('testemail@gmail.com', 'admin', 'Bill', 'Gates', 1);
 
         self::$userRepository->save($user);

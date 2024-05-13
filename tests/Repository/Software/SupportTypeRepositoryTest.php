@@ -27,7 +27,7 @@ final class SupportTypeRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Support saveed to test duplicated supports errors
+        //Support saved to test duplicated supports errors
         $supportType = new SupportType('CD-ROM');
         self::$supportTypeRepository->save($supportType);
     }

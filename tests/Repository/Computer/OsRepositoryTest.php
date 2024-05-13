@@ -26,7 +26,7 @@ final class OsRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Os saveed to test duplicated os errors
+        //Os saved to test duplicated os errors
         $os = new Os('Windows');
         self::$osRepository->save($os);
     }

@@ -26,7 +26,7 @@ final class PublisherRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Publisher saveed to test duplicated cpu errors
+        //Publisher saved to test duplicated cpu errors
         $publisher= new Publisher('Mondadori');
         self::$publisherRepository->save($publisher);        
     }

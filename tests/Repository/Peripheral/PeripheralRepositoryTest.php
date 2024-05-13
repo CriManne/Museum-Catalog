@@ -53,7 +53,7 @@ final class PeripheralRepositoryTest extends TestCase
 
     public function setUp(): void
     {
-        //Peripheral saveed to test duplicated supports errors
+        //Peripheral saved to test duplicated supports errors
         self::$genericObjectRepository->save(self::$sampleGenericObject);
         self::$peripheralRepository->save(self::$samplePeripheral);
     }

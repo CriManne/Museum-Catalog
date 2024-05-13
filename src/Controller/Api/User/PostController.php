@@ -64,7 +64,7 @@ class PostController extends ControllerUtil implements ControllerInterface {
             ]);
             $this->userService->save($user);
 
-            $message = 'User with email {' . $params['email'] . '} saveed successfully!';
+            $message = 'User with email {' . $params['email'] . '} saved successfully!';
             $this->api_log->info($message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(
                 200,

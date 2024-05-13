@@ -4,6 +4,8 @@ declare(strict_types=1);
 namespace App\Test\Service\Peripheral;
 
 use App\Model\GenericObject;
+use App\Repository\GenericObjectRepository;
+use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
@@ -16,15 +18,23 @@ use App\Service\Peripheral\PeripheralService;
 
 final class PeripheralServiceTest extends BaseServiceTest
 {
+    public GenericObjectRepository $genericObjectRepository;
+    public PeripheralTypeRepository $peripheralTypeRepository;
     public PeripheralRepository $peripheralRepository;
     public PeripheralService $peripheralService;
     
 
     public function setUp(): void
-    {                
+    {
+        $this->genericObjectRepository = $this->createMock(GenericObjectRepository::class);
+        $this->peripheralTypeRepository = $this->createMock(PeripheralTypeRepository::class);
         $this->peripheralRepository = $this->createMock(PeripheralRepository::class);
 
-        $this->peripheralService = new PeripheralService($this->peripheralRepository);        
+        $this->peripheralService = new PeripheralService(
+            $this->genericObjectRepository,
+            $this->peripheralRepository,
+            $this->peripheralTypeRepository
+        );
 
         $this->sampleGenericObject = new GenericObject("objID");
         $this->sampleObject = new Peripheral(
@@ -43,7 +53,6 @@ final class PeripheralServiceTest extends BaseServiceTest
             'active' => '1'
         ];        
     }
-    
     
     //INSERT TESTS
     

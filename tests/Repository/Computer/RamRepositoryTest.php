@@ -25,7 +25,7 @@ final class RamRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Ram saveed to test duplicated ram errors
+        //Ram saved to test duplicated ram errors
         $ram= new Ram('Ram 1.0',"256KB");
         self::$ramRepository->save($ram);        
     }

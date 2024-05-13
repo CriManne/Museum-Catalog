@@ -26,7 +26,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
     }
 
     public function setUp():void{
-        //Support saveed to test duplicated supports errors
+        //Support saved to test duplicated supports errors
         $softwareType = new SoftwareType('Office');
         self::$softwareTypeRepository->save($softwareType);
     }
