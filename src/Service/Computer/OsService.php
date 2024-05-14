@@ -8,7 +8,7 @@ use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
-use App\Model\Computer\Os;
+use App\Models\Computer\Os;
 use App\Repository\Computer\OsRepository;
 
 class OsService

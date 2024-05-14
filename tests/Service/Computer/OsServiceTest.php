@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Test\Service\Computer;
 
 use App\Exception\ServiceException;
-use App\Model\Computer\Os;
+use App\Models\Computer\Os;
 use App\Repository\Computer\OsRepository;
 use App\Service\Computer\OsService;
 use App\Test\Service\BaseServiceTest;

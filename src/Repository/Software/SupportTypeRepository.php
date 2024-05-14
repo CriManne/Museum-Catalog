@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository\Software;
 
 use AbstractRepo\Repository\AbstractRepository;
-use App\Model\Software\SupportType;
+use App\Models\Software\SupportType;
 
 class SupportTypeRepository extends AbstractRepository
 {

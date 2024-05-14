@@ -8,9 +8,9 @@ use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Interfaces\IModel;
 use AbstractRepo\Repository\AbstractRepository;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
-use App\Model\Book\Publisher;
-use App\Model\GenericObject;
-use App\Model\Magazine\Magazine;
+use App\Models\Book\Publisher;
+use App\Models\GenericObject;
+use App\Models\Magazine\Magazine;
 
 use App\Util\ORM;
 use ReflectionException;

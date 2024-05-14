@@ -6,15 +6,16 @@ namespace App\Service\Peripheral;
 
 use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
-use App\Model\GenericObject;
-use App\Model\Peripheral\Peripheral;
-use App\Model\Peripheral\PeripheralType;
+use App\Models\GenericObject;
+use App\Models\Peripheral\Peripheral;
+use App\Models\Peripheral\PeripheralType;
 use App\Repository\GenericObjectRepository;
 use App\Repository\Peripheral\PeripheralRepository;
 use App\Exception\RepositoryException;
 use App\Repository\Peripheral\PeripheralTypeRepository;
+use App\Service\IArtifactService;
 
-class PeripheralService
+class PeripheralService implements IArtifactService
 {
     public function __construct(
         public GenericObjectRepository $genericObjectRepository,
@@ -133,12 +134,9 @@ class PeripheralService
         $this->peripheralRepository->delete($id);
     }
 
+
     /**
-     * @param array $request
-     *
-     * @return Peripheral
-     * @throws ServiceException
-     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @inheritDoc
      */
     public function fromRequest(array $request): Peripheral
     {

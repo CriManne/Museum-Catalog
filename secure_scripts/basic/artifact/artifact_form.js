@@ -8,6 +8,7 @@ $(document).ready(function () {
 
 function handleSubmit(e) {
     e.preventDefault();
+
     let formData = new FormData(this);
 
     let toBeRemoved = [];
@@ -25,10 +26,10 @@ function handleSubmit(e) {
     let response = makeRequest(
         urlForm,
         'POST',
-        headers = {
+        {
             "mimeType": "multipart/form-data",
         },
-        params = formData
+        formData
     );
 
     createAlert(response);

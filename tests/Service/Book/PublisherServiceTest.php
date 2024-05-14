@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Test\Service\Book;
 
 use App\Exception\ServiceException;
-use App\Model\Book\Publisher;
-use App\Model\Computer\Cpu;
+use App\Models\Book\Publisher;
+use App\Models\Computer\Cpu;
 use App\Repository\Book\PublisherRepository;
 use App\Service\Book\PublisherService;
 use App\Test\Service\BaseServiceTest;

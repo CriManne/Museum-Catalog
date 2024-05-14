@@ -11,7 +11,7 @@ use SimpleMVC\Controller\ControllerInterface;
 
 class ArtifactsListController implements ControllerInterface {
 
-    public static array $categories = [
+    public const array CATEGORIES = [
         'Computer',
         'Peripheral',
         'Book',
@@ -24,7 +24,7 @@ class ArtifactsListController implements ControllerInterface {
         return new Response(
             200,
             [],
-            json_encode(self::$categories)
+            json_encode(self::CATEGORIES)
         );
     }
 }

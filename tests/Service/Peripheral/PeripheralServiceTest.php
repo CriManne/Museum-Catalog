@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Peripheral;
 
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
 
-use App\Model\Peripheral\Peripheral;
-use App\Model\Peripheral\PeripheralType;
+use App\Models\Peripheral\Peripheral;
+use App\Models\Peripheral\PeripheralType;
 
 use App\Repository\Peripheral\PeripheralRepository;
 use App\Service\Peripheral\PeripheralService;

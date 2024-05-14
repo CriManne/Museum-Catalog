@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Repository;
 
-use App\Util\DIC;
+use App\Plugins\Injection\DIC;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;

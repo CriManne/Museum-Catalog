@@ -8,7 +8,7 @@ use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Software\SupportTypeRepository;
 use App\Exception\RepositoryException;
-use App\Model\Software\SupportType;
+use App\Models\Software\SupportType;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
 final class SupportTypeRepositoryTest extends TestCase

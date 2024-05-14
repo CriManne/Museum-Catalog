@@ -7,7 +7,7 @@ use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\CpuRepository;
-use App\Model\Computer\Cpu;
+use App\Models\Computer\Cpu;
 
 final class CpuRepositoryTest extends TestCase
 {

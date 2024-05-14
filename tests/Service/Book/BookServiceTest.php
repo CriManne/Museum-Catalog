@@ -3,13 +3,13 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Book;
 
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
 use App\Test\Service\BaseServiceTest;
 use App\Exception\ServiceException;
-use App\Model\Book\Book;
-use App\Model\Book\Author;
-use App\Model\Book\Publisher;
+use App\Models\Book\Book;
+use App\Models\Book\Author;
+use App\Models\Book\Publisher;
 
 use App\Repository\Book\BookRepository;
 use App\Service\Book\BookService;

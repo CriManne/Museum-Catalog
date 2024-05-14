@@ -8,7 +8,7 @@ use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Exception\RepositoryException;
 use App\Repository\Book\PublisherRepository;
-use App\Model\Book\Publisher;
+use App\Models\Book\Publisher;
 
 final class PublisherRepositoryTest extends TestCase
 {

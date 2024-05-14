@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository\Peripheral;
 
 use AbstractRepo\Repository\AbstractRepository;
-use App\Model\Peripheral\PeripheralType;
+use App\Models\Peripheral\PeripheralType;
 
 class PeripheralTypeRepository extends AbstractRepository
 {

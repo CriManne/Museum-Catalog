@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Peripheral;
 
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
-use App\Model\Peripheral\Peripheral;
-use App\Model\Peripheral\PeripheralType;
+use App\Models\Peripheral\Peripheral;
+use App\Models\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralRepository;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 

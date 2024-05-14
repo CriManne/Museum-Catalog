@@ -3,7 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Book;
 
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
 use App\Test\Repository\BaseRepositoryTest;
 use App\Repository\Book\BookRepository;
@@ -11,9 +11,9 @@ use App\Repository\Book\PublisherRepository;
 use App\Repository\Book\AuthorRepository;
 use App\Repository\Book\BookHasAuthorRepository;
 use AbstractRepo\Exceptions\RepositoryException AS AbstractRepositoryException;
-use App\Model\Book\Author;
-use App\Model\Book\Book;
-use App\Model\Book\Publisher;
+use App\Models\Book\Author;
+use App\Models\Book\Book;
+use App\Models\Book\Publisher;
 
 final class BookRepositoryTest extends BaseRepositoryTest
 {

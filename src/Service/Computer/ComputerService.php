@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service\Computer;
 
+use _PHPStan_7961f7ae1\Nette\NotImplementedException;
 use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
-use App\Model\Computer\Computer;
+use App\Models\Computer\Computer;
 use App\Repository\Computer\ComputerRepository;
 use App\Exception\RepositoryException;
+use App\Service\IArtifactService;
 
-class ComputerService
+class ComputerService implements IArtifactService
 {
     public ComputerRepository $computerRepository;
 
@@ -103,5 +106,13 @@ class ComputerService
         }
 
         $this->computerRepository->delete($id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromRequest(array $request): IModel
+    {
+        throw new NotImplementedException();
     }
 }

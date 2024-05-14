@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Computer;
 
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 use App\Test\Service\BaseServiceTest;
 use App\Exception\ServiceException;
 
-use App\Model\Computer\Os;
-use App\Model\Computer\Ram;
-use App\Model\Computer\Cpu;
-use App\Model\Computer\Computer;
+use App\Models\Computer\Os;
+use App\Models\Computer\Ram;
+use App\Models\Computer\Cpu;
+use App\Models\Computer\Computer;
 
 use App\Repository\Computer\ComputerRepository;
 use App\Service\Computer\ComputerService;

@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Test\Service\Book;
 
 use App\Exception\ServiceException;
-use App\Model\Book\Author;
+use App\Models\Book\Author;
 use App\Repository\Book\AuthorRepository;
 use App\Service\Book\AuthorService;
 use App\Test\Service\BaseServiceTest;

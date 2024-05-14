@@ -3,14 +3,14 @@ declare(strict_types=1);
 
 namespace App\Test\Service\Magazine;
 
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
 use App\Test\Service\BaseServiceTest;
 use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
 
-use App\Model\Magazine\Magazine;
-use App\Model\Book\Publisher;
+use App\Models\Magazine\Magazine;
+use App\Models\Book\Publisher;
 
 use App\Repository\Magazine\MagazineRepository;
 use App\Service\Magazine\MagazineService;

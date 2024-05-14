@@ -3,16 +3,16 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Computer;
 
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
-use App\Model\Computer\Computer;
-use App\Model\Computer\Cpu;
-use App\Model\Computer\Os;
-use App\Model\Computer\Ram;
+use App\Models\Computer\Computer;
+use App\Models\Computer\Cpu;
+use App\Models\Computer\Os;
+use App\Models\Computer\Ram;
 use App\Repository\Computer\ComputerRepository;
 use App\Repository\Computer\CpuRepository;
 use App\Repository\Computer\OsRepository;

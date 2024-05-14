@@ -7,7 +7,7 @@ use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\RamRepository;
-use App\Model\Computer\Ram;
+use App\Models\Computer\Ram;
 
 final class RamRepositoryTest extends TestCase
 {

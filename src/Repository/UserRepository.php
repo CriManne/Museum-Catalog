@@ -8,7 +8,7 @@ use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 use AbstractRepo\Repository\AbstractRepository;
 use App\DataModels\User\UserResponse;
-use App\Model\User;
+use App\Models\User;
 use App\Util\ORM;
 
 class UserRepository extends AbstractRepository

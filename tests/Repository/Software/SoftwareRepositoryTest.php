@@ -3,15 +3,15 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Software;
 
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
-use App\Model\Software\Software;
-use App\Model\Software\SupportType;
-use App\Model\Software\SoftwareType;
-use App\Model\Computer\Os;
+use App\Models\Software\Software;
+use App\Models\Software\SupportType;
+use App\Models\Software\SoftwareType;
+use App\Models\Computer\Os;
 use App\Repository\Software\SoftwareRepository;
 use App\Repository\Software\SoftwareTypeRepository;
 use App\Repository\Software\SupportTypeRepository;

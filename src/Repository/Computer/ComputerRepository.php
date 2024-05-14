@@ -6,12 +6,12 @@ namespace App\Repository\Computer;
 
 use AbstractRepo\Repository\AbstractRepository;
 
-use App\Model\Computer\Computer;
+use App\Models\Computer\Computer;
 
-use App\Model\Computer\Cpu;
-use App\Model\Computer\Os;
-use App\Model\Computer\Ram;
-use App\Model\GenericObject;
+use App\Models\Computer\Cpu;
+use App\Models\Computer\Os;
+use App\Models\Computer\Ram;
+use App\Models\GenericObject;
 use App\Util\ORM;
 use ReflectionException;
 

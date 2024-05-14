@@ -4,12 +4,15 @@ declare(strict_types=1);
 
 namespace App\Service\Magazine;
 
+use _PHPStan_7961f7ae1\Nette\NotImplementedException;
+use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
-use App\Model\Magazine\Magazine;
+use App\Models\Magazine\Magazine;
 use App\Repository\Magazine\MagazineRepository;
 use App\Exception\RepositoryException;
+use App\Service\IArtifactService;
 
-class MagazineService
+class MagazineService implements IArtifactService
 {
     public MagazineRepository $magazineRepository;
 
@@ -116,5 +119,13 @@ class MagazineService
         }
 
         $this->magazineRepository->delete($id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromRequest(array $request): IModel
+    {
+        throw new NotImplementedException();
     }
 }

@@ -6,7 +6,7 @@ namespace App\Repository\Book;
 
 use AbstractRepo\Interfaces\IRepository;
 use AbstractRepo\Repository\AbstractRepository;
-use App\Model\Book\Publisher;
+use App\Models\Book\Publisher;
 
 class PublisherRepository extends AbstractRepository implements IRepository
 {

@@ -6,7 +6,7 @@ namespace App\Repository\Software;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Repository\AbstractRepository;
-use App\Model\Software\SoftwareType;
+use App\Models\Software\SoftwareType;
 
 /**
  * @method SoftwareType|null findFirst(?FetchParams $params)

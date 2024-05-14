@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository\Book;
 
 use AbstractRepo\Repository\AbstractRepository;
-use App\Model\Book\BookHasAuthor;
+use App\Models\Book\BookHasAuthor;
 
 class BookHasAuthorRepository extends AbstractRepository
 {

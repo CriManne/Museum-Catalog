@@ -8,7 +8,7 @@ use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\OsRepository;
 use App\Exception\RepositoryException;
-use App\Model\Computer\Os;
+use App\Models\Computer\Os;
 
 final class OsRepositoryTest extends TestCase
 {

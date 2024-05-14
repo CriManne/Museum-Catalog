@@ -6,7 +6,7 @@ namespace App\Service\Peripheral;
 
 use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
-use App\Model\Peripheral\PeripheralType;
+use App\Models\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Exception\RepositoryException;
 

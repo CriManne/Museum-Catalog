@@ -7,7 +7,7 @@ use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Book\AuthorRepository;
-use App\Model\Book\Author;
+use App\Models\Book\Author;
 
 final class AuthorRepositoryTest extends TestCase
 {

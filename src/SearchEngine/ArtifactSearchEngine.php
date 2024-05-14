@@ -7,11 +7,11 @@ namespace App\SearchEngine;
 use App\Controller\Api\ArtifactsListController;
 use App\DataModels\Response\GenericArtifactResponse;
 use App\Exception\ServiceException;
-use App\Model\Book\Book;
-use App\Model\Computer\Computer;
-use App\Model\Magazine\Magazine;
-use App\Model\Peripheral\Peripheral;
-use App\Model\Software\Software;
+use App\Models\Book\Book;
+use App\Models\Computer\Computer;
+use App\Models\Magazine\Magazine;
+use App\Models\Peripheral\Peripheral;
+use App\Models\Software\Software;
 use DI\Container;
 use DI\ContainerBuilder;
 use DI\DependencyException;
@@ -34,7 +34,7 @@ class ArtifactSearchEngine
         $builder = new ContainerBuilder();
         $builder->addDefinitions($containerPath);
         $this->container  = $builder->build();
-        $this->categories = ArtifactsListController::$categories;
+        $this->categories = ArtifactsListController::CATEGORIES;
     }
 
     /**

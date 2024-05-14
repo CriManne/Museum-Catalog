@@ -8,7 +8,7 @@ use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
-use App\Model\Computer\Ram;
+use App\Models\Computer\Ram;
 use App\Repository\Computer\RamRepository;
 
 class RamService

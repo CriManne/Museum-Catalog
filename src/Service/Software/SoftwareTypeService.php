@@ -6,7 +6,7 @@ namespace App\Service\Software;
 
 use AbstractRepo\DataModels\FetchParams;
 use App\Exception\ServiceException;
-use App\Model\Software\SoftwareType;
+use App\Models\Software\SoftwareType;
 use App\Repository\Software\SoftwareTypeRepository;
 use App\Exception\RepositoryException;
 

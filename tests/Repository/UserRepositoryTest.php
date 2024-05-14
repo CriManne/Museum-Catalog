@@ -9,7 +9,7 @@ use DI\NotFoundException;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\UserRepository;
-use App\Model\User;
+use App\Models\User;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 /**
  *

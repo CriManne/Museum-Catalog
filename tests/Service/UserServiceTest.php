@@ -7,7 +7,7 @@ namespace App\Test\Service;
 use App\Exception\ServiceException;
 use App\Repository\UserRepository;
 use App\Service\UserService;
-use App\Model\User;
+use App\Models\User;
 use PDO;
 use PDOStatement;
 

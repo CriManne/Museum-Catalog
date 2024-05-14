@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service\Book;
 
+use _PHPStan_7961f7ae1\Nette\NotImplementedException;
 use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Interfaces\IModel;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
-use App\Model\Book\Book;
+use App\Models\Book\Book;
 use App\Repository\Book\BookRepository;
+use App\Service\IArtifactService;
 
-class BookService
+class BookService implements IArtifactService
 {
     public BookRepository $bookRepository;
 
@@ -131,5 +134,13 @@ class BookService
         }
 
         $this->bookRepository->delete($id);
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function fromRequest(array $request): IModel
+    {
+        throw new NotImplementedException();
     }
 }

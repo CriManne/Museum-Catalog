@@ -5,8 +5,8 @@ declare(strict_types=1);
 namespace App\Test\Service\Peripheral;
 
 use App\Exception\ServiceException;
-use App\Model\Computer\Ram;
-use App\Model\Peripheral\PeripheralType;
+use App\Models\Computer\Ram;
+use App\Models\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Service\Peripheral\PeripheralTypeService;
 use App\Test\Service\BaseServiceTest;

@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App\Service;
 
 use AbstractRepo\Exceptions\ReflectionException;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\DataModels\FetchableData;
 use App\DataModels\User\UserResponse;
 use App\Exception\ServiceException;
-use App\Model\User;
+use App\Models\User;
 use App\Repository\UserRepository;
 
 class UserService
@@ -25,7 +26,7 @@ class UserService
      * @param User $u The user to save
      * @throws ReflectionException
      * @throws ServiceException If the email is already user
-     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @throws RepositoryException
      * @throws \ReflectionException
      */
     public function save(User $u): void
@@ -40,10 +41,8 @@ class UserService
      * Select by id
      * @param string $email The email to select
      * @return User The user selected
-     * @throws ReflectionException
      * @throws ServiceException If no user is found
-     * @throws \AbstractRepo\Exceptions\RepositoryException
-     * @throws \ReflectionException
+     * @throws RepositoryException
      */
     public function findById(string $email): User
     {
@@ -76,7 +75,7 @@ class UserService
      * @return FetchableData|array All the users
      * @throws ReflectionException
      * @throws ServiceException If no results
-     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @throws RepositoryException
      * @throws \ReflectionException
      */
     public function find(?int $page, ?int $itemsPerPage, ?string $query): FetchableData|array
@@ -116,7 +115,7 @@ class UserService
      * @param User $u The user to update
      * @throws ReflectionException
      * @throws ServiceException If the user is not found
-     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @throws RepositoryException
      * @throws \ReflectionException
      */
     public function update(User $u): void
@@ -134,7 +133,7 @@ class UserService
      * @param string $email The email to delete
      * @throws ReflectionException
      * @throws ServiceException If the user is not found
-     * @throws \AbstractRepo\Exceptions\RepositoryException
+     * @throws RepositoryException
      * @throws \ReflectionException
      */
     public function delete(string $email): void

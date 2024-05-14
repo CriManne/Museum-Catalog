@@ -4,13 +4,16 @@ declare(strict_types=1);
 
 namespace App\Service\Software;
 
+use _PHPStan_7961f7ae1\Nette\NotImplementedException;
 use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
-use App\Model\Software\Software;
+use App\Models\Software\Software;
 use App\Repository\Software\SoftwareRepository;
 use App\Exception\RepositoryException;
+use App\Service\IArtifactService;
 
-class SoftwareService
+class SoftwareService implements IArtifactService
 {
     public SoftwareRepository $softwareRepository;
 
@@ -124,5 +127,14 @@ class SoftwareService
         }
 
         $this->softwareRepository->delete($id);
+    }
+
+
+    /**
+     * @inheritDoc
+     */
+    public function fromRequest(array $request): IModel
+    {
+        throw new NotImplementedException();
     }
 }

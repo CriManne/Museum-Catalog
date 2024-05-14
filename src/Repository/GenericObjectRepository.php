@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App\Repository;
 
 use AbstractRepo\Repository\AbstractRepository;
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 
 class GenericObjectRepository extends AbstractRepository
 {

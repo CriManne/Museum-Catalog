@@ -4,19 +4,19 @@ declare(strict_types=1);
 
 namespace App\Test\SearchEngine;
 
-use App\Model\GenericObject;
+use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\SearchEngine\ArtifactSearchEngine;
 use App\Exception\ServiceException;
-use App\Model\Book\Publisher;
-use App\Model\Computer\Computer;
-use App\Model\Computer\Cpu;
-use App\Model\Computer\Os;
-use App\Model\Computer\Ram;
-use App\Model\Magazine\Magazine;
+use App\Models\Book\Publisher;
+use App\Models\Computer\Computer;
+use App\Models\Computer\Cpu;
+use App\Models\Computer\Os;
+use App\Models\Computer\Ram;
+use App\Models\Magazine\Magazine;
 use App\Repository\Book\AuthorRepository;
 use App\Repository\Book\BookHasAuthorRepository;
 use App\Repository\Book\BookRepository;

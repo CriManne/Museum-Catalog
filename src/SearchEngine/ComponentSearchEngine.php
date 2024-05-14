@@ -7,14 +7,14 @@ namespace App\SearchEngine;
 use App\Controller\Api\ArtifactsListController;
 use App\DataModels\Response\GenericComponentResponse;
 use App\Exception\ServiceException;
-use App\Model\Book\Author;
-use App\Model\Book\Publisher;
-use App\Model\Computer\Cpu;
-use App\Model\Computer\Os;
-use App\Model\Computer\Ram;
-use App\Model\Peripheral\PeripheralType;
-use App\Model\Software\SoftwareType;
-use App\Model\Software\SupportType;
+use App\Models\Book\Author;
+use App\Models\Book\Publisher;
+use App\Models\Computer\Cpu;
+use App\Models\Computer\Os;
+use App\Models\Computer\Ram;
+use App\Models\Peripheral\PeripheralType;
+use App\Models\Software\SoftwareType;
+use App\Models\Software\SupportType;
 use App\Util\ORM;
 use DI\Container;
 use DI\ContainerBuilder;
@@ -36,7 +36,7 @@ class ComponentSearchEngine {
         $builder = new ContainerBuilder();
         $builder->addDefinitions($containerPath);
         $this->container = $builder->build();
-        $this->categories = ArtifactsListController::$categories;
+        $this->categories = ArtifactsListController::CATEGORIES;
     }
 
     /**

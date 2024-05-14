@@ -3,67 +3,66 @@
 declare(strict_types=1);
 
 use App\Controller;
-use SimpleMVC\Controller\BasicAuth;
 
 return [
     /* PUBLIC AREA */
 
     //HOME PAGE
-    ['GET', '/', [Controller\CheckDBConnectionController::class,Controller\Pages\Public\HomeController::class]],
+    ['GET', '/', [Controller\Middlewares\EnforceDBConnectionMiddleware::class, Controller\Pages\Public\HomeBaseController::class]],
 
     //LOGIN PAGE
-    [['GET', 'POST'], '/login', [Controller\CheckDBConnectionController::class,Controller\Pages\Public\LoginController::class]],
+    [['GET', 'POST'], '/login', [Controller\Middlewares\EnforceDBConnectionMiddleware::class, Controller\Pages\Public\LoginBaseController::class]],
 
     //SINGLE ARTIFACT
-    ['GET', '/view_artifact', [Controller\CheckDBConnectionController::class,Controller\Pages\Public\Artifact\ArtifactController::class]],
+    ['GET', '/view_artifact', [Controller\Middlewares\EnforceDBConnectionMiddleware::class, Controller\Pages\Public\Artifact\ArtifactBaseController::class]],
 
     //ALL THE ARTIFACTS 
-    ['GET', '/catalog', [Controller\CheckDBConnectionController::class,Controller\Pages\Public\Artifact\ArtifactsController::class]],
+    ['GET', '/catalog', [Controller\Middlewares\EnforceDBConnectionMiddleware::class, Controller\Pages\Public\Artifact\ArtifactsBaseController::class]],
 
     // ______________________________________________________ //
 
     /* PRIVATE AREA */
 
     //PRIVATE HOME
-    ['GET', '/private', [Controller\BasicAuthController::class, Controller\Pages\Private\HomeController::class]],
+    ['GET', '/private', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\HomeBaseController::class]],
 
     //UPDATE PROFILE    
-    ['GET', '/private/profile', [Controller\BasicAuthController::class, Controller\Pages\Private\User\ViewProfileController::class]],
+    ['GET', '/private/profile', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\User\ViewProfileBaseController::class]],
 
     //------------USERS--------------
 
     //VIEW USERS    
-    ['GET', '/private/user/view_users', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Pages\Private\User\ViewUsersController::class]],
+    ['GET', '/private/user/view_users', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Middlewares\AdvancedAuthMiddleware::class, Controller\Pages\Private\User\ViewUsersBaseController::class]],
 
     //ADD USER
-    ['GET', '/private/user/add_user', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Pages\Private\User\AddController::class]],
+    ['GET', '/private/user/add_user', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Middlewares\AdvancedAuthMiddleware::class, Controller\Pages\Private\User\AddBaseController::class]],
 
     //------------ARTIFACTS--------------
 
     //VIEW ARTIFACTS
-    ['GET', '/private/artifact/view_artifacts', [Controller\BasicAuthController::class, Controller\Pages\Private\Artifact\ViewArtifactsController::class]],
+    ['GET', '/private/artifact/view_artifacts', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\Artifact\ViewArtifactsBaseController::class]],
 
     //CHOOSE CATEGORY
-    ['GET', '/private/artifact/choose_artifact_category', [Controller\BasicAuthController::class, Controller\Pages\Private\Artifact\ChooseCategoryController::class]],
+    ['GET', '/private/artifact/choose_artifact_category', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\Artifact\ChooseCategoryBaseController::class]],
 
     //ADD ARTIFACT
-    ['GET', '/private/artifact/add_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\Artifact\AddController::class]],
+    ['GET', '/private/artifact/add_artifact', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\Artifact\AddBaseController::class]],
 
     //UPDATE ARTIFACT
-    ['GET', '/private/artifact/update_artifact', [Controller\BasicAuthController::class, Controller\Pages\Private\Artifact\UpdateController::class]],
+    ['GET', '/private/artifact/update_artifact', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\Artifact\UpdateBaseController::class]],
 
     //------------COMPONENTS--------------
     //VIEW COMPONENTS
-    ['GET', '/private/component/view_components', [Controller\BasicAuthController::class, Controller\Pages\Private\Component\ViewComponentsController::class]],
+    ['GET', '/private/component/view_components', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\Component\ViewComponentsBaseController::class]],
 
     //CHOOSE CATEGORY
-    ['GET', '/private/component/choose_component_category', [Controller\BasicAuthController::class, Controller\Pages\Private\Component\ChooseCategoryController::class]],
+    ['GET', '/private/component/choose_component_category', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\Component\ChooseCategoryBaseController::class]],
 
     //ADD COMPONENT
-    ['GET', '/private/component/add_component', [Controller\BasicAuthController::class, Controller\Pages\Private\Component\AddController::class]],
+    ['GET', '/private/component/add_component', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\Component\AddBaseController::class]],
 
     //UPDATE COMPONENT
-    ['GET', '/private/component/update_component', [Controller\BasicAuthController::class, Controller\Pages\Private\Component\UpdateController::class]],
+    ['GET', '/private/component/update_component', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Pages\Private\Component\UpdateBaseController::class]],
 
     // ______________________________________________________ //
 
@@ -72,67 +71,67 @@ return [
     /* USER */
 
     //GET USERS
-    ['GET', '/api/user', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\GetController::class]],
+    ['GET', '/api/user', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Middlewares\AdvancedAuthMiddleware::class, Controller\Api\User\GetBaseController::class]],
 
     //POST USER
-    ['POST', '/api/user/create', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\PostController::class]],
+    ['POST', '/api/user/create', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Middlewares\AdvancedAuthMiddleware::class, Controller\Api\User\PostBaseController::class]],
 
     //UPDATE USER
-    ['POST', '/api/user/update', [Controller\BasicAuthController::class, Controller\Api\User\UpdateController::class]],
+    ['POST', '/api/user/update', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\User\UpdateBaseController::class]],
 
     //DELETE USER
-    ['DELETE', '/api/user/delete', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\User\DeleteController::class]],
+    ['DELETE', '/api/user/delete', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Middlewares\AdvancedAuthMiddleware::class, Controller\Api\User\DeleteBaseController::class]],
 
     /* /USER */
 
     /* ARTIFACT */
 
     //CREATE ARTIFACT
-    ['POST', '/api/artifact/create', [Controller\BasicAuthController::class, Controller\Api\Artifact\CreateController::class]],
+    ['POST', '/api/artifact/create', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Artifact\CreateBaseController::class]],
 
     //UPDATE ARTIFACT
-    ['POST', '/api/artifact/update', [Controller\BasicAuthController::class, Controller\Api\Artifact\UpdateController::class]],
+    ['POST', '/api/artifact/update', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Artifact\UpdateBaseController::class]],
 
     //DELETE ARTIFACT
-    ['DELETE', '/api/artifact/delete', [Controller\BasicAuthController::class, Controller\Api\Artifact\DeleteController::class]],
+    ['DELETE', '/api/artifact/delete', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Artifact\DeleteBaseController::class]],
 
     //SELECT GENERIC ARTIFACT BY ID AND CATEGORY
-    ['GET', '/api/generic/artifact', [Controller\CheckDBConnectionController::class,Controller\Api\Artifact\GetGenericByIdController::class]],
+    ['GET', '/api/generic/artifact', [Controller\Middlewares\EnforceDBConnectionMiddleware::class, Controller\Api\Artifact\GetGenericByIdBaseController::class]],
 
     //SELECT ALL GENERIC ARTIFACTS OR BY QUERY | BY CATEGORY
-    ['GET', '/api/generic/artifacts', [Controller\CheckDBConnectionController::class,Controller\Api\Artifact\GetGenericsController::class]],
+    ['GET', '/api/generic/artifacts', [Controller\Middlewares\EnforceDBConnectionMiddleware::class, Controller\Api\Artifact\GetGenericsBaseController::class]],
 
     //SELECT SPECIFIC ARTIFACT BY ID
-    ['GET', '/api/specific/artifact', [Controller\BasicAuthController::class, Controller\Api\Artifact\GetSpecificByIdController::class]],
+    ['GET', '/api/specific/artifact', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Artifact\GetSpecificByIdBaseController::class]],
 
     /* /ARTIFACT */
 
     /* COMPONENT */
 
     //CREATE COMPONENT
-    ['POST', '/api/component/create', [Controller\BasicAuthController::class, Controller\Api\Component\CreateController::class]],
+    ['POST', '/api/component/create', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Component\CreateBaseController::class]],
 
     //UPDATE COMPONENT
-    ['POST', '/api/component/update', [Controller\BasicAuthController::class, Controller\Api\Component\UpdateController::class]],
+    ['POST', '/api/component/update', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Component\UpdateBaseController::class]],
 
     //DELETE COMPONENT
-    ['DELETE', '/api/component/delete', [Controller\BasicAuthController::class, Controller\Api\Component\DeleteController::class]],
+    ['DELETE', '/api/component/delete', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Component\DeleteBaseController::class]],
 
     //SELECT ALL GENERIC COMPONENTS BY CATEGORY
-    ['GET', '/api/generic/components', [Controller\BasicAuthController::class, Controller\Api\Component\GetGenericsController::class]],
+    ['GET', '/api/generic/components', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Component\GetGenericsBaseController::class]],
 
     //SELECT SPECIFIC COMPONENT BY ID AND CATEGORY
-    ['GET', '/api/specific/component', [Controller\BasicAuthController::class, Controller\Api\Component\GetSpecificByIdController::class]],
+    ['GET', '/api/specific/component', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Component\GetSpecificByIdBaseController::class]],
 
     /* /COMPONENT */
 
     /* IMAGES */
 
     //GET ALL THE IMAGES BY ID
-    ['GET', '/api/images', Controller\Api\Images\GetController::class],
+    ['GET', '/api/images', Controller\Api\Images\GetBaseController::class],
 
     //DELETE ALL THE IMAGES BY ID
-    ['DELETE', '/api/images/delete', [Controller\BasicAuthController::class,Controller\Api\Images\DeleteController::class]],
+    ['DELETE', '/api/images/delete', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Images\DeleteBaseController::class]],
 
 
     /* /IMAGES */
@@ -141,16 +140,16 @@ return [
     /* MISC */
 
     //GET SECURE BASIC SCRIPTS
-    ['GET', '/api/scripts', [Controller\BasicAuthController::class, Controller\Api\Scripts\ScriptsController::class]],
+    ['GET', '/api/scripts', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Api\Scripts\ScriptsBaseController::class]],
 
     //GET SECURE ADVANCED SCRIPTS
-    ['GET', '/api/adv/scripts', [Controller\BasicAuthController::class, Controller\AdvancedAuthController::class, Controller\Api\Scripts\AdvScriptsController::class]],
+    ['GET', '/api/adv/scripts', [Controller\Middlewares\BasicAuthMiddleware::class, Controller\Middlewares\AdvancedAuthMiddleware::class, Controller\Api\Scripts\AdvScriptsBaseController::class]],
 
     //GET ALL THE ARTIFACT'S CATEGORIES
-    ['GET', '/api/list/artifacts', [Controller\CheckDBConnectionController::class,Controller\Api\ArtifactsListController::class]],
+    ['GET', '/api/list/artifacts', [Controller\Middlewares\EnforceDBConnectionMiddleware::class, Controller\Api\ArtifactsListController::class]],
 
     //GET ALL THE COMPONENTS'S CATEGORIES
-    ['GET', '/api/list/components', [Controller\CheckDBConnectionController::class,Controller\Api\ComponentsListController::class]],
+    ['GET', '/api/list/components', [Controller\Middlewares\EnforceDBConnectionMiddleware::class, Controller\Api\ComponentsListController::class]],
 
     /* /MISC */
 

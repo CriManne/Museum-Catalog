@@ -7,7 +7,7 @@ use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 use App\Repository\Software\SoftwareTypeRepository;
-use App\Model\Software\SoftwareType;
+use App\Models\Software\SoftwareType;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
 final class SoftwareTypeRepositoryTest extends TestCase

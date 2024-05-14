@@ -4,10 +4,10 @@ declare(strict_types=1);
 namespace App\Test\Repository\Book;
 
 use AbstractRepo\Exceptions\RepositoryException;
-use App\Model\Book\Author;
-use App\Model\Book\Book;
-use App\Model\Book\Publisher;
-use App\Model\GenericObject;
+use App\Models\Book\Author;
+use App\Models\Book\Book;
+use App\Models\Book\Publisher;
+use App\Models\GenericObject;
 use App\Repository\Book\AuthorRepository;
 use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
@@ -16,7 +16,7 @@ use App\Test\Repository\BaseRepositoryTest;
 use DI\DependencyException;
 use DI\NotFoundException;
 use App\Repository\Book\BookHasAuthorRepository;
-use App\Model\Book\BookHasAuthor;
+use App\Models\Book\BookHasAuthor;
 
 final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
 {
