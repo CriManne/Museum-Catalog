@@ -3,11 +3,12 @@
 declare(strict_types=1);
 
 chdir(dirname(__DIR__));
+
+define('APP_PATH', getcwd());
+
 require 'vendor/autoload.php';
 
 use App\Controller\BaseController;
-use App\Exception\RepositoryException;
-use App\Plugins\Http\HttpCodes;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\InternalServerError;
 use App\Plugins\Http\Responses\NotFound;
@@ -15,9 +16,7 @@ use App\Plugins\Injection\DIC;
 use DI\ContainerBuilder;
 use League\Plates\Engine;
 use Monolog\Handler\StreamHandler;
-use Monolog\Level;
 use Monolog\Logger;
-use Nyholm\Psr7\Response;
 use SimpleMVC\App;
 use SimpleMVC\Emitter\SapiEmitter;
 

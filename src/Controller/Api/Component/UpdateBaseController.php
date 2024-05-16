@@ -92,7 +92,7 @@ class UpdateBaseController extends BaseController implements ControllerInterface
             } catch (Throwable) {
             }
         }
-        
+
         $httpResponse = new BadRequest();
         $this->apiLogger->info($httpResponse->getText(), [__CLASS__, $userEmail]);
 

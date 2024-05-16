@@ -5,77 +5,94 @@ declare(strict_types=1);
 namespace App\Controller\Api\Images;
 
 use App\Controller\BaseController;
+use App\Models\User;
+use App\Plugins\Http\ResponseFactory;
+use App\Plugins\Http\Responses\BadRequest;
+use App\Plugins\Http\Responses\Ok;
+use App\Plugins\Injection\DIC;
 use DI\DependencyException;
 use DI\NotFoundException;
-use Nyholm\Psr7\Response;
+use Exception;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-class UploadBaseController extends BaseController implements ControllerInterface {
-
+class UploadBaseController extends BaseController implements ControllerInterface
+{
     /**
-     * @throws DependencyException
-     * @throws NotFoundException
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     *
+     * @return ResponseInterface
      */
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
 
         $params = $request->getQueryParams();
 
-        $id = $params["id"] ?? null;
+        $id    = $params["id"] ?? null;
         $files = $_FILES['images'] ?? null;
 
         $error_message = null;
 
-        if(!$id){
+        if (!$id) {
             $error_message = "No id set!";
-        }else if(!$files){
+        } else if (!$files) {
             $error_message = "No file uploaded!";
         }
 
         if ($error_message) {
-            $this->apiLogger->info($error_message, [__CLASS__, $_SESSION['user_email']]);
-            return new Response(
-                400,
-                [],
-                $this->getJson($error_message, 400)
+            $this->apiLogger->info($error_message, [__CLASS__, $userEmail]);
+
+            return ResponseFactory::createJson(
+                new BadRequest($error_message)
             );
         }
 
-        self::uploadFiles($id, $files);
+        try {
+            self::uploadFiles($id, $files);
+        } catch (Exception $e) {
+            $this->apiLogger->info($e->getMessage(), [__CLASS__]);
 
-        $message = count($files)." files uploaded successfully!";
-        if($this->container->get('logging_level')===1){
-            $this->apiLogger->info($message, [__CLASS__, $_SESSION['user_email']]);
-        }       
+            return ResponseFactory::createJson(
+                new BadRequest($e->getMessage())
+            );
+        }
 
-        return new Response(
-            200,
-            [],
-            $this->getJson($message)
+        $message = count($files) . " files uploaded successfully!";
+
+        $this->apiLogger->debug($message, [__CLASS__, $userEmail]);
+
+        return ResponseFactory::createJson(
+            new Ok($message)
         );
     }
 
     /**
      * Upload all the files
+     *
      * @param string $objectId The id to use to give images names
-     * @param string $name The name of the $_FILES array index
+     * @param string $name     The name of the $_FILES array index
+     *
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws Exception
      */
     public static function uploadFiles(string $objectId, string $name): void
     {
-
         $files = $_FILES[$name];
 
-        $path = $_SERVER['DOCUMENT_ROOT'] . "/assets/artifacts/";
+        $path = APP_PATH . DIC::getContainer()->get('artifactImages');
 
         $index = 1;
 
         $indexInserted = 1;
 
         foreach ($files['tmp_name'] as $tmp_name) {
-            $splittedName = explode('.', $files['name'][$indexInserted - 1]);
+            $splittedName  = explode('.', $files['name'][$indexInserted - 1]);
             $fileextension = end($splittedName);
-            $filename = $path . $objectId . "_" . $index . "." . $fileextension;
+            $filename      = $path . $objectId . "_" . $index . "." . $fileextension;
             while (file_exists($filename)) {
                 $index++;
                 $filename = $path . $objectId . "_" . $index . "." . $fileextension;
