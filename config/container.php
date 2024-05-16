@@ -9,6 +9,8 @@ use Psr\Container\ContainerInterface;
 return [
     'view_path' => 'src/View',
     'artifactImages' => '/public/assets/artifacts/',
+    'secureScriptPath' => '/secure_scripts/adv/',
+    'basicScriptPath' => '/secure_scripts/basic/',
     Engine::class => function (ContainerInterface $c) {
         $engine = new Engine($c->get('view_path'));
         $engine->addFolder('layouts', $c->get('view_path') . '/layouts');
