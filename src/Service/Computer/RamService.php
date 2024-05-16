@@ -10,8 +10,9 @@ use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
 use App\Models\Computer\Ram;
 use App\Repository\Computer\RamRepository;
+use App\Service\IComponentService;
 
-class RamService
+class RamService implements IComponentService
 {
     public RamRepository $ramRepository;
 

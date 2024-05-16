@@ -9,8 +9,9 @@ use App\Exception\ServiceException;
 use App\Models\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Exception\RepositoryException;
+use App\Service\IComponentService;
 
-class PeripheralTypeService
+class PeripheralTypeService implements IComponentService
 {
     public PeripheralTypeRepository $peripheralTypeRepository;
 

@@ -49,7 +49,7 @@ class ViewComponentsBaseController extends BaseController implements ControllerI
             );
         }
 
-        if(!in_array($category,ComponentsListController::$categories)){
+        if(!in_array($category,ComponentsListController::CATEGORIES)){
             $error_message = "Category not found!";
             $this->pagesLogger->info($error_message, [__CLASS__, $_SESSION['user_email']]);
             return new Response(

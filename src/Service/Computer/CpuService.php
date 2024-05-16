@@ -10,8 +10,9 @@ use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
 use App\Models\Computer\Cpu;
 use App\Repository\Computer\CpuRepository;
+use App\Service\IComponentService;
 
-class CpuService
+class CpuService implements IComponentService
 {
     public CpuRepository $cpuRepository;
 

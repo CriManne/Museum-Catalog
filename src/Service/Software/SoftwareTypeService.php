@@ -9,8 +9,9 @@ use App\Exception\ServiceException;
 use App\Models\Software\SoftwareType;
 use App\Repository\Software\SoftwareTypeRepository;
 use App\Exception\RepositoryException;
+use App\Service\IComponentService;
 
-class SoftwareTypeService
+class SoftwareTypeService implements IComponentService
 {
     public SoftwareTypeRepository $softwareTypeRepository;
 

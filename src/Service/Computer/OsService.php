@@ -10,8 +10,9 @@ use AbstractRepo\Interfaces\IModel;
 use App\Exception\ServiceException;
 use App\Models\Computer\Os;
 use App\Repository\Computer\OsRepository;
+use App\Service\IComponentService;
 
-class OsService
+class OsService implements IComponentService
 {
     public OsRepository $osRepository;
 

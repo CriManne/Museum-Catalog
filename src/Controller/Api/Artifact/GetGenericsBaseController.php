@@ -43,8 +43,8 @@ class GetGenericsBaseController extends BaseController implements ControllerInte
             $error_message = "Category not found!";
             $this->apiLogger->info($error_message, [__CLASS__]);
 
-            return ResponseFactory::create(
-                new NotFound($this->getJson($error_message))
+            return ResponseFactory::createJson(
+                new NotFound($error_message)
             );
         }
 
@@ -80,8 +80,8 @@ class GetGenericsBaseController extends BaseController implements ControllerInte
                 $message = "No objects found";
                 $this->apiLogger->debug($message, [__CLASS__]);
 
-                return ResponseFactory::create(
-                    new NotFound($this->getJson($message))
+                return ResponseFactory::createJson(
+                    new NotFound($message)
                 );
             }
 
@@ -100,13 +100,13 @@ class GetGenericsBaseController extends BaseController implements ControllerInte
             );
         } catch (ServiceException $e) {
             $this->apiLogger->info($e->getMessage(), [__CLASS__]);
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($e->getMessage()))
+            return ResponseFactory::createJson(
+                new BadRequest($e->getMessage())
             );
         }  catch (Throwable $e) {
             $this->apiLogger->info($e->getMessage(), [__CLASS__]);
 
-            return ResponseFactory::create(
+            return ResponseFactory::createJson(
                 new InternalServerError()
             );
         }

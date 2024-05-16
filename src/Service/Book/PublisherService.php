@@ -10,8 +10,9 @@ use App\Exception\ServiceException;
 use App\Models\Book\Publisher;
 use App\Repository\Book\PublisherRepository;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
+use App\Service\IComponentService;
 
-class PublisherService
+class PublisherService implements IComponentService
 {
     public PublisherRepository $publisherRepository;
 

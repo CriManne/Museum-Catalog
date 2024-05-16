@@ -11,8 +11,6 @@ use App\Plugins\Http\Responses\BadRequest;
 use App\Plugins\Http\Responses\InternalServerError;
 use App\Plugins\Http\Responses\Ok;
 use App\SearchEngine\ArtifactSearchEngine;
-use DI\DependencyException;
-use DI\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
@@ -36,8 +34,8 @@ class GetGenericByIdBaseController extends BaseController implements ControllerI
             $error_message = "No id set!";
             $this->apiLogger->info($error_message, [__CLASS__]);
 
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($error_message))
+            return ResponseFactory::createJson(
+                new BadRequest($error_message)
             );
         }
 
@@ -51,13 +49,13 @@ class GetGenericByIdBaseController extends BaseController implements ControllerI
             );
         } catch (ServiceException $e) {
             $this->apiLogger->info($e->getMessage(), [__CLASS__]);
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($e->getMessage()))
+            return ResponseFactory::createJson(
+                new BadRequest($e->getMessage())
             );
         }  catch (Throwable $e) {
             $this->apiLogger->info($e->getMessage(), [__CLASS__]);
 
-            return ResponseFactory::create(
+            return ResponseFactory::createJson(
                 new InternalServerError()
             );
         }

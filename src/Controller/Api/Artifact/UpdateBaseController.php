@@ -59,8 +59,8 @@ class UpdateBaseController extends BaseController implements ControllerInterface
         if ($error_message) {
             $this->apiLogger->info($error_message, [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($error_message, 400))
+            return ResponseFactory::createJson(
+                new BadRequest($error_message)
             );
         }
 
@@ -81,19 +81,19 @@ class UpdateBaseController extends BaseController implements ControllerInterface
 
             $this->apiLogger->info($message, [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new NoContent($this->getJson($message))
+            return ResponseFactory::createJson(
+                new NoContent($message)
             );
         } catch (ServiceException $e) {
             $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($e->getMessage()))
+            return ResponseFactory::createJson(
+                new BadRequest($e->getMessage())
             );
         } catch (Throwable $e) {
             $this->apiLogger->error($e->getMessage(), [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
+            return ResponseFactory::createJson(
                 new InternalServerError()
             );
         }

@@ -9,9 +9,9 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-class ComponentsListController implements ControllerInterface {
-
-    public static array $categories = [
+class ComponentsListController implements ControllerInterface
+{
+    public const array CATEGORIES = [
         'Cpu',
         'Ram',
         'Os',
@@ -22,12 +22,13 @@ class ComponentsListController implements ControllerInterface {
         'SupportType'
     ];
 
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
 
         return new Response(
             200,
             [],
-            json_encode(self::$categories)
+            json_encode(self::CATEGORIES)
         );
     }
 }

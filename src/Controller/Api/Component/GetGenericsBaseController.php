@@ -7,6 +7,11 @@ namespace App\Controller\Api\Component;
 use App\Controller\Api\ComponentsListController;
 use App\Controller\BaseController;
 use App\Exception\ServiceException;
+use App\Models\User;
+use App\Plugins\Http\ResponseFactory;
+use App\Plugins\Http\Responses\InternalServerError;
+use App\Plugins\Http\Responses\NotFound;
+use App\Plugins\Http\Responses\Ok;
 use App\SearchEngine\ComponentSearchEngine;
 use DI\DependencyException;
 use DI\NotFoundException;
@@ -17,30 +22,29 @@ use SimpleMVC\Controller\ControllerInterface;
 
 class GetGenericsBaseController extends BaseController implements ControllerInterface
 {
-    protected ComponentSearchEngine $componentSearchEngine;
-
-    public function __construct(ComponentSearchEngine $componentSearchEngine)
+    public function __construct(
+        protected ComponentSearchEngine $componentSearchEngine
+    )
     {
         parent::__construct();
-        $this->componentSearchEngine = $componentSearchEngine;
     }
 
     /**
-     * @throws NotFoundException
-     * @throws ServiceException
-     * @throws DependencyException
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     *
+     * @return ResponseInterface
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $params = $request->getQueryParams();
+        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
 
-        $query = $params["q"] ?? null;
+        $params    = $request->getQueryParams();
+
+        $query    = $params["q"] ?? null;
         $category = $params["category"] ?? null;
 
-        /**
-         * Get the list of components's categories
-         */
-        $Componentscategories = ComponentsListController::$categories;
+        $allowedComponentCategories = ComponentsListController::CATEGORIES;
 
         $result = [];
 
@@ -52,67 +56,78 @@ class GetGenericsBaseController extends BaseController implements ControllerInte
 
         if (!$category) {
             $error_message = "No category set!";
-        } else if (!in_array($category, $Componentscategories)) {
+        } else if (!in_array($category, $allowedComponentCategories)) {
             $error_message = "Category not found!";
         }
 
         if ($error_message) {
-            $this->apiLogger->info($error_message, [__CLASS__, $_SESSION['user_email']]);
-            return new Response(
-                404,
-                [],
-                $this->getJson($error_message, 404)
+            $this->apiLogger->debug($error_message, [__CLASS__, $userEmail]);
+
+            return ResponseFactory::createJson(
+                new NotFound($error_message)
             );
         }
 
-        if ($query) {
+        try {
+            if ($query) {
+                /**
+                 * TODO: This can be removed since the query should match fully
+                 */
+                $keywords = explode(" ", $query);
 
-            $keywords = explode(" ", $query);
+                $result = $this->componentSearchEngine->selectGenerics($category, array_shift($keywords));
 
-            $result = $this->componentSearchEngine->selectGenerics($category, array_shift($keywords));
-
-            if (count($keywords) > 0) {
-                $resultsKeyword = [$result];
-                foreach ($keywords as $keyword) {
-                    $resultsKeyword[] = $this->componentSearchEngine->selectGenerics($category, $keyword);
-                }
-
-                $result = array_uintersect(...$resultsKeyword, ...[function ($a, $b) {
-                    if ($a->objectId === $b->objectId) {
-                        return 0;
+                if (count($keywords) > 0) {
+                    $resultsKeyword = [$result];
+                    foreach ($keywords as $keyword) {
+                        $resultsKeyword[] = $this->componentSearchEngine->selectGenerics($category, $keyword);
                     }
-                    return -1;
-                }]);
-            }
-        } else {
-            $result = $this->componentSearchEngine->selectGenerics($category);
-        }
 
-        if (count($result) < 1) {
-            $error_message = "No component found";
-            $this->apiLogger->info($error_message, [__CLASS__, $_SESSION['user_email']]);
-            return new Response(
-                404,
-                [],
-                $this->getJson($error_message, 404)
+                    $result = array_uintersect(...$resultsKeyword, ...[
+                        function ($a, $b) {
+                            if ($a->objectId === $b->objectId) {
+                                return 0;
+                            }
+                            return -1;
+                        }
+                    ]);
+                }
+            } else {
+                $result = $this->componentSearchEngine->selectGenerics($category);
+            }
+
+            if (count($result) < 1) {
+                $error_message = "No component found";
+
+                $this->apiLogger->info($error_message, [__CLASS__, $userEmail]);
+
+                return ResponseFactory::createJson(
+                    new NotFound($error_message)
+                );
+            }
+
+            //Sometimes the result it's a key value array with one result
+            if (count($result) == 1) {
+                $result = [array_pop($result)];
+            }
+
+            $this->apiLogger->debug("Successful get of generic components", [__CLASS__, $userEmail]);
+
+            return ResponseFactory::create(
+                new Ok(json_encode($result))
+            );
+        } catch (ServiceException $e) {
+            $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);
+
+            return ResponseFactory::createJson(
+                new NotFound($e->getMessage())
+            );
+        } catch (\Throwable $e) {
+            $this->apiLogger->error($e->getMessage(), [__CLASS__, $userEmail]);
+
+            return ResponseFactory::createJson(
+                new InternalServerError()
             );
         }
-
-        //Sometimes the result it's a key value array with one result
-        if (count($result) == 1) {
-            $result = [array_pop($result)];
-        }
-
-        /**
-         * When loading components list
-         */
-        if ($this->container->get('logging_level') === 1) {
-            $this->apiLogger->info("Successful get of generic components", [__CLASS__, $_SESSION['user_email']]);
-        }
-        return new Response(
-            200,
-            [],
-            json_encode($result)
-        );
     }
 }

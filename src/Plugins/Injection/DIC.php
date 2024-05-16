@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace App\Plugins\Injection;
 
 use App\Service\IArtifactService;
+use App\Service\IComponentService;
 use App\Service\IService;
 use DI\Container;
 use DI\ContainerBuilder;
@@ -46,26 +47,50 @@ class DIC
      * @throws NotFoundException
      * @throws Exception
      */
-    public static function getServiceByName(string $name): IService
+    public static function getServiceByName(string $category, string $name): IService
     {
         //Service full path
-        $servicePath = self::SERVICE_INITIAL_PATH . "{$name}\\{$name}" . self::SERVICE_SUFFIX;
+        $servicePath = self::SERVICE_INITIAL_PATH . "{$category}\\{$name}" . self::SERVICE_SUFFIX;
 
         return self::getContainer()->get($servicePath);
     }
 
     /**
-     * @param $name
+     * @param string $name
      *
      * @return IArtifactService
      * @throws DependencyException
      * @throws NotFoundException
      */
-    public static function getArtifactServiceByName($name): IArtifactService
+    public static function getArtifactServiceByName(string $name): IArtifactService
     {
-        $service = self::getServiceByName($name);
+        $service = self::getServiceByName(
+            category: $name,
+            name: $name
+        );
 
         if (!$service instanceof IArtifactService) {
+            throw new NotFoundException();
+        }
+
+        return $service;
+    }
+
+    /**
+     * @param string $category
+     * @param string $name
+     *
+     * @return IComponentService
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
+    public static function getComponentServiceByName(
+        string $category,
+        string $name
+    ): IComponentService {
+        $service = self::getServiceByName($category, $name);
+
+        if (!$service instanceof IComponentService) {
             throw new NotFoundException();
         }
 

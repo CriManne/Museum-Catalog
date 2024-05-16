@@ -9,17 +9,19 @@ use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-class ArtifactsListController implements ControllerInterface {
+class ArtifactsListController implements ControllerInterface
+{
+    public const array CATEGORIES
+        = [
+            'Computer',
+            'Peripheral',
+            'Book',
+            'Magazine',
+            'Software'
+        ];
 
-    public const array CATEGORIES = [
-        'Computer',
-        'Peripheral',
-        'Book',
-        'Magazine',
-        'Software'
-    ];
-
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
 
         return new Response(
             200,

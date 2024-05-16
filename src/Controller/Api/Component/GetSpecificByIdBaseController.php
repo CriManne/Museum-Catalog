@@ -8,7 +8,14 @@ use App\Controller\Api\ArtifactsListController;
 use App\Controller\Api\ComponentsListController;
 use App\Controller\BaseController;
 use App\Exception\ServiceException;
+use App\Models\User;
+use App\Plugins\Http\ResponseFactory;
+use App\Plugins\Http\Responses\BadRequest;
+use App\Plugins\Http\Responses\NotFound;
+use App\Plugins\Http\Responses\Ok;
+use App\Plugins\Injection\DIC;
 use App\SearchEngine\ComponentSearchEngine;
+use App\Service\IComponentService;
 use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -17,41 +24,31 @@ use Throwable;
 
 class GetSpecificByIdBaseController extends BaseController implements ControllerInterface
 {
-    protected ComponentSearchEngine $componentSearchEngine;
-    protected mixed $componentService;
+    protected IComponentService $componentService;
 
-    public function __construct(ComponentSearchEngine $componentSearchEngine)
+    public function __construct(
+        protected ComponentSearchEngine $componentSearchEngine)
     {
         parent::__construct();
-        $this->componentSearchEngine = $componentSearchEngine;
     }
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
+        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
 
         $params = $request->getQueryParams();
 
-        $id = $params["id"] ?? null;
+        $id       = $params["id"] ?? null;
         $category = $params["category"] ?? null;
 
-        /**
-         * Get the list of components's categories
-         */
-        $Componentscategories = ComponentsListController::$categories;
+        $allowedComponentCategories = ComponentsListController::CATEGORIES;
+        $allowedArtifactCategories  = ArtifactsListController::CATEGORIES;
 
-        /**
-         * Get the list of artifacts's categories
-         */
-        $Artifactscategories = ArtifactsListController::CATEGORIES;
-
-        /**
-         * Return bad request response if no category is set or a wrong one
-         */
         $error_message = null;
 
         if (!$category) {
             $error_message = "No category set!";
-        } else if (!in_array($category, $Componentscategories)) {
+        } else if (!in_array($category, $allowedComponentCategories)) {
             $error_message = "Category not found!";
         } else if (!$id) {
             $error_message = "No id set!";
@@ -60,7 +57,7 @@ class GetSpecificByIdBaseController extends BaseController implements Controller
         }
 
         if ($error_message) {
-            $this->apiLogger->info($error_message, [__CLASS__, $_SESSION['user_email']]);
+            $this->apiLogger->info($error_message, [__CLASS__, $userEmail]);
             return new Response(
                 400,
                 [],
@@ -68,42 +65,33 @@ class GetSpecificByIdBaseController extends BaseController implements Controller
             );
         }
 
-        foreach ($Artifactscategories as $genericCategory) {
-            //Service full path
-            $servicePath = "App\\Service\\$genericCategory\\$category" . "Service";
-
+        foreach ($allowedArtifactCategories as $genericCategory) {
             try {
-                /**
-                 * Get service class, throws an exception if not found
-                 */
-                $this->componentService = $this->container->get($servicePath);
+                $this->componentService = DIC::getComponentServiceByName(
+                    category: $genericCategory,
+                    name: $category
+                );
 
-                $object = $this->componentSearchEngine->selectSpecificByIdAndCategory(intval($id), $servicePath);
+                $object = $this->componentService->findById($id);
 
+                $this->apiLogger->info("Successful get of specific component by id", [__CLASS__, $userEmail]);
 
-                $this->apiLogger->info("Successful get of specific component by id", [__CLASS__, $_SESSION['user_email']]);
-                return new Response(
-                    200,
-                    [],
-                    json_encode($object)
+                return ResponseFactory::create(
+                    new Ok(json_encode($object))
                 );
             } catch (ServiceException $e) {
-                $this->apiLogger->info($e->getMessage(), [__CLASS__, $_SESSION['user_email']]);
-                return new Response(
-                    404,
-                    [],
-                    $this->getJson($e->getMessage(), 404)
+                $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);
+
+                return ResponseFactory::createJson(
+                    new NotFound($e->getMessage())
                 );
             } catch (Throwable) {
             }
         }
 
-        $error_message = "Bad request!";
-        $this->apiLogger->info($error_message, [__CLASS__, $_SESSION['user_email']]);
-        return new Response(
-            400,
-            [],
-            $this->getJson($error_message, 400)
-        );
+        $httpResponse = new BadRequest();
+        $this->apiLogger->info($httpResponse->getText(), [__CLASS__, $userEmail]);
+
+        return ResponseFactory::createJson($httpResponse);
     }
 }

@@ -43,8 +43,8 @@ class GetSpecificByIdBaseController extends BaseController implements Controller
         if ($error_message) {
             $this->apiLogger->info($error_message, [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($error_message))
+            return ResponseFactory::createJson(
+                new BadRequest($error_message)
             );
         }
 
@@ -59,8 +59,8 @@ class GetSpecificByIdBaseController extends BaseController implements Controller
         } catch (ServiceException $e) {
             $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($e->getMessage()))
+            return ResponseFactory::createJson(
+                new BadRequest($e->getMessage())
             );
         }
     }

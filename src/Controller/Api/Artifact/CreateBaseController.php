@@ -58,9 +58,8 @@ class CreateBaseController extends BaseController implements ControllerInterface
         if ($errorMessage) {
             $this->apiLogger->info($errorMessage, [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                response: new BadRequest(),
-                body: $this->getJson($errorMessage)
+            return ResponseFactory::createJson(
+                new BadRequest($errorMessage)
             );
         }
 
@@ -83,19 +82,19 @@ class CreateBaseController extends BaseController implements ControllerInterface
             $message = "{$category} saved successfully!";
             $this->apiLogger->info($message, [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new Created($this->getJson($message))
+            return ResponseFactory::createJson(
+                new Created($message)
             );
         } catch (ServiceException $e) {
             $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($e->getMessage()))
+            return ResponseFactory::createJson(
+                new BadRequest($e->getMessage())
             );
         } catch (Throwable $e) {
             $this->apiLogger->error($e->getMessage(), [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
+            return ResponseFactory::createJson(
                 new InternalServerError()
             );
         }

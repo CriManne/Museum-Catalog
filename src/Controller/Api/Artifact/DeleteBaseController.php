@@ -48,8 +48,8 @@ class DeleteBaseController extends BaseController implements ControllerInterface
         if ($error_message) {
             $this->apiLogger->info($error_message, [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($error_message))
+            return ResponseFactory::createJson(
+                new BadRequest($error_message)
             );
         }
 
