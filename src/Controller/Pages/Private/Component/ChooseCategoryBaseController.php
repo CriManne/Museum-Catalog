@@ -20,12 +20,11 @@ use SimpleMVC\Controller\ControllerInterface;
 
 class ChooseCategoryBaseController extends BaseController implements ControllerInterface
 {
-    protected UserService $userService;
-
-    public function __construct(Engine $plates, UserService $userService)
+    public function __construct(
+        protected UserService $userService
+    )
     {
-        parent::__construct($plates);
-        $this->userService = $userService;
+        parent::__construct();
     }
 
     /**

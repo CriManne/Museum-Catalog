@@ -4,7 +4,11 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Exception\ServiceException;
 use App\Models\User;
+use App\Plugins\Http\ResponseFactory;
+use App\Plugins\Http\Responses\BadRequest;
+use App\Plugins\Http\Responses\InternalServerError;
 use App\Plugins\Injection\DIC;
 use App\Plugins\Injection\Injectable;
 use DI\DependencyException;
@@ -13,6 +17,8 @@ use Exception;
 use League\Plates\Engine;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
+use Nyholm\Psr7\Response;
+use Throwable;
 
 class BaseController extends Injectable
 {
@@ -61,5 +67,33 @@ class BaseController extends Injectable
     public function getLoggedUserEmail(): ?string
     {
         return $_SESSION[User::SESSION_EMAIL_KEY] ?? null;
+    }
+
+    /**
+     * Wrapper function used standardize how the system handles exceptions
+     *
+     * @param callable $callable
+     *
+     * @return Response
+     */
+    public function apiHandler(callable $callable): Response
+    {
+        try {
+            return $callable();
+        } catch (ServiceException $e) {
+            $this->apiLogger->info($e->getMessage(), [__CLASS__, $this->getLoggedUserEmail()]);
+
+            return ResponseFactory::createJson(
+                response: new BadRequest(
+                    text: $e->getMessage()
+                )
+            );
+        } catch (Throwable $e) {
+            $this->apiLogger->error($e->getMessage(), [__CLASS__, $this->getLoggedUserEmail()]);
+
+            return ResponseFactory::createJson(
+                response: new InternalServerError()
+            );
+        }
     }
 }

@@ -26,45 +26,41 @@ class UploadBaseController extends BaseController implements ControllerInterface
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $this->getLoggedUserEmail();
+        return $this->apiHandler(
+            function () use ($request, $response) {
+                $userEmail = $this->getLoggedUserEmail();
 
-        $params = $request->getQueryParams();
+                $params = $request->getQueryParams();
 
-        $id    = $params["id"] ?? null;
-        $files = $_FILES['images'] ?? null;
+                $id    = $params["id"] ?? null;
+                $files = $_FILES['images'] ?? null;
 
-        $error_message = null;
+                $error_message = null;
 
-        if (!$id) {
-            $error_message = "No id set!";
-        } else if (!$files) {
-            $error_message = "No file uploaded!";
-        }
+                if (!$id) {
+                    $error_message = "No id set!";
+                } else if (!$files) {
+                    $error_message = "No file uploaded!";
+                }
 
-        if ($error_message) {
-            $this->apiLogger->info($error_message, [__CLASS__, $userEmail]);
+                if ($error_message) {
+                    $this->apiLogger->info($error_message, [__CLASS__, $userEmail]);
 
-            return ResponseFactory::createJson(
-                new BadRequest($error_message)
-            );
-        }
+                    return ResponseFactory::createJson(
+                        new BadRequest($error_message)
+                    );
+                }
 
-        try {
-            self::uploadFiles($id, $files);
-        } catch (Exception $e) {
-            $this->apiLogger->info($e->getMessage(), [__CLASS__]);
+                self::uploadFiles($id, $files);
 
-            return ResponseFactory::createJson(
-                new BadRequest($e->getMessage())
-            );
-        }
+                $message = count($files) . " files uploaded successfully!";
 
-        $message = count($files) . " files uploaded successfully!";
+                $this->apiLogger->debug($message, [__CLASS__, $userEmail]);
 
-        $this->apiLogger->debug($message, [__CLASS__, $userEmail]);
-
-        return ResponseFactory::createJson(
-            new Ok($message)
+                return ResponseFactory::createJson(
+                    new Ok($message)
+                );
+            }
         );
     }
 

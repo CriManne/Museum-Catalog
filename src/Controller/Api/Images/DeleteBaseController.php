@@ -20,27 +20,28 @@ class DeleteBaseController extends BaseController implements ControllerInterface
 {
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $this->getLoggedUserEmail();
+        return $this->apiHandler(
+            function () use ($request, $response) {
+                $userEmail = $this->getLoggedUserEmail();
 
-        $params = $request->getQueryParams();
+                $params = $request->getQueryParams();
 
-        $id      = $params["id"] ?? null;
-        $imgName = $params["image"] ?? null;
+                $id      = $params["id"] ?? null;
+                $imgName = $params["image"] ?? null;
 
-        try {
-            if ($id) {
-                $counter = self::deleteImages($id);
+                if ($id) {
+                    $counter = self::deleteImages($id);
 
-                $message = "Deleted {$counter} images!";
+                    $message = "Deleted {$counter} images!";
 
-                $this->apiLogger->info($message, [__CLASS__, $userEmail]);
+                    $this->apiLogger->info($message, [__CLASS__, $userEmail]);
 
-                return ResponseFactory::createJson(
-                    new Ok($message)
-                );
-            }
+                    return ResponseFactory::createJson(
+                        new Ok($message)
+                    );
+                }
 
-            if ($imgName) {
+                if ($imgName) {
                     $this->deleteImage($imgName);
 
                     $message = "Image deleted!";
@@ -50,18 +51,13 @@ class DeleteBaseController extends BaseController implements ControllerInterface
                     return ResponseFactory::createJson(
                         new Ok($message)
                     );
+                }
+                $httpResponse = new BadRequest();
+                $this->apiLogger->info($httpResponse->getText(), [__CLASS__, $userEmail]);
+
+                return ResponseFactory::createJson($httpResponse);
             }
-        } catch (Exception $e) {
-            $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);
-
-            return ResponseFactory::createJson(
-                new BadRequest($e->getMessage())
-            );
-        }
-        $httpResponse = new BadRequest();
-        $this->apiLogger->info($httpResponse->getText(), [__CLASS__, $userEmail]);
-
-        return ResponseFactory::createJson($httpResponse);
+        );
     }
 
     /**

@@ -21,6 +21,7 @@ use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
+use ReflectionException;
 
 class ComponentSearchEngine {
 
@@ -64,7 +65,7 @@ class ComponentSearchEngine {
      * @return array            The result array
      * @throws DependencyException
      * @throws ServiceException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function selectGenerics(string $category, ?string $query = null): array {
         $result = [];

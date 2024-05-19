@@ -17,6 +17,7 @@ use DI\DependencyException;
 use DI\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use ReflectionException;
 use SimpleMVC\Controller\ControllerInterface;
 
 class LoginBaseController extends BaseController implements ControllerInterface
@@ -36,7 +37,7 @@ class LoginBaseController extends BaseController implements ControllerInterface
      * @throws DependencyException
      * @throws NotFoundException
      * @throws RepositoryException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
