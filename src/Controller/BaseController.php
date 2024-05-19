@@ -60,6 +60,6 @@ class BaseController extends Injectable
      */
     public function getLoggedUserEmail(): ?string
     {
-        return $_SESSION[User::SESSION_EMAIL_KEY];
+        return $_SESSION[User::SESSION_EMAIL_KEY] ?? null;
     }
 }
