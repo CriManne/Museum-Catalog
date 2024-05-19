@@ -37,7 +37,7 @@ class AdvScriptsBaseController extends BaseController implements ControllerInter
             );
         }
 
-        $filename = $this->container->get('secureScriptPath') . $params["filename"];
+        $filename = APP_PATH . $this->container->get('secureScriptPath') . $params["filename"];
 
         if (!file_exists($filename)) {
             $error_message = "File {$filename} not found!";

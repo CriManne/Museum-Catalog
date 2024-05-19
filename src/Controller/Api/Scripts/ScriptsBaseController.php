@@ -37,7 +37,7 @@ class ScriptsBaseController extends BaseController implements ControllerInterfac
             );
         }
 
-        $filename = $this->container->get('baseScriptPath') . $params["filename"];
+        $filename = APP_PATH . $this->container->get('basicScriptPath') . $params["filename"];
 
         if (!file_exists($filename)) {
             $error_message = "File {$filename} not found!";
@@ -50,7 +50,7 @@ class ScriptsBaseController extends BaseController implements ControllerInterfac
 
         $this->apiLogger->debug("Successful get of {$filename} script", [__CLASS__]);
 
-        return ResponseFactory::createJson(
+        return ResponseFactory::create(
             new Ok(file_get_contents($filename))
         );
     }
