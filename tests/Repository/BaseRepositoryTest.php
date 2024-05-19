@@ -8,6 +8,8 @@ use DI\DependencyException;
 use DI\NotFoundException;
 use PDO;
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionException;
 
 abstract class BaseRepositoryTest extends TestCase
 {
@@ -17,6 +19,7 @@ abstract class BaseRepositoryTest extends TestCase
      * @return void
      * @throws DependencyException
      * @throws NotFoundException
+     * @throws ReflectionException
      */
     public static function setUpBeforeClass(): void
     {
@@ -24,7 +27,7 @@ abstract class BaseRepositoryTest extends TestCase
         self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
         self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
 
-        $reflectionDic = new \ReflectionClass(DIC::class);
+        $reflectionDic = new ReflectionClass(DIC::class);
 
         $pdo = $reflectionDic->getProperty('pdo');
         $pdo->setValue($reflectionDic->newInstance(), self::$pdo);

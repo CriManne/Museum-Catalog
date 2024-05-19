@@ -40,6 +40,7 @@ final class SearchArtifactEngineTest extends BaseRepositoryTest
     public static CpuRepository           $cpuRepository;
     public static RamRepository           $ramRepository;
     public static PeripheralRepository    $peripheralRepository;
+    public static PublisherRepository     $publisherRepository;
 
     public static function setUpBeforeClass(): void
     {
@@ -47,19 +48,14 @@ final class SearchArtifactEngineTest extends BaseRepositoryTest
 
         self::$genericObjectRepository = new GenericObjectRepository();
         self::$softwareRepository      = new SoftwareRepository();
-
-        self::$cpuRepository = new CpuRepository();
-        self::$ramRepository = new RamRepository();
-        self::$osRepository  = new OsRepository();
-
-        self::$computerRepository = new ComputerRepository();
-
-        self::$bookRepository = new BookRepository();
-
-        $publisherRepository      = new PublisherRepository();
-        self::$magazineRepository = new MagazineRepository();
-
-        self::$peripheralRepository = new PeripheralRepository();
+        self::$cpuRepository           = new CpuRepository();
+        self::$ramRepository           = new RamRepository();
+        self::$osRepository            = new OsRepository();
+        self::$computerRepository      = new ComputerRepository();
+        self::$bookRepository          = new BookRepository();
+        self::$publisherRepository     = new PublisherRepository();
+        self::$magazineRepository      = new MagazineRepository();
+        self::$peripheralRepository    = new PeripheralRepository();
 
         self::$artifactSearchEngine = new ArtifactSearchEngine();
 
@@ -97,7 +93,7 @@ final class SearchArtifactEngineTest extends BaseRepositoryTest
             $os,
         ));
 
-        $publisherRepository->save($publisher);
+        self::$publisherRepository->save($publisher);
 
         self::$genericObjectRepository->save($genericObject2);
 

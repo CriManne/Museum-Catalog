@@ -52,12 +52,8 @@ class ComponentSearchEngine
                     $unmappedResult = $artifactService->find();
                 }
                 if (count($unmappedResult) > 0) {
-
                     foreach ($unmappedResult as $item) {
-
-                        $mappedObject = ORM::getNewModelInstance($categoryName, $category, (array)$item);
-
-                        $result[] = $this->$category($mappedObject);
+                        $result[] = $this->$category($item);
                     }
                 }
             } catch (NotFoundException) {
