@@ -34,7 +34,7 @@ abstract class BaseRepositoryTest extends TestCase
      * @return void
      */
     public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
+        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
         self::$pdo = null;
     }    
 }

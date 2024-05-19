@@ -41,16 +41,6 @@ final class PeripheralServiceTest extends BaseServiceTest
             'Peripheral 1.0',
             new PeripheralType('PeripheralType 1',1)
         );
-
-        $this->sampleObjectRaw = [
-            'modelName' => 'Peripheral 1.0',
-            'peripheralTypeId' => 1,
-            'objectId' => 'objID',
-            'note' => null,
-            'url' => null,
-            'tag' => null,
-            'active' => '1'
-        ];        
     }
     
     //INSERT TESTS

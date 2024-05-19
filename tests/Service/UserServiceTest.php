@@ -11,78 +11,71 @@ use App\Models\User;
 
 final class UserServiceTest extends BaseServiceTest
 {
-    public UserService $userService;
+    public UserService    $userService;
     public UserRepository $userRepository;
-    
+
     public function setUp(): void
     {
-        $this->userRepository = new UserRepository($this->pdo);
-        $this->userService = new UserService($this->userRepository);        
+        $this->userRepository = $this->createMock(UserRepository::class);
+        $this->userService    = new UserService($this->userRepository);
 
-        $this->sampleObject = [
-            "email"=>'elon@gmail.com',
-            "password"=>'password',
-            "firstname"=>'Elon',
-            "lastname"=>'Musk',
-            "privilege"=>0
-        ];        
-
-        $this->sampleResponse = [
-            "email"=>'elon@gmail.com',
-            "password"=>'password',
-            "firstname"=>'Elon',
-            "lastname"=>'Musk',
-            "privilege"=>0
-        ];
+        $this->sampleResponse = new User(
+            email: 'elon@gmail.com',
+            password: 'password',
+            firstname: 'Elon',
+            lastname: 'Musk',
+            privilege: 0
+        );
     }
-    
+
     //INSERT TESTS    
-    public function testBadInsert():void{
+    public function testBadInsert(): void
+    {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn($this->sampleResponse);
-        $this->sth->method('fetchAll')->willReturn([$this->sampleResponse]);
-        $user = new User('testemail@gmail.com','admin','Bill','Gates',1);
+        $this->userRepository->method('findById')->willReturn($this->sampleResponse);
+        $user = new User('testemail@gmail.com', 'admin', 'Bill', 'Gates', 1);
         $this->userService->save($user);
     }
-    
+
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleResponse);
-        $this->sth->method('fetchAll')->willReturn([$this->sampleResponse]);
-        $this->assertEquals("Elon",$this->userService->findById("testemail@gmail.com")->firstname);
+        $this->userRepository->method('findById')->willReturn($this->sampleResponse);
+        $this->assertEquals("Elon", $this->userService->findById("testemail@gmail.com")->firstname);
     }
 
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
+        $this->userRepository->method('findById')->willReturn(null);
         $this->userService->findById("testemail@gmail.com");
     }
 
     public function testBadSelectByCredentials(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
+        $this->userRepository->method('findById')->willReturn(null);
         $this->userService->findById("testemail@gmail.com");
     }
-    
+
     //UPDATE TESTS
-    public function testBadUpdate():void{
+    public function testBadUpdate(): void
+    {
         $this->expectException(ServiceException::class);
-        $user = new User('wrong@gmail.com','admin','Steve','Jobs',0);
-        
-        $this->sth->method('fetch')->willReturn(null);
+        $user = new User('wrong@gmail.com', 'admin', 'Steve', 'Jobs', 0);
+
+        $this->userRepository->method('findFirst')->willReturn(null);
         $this->userService->update($user);
     }
-    
+
     //DELETE TESTS
-    public function testBadDelete():void{
+    public function testBadDelete(): void
+    {
         $this->expectException(ServiceException::class);
 
         $email = "wrong@gmail.com";
-        $this->sth->method('fetch')->willReturn(null);
-        
+        $this->userRepository->method('findById')->willReturn(null);
+
         $this->userService->delete($email);
     }
 }
