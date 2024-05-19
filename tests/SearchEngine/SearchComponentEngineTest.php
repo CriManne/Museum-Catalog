@@ -24,9 +24,9 @@ final class SearchComponentEngineTest extends BaseRepositoryTest
     {
         parent::setUpBeforeClass();
 
+        self::$osRepository  = new OsRepository();
         self::$cpuRepository = new CpuRepository();
         self::$ramRepository = new RamRepository();
-        self::$osRepository  = new OsRepository();
         self::$componentSearchEngine = new ComponentSearchEngine();
 
         $cpu  = new Cpu("I7", "4GHZ", 1);
