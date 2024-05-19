@@ -9,7 +9,6 @@ use App\Controller\Api\ComponentsListController;
 use App\Controller\BaseController;
 use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
-use App\Models\User;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
 use App\Plugins\Http\Responses\InternalServerError;
@@ -17,7 +16,6 @@ use App\Plugins\Http\Responses\NotFound;
 use App\Plugins\Http\Responses\Ok;
 use App\Plugins\Injection\DIC;
 use App\Service\IService;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
@@ -29,7 +27,7 @@ class DeleteBaseController extends BaseController implements ControllerInterface
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
+        $userEmail = $this->getLoggedUserEmail();
 
         $params = $request->getQueryParams();
 

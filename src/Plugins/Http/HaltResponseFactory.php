@@ -3,8 +3,6 @@
 namespace App\Plugins\Http;
 
 use App\Plugins\Http\Responses\IHttpResponse;
-use App\Plugins\Http\Responses\Ok;
-use Nyholm\Psr7\Response;
 use SimpleMVC\Response\HaltResponse;
 
 class HaltResponseFactory

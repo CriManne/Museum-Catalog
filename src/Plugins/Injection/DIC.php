@@ -12,6 +12,7 @@ use DI\ContainerBuilder;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
+use League\Plates\Engine;
 use Monolog\Level;
 
 class DIC
@@ -20,6 +21,7 @@ class DIC
     public const string SERVICE_SUFFIX       = "Service";
 
     private static ?Container $container = null;
+    private static ?Engine $platesEngine = null;
 
     /**
      * Return the DI container
@@ -40,6 +42,7 @@ class DIC
     /**
      * Returns an instance of the service method requested.
      *
+     * @param string $category
      * @param string $name
      *
      * @return IService
@@ -109,5 +112,21 @@ class DIC
         return self::getContainer()->get('logging_level') === 1
             ? Level::Debug
             : Level::Error;
+    }
+
+    /**
+     * Returns the singleton plates engine
+     * @return Engine
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws Exception
+     */
+    public static function getPlatesEngine(): Engine
+    {
+        if (!self::$platesEngine) {
+            self::$platesEngine = self::getContainer()->get(Engine::class);
+        }
+
+        return self::$platesEngine;
     }
 }

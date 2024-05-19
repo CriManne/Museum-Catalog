@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Api\Scripts;
 
 use App\Controller\BaseController;
-use App\Models\User;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
 use App\Plugins\Http\Responses\NotFound;
@@ -24,7 +23,7 @@ class AdvScriptsBaseController extends BaseController implements ControllerInter
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
+        $userEmail = $this->getLoggedUserEmail();
         
         $params = $request->getQueryParams();
 

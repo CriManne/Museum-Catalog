@@ -8,6 +8,9 @@ use App\Controller\BaseController;
 use App\Models\User;
 use App\Plugins\Http\HaltResponseFactory;
 use App\Plugins\Http\Responses\Unauthorized;
+use App\Plugins\Http\ResponseUtility;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
@@ -22,10 +25,12 @@ class AdvancedAuthMiddleware extends BaseController implements ControllerInterfa
      * @param ResponseInterface      $response
      *
      * @return ResponseInterface
+     * @throws DependencyException
+     * @throws NotFoundException
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY] ?? null;
+        $userEmail = $this->getLoggedUserEmail() ?? null;
         $userPrivilege = $_SESSION[User::SESSION_PRIVILEGE_KEY] ?? null;
 
         if (!isset($userPrivilege) || $userPrivilege !== User::PRIVILEGE_SUPER_ADMIN) {
@@ -34,7 +39,7 @@ class AdvancedAuthMiddleware extends BaseController implements ControllerInterfa
             $this->apiLogger->info($httpResponse->getText(), [__CLASS__, $userEmail, $request->getRequestTarget()]);
             return HaltResponseFactory::create(
                 response: $httpResponse,
-                body: $this->getHttpResponseBody($request, $httpResponse)
+                body: ResponseUtility::getHttpResponseBody($request, $httpResponse)
             );
         }
 

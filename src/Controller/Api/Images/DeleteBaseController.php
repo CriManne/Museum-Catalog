@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Api\Images;
 
 use App\Controller\BaseController;
-use App\Models\User;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
 use App\Plugins\Http\Responses\Ok;
@@ -13,7 +12,6 @@ use App\Plugins\Injection\DIC;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
@@ -22,7 +20,7 @@ class DeleteBaseController extends BaseController implements ControllerInterface
 {
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
+        $userEmail = $this->getLoggedUserEmail();
 
         $params = $request->getQueryParams();
 

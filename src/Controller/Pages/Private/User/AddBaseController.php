@@ -4,13 +4,14 @@ declare(strict_types=1);
 
 namespace App\Controller\Pages\Private\User;
 
-use AbstractRepo\Exceptions\ReflectionException;
 use AbstractRepo\Exceptions\RepositoryException;
 use App\Controller\BaseController;
 use App\Exception\ServiceException;
+use App\Plugins\Http\ResponseFactory;
+use App\Plugins\Http\Responses\Ok;
 use App\Service\UserService;
-use League\Plates\Engine;
-use Nyholm\Psr7\Response;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
@@ -18,29 +19,34 @@ use SimpleMVC\Controller\ControllerInterface;
 
 class AddBaseController extends BaseController implements ControllerInterface
 {
-    protected UserService $userService;
-
-    public function __construct(Engine $plates, UserService $userService)
+    public function __construct(
+        protected UserService $userService
+    )
     {
-        parent::__construct($plates);
-        $this->userService = $userService;
+        parent::__construct();
     }
 
     /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     *
+     * @return ResponseInterface
      * @throws RepositoryException
-     * @throws \ReflectionException
      * @throws ServiceException
-     * @throws ReflectionException
+     * @throws DependencyException
+     * @throws NotFoundException
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $user = $this->userService->findById($_SESSION['user_email']);
+        $userEmail = $this->getLoggedUserEmail();
 
-        $this->pagesLogger->info("Successful get page", [__CLASS__, $_SESSION['user_email']]);
-        return new Response(
-            200,
-            [],
-            $this->plates->render("p_user::add_user",['user'=>$user,'title'=>"Add user"])
+        $user = $this->userService->findById($userEmail);
+
+        $this->pagesLogger->info("Successful get page", [__CLASS__, $userEmail]);
+        return ResponseFactory::createPage(
+            response: new Ok(),
+            templateName: "p_user::add_user",
+            data: ['user' => $user, 'title' => "Add user"]
         );
     }
 }

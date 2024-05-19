@@ -8,7 +8,6 @@ use App\Controller\Api\ArtifactsListController;
 use App\Controller\Api\Images\DeleteBaseController as ImagesDeleteController;
 use App\Controller\BaseController;
 use App\Exception\ServiceException;
-use App\Models\User;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
 use App\Plugins\Http\Responses\InternalServerError;
@@ -26,7 +25,7 @@ class DeleteBaseController extends BaseController implements ControllerInterface
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
+        $userEmail = $this->getLoggedUserEmail();
 
         $params = $request->getQueryParams();
 
@@ -67,14 +66,14 @@ class DeleteBaseController extends BaseController implements ControllerInterface
 
             $this->apiLogger->info($message, [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new NoContent($this->getJson($message))
+            return ResponseFactory::createJson(
+                new NoContent($message)
             );
         } catch (ServiceException $e) {
             $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);
 
-            return ResponseFactory::create(
-                new BadRequest($this->getJson($e->getMessage()))
+            return ResponseFactory::createJson(
+                new BadRequest($e->getMessage())
             );
         } catch (Throwable $e) {
             $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);

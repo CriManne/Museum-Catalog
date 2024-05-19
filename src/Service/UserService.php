@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Service;
 
-use AbstractRepo\Exceptions\ReflectionException;
 use AbstractRepo\Exceptions\RepositoryException;
 use App\DataModels\FetchableData;
 use App\DataModels\User\UserResponse;
@@ -24,15 +23,17 @@ class UserService
     /**
      * Insert user
      * @param User $u The user to save
-     * @throws ReflectionException
      * @throws ServiceException If the email is already user
      * @throws RepositoryException
-     * @throws \ReflectionException
      */
     public function save(User $u): void
     {
         if ($this->userRepository->findById($u->email) != null)
             throw new ServiceException("email already used!");
+
+        $u->password = password_hash($u->password, PASSWORD_BCRYPT, [
+            'cost' => 11
+        ]);
 
         $this->userRepository->save($u);
     }
@@ -54,10 +55,14 @@ class UserService
 
     /**
      * Select by credentials
-     * @param string $email The email to select
+     *
+     * @param string $email    The email to select
      * @param string $password The password to select
+     *
      * @return UserResponse     The user selected
-     * @throws ServiceException     If no user is found
+     * @throws RepositoryException
+     * @throws ServiceException If no user is found
+     * @throws \ReflectionException
      */
     public function findByCredentials(string $email, string $password): UserResponse
     {
@@ -73,10 +78,8 @@ class UserService
      * @param int|null $itemsPerPage
      * @param string|null $query
      * @return FetchableData|array All the users
-     * @throws ReflectionException
      * @throws ServiceException If no results
      * @throws RepositoryException
-     * @throws \ReflectionException
      */
     public function find(?int $page, ?int $itemsPerPage, ?string $query): FetchableData|array
     {
@@ -113,10 +116,8 @@ class UserService
     /**
      * Update a user
      * @param User $u The user to update
-     * @throws ReflectionException
      * @throws ServiceException If the user is not found
      * @throws RepositoryException
-     * @throws \ReflectionException
      */
     public function update(User $u): void
     {
@@ -125,16 +126,18 @@ class UserService
             throw new ServiceException("User not found!");
         }
 
+        $u->password = password_hash($u->password, PASSWORD_BCRYPT, [
+            'cost' => 11
+        ]);
+
         $this->userRepository->update($u);
     }
 
     /**
      * Delete a User by email
      * @param string $email The email to delete
-     * @throws ReflectionException
      * @throws ServiceException If the user is not found
      * @throws RepositoryException
-     * @throws \ReflectionException
      */
     public function delete(string $email): void
     {

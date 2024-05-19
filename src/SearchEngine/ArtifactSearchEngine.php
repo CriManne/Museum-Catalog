@@ -110,9 +110,7 @@ class ArtifactSearchEngine
             $artifactServicePath = "App\\Service\\$categoryName\\$categoryName" . "Service";
 
             $artifactService = $this->container->get($artifactServicePath);
-
-            $artifactRepoName = strtolower($categoryName) . "Repository";
-
+            
             $unmappedResult = null;
             if ($query) {
                 $unmappedResult = $artifactService->findByQuery($query);

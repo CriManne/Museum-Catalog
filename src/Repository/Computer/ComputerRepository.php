@@ -8,13 +8,6 @@ use AbstractRepo\Repository\AbstractRepository;
 
 use App\Models\Computer\Computer;
 
-use App\Models\Computer\Cpu;
-use App\Models\Computer\Os;
-use App\Models\Computer\Ram;
-use App\Models\GenericObject;
-use App\Util\ORM;
-use ReflectionException;
-
 class ComputerRepository extends AbstractRepository
 {
     /**

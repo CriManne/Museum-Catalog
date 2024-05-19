@@ -7,15 +7,11 @@ namespace App\Controller\Api\Component;
 use App\Controller\Api\ComponentsListController;
 use App\Controller\BaseController;
 use App\Exception\ServiceException;
-use App\Models\User;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\InternalServerError;
 use App\Plugins\Http\Responses\NotFound;
 use App\Plugins\Http\Responses\Ok;
 use App\SearchEngine\ComponentSearchEngine;
-use DI\DependencyException;
-use DI\NotFoundException;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
@@ -37,7 +33,7 @@ class GetGenericsBaseController extends BaseController implements ControllerInte
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
+        $userEmail = $this->getLoggedUserEmail();
 
         $params    = $request->getQueryParams();
 

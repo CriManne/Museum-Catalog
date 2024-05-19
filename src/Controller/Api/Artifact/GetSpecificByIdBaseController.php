@@ -6,7 +6,6 @@ namespace App\Controller\Api\Artifact;
 
 use App\Controller\BaseController;
 use App\Exception\ServiceException;
-use App\Models\User;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
 use App\Plugins\Http\Responses\Ok;
@@ -25,7 +24,7 @@ class GetSpecificByIdBaseController extends BaseController implements Controller
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
+        $userEmail = $this->getLoggedUserEmail();
 
         $params = $request->getQueryParams();
 

@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller\Api;
 
-use Nyholm\Psr7\Response;
+use App\Plugins\Http\ResponseFactory;
+use App\Plugins\Http\Responses\Ok;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
@@ -24,11 +25,8 @@ class ComponentsListController implements ControllerInterface
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-
-        return new Response(
-            200,
-            [],
-            json_encode(self::CATEGORIES)
+        return ResponseFactory::create(
+            new Ok(json_encode(self::CATEGORIES))
         );
     }
 }

@@ -12,6 +12,7 @@ use App\Controller\BaseController;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\InternalServerError;
 use App\Plugins\Http\Responses\NotFound;
+use App\Plugins\Http\ResponseUtility;
 use App\Plugins\Injection\DIC;
 use DI\ContainerBuilder;
 use League\Plates\Engine;
@@ -35,7 +36,7 @@ try {
     /**
      * Util class that has response utility methods
      */
-    $baseController = new BaseController($container->get(Engine::class));
+    $baseController = new BaseController();
 
     $requestedUrl = $app->getRequest()->getRequestTarget();
 
@@ -46,11 +47,11 @@ try {
     $status_code   = $response->getStatusCode();
     $error_message = $response->getReasonPhrase();
 
-    if (!$baseController->isRequestAPI($app->getRequest())
-       && $status_code === 404
+    if (!ResponseUtility::isRequestAPI($app->getRequest())
+       && $status_code === (new NotFound())->getCode()
     ) {
         $notFoundResponse = new NotFound($error_message);
-        $responseBody     = $baseController->getErrorPage($notFoundResponse);
+        $responseBody     = ResponseUtility::renderErrorPage($notFoundResponse);
         $log->info($error_message, [$requestedUrl]);
         $response = ResponseFactory::create(
             response: $notFoundResponse,
@@ -64,7 +65,7 @@ try {
     $responseBody = null;
 
     if (isset($requestedUrl, $baseController, $log, $app)) {
-        $responseBody = $baseController->getHttpResponseBody($app->getRequest(), $httpResponse);
+        $responseBody = ResponseUtility::getHttpResponseBody($app->getRequest(), $httpResponse);
         $log->error($e->getMessage(), [$requestedUrl]);
     }
 

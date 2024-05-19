@@ -4,65 +4,68 @@ declare(strict_types=1);
 
 namespace App\Controller\Pages\Private\Artifact;
 
-use AbstractRepo\Exceptions\ReflectionException;
 use AbstractRepo\Exceptions\RepositoryException;
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\BaseController;
 use App\Exception\ServiceException;
+use App\Plugins\Http\ResponseFactory;
+use App\Plugins\Http\Responses\BadRequest;
+use App\Plugins\Http\Responses\NotFound;
+use App\Plugins\Http\Responses\Ok;
 use App\Service\UserService;
-use League\Plates\Engine;
-use Nyholm\Psr7\Response;
+use DI\DependencyException;
+use DI\NotFoundException;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-
-class AddBaseController extends BaseController implements ControllerInterface {
-    protected UserService $userService;
-
-    public function __construct(Engine $plates, UserService $userService) {
-        parent::__construct($plates);
-        $this->userService = $userService;
+class AddBaseController extends BaseController implements ControllerInterface
+{
+    public function __construct(
+        protected UserService $userService)
+    {
+        parent::__construct();
     }
 
     /**
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     *
+     * @return ResponseInterface
      * @throws RepositoryException
-     * @throws \ReflectionException
      * @throws ServiceException
-     * @throws ReflectionException
+     * @throws DependencyException
+     * @throws NotFoundException
      */
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
-        $params = $request->getQueryParams();
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
+        $userEmail = $this->getLoggedUserEmail();
+        $params    = $request->getQueryParams();
 
         $category = $params["category"] ?? null;
 
         if (!$category) {
             $error_message = "No category set!";
-            $this->pagesLogger->info($error_message, [__CLASS__, $_SESSION['user_email']]);
-            return new Response(
-                400,
-                [],
-                $this->getErrorPage($error_message, 400)
-            );
+            $this->pagesLogger->info($error_message, [__CLASS__, $userEmail]);
+
+            return ResponseFactory::createErrorPage(new BadRequest($error_message));
         }
 
         if (!in_array($category, ArtifactsListController::CATEGORIES)) {
             $error_message = "Category not found!";
-            $this->pagesLogger->info($error_message, [__CLASS__, $_SESSION['user_email']]);
-            return new Response(
-                404,
-                [],
-                $this->getErrorPage($error_message, 404)
-            );
+            $this->pagesLogger->info($error_message, [__CLASS__, $userEmail]);
+
+            return ResponseFactory::createErrorPage(new NotFound($error_message));
         }
 
-        $user = $this->userService->findById($_SESSION['user_email']);
+        $user = $this->userService->findById($userEmail);
 
-        $this->pagesLogger->info("Successful get page", [__CLASS__, $_SESSION['user_email']]);
-        return new Response(
-            200,
-            [],
-            $this->plates->render("artifact_forms::$category", ['user' => $user, 'title' => "Add $category"])
+        $this->pagesLogger->info("Successful get page", [__CLASS__, $userEmail]);
+
+        return ResponseFactory::createPage(
+            response: new Ok(),
+            templateName: "artifact_forms::$category",
+            data: ['user' => $user, 'title' => "Add $category"]
         );
     }
 }

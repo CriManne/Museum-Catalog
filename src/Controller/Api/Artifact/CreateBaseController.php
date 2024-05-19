@@ -9,7 +9,6 @@ use App\Controller\Api\Images\DeleteBaseController;
 use App\Controller\Api\Images\UploadBaseController;
 use App\Controller\BaseController;
 use App\Exception\ServiceException;
-use App\Models\User;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
 use App\Plugins\Http\Responses\Created;
@@ -35,7 +34,7 @@ class CreateBaseController extends BaseController implements ControllerInterface
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {
-        $userEmail = $_SESSION[User::SESSION_EMAIL_KEY];
+        $userEmail = $this->getLoggedUserEmail();
 
         $params = $request->getParsedBody();
 

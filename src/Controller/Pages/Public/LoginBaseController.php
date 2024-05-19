@@ -4,97 +4,91 @@ declare(strict_types=1);
 
 namespace App\Controller\Pages\Public;
 
-use AbstractRepo\Exceptions\ReflectionException;
 use AbstractRepo\Exceptions\RepositoryException;
 use App\Controller\BaseController;
 use App\Exception\ServiceException;
+use App\Models\User;
+use App\Plugins\Http\ResponseFactory;
+use App\Plugins\Http\Responses\Found;
+use App\Plugins\Http\Responses\Ok;
+use App\Plugins\Session\SessionUtility;
 use App\Service\UserService;
 use DI\DependencyException;
 use DI\NotFoundException;
-use League\Plates\Engine;
-use Nyholm\Psr7\Response;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;
 
-class LoginBaseController extends BaseController implements ControllerInterface {
-
-    protected UserService $userService;
-
-    public function __construct(Engine $plates, UserService $userService) {
-        parent::__construct($plates);
-        $this->userService = $userService;
+class LoginBaseController extends BaseController implements ControllerInterface
+{
+    public function __construct(
+        protected UserService $userService
+    )
+    {
+        parent::__construct();
     }
 
     /**
-     * @throws RepositoryException
-     * @throws NotFoundException
-     * @throws \ReflectionException
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     *
+     * @return ResponseInterface
      * @throws DependencyException
-     * @throws ReflectionException
+     * @throws NotFoundException
+     * @throws RepositoryException
+     * @throws \ReflectionException
      */
-    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface {
+    public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
+    {
         $sessionValid = false;
 
-        if(!$this->is_session_started()){
+        if (!SessionUtility::isSessionStarted()) {
             session_start();
         }
 
-        if(isset($_SESSION['user_email'])){
+        if (isset($userEmail)) {
             $sessionValid = true;
         }
 
         $credentials = $request->getParsedBody();
-        
-        if (!$sessionValid && (!isset($credentials["submitLogin"]) || !isset($credentials["email"]) || !isset($credentials["password"]))) {
-            if ($this->container->get('logging_level') === 1) {
-                $this->pagesLogger->info("Successful get page", [__CLASS__]);
-            }
-            return new Response(
-                200,
-                [],
-                $this->plates->render('public::login',['title'=>"Login"])
+
+        if (!$sessionValid && (!isset($credentials["submitLogin"], $credentials["email"], $credentials["password"]))) {
+            $this->pagesLogger->debug("Successful get page", [__CLASS__]);
+
+            return ResponseFactory::createPage(
+                response: new Ok(),
+                templateName: 'public::login',
+                data: ['title' => "Login"]
             );
         }
+
         try {
+            $userEmail = $this->getLoggedUserEmail();
+
             $user = null;
 
-            if($sessionValid){
-                $user = $this->userService->findById($_SESSION['user_email']);
-            }else{
+            if ($sessionValid) {
+                $user = $this->userService->findById($userEmail);
+            } else {
                 $user = $this->userService->findByCredentials($credentials["email"], $credentials["password"]);
             }
 
-            $_SESSION['user_email'] = $user->email;
-            $_SESSION['privilege'] = $user->privilege;
-            
-            return new Response(
-                302,
-                ['Location'=>'/private']                
+            $_SESSION[User::SESSION_EMAIL_KEY]     = $user->email;
+            $_SESSION[User::SESSION_PRIVILEGE_KEY] = $user->privilege;
+
+            return ResponseFactory::create(
+                response: new Found(),
+                headers: ['Location' => '/private']
             );
-        } catch (ServiceException $e) {            
+        } catch (ServiceException $e) {
             unset($_SESSION);
             session_destroy();
-            if ($this->container->get('logging_level') === 1) {
-                $this->pagesLogger->info($e->getMessage(), [__CLASS__]);
-            }
-            return new Response(
-                200,
-                [],
-                $this->plates->render('public::login',['error'=>$e->getMessage(),'title'=>"Login"])
+            $this->pagesLogger->debug($e->getMessage(), [__CLASS__]);
+            return ResponseFactory::createPage(
+                response: new Ok(),
+                templateName: 'public::login',
+                data: ['error' => $e->getMessage(), 'title' => "Login"]
             );
         }
-    }
-
-    public function is_session_started(): bool
-    {
-        if (php_sapi_name() !== 'cli') {
-            if (version_compare(phpversion(), '5.4.0', '>=')) {
-                return session_status() === PHP_SESSION_ACTIVE;
-            } else {
-                return session_id() === '' ? FALSE : TRUE;
-            }
-        }
-        return FALSE;
     }
 }

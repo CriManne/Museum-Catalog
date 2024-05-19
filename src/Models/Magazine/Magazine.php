@@ -9,7 +9,6 @@ use AbstractRepo\Attributes\ManyToOne;
 use AbstractRepo\Attributes\OneToOne;
 use AbstractRepo\Attributes\PrimaryKey;
 use AbstractRepo\Attributes\Searchable;
-use AbstractRepo\Interfaces\IModel;
 use App\Models\Book\Publisher;
 use App\Models\GenericObject;
 use App\Models\IArtifact;
