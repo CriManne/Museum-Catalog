@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace App\Controller\Api\User;
 
 use App\Controller\BaseController;
-use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Models\User;
 use App\Plugins\Http\ResponseFactory;
@@ -27,7 +26,10 @@ class UpdateBaseController extends BaseController implements ControllerInterface
     }
 
     /**
-     * @throws RepositoryException
+     * @param ServerRequestInterface $request
+     * @param ResponseInterface      $response
+     *
+     * @return ResponseInterface
      */
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface
     {

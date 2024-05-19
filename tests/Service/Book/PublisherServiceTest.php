@@ -6,13 +6,9 @@ namespace App\Test\Service\Book;
 
 use App\Exception\ServiceException;
 use App\Models\Book\Publisher;
-use App\Models\Computer\Cpu;
 use App\Repository\Book\PublisherRepository;
 use App\Service\Book\PublisherService;
 use App\Test\Service\BaseServiceTest;
-use PHPUnit\Framework\TestCase;
-use PDO;
-use PDOStatement;
 
 final class PublisherServiceTest extends BaseServiceTest
 {

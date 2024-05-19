@@ -6,14 +6,18 @@ namespace App\Service\Peripheral;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\RepositoryException;
+use App\Exception\DatabaseException;
 use App\Exception\ServiceException;
 use App\Models\GenericObject;
+use App\Models\IArtifact;
 use App\Models\Peripheral\Peripheral;
 use App\Models\Peripheral\PeripheralType;
+use App\Plugins\DB\DB;
 use App\Repository\GenericObjectRepository;
 use App\Repository\Peripheral\PeripheralRepository;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Service\IArtifactService;
+use Throwable;
 
 class PeripheralService implements IArtifactService
 {
@@ -30,10 +34,12 @@ class PeripheralService implements IArtifactService
      *
      * @param Peripheral $p The peripheral to save
      *
-     * @throws ServiceException If the ModelName is already used
+     * @throws DatabaseException
      * @throws RepositoryException If the save fails
+     * @throws ServiceException If the ModelName is already used
+     * @throws Throwable
      */
-    public function save(Peripheral $p): void
+    public function save(IArtifact $p): void
     {
         $peripheral = $this->peripheralRepository->findFirst(new FetchParams(
             conditions: "modelName = :modelName",
@@ -44,8 +50,15 @@ class PeripheralService implements IArtifactService
             throw new ServiceException("Peripheral model name already used!");
         }
 
-        $this->genericObjectRepository->save($p->genericObject);
-        $this->peripheralRepository->save($p);
+        DB::begin();
+        try {
+            $this->genericObjectRepository->save($p->genericObject);
+            $this->peripheralRepository->save($p);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**
@@ -119,17 +132,27 @@ class PeripheralService implements IArtifactService
      *
      * @param Peripheral $p The Peripheral to update
      *
-     * @throws ServiceException If not found
+     * @throws DatabaseException
      * @throws RepositoryException If the update fails
+     * @throws ServiceException If not found
+     * @throws Throwable
      */
-    public function update(Peripheral $p): void
+    public function update(IArtifact $p): void
     {
         $per = $this->peripheralRepository->findById($p->genericObject->id);
         if (!$per) {
             throw new ServiceException("Peripheral not found!");
         }
 
-        $this->peripheralRepository->update($p);
+        DB::begin();
+        try {
+            $this->genericObjectRepository->save($p->genericObject);
+            $this->peripheralRepository->save($p);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**
@@ -137,8 +160,10 @@ class PeripheralService implements IArtifactService
      *
      * @param string $id The id to delete
      *
-     * @throws ServiceException If not found
+     * @throws DatabaseException
      * @throws RepositoryException If the delete fails
+     * @throws ServiceException If not found
+     * @throws Throwable
      */
     public function delete(string $id): void
     {
@@ -147,7 +172,15 @@ class PeripheralService implements IArtifactService
             throw new ServiceException("Peripheral not found!");
         }
 
-        $this->peripheralRepository->delete($id);
+        DB::begin();
+        try {
+            $this->peripheralRepository->delete($id);
+            $this->genericObjectRepository->delete($id);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
 

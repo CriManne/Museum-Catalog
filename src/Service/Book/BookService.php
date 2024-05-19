@@ -6,19 +6,24 @@ namespace App\Service\Book;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\RepositoryException;
+use App\Exception\DatabaseException;
 use App\Exception\ServiceException;
 use App\Models\Book\Book;
-use App\Models\Book\Publisher;
 use App\Models\GenericObject;
+use App\Models\IArtifact;
+use App\Plugins\DB\DB;
 use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
+use App\Repository\GenericObjectRepository;
 use App\Service\IArtifactService;
+use Throwable;
 
 class BookService implements IArtifactService
 {
     public function __construct(
-        protected BookRepository      $bookRepository,
-        protected PublisherRepository $publisherRepository
+        protected BookRepository          $bookRepository,
+        protected PublisherRepository     $publisherRepository,
+        protected GenericObjectRepository $genericObjectRepository
     )
     {
     }
@@ -28,17 +33,24 @@ class BookService implements IArtifactService
      *
      * @param Book $b The book to save
      *
-     * @throws ServiceException If the title is already used
      * @throws RepositoryException If the save fails
+     * @throws ServiceException If the title is already used
+     * @throws DatabaseException
+     * @throws Throwable
      */
-    public function save(Book $b): void
+    public function save(IArtifact $b): void
     {
+        $genericObject = $this->genericObjectRepository->findById($b->genericObject->id);
+
+        if ($genericObject) {
+            throw new ServiceException("Object ID already used!");
+        }
+
         $book = $this->bookRepository->findFirst(
             new FetchParams(
-                conditions: "title = :title OR objectId = :objectId",
+                conditions: "title = :title",
                 bind: [
-                    "title"    => $b->title,
-                    "objectId" => $b->genericObject->id
+                    "title" => $b->title
                 ]
             )
         );
@@ -47,11 +59,15 @@ class BookService implements IArtifactService
             throw new ServiceException("Book title already used!");
         }
 
-        if ($book?->genericObject?->id === $b->genericObject->id) {
-            throw new ServiceException("Object ID already used!");
+        DB::begin();
+        try {
+            $this->genericObjectRepository->save($b->genericObject);
+            $this->bookRepository->save($b);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
         }
-
-        $this->bookRepository->save($b);
+        DB::commit();
     }
 
     /**
@@ -101,17 +117,27 @@ class BookService implements IArtifactService
      *
      * @param Book $b The Book to update
      *
-     * @throws ServiceException If not found
+     * @throws DatabaseException
      * @throws RepositoryException If the update fails
+     * @throws ServiceException If not found
+     * @throws Throwable
      */
-    public function update(Book $b): void
+    public function update(IArtifact $b): void
     {
         $book = $this->bookRepository->findById($b->genericObject->id);
         if (!$book) {
             throw new ServiceException("Book not found!");
         }
 
-        $this->bookRepository->update($b);
+        DB::begin();
+        try {
+            $this->genericObjectRepository->update($book->genericObject);
+            $this->bookRepository->update($book);
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**
@@ -119,8 +145,10 @@ class BookService implements IArtifactService
      *
      * @param string $id The id to delete
      *
-     * @throws ServiceException If not found
+     * @throws DatabaseException
      * @throws RepositoryException If the delete fails
+     * @throws ServiceException If not found
+     * @throws Throwable
      */
     public function delete(string $id): void
     {
@@ -129,7 +157,15 @@ class BookService implements IArtifactService
             throw new ServiceException("Book not found!");
         }
 
-        $this->bookRepository->delete($id);
+        DB::begin();
+        try {
+            $this->bookRepository->delete($id);
+            $this->genericObjectRepository->delete($id);
+        } catch (Throwable $e) {
+            DB::rollBack();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**

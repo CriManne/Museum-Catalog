@@ -9,9 +9,6 @@ use App\Models\Software\SupportType;
 use App\Repository\Software\SupportTypeRepository;
 use App\Service\Software\SupportTypeService;
 use App\Test\Service\BaseServiceTest;
-use PHPUnit\Framework\TestCase;
-use PDO;
-use PDOStatement;
 
 final class SupportTypeServiceTest extends BaseServiceTest
 {

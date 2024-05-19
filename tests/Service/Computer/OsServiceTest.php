@@ -9,9 +9,6 @@ use App\Models\Computer\Os;
 use App\Repository\Computer\OsRepository;
 use App\Service\Computer\OsService;
 use App\Test\Service\BaseServiceTest;
-use PHPUnit\Framework\TestCase;
-use PDO;
-use PDOStatement;
 
 final class OsServiceTest extends BaseServiceTest
 {

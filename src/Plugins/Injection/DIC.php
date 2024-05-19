@@ -14,6 +14,7 @@ use DI\NotFoundException;
 use Exception;
 use League\Plates\Engine;
 use Monolog\Level;
+use PDO;
 
 class DIC
 {
@@ -22,6 +23,7 @@ class DIC
 
     private static ?Container $container = null;
     private static ?Engine $platesEngine = null;
+    private static ?PDO $pdo = null;
 
     /**
      * Return the DI container
@@ -128,5 +130,22 @@ class DIC
         }
 
         return self::$platesEngine;
+    }
+
+    /**
+     * Returns the singleton plates engine
+     *
+     * @return PDO
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws Exception
+     */
+    public static function getPdo(): PDO
+    {
+        if (!self::$pdo) {
+            self::$pdo = self::getContainer()->get(PDO::class);
+        }
+
+        return self::$pdo;
     }
 }

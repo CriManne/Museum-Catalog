@@ -7,7 +7,6 @@ use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Test\Service\BaseServiceTest;
-use PHPUnit\Framework\TestCase;
 use App\Exception\ServiceException;
 
 use App\Models\Peripheral\Peripheral;

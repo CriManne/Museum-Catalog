@@ -6,15 +6,15 @@ namespace App\Repository;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
-use AbstractRepo\Repository\AbstractRepository;
 use App\DataModels\User\UserResponse;
 use App\Models\User;
 use App\Util\ORM;
+use ReflectionException;
 
 /**
  * @method User|null findById($id)
  */
-class UserRepository extends AbstractRepository
+class UserRepository extends BaseRepository
 {
     public static function getModel(): string
     {
@@ -27,7 +27,7 @@ class UserRepository extends AbstractRepository
      * @param string $password
      * @return ?UserResponse            The user selected, null if not found
      * @throws AbstractRepositoryException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function findByCredentials(string $email, string $password): ?UserResponse
     {

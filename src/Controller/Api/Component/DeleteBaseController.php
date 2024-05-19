@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Controller\Api\Component;
 
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Controller\Api\ArtifactsListController;
 use App\Controller\Api\ComponentsListController;
 use App\Controller\BaseController;
-use App\Exception\RepositoryException;
 use App\Exception\ServiceException;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
@@ -69,6 +69,8 @@ class DeleteBaseController extends BaseController implements ControllerInterface
                 return ResponseFactory::createJson(
                     new Ok($message)
                 );
+            } catch (\ReflectionException) {
+
             } catch (ServiceException $e) {
                 $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);
 

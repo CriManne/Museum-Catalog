@@ -9,9 +9,6 @@ use App\Models\Book\Author;
 use App\Repository\Book\AuthorRepository;
 use App\Service\Book\AuthorService;
 use App\Test\Service\BaseServiceTest;
-use PHPUnit\Framework\TestCase;
-use PDO;
-use PDOStatement;
 
 final class AuthorServiceTest extends BaseServiceTest
 {

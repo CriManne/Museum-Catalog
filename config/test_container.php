@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-use App\Exception\RepositoryException;
+use App\Exception\DatabaseException;
 use Psr\Container\ContainerInterface;
 
 return [
@@ -20,7 +20,7 @@ return [
                 array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
             );
         } catch (PDOException) {
-            throw new RepositoryException("Cannot connect to database!");
+            throw new DatabaseException("Cannot connect to database!");
         }
     }
 ];

@@ -6,25 +6,28 @@ namespace App\Service\Computer;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\RepositoryException;
+use App\Exception\DatabaseException;
 use App\Exception\ServiceException;
 use App\Models\Computer\Computer;
-use App\Models\Computer\Cpu;
-use App\Models\Computer\Os;
-use App\Models\Computer\Ram;
 use App\Models\GenericObject;
+use App\Models\IArtifact;
+use App\Plugins\DB\DB;
 use App\Repository\Computer\ComputerRepository;
 use App\Repository\Computer\CpuRepository;
 use App\Repository\Computer\OsRepository;
 use App\Repository\Computer\RamRepository;
+use App\Repository\GenericObjectRepository;
 use App\Service\IArtifactService;
+use Throwable;
 
 class ComputerService implements IArtifactService
 {
     public function __construct(
-        protected ComputerRepository $computerRepository,
-        protected CpuRepository      $cpuRepository,
-        protected OsRepository       $osRepository,
-        protected RamRepository      $ramRepository
+        protected GenericObjectRepository $genericObjectRepository,
+        protected ComputerRepository      $computerRepository,
+        protected CpuRepository           $cpuRepository,
+        protected OsRepository            $osRepository,
+        protected RamRepository           $ramRepository
     )
     {
     }
@@ -34,10 +37,12 @@ class ComputerService implements IArtifactService
      *
      * @param Computer $c The computer to save
      *
-     * @throws ServiceException If the ModelName is already used
      * @throws RepositoryException If the save fails
+     * @throws ServiceException If the ModelName is already used
+     * @throws Throwable
+     * @throws DatabaseException
      */
-    public function save(Computer $c): void
+    public function save(IArtifact $c): void
     {
         $computer = $this->computerRepository->findFirst(new FetchParams(
             conditions: "modelName = :modelName",
@@ -48,7 +53,15 @@ class ComputerService implements IArtifactService
             throw new ServiceException("Computer model name already used!");
         }
 
-        $this->computerRepository->save($c);
+        DB::begin();
+        try {
+            $this->genericObjectRepository->save($c->genericObject);
+            $this->computerRepository->save($c);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**
@@ -98,17 +111,27 @@ class ComputerService implements IArtifactService
      *
      * @param Computer $c The Computer to update
      *
-     * @throws ServiceException If not found
+     * @throws DatabaseException
      * @throws RepositoryException If the update fails
+     * @throws ServiceException If not found
+     * @throws Throwable
      */
-    public function update(Computer $c): void
+    public function update(IArtifact $c): void
     {
         $comp = $this->computerRepository->findById($c->genericObject->id);
         if (!$comp) {
             throw new ServiceException("Computer not found!");
         }
 
-        $this->computerRepository->update($c);
+        DB::begin();
+        try {
+            $this->genericObjectRepository->update($c->genericObject);
+            $this->computerRepository->update($c);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**
@@ -116,8 +139,10 @@ class ComputerService implements IArtifactService
      *
      * @param string $id The id to delete
      *
-     * @throws ServiceException If not found
+     * @throws DatabaseException
      * @throws RepositoryException If the delete fails
+     * @throws ServiceException If not found
+     * @throws Throwable
      */
     public function delete(string $id): void
     {
@@ -126,7 +151,15 @@ class ComputerService implements IArtifactService
             throw new ServiceException("Computer not found!");
         }
 
-        $this->computerRepository->delete($id);
+        DB::begin();
+        try {
+            $this->computerRepository->delete($id);
+            $this->genericObjectRepository->delete($id);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**

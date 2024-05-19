@@ -10,6 +10,7 @@ use App\Controller\BaseController;
 use App\Exception\ServiceException;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
+use App\Plugins\Http\Responses\InternalServerError;
 use App\Plugins\Http\Responses\Ok;
 use App\Plugins\Injection\DIC;
 use App\SearchEngine\ComponentSearchEngine;
@@ -76,17 +77,23 @@ class CreateBaseController extends BaseController implements ControllerInterface
                 return ResponseFactory::createJson(
                     new Ok($message)
                 );
+            } catch (\ReflectionException) {
+                /**
+                 * This case happens when the service is not found, in that case it will try
+                 * the next service
+                 */
             } catch (ServiceException $e) {
                 $this->apiLogger->info($e->getMessage(), [__CLASS__, $userEmail]);
 
                 return ResponseFactory::createJson(
                     new BadRequest($e->getMessage())
                 );
-            } catch (Throwable) {
-                /**
-                 * This case happens when the service is not found, in that case it will try
-                 * the next service
-                 */
+            } catch (Throwable $e) {
+                $this->apiLogger->error($e->getMessage(), [__CLASS__, $userEmail]);
+
+                return ResponseFactory::createJson(
+                    new InternalServerError()
+                );
             }
         }
 

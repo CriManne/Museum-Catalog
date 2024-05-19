@@ -9,7 +9,6 @@ use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
-use App\Exception\RepositoryException;
 use App\Models\Magazine\Magazine;
 use App\Models\Book\Publisher;
 use App\Repository\Book\PublisherRepository;

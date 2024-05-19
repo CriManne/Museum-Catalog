@@ -9,9 +9,6 @@ use App\Models\Computer\Ram;
 use App\Repository\Computer\RamRepository;
 use App\Service\Computer\RamService;
 use App\Test\Service\BaseServiceTest;
-use PHPUnit\Framework\TestCase;
-use PDO;
-use PDOStatement;
 
 final class RamServiceTest extends BaseServiceTest
 {

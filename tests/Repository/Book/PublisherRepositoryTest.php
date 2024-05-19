@@ -6,7 +6,6 @@ namespace App\Test\Repository\Book;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
-use App\Exception\RepositoryException;
 use App\Repository\Book\PublisherRepository;
 use App\Models\Book\Publisher;
 

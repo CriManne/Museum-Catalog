@@ -6,22 +6,28 @@ namespace App\Service\Software;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\RepositoryException;
+use App\Exception\DatabaseException;
 use App\Exception\ServiceException;
 use App\Models\GenericObject;
+use App\Models\IArtifact;
 use App\Models\Software\Software;
+use App\Plugins\DB\DB;
 use App\Repository\Computer\OsRepository;
+use App\Repository\GenericObjectRepository;
 use App\Repository\Software\SoftwareRepository;
 use App\Repository\Software\SoftwareTypeRepository;
 use App\Repository\Software\SupportTypeRepository;
 use App\Service\IArtifactService;
+use Throwable;
 
 class SoftwareService implements IArtifactService
 {
     public function __construct(
-        protected SoftwareRepository     $softwareRepository,
-        protected SoftwareTypeRepository $softwareTypeRepository,
-        protected SupportTypeRepository  $supportTypeRepository,
-        protected OsRepository           $osRepository
+        protected GenericObjectRepository $genericObjectRepository,
+        protected SoftwareRepository      $softwareRepository,
+        protected SoftwareTypeRepository  $softwareTypeRepository,
+        protected SupportTypeRepository   $supportTypeRepository,
+        protected OsRepository            $osRepository
     )
     {
     }
@@ -31,10 +37,12 @@ class SoftwareService implements IArtifactService
      *
      * @param Software $s The software to save
      *
-     * @throws ServiceException If the title is already used
      * @throws RepositoryException If the save fails
+     * @throws ServiceException If the title is already used
+     * @throws Throwable
+     * @throws DatabaseException
      */
-    public function save(Software $s): void
+    public function save(IArtifact $s): void
     {
         $software = $this->softwareRepository->findFirst(new FetchParams(
             conditions: "title = :title",
@@ -45,7 +53,15 @@ class SoftwareService implements IArtifactService
             throw new ServiceException("Software title already used!");
         }
 
-        $this->softwareRepository->save($s);
+        DB::begin();
+        try {
+            $this->genericObjectRepository->save($s->genericObject);
+            $this->softwareRepository->save($s);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**
@@ -96,10 +112,12 @@ class SoftwareService implements IArtifactService
      *
      * @param Software $s The Software to update
      *
-     * @throws ServiceException If not found
+     * @throws DatabaseException
      * @throws RepositoryException If the update fails
+     * @throws ServiceException If not found
+     * @throws Throwable
      */
-    public function update(Software $s): void
+    public function update(IArtifact $s): void
     {
         $soft = $this->softwareRepository->findById($s->genericObject->id);
 
@@ -107,7 +125,15 @@ class SoftwareService implements IArtifactService
             throw new ServiceException("Software not found!");
         }
 
-        $this->softwareRepository->update($s);
+        DB::begin();
+        try {
+            $this->genericObjectRepository->update($s->genericObject);
+            $this->softwareRepository->update($s);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**
@@ -115,8 +141,10 @@ class SoftwareService implements IArtifactService
      *
      * @param string $id The id to delete
      *
-     * @throws ServiceException If not found
+     * @throws DatabaseException
      * @throws RepositoryException If the delete fails
+     * @throws ServiceException If not found
+     * @throws Throwable
      */
     public function delete(string $id): void
     {
@@ -126,7 +154,15 @@ class SoftwareService implements IArtifactService
             throw new ServiceException("Software not found!");
         }
 
-        $this->softwareRepository->delete($id);
+        DB::begin();
+        try {
+            $this->softwareRepository->delete($id);
+            $this->genericObjectRepository->delete($id);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
 
@@ -162,7 +198,7 @@ class SoftwareService implements IArtifactService
 
         $supportType = $this->supportTypeRepository->findById($request["supportTypeId"]);
 
-        if(!$supportType) {
+        if (!$supportType) {
             throw new ServiceException("Support type not found!");
         }
 

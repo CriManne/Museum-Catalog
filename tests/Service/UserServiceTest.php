@@ -8,8 +8,6 @@ use App\Exception\ServiceException;
 use App\Repository\UserRepository;
 use App\Service\UserService;
 use App\Models\User;
-use PDO;
-use PDOStatement;
 
 final class UserServiceTest extends BaseServiceTest
 {

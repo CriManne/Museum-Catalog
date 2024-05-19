@@ -17,7 +17,6 @@ use App\Repository\Software\SoftwareTypeRepository;
 use App\Repository\Software\SupportTypeRepository;
 use App\Repository\Computer\OsRepository;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
-use App\Exception\RepositoryException;
 
 final class SoftwareRepositoryTest extends TestCase
 {

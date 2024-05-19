@@ -15,7 +15,6 @@ use App\Plugins\Http\Responses\NotFound;
 use App\Plugins\Http\ResponseUtility;
 use App\Plugins\Injection\DIC;
 use DI\ContainerBuilder;
-use League\Plates\Engine;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use SimpleMVC\App;

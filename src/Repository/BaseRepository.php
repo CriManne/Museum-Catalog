@@ -4,14 +4,21 @@ declare(strict_types=1);
 
 namespace App\Repository;
 
-use PDO;
+use AbstractRepo\Exceptions\RepositoryException;
+use AbstractRepo\Repository\AbstractRepository;
+use App\Plugins\Injection\DIC;
+use DI\DependencyException;
+use DI\NotFoundException;
 
-class BaseRepository
+abstract class BaseRepository extends AbstractRepository
 {
-    public PDO $pdo;
-
-    public function __construct(PDO $pdo)
+    /**
+     * @throws RepositoryException
+     * @throws DependencyException
+     * @throws NotFoundException
+     */
+    public function __construct()
     {
-        $this->pdo = $pdo;
+        parent::__construct(DIC::getPdo());
     }
 }

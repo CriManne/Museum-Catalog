@@ -74,7 +74,6 @@ final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
     /**
      * @return void
      * @throws RepositoryException
-     * @throws \App\Exception\RepositoryException
      */
     public function testGoodInsert(): void
     {

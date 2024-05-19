@@ -6,17 +6,22 @@ namespace App\Service\Magazine;
 
 use AbstractRepo\DataModels\FetchParams;
 use AbstractRepo\Exceptions\RepositoryException;
+use App\Exception\DatabaseException;
 use App\Exception\ServiceException;
-use App\Models\Book\Publisher;
 use App\Models\GenericObject;
+use App\Models\IArtifact;
 use App\Models\Magazine\Magazine;
+use App\Plugins\DB\DB;
 use App\Repository\Book\PublisherRepository;
+use App\Repository\GenericObjectRepository;
 use App\Repository\Magazine\MagazineRepository;
 use App\Service\IArtifactService;
+use Throwable;
 
 class MagazineService implements IArtifactService
 {
     public function __construct(
+        protected GenericObjectRepository $genericObjectRepository,
         protected MagazineRepository  $magazineRepository,
         protected PublisherRepository $publisherRepository
     )
@@ -28,10 +33,12 @@ class MagazineService implements IArtifactService
      *
      * @param Magazine $m The magazine to save
      *
-     * @throws ServiceException If the title is already used
      * @throws RepositoryException If the save fails
+     * @throws ServiceException If the title is already used
+     * @throws Throwable
+     * @throws DatabaseException
      */
-    public function save(Magazine $m): void
+    public function save(IArtifact $m): void
     {
         $magazine = $this->magazineRepository->findFirst(
             new FetchParams(
@@ -44,7 +51,15 @@ class MagazineService implements IArtifactService
             throw new ServiceException("Magazine title already used!");
         }
 
-        $this->magazineRepository->save($m);
+        DB::begin();
+        try {
+            $this->genericObjectRepository->save($m->genericObject);
+            $this->magazineRepository->save($m);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**
@@ -94,10 +109,12 @@ class MagazineService implements IArtifactService
      *
      * @param Magazine $m The Magazine to update
      *
-     * @throws ServiceException If not found
+     * @throws DatabaseException
      * @throws RepositoryException If the update fails
+     * @throws ServiceException If not found
+     * @throws Throwable
      */
-    public function update(Magazine $m): void
+    public function update(IArtifact $m): void
     {
         $mag = $this->magazineRepository->findById($m->genericObject->id);
 
@@ -105,7 +122,15 @@ class MagazineService implements IArtifactService
             throw new ServiceException("Magazine not found!");
         }
 
-        $this->magazineRepository->update($m);
+        DB::begin();
+        try {
+            $this->genericObjectRepository->update($m->genericObject);
+            $this->magazineRepository->update($m);
+        } catch (Throwable $e) {
+            DB::rollback();
+            throw $e;
+        }
+        DB::commit();
     }
 
     /**
