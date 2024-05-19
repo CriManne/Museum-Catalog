@@ -48,7 +48,7 @@ final class UserRepositoryTest extends BaseRepositoryTest
     public function tearDown(): void
     {
         //Clear the user table
-        self::$pdo->exec("TRUNCATE TABLE User");
+        self::$pdo->exec("TRUNCATE TABLE User;");
     }
 
     //INSERT TESTS
