@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repository\Book;
 
-use AbstractRepo\Repository\AbstractRepository;
 use App\Models\Book\Author;
+use App\Repository\BaseRepository;
 
 /**
  * @method Author|null findById($id)
  */
-class AuthorRepository extends AbstractRepository
+class AuthorRepository extends BaseRepository
 {
     /**
      * @return string

@@ -4,14 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repository\Computer;
 
-use AbstractRepo\Repository\AbstractRepository;
-
 use App\Models\Computer\Computer;
+use App\Repository\BaseRepository;
 
 /**
  * @method Computer|null findById($id)
  */
-class ComputerRepository extends AbstractRepository
+class ComputerRepository extends BaseRepository
 {
     /**
      * @return string

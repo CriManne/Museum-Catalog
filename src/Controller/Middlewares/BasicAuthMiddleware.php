@@ -16,7 +16,6 @@ use App\Plugins\Http\ResponseUtility;
 use App\Service\UserService;
 use DI\DependencyException;
 use DI\NotFoundException;
-use League\Plates\Engine;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 use SimpleMVC\Controller\ControllerInterface;

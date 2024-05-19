@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repository\Magazine;
 
-use AbstractRepo\Repository\AbstractRepository;
 use App\Models\Magazine\Magazine;
+use App\Repository\BaseRepository;
 
 /**
  * @method Magazine|null findById($id)
  */
-class MagazineRepository extends AbstractRepository
+class MagazineRepository extends BaseRepository
 {
     public static function getModel(): string
     {

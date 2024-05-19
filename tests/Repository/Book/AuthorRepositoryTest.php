@@ -3,25 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Book;
 
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
-use PHPUnit\Framework\TestCase;
 use App\Repository\Book\AuthorRepository;
 use App\Models\Book\Author;
 
-final class AuthorRepositoryTest extends TestCase
+final class AuthorRepositoryTest extends BaseRepositoryTest
 {
     public static AuthorRepository $authorRepository;
     public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$authorRepository = new AuthorRepository(self::$pdo);          
+        self::$authorRepository = new AuthorRepository();
     }
 
     public function setUp():void{

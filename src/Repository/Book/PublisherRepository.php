@@ -4,13 +4,13 @@ declare(strict_types=1);
 
 namespace App\Repository\Book;
 
-use AbstractRepo\Repository\AbstractRepository;
 use App\Models\Book\Publisher;
+use App\Repository\BaseRepository;
 
 /**
  * @method Publisher|null findById($id)
  */
-class PublisherRepository extends AbstractRepository
+class PublisherRepository extends BaseRepository
 {
     public static function getModel(): string
     {

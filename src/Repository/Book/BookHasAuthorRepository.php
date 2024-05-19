@@ -4,10 +4,10 @@ declare(strict_types=1);
 
 namespace App\Repository\Book;
 
-use AbstractRepo\Repository\AbstractRepository;
 use App\Models\Book\BookHasAuthor;
+use App\Repository\BaseRepository;
 
-class BookHasAuthorRepository extends AbstractRepository
+class BookHasAuthorRepository extends BaseRepository
 {
     public static function getModel(): string
     {

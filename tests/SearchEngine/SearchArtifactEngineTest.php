@@ -5,11 +5,9 @@ declare(strict_types=1);
 namespace App\Test\SearchEngine;
 
 use App\Models\GenericObject;
-use App\Plugins\Injection\DIC;
 use App\Repository\GenericObjectRepository;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
-use PHPUnit\Framework\MockObject\MockMethod;
 use PHPUnit\Framework\TestCase;
 use App\SearchEngine\ArtifactSearchEngine;
 use App\Exception\ServiceException;
@@ -19,8 +17,6 @@ use App\Models\Computer\Cpu;
 use App\Models\Computer\Os;
 use App\Models\Computer\Ram;
 use App\Models\Magazine\Magazine;
-use App\Repository\Book\AuthorRepository;
-use App\Repository\Book\BookHasAuthorRepository;
 use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\Computer\ComputerRepository;
@@ -29,10 +25,7 @@ use App\Repository\Computer\OsRepository;
 use App\Repository\Computer\RamRepository;
 use App\Repository\Magazine\MagazineRepository;
 use App\Repository\Peripheral\PeripheralRepository;
-use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Repository\Software\SoftwareRepository;
-use App\Repository\Software\SoftwareTypeRepository;
-use App\Repository\Software\SupportTypeRepository;
 
 final class SearchArtifactEngineTest extends TestCase
 {
