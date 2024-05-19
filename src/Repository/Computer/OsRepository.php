@@ -7,6 +7,9 @@ namespace App\Repository\Computer;
 use AbstractRepo\Repository\AbstractRepository;
 use App\Models\Computer\Os;
 
+/**
+ * @method Os|null findById($id)
+ */
 class OsRepository extends AbstractRepository
 {
     public static function getModel(): string

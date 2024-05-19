@@ -4,64 +4,62 @@ declare(strict_types=1);
 
 namespace App\Service\Magazine;
 
-use _PHPStan_7961f7ae1\Nette\NotImplementedException;
-use AbstractRepo\Interfaces\IModel;
+use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Exception\ServiceException;
+use App\Models\Book\Publisher;
+use App\Models\GenericObject;
 use App\Models\Magazine\Magazine;
+use App\Repository\Book\PublisherRepository;
 use App\Repository\Magazine\MagazineRepository;
-use App\Exception\RepositoryException;
 use App\Service\IArtifactService;
 
 class MagazineService implements IArtifactService
 {
-    public MagazineRepository $magazineRepository;
-
-    public function __construct(MagazineRepository $magazineRepository)
+    public function __construct(
+        protected MagazineRepository  $magazineRepository,
+        protected PublisherRepository $publisherRepository
+    )
     {
-        $this->magazineRepository = $magazineRepository;
     }
 
     /**
      * Insert magazine
+     *
      * @param Magazine $m The magazine to save
+     *
      * @throws ServiceException If the title is already used
      * @throws RepositoryException If the save fails
      */
     public function save(Magazine $m): void
     {
-        $magazine = $this->magazineRepository->findByTitle($m->title);
-        if ($magazine)
+        $magazine = $this->magazineRepository->findFirst(
+            new FetchParams(
+                conditions: "title = :title",
+                bind: ["title" => $m->title]
+            )
+        );
+
+        if ($magazine) {
             throw new ServiceException("Magazine title already used!");
+        }
 
         $this->magazineRepository->save($m);
     }
 
     /**
      * Select by id
+     *
      * @param string $id The id to select
+     *
      * @return Magazine The magazine selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
     public function findById(string $id): Magazine
     {
         $magazine = $this->magazineRepository->findById($id);
-        if (is_null($magazine)) {
-            throw new ServiceException("Magazine not found");
-        }
-
-        return $magazine;
-    }
-
-    /**
-     * Select by title
-     * @param string $title The title to select
-     * @return Magazine The magazine selected
-     * @throws ServiceException If not found
-     */
-    public function findByTitle(string $title): Magazine
-    {
-        $magazine = $this->magazineRepository->findByTitle($title);
-        if (is_null($magazine)) {
+        if (!$magazine) {
             throw new ServiceException("Magazine not found");
         }
 
@@ -70,8 +68,11 @@ class MagazineService implements IArtifactService
 
     /**
      * Select by key
+     *
      * @param string $key The key given
+     *
      * @return array Magazines selected, empty array if no result
+     * @throws RepositoryException
      */
     public function findByQuery(string $key): array
     {
@@ -81,6 +82,7 @@ class MagazineService implements IArtifactService
     /**
      * Select all
      * @return array All the magazines
+     * @throws RepositoryException
      */
     public function find(): array
     {
@@ -89,7 +91,9 @@ class MagazineService implements IArtifactService
 
     /**
      * Update a Magazine
+     *
      * @param Magazine $m The Magazine to update
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
@@ -97,7 +101,7 @@ class MagazineService implements IArtifactService
     {
         $mag = $this->magazineRepository->findById($m->genericObject->id);
 
-        if (is_null($mag)) {
+        if (!$mag) {
             throw new ServiceException("Magazine not found!");
         }
 
@@ -106,7 +110,9 @@ class MagazineService implements IArtifactService
 
     /**
      * Delete a Magazine
+     *
      * @param string $id The id to delete
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
@@ -122,10 +128,33 @@ class MagazineService implements IArtifactService
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     * @param array $request
+     *
+     * @return Magazine
+     * @throws RepositoryException
+     * @throws ServiceException
      */
-    public function fromRequest(array $request): IModel
+    public function fromRequest(array $request): Magazine
     {
-        throw new NotImplementedException();
+        $genericObject = new GenericObject(
+            $request["objectId"],
+            $request["note"] ?? null,
+            $request["url"] ?? null,
+            $request["tag"] ?? null
+        );
+
+        $publisher = $this->publisherRepository->findById($request["publisherId"]);
+        if (!$publisher) {
+            throw new ServiceException('Publisher not found');
+        }
+
+        return new Magazine(
+            genericObject: $genericObject,
+            title: $request["title"],
+            year: $request["year"],
+            magazineNumber: $request["magazineNumber"],
+            publisher: $publisher
+        );
     }
 }

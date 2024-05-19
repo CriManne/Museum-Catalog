@@ -14,16 +14,17 @@ use App\Service\IComponentService;
 
 class PublisherService implements IComponentService
 {
-    public PublisherRepository $publisherRepository;
-
-    public function __construct(PublisherRepository $publisherRepository)
+    public function __construct(
+        protected PublisherRepository $publisherRepository
+    )
     {
-        $this->publisherRepository = $publisherRepository;
     }
 
     /**
      * Insert a publisher
+     *
      * @param Publisher $p The publisher to save
+     *
      * @throws AbstractRepositoryException
      * @throws ServiceException If the publisher name already exists
      */
@@ -37,6 +38,7 @@ class PublisherService implements IComponentService
                 ]
             )
         );
+
         if ($publisher) {
             throw new ServiceException("Publisher name already used!");
         }
@@ -46,7 +48,9 @@ class PublisherService implements IComponentService
 
     /**
      * Select publisher by id
+     *
      * @param int $id The id to select
+     *
      * @return Publisher|IModel The publisher selected
      * @throws AbstractRepositoryException
      * @throws ServiceException If the publisher is not found
@@ -54,7 +58,7 @@ class PublisherService implements IComponentService
     public function findById(int $id): Publisher|IModel
     {
         $publisher = $this->publisherRepository->findById($id);
-        if (is_null($publisher)) {
+        if (!$publisher) {
             throw new ServiceException("Publisher not found");
         }
 
@@ -63,7 +67,9 @@ class PublisherService implements IComponentService
 
     /**
      * Select by key
+     *
      * @param string $key The key to search
+     *
      * @return Publisher[]|IModel[] The publishers selected
      * @throws AbstractRepositoryException
      */
@@ -84,14 +90,16 @@ class PublisherService implements IComponentService
 
     /**
      * Update a publisher
+     *
      * @param Publisher $p The publisher to update
+     *
      * @throws AbstractRepositoryException
      * @throws ServiceException If not found
      */
     public function update(Publisher $p): void
     {
         $publisher = $this->publisherRepository->findById($p->id);
-        if (is_null($publisher)) {
+        if (!$publisher) {
             throw new ServiceException("Publisher not found!");
         }
 
@@ -100,14 +108,16 @@ class PublisherService implements IComponentService
 
     /**
      * Delete publisher
+     *
      * @param int $id The id to delete
+     *
      * @throws AbstractRepositoryException
      * @throws ServiceException If not found
      */
     public function delete(int $id): void
     {
         $p = $this->publisherRepository->findById($id);
-        if (is_null($p)) {
+        if (!$p) {
             throw new ServiceException("Publisher not found!");
         }
 

@@ -5,21 +5,21 @@ declare(strict_types=1);
 namespace App\Service\Peripheral;
 
 use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Exception\ServiceException;
 use App\Models\GenericObject;
 use App\Models\Peripheral\Peripheral;
 use App\Models\Peripheral\PeripheralType;
 use App\Repository\GenericObjectRepository;
 use App\Repository\Peripheral\PeripheralRepository;
-use App\Exception\RepositoryException;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Service\IArtifactService;
 
 class PeripheralService implements IArtifactService
 {
     public function __construct(
-        public GenericObjectRepository $genericObjectRepository,
-        public PeripheralRepository $peripheralRepository,
+        public GenericObjectRepository  $genericObjectRepository,
+        public PeripheralRepository     $peripheralRepository,
         public PeripheralTypeRepository $peripheralTypeRepository
     )
     {
@@ -27,7 +27,9 @@ class PeripheralService implements IArtifactService
 
     /**
      * Insert peripheral
+     *
      * @param Peripheral $p The peripheral to save
+     *
      * @throws ServiceException If the ModelName is already used
      * @throws RepositoryException If the save fails
      */
@@ -38,7 +40,7 @@ class PeripheralService implements IArtifactService
             bind: ["modelName" => $p->modelName]
         ));
 
-        if ($peripheral){
+        if ($peripheral) {
             throw new ServiceException("Peripheral model name already used!");
         }
 
@@ -48,15 +50,18 @@ class PeripheralService implements IArtifactService
 
     /**
      * Select by id
+     *
      * @param string $id The id to select
+     *
      * @return Peripheral The peripheral selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
     public function findById(string $id): Peripheral
     {
         $peripheral = $this->peripheralRepository->findById($id);
 
-        if (is_null($peripheral)) {
+        if (!$peripheral) {
             throw new ServiceException("Peripheral not found");
         }
 
@@ -65,8 +70,11 @@ class PeripheralService implements IArtifactService
 
     /**
      * Select by ModelName
-     * @param string $ModelName The ModelName to select
+     *
+     * @param string $modelName
+     *
      * @return Peripheral The peripheral selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
     public function findByName(string $modelName): Peripheral
@@ -76,7 +84,7 @@ class PeripheralService implements IArtifactService
             bind: ["modelName" => $modelName]
         ));
 
-        if (is_null($peripheral)) {
+        if (!$peripheral) {
             throw new ServiceException("Peripheral not found");
         }
 
@@ -85,8 +93,11 @@ class PeripheralService implements IArtifactService
 
     /**
      * Select by key
+     *
      * @param string $key The key given
-     * @return array The pheriperals selected, empty if no result
+     *
+     * @return array The peripherals selected, empty if no result
+     * @throws RepositoryException
      */
     public function findByQuery(string $key): array
     {
@@ -95,7 +106,8 @@ class PeripheralService implements IArtifactService
 
     /**
      * Select all
-     * @return array All the pheriperals
+     * @return array All the peripherals
+     * @throws RepositoryException
      */
     public function find(): array
     {
@@ -104,14 +116,16 @@ class PeripheralService implements IArtifactService
 
     /**
      * Update a Peripheral
+     *
      * @param Peripheral $p The Peripheral to update
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
     public function update(Peripheral $p): void
     {
         $per = $this->peripheralRepository->findById($p->genericObject->id);
-        if (is_null($per)) {
+        if (!$per) {
             throw new ServiceException("Peripheral not found!");
         }
 
@@ -120,14 +134,16 @@ class PeripheralService implements IArtifactService
 
     /**
      * Delete a Peripheral
+     *
      * @param string $id The id to delete
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
     public function delete(string $id): void
     {
         $p = $this->peripheralRepository->findById($id);
-        if (is_null($p)) {
+        if (!$p) {
             throw new ServiceException("Peripheral not found!");
         }
 
@@ -136,7 +152,12 @@ class PeripheralService implements IArtifactService
 
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     * @param array $request
+     *
+     * @return Peripheral
+     * @throws ServiceException
+     * @throws RepositoryException
      */
     public function fromRequest(array $request): Peripheral
     {
@@ -152,7 +173,7 @@ class PeripheralService implements IArtifactService
          */
         $peripheralType = $this->peripheralTypeRepository->findById($request["peripheralTypeId"]);
 
-        if(!$peripheralType) {
+        if (!$peripheralType) {
             throw new ServiceException('peripheral_type_not_found');
         }
 

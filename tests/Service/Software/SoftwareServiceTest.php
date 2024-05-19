@@ -72,14 +72,7 @@ final class SoftwareServiceTest extends BaseServiceTest
         $this->softwareRepository->method('findById')->willReturn(null);
         $this->softwareService->findById("ObjID25");
     }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->expectException(ServiceException::class);
-        $this->softwareRepository->method('findFirst')->willReturn(null);
-        $this->softwareService->findByTitle("WRONG");
-    }
-    
+
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);                

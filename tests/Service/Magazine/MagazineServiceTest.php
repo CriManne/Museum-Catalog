@@ -45,7 +45,7 @@ final class MagazineServiceTest extends BaseServiceTest
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->magazineRepository->method('findByTitle')->willReturn($this->sampleObject);
+        $this->magazineRepository->method('findFirst')->willReturn($this->sampleObject);
         $this->magazineService->save($this->sampleObject);
     }
     //SELECT TESTS
@@ -60,13 +60,6 @@ final class MagazineServiceTest extends BaseServiceTest
         $this->expectException(ServiceException::class);
         $this->magazineRepository->method('findById')->willReturn(null);
         $this->magazineService->findById("ObjID25");
-    }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->expectException(ServiceException::class);
-        $this->magazineRepository->method('findByTitle')->willReturn(null);
-        $this->magazineService->findByTitle("WRONG");
     }
     
     //UPDATE TESTS

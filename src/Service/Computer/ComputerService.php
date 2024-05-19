@@ -4,27 +4,36 @@ declare(strict_types=1);
 
 namespace App\Service\Computer;
 
-use _PHPStan_7961f7ae1\Nette\NotImplementedException;
 use AbstractRepo\DataModels\FetchParams;
-use AbstractRepo\Interfaces\IModel;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Exception\ServiceException;
 use App\Models\Computer\Computer;
+use App\Models\Computer\Cpu;
+use App\Models\Computer\Os;
+use App\Models\Computer\Ram;
+use App\Models\GenericObject;
 use App\Repository\Computer\ComputerRepository;
-use App\Exception\RepositoryException;
+use App\Repository\Computer\CpuRepository;
+use App\Repository\Computer\OsRepository;
+use App\Repository\Computer\RamRepository;
 use App\Service\IArtifactService;
 
 class ComputerService implements IArtifactService
 {
-    public ComputerRepository $computerRepository;
-
-    public function __construct(ComputerRepository $computerRepository)
+    public function __construct(
+        protected ComputerRepository $computerRepository,
+        protected CpuRepository      $cpuRepository,
+        protected OsRepository       $osRepository,
+        protected RamRepository      $ramRepository
+    )
     {
-        $this->computerRepository = $computerRepository;
     }
 
     /**
      * Insert computer
+     *
      * @param Computer $c The computer to save
+     *
      * @throws ServiceException If the ModelName is already used
      * @throws RepositoryException If the save fails
      */
@@ -35,22 +44,26 @@ class ComputerService implements IArtifactService
             bind: ["modelName" => $c->modelName]
         ));
 
-        if ($computer)
+        if ($computer) {
             throw new ServiceException("Computer model name already used!");
+        }
 
         $this->computerRepository->save($c);
     }
 
     /**
      * Select by id
+     *
      * @param string $id The id to select
+     *
      * @return Computer The computer selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
     public function findById(string $id): Computer
     {
         $computer = $this->computerRepository->findById($id);
-        if (is_null($computer)) {
+        if (!$computer) {
             throw new ServiceException("Computer not found");
         }
 
@@ -59,8 +72,11 @@ class ComputerService implements IArtifactService
 
     /**
      * Select by key
+     *
      * @param string $key The key given
+     *
      * @return array The array of computers, empty if no result
+     * @throws RepositoryException
      */
     public function findByQuery(string $key): array
     {
@@ -69,7 +85,8 @@ class ComputerService implements IArtifactService
 
     /**
      * Select all
-     * @return array All of the computers
+     * @return array All the computers
+     * @throws RepositoryException
      */
     public function find(): array
     {
@@ -78,14 +95,16 @@ class ComputerService implements IArtifactService
 
     /**
      * Update a Computer
+     *
      * @param Computer $c The Computer to update
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
     public function update(Computer $c): void
     {
         $comp = $this->computerRepository->findById($c->genericObject->id);
-        if (is_null($comp)) {
+        if (!$comp) {
             throw new ServiceException("Computer not found!");
         }
 
@@ -94,14 +113,16 @@ class ComputerService implements IArtifactService
 
     /**
      * Delete a Computer
+     *
      * @param string $id The id to delete
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
     public function delete(string $id): void
     {
         $c = $this->computerRepository->findById($id);
-        if (is_null($c)) {
+        if (!$c) {
             throw new ServiceException("Computer not found!");
         }
 
@@ -109,10 +130,45 @@ class ComputerService implements IArtifactService
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     * @param array $request
+     *
+     * @return Computer
+     * @throws RepositoryException
+     * @throws ServiceException
      */
-    public function fromRequest(array $request): IModel
+    public function fromRequest(array $request): Computer
     {
-        throw new NotImplementedException();
+        $genericObject = new GenericObject(
+            $request["objectId"],
+            $request["note"] ?? null,
+            $request["url"] ?? null,
+            $request["tag"] ?? null
+        );
+
+        $cpu = $this->cpuRepository->findById($request["cpuId"]);
+        if (!$cpu) {
+            throw new ServiceException("Cpu not found!");
+        }
+
+        $os = null;
+        if (isset($request["osId"])) {
+            $os = $this->osRepository->findById($request["osId"]);
+        }
+
+        $ram = $this->ramRepository->findById($request["ramId"]);
+        if (!$ram) {
+            throw new ServiceException("Ram not found");
+        }
+
+        return new Computer(
+            genericObject: $genericObject,
+            modelName: $request["modelName"],
+            year: $request["year"],
+            hddSize: $request["hddSize"],
+            cpu: $cpu,
+            ram: $ram,
+            os: $os
+        );
     }
 }

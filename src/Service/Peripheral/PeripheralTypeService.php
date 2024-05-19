@@ -5,24 +5,25 @@ declare(strict_types=1);
 namespace App\Service\Peripheral;
 
 use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Exception\ServiceException;
 use App\Models\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralTypeRepository;
-use App\Exception\RepositoryException;
 use App\Service\IComponentService;
 
 class PeripheralTypeService implements IComponentService
 {
-    public PeripheralTypeRepository $peripheralTypeRepository;
-
-    public function __construct(PeripheralTypeRepository $peripheralTypeRepository)
+    public function __construct(
+        protected PeripheralTypeRepository $peripheralTypeRepository
+    )
     {
-        $this->peripheralTypeRepository = $peripheralTypeRepository;
     }
 
     /**
      * Insert peripheral type
+     *
      * @param PeripheralType $pt The object to save
+     *
      * @throws ServiceException If the name is already used
      * @throws RepositoryException If the save fails
      */
@@ -35,10 +36,9 @@ class PeripheralTypeService implements IComponentService
                     "name" => $pt->name,
                 ]
             )
-
         );
 
-        if ($pType){
+        if ($pType) {
             throw new ServiceException("PeripheralType name already used!");
         }
 
@@ -47,14 +47,18 @@ class PeripheralTypeService implements IComponentService
 
     /**
      * Select by id
+     *
      * @param int $id The id to select
+     *
      * @return PeripheralType The object selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
     public function findById(int $id): PeripheralType
     {
         $peripheralType = $this->peripheralTypeRepository->findById($id);
-        if (is_null($peripheralType)) {
+
+        if (!$peripheralType) {
             throw new ServiceException("PeripheralType not found");
         }
 
@@ -63,8 +67,11 @@ class PeripheralTypeService implements IComponentService
 
     /**
      * Select by name
+     *
      * @param string $name The name to select
+     *
      * @return PeripheralType The object selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
     public function findByName(string $name): PeripheralType
@@ -79,7 +86,7 @@ class PeripheralTypeService implements IComponentService
 
         );
 
-        if (is_null($peripheralType)) {
+        if (!$peripheralType) {
             throw new ServiceException("PeripheralType not found");
         }
 
@@ -88,8 +95,11 @@ class PeripheralTypeService implements IComponentService
 
     /**
      * Select by key
+     *
      * @param string $key The key to search
+     *
      * @return array The objects selected
+     * @throws RepositoryException
      */
     public function findByQuery(string $key): array
     {
@@ -98,7 +108,8 @@ class PeripheralTypeService implements IComponentService
 
     /**
      * Select all
-     * @return array All the ptype
+     * @return array All the peripheral types
+     * @throws RepositoryException
      */
     public function find(): array
     {
@@ -107,14 +118,17 @@ class PeripheralTypeService implements IComponentService
 
     /**
      * Update peripheral type
+     *
      * @param PeripheralType $pt The object to update
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
     public function update(PeripheralType $pt): void
     {
         $periT = $this->peripheralTypeRepository->findById($pt->id);
-        if (is_null($periT)) {
+
+        if (!$periT) {
             throw new ServiceException("PeripheralType not found!");
         }
 
@@ -123,14 +137,16 @@ class PeripheralTypeService implements IComponentService
 
     /**
      * Delete PeripheralType
+     *
      * @param int $id The id to delete
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
     public function delete(int $id): void
     {
         $pt = $this->peripheralTypeRepository->findById($id);
-        if (is_null($pt)) {
+        if (!$pt) {
             throw new ServiceException("PeripheralType not found!");
         }
 

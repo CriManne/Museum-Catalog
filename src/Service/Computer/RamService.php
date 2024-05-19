@@ -14,11 +14,10 @@ use App\Service\IComponentService;
 
 class RamService implements IComponentService
 {
-    public RamRepository $ramRepository;
-
-    public function __construct(RamRepository $ramRepository)
+    public function __construct(
+        protected RamRepository $ramRepository
+    )
     {
-        $this->ramRepository = $ramRepository;
     }
 
     /**
@@ -31,13 +30,15 @@ class RamService implements IComponentService
     {
         $ram = $this->ramRepository->findFirst(
             new FetchParams(
-                conditions: "modelName = :modelName",
+                conditions: "modelName = :modelName AND size = :size",
                 bind: [
                     "modelName" => $r->modelName,
+                    "size" => $r->size
                 ]
             )
         );
-        if ($ram && $ram->size == $r->size) {
+
+        if ($ram) {
             throw new ServiceException("Ram name and size already used!");
         }
 
@@ -54,7 +55,8 @@ class RamService implements IComponentService
     public function findById(int $id): Ram|IModel
     {
         $ram = $this->ramRepository->findById($id);
-        if (is_null($ram)) {
+
+        if (!$ram) {
             throw new ServiceException("Ram not found");
         }
 
@@ -91,7 +93,7 @@ class RamService implements IComponentService
     public function update(Ram $r): void
     {
         $ram = $this->ramRepository->findById($r->id);
-        if (is_null($ram)) {
+        if (!$ram) {
             throw new ServiceException("Ram not found!");
         }
 
@@ -107,7 +109,7 @@ class RamService implements IComponentService
     public function delete(int $id): void
     {
         $r = $this->ramRepository->findById($id);
-        if (is_null($r)) {
+        if (!$r) {
             throw new ServiceException("Ram not found!");
         }
 

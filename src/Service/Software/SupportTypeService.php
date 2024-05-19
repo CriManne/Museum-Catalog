@@ -5,24 +5,25 @@ declare(strict_types=1);
 namespace App\Service\Software;
 
 use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Exception\ServiceException;
 use App\Models\Software\SupportType;
 use App\Repository\Software\SupportTypeRepository;
-use App\Exception\RepositoryException;
 use App\Service\IComponentService;
 
 class SupportTypeService implements IComponentService
 {
-    public SupportTypeRepository $supportTypeRepository;
-
-    public function __construct(SupportTypeRepository $supportTypeRepository)
+    public function __construct(
+        protected SupportTypeRepository $supportTypeRepository
+    )
     {
-        $this->supportTypeRepository = $supportTypeRepository;
     }
 
     /**
      * Insert SupportType
+     *
      * @param SupportType $s The SupportType to save
+     *
      * @throws ServiceException If the name is already used
      * @throws RepositoryException If the save fails
      */
@@ -33,22 +34,27 @@ class SupportTypeService implements IComponentService
             bind: ["name" => $s->name]
         ));
 
-        if ($sType)
+        if ($sType) {
             throw new ServiceException("Support Type name already used!");
+        }
 
         $this->supportTypeRepository->save($s);
     }
 
     /**
      * Select by id
+     *
      * @param int $id The id to select
+     *
      * @return SupportType The SupportType selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
     public function findById(int $id): SupportType
     {
         $supportType = $this->supportTypeRepository->findById($id);
-        if (is_null($supportType)) {
+
+        if (!$supportType) {
             throw new ServiceException("Support Type not found");
         }
 
@@ -57,8 +63,11 @@ class SupportTypeService implements IComponentService
 
     /**
      * Select by name
+     *
      * @param string $name The name to select
+     *
      * @return SupportType The SupportType selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
     public function findByName(string $name): SupportType
@@ -68,7 +77,7 @@ class SupportTypeService implements IComponentService
             bind: ["name" => $name]
         ));
 
-        if (is_null($supportType)) {
+        if (!$supportType) {
             throw new ServiceException("Support Type not found");
         }
 
@@ -77,8 +86,11 @@ class SupportTypeService implements IComponentService
 
     /**
      * Select by key
+     *
      * @param string $key The key to search
+     *
      * @return array The SupportTypes selected
+     * @throws RepositoryException
      */
     public function findByQuery(string $key): array
     {
@@ -87,7 +99,8 @@ class SupportTypeService implements IComponentService
 
     /**
      * Select all
-     * @return array All the supptype
+     * @return array All the support type
+     * @throws RepositoryException
      */
     public function find(): array
     {
@@ -96,14 +109,16 @@ class SupportTypeService implements IComponentService
 
     /**
      * Update SupportType
+     *
      * @param SupportType $s The SupportType to update
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
     public function update(SupportType $s): void
     {
         $supT = $this->supportTypeRepository->findById($s->id);
-        if (is_null($supT)) {
+        if (!$supT) {
             throw new ServiceException("Support Type not found!");
         }
 
@@ -112,14 +127,16 @@ class SupportTypeService implements IComponentService
 
     /**
      * Delete SupportType
+     *
      * @param int $id The id to delete
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
     public function delete(int $id): void
     {
         $supportType = $this->supportTypeRepository->findById($id);
-        if (is_null($supportType)) {
+        if (!$supportType) {
             throw new ServiceException("Support Type not found!");
         }
 

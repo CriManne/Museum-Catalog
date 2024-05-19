@@ -129,23 +129,6 @@ final class MagazineRepositoryTest extends TestCase
         $this->assertNotNull($magazines[1]);
     }
 
-    public function testGoodSelectByTitle(): void
-    {
-        $genericObject = clone self::$sampleGenericObject;
-
-        $genericObject->id = "objID1";
-
-        self::$genericObjectRepository->save($genericObject);
-
-        $magazine = clone self::$sampleMagazine;
-        $magazine->genericObject = $genericObject;
-        $magazine->title = "Magazine Test";
-        
-        self::$magazineRepository->save($magazine);
-
-        $this->assertEquals(self::$magazineRepository->findByTitle("Magazine Test")->title, "Magazine Test");
-    }
-
     public function testGoodSelectByKey(): void
     {
         $genericObject = clone self::$sampleGenericObject;

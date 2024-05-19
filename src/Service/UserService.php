@@ -10,26 +10,29 @@ use App\DataModels\User\UserResponse;
 use App\Exception\ServiceException;
 use App\Models\User;
 use App\Repository\UserRepository;
+use ReflectionException;
 
 class UserService
 {
-    public UserRepository $userRepository;
-
-    public function __construct(UserRepository $userRepository)
+    public function __construct(
+        protected UserRepository $userRepository
+    )
     {
-        $this->userRepository = $userRepository;
     }
 
     /**
      * Insert user
+     *
      * @param User $u The user to save
+     *
      * @throws ServiceException If the email is already user
      * @throws RepositoryException
      */
     public function save(User $u): void
     {
-        if ($this->userRepository->findById($u->email) != null)
+        if ($this->userRepository->findById($u->email) != null) {
             throw new ServiceException("email already used!");
+        }
 
         $u->password = password_hash($u->password, PASSWORD_BCRYPT, [
             'cost' => 11
@@ -40,7 +43,9 @@ class UserService
 
     /**
      * Select by id
+     *
      * @param string $email The email to select
+     *
      * @return User The user selected
      * @throws ServiceException If no user is found
      * @throws RepositoryException
@@ -48,7 +53,9 @@ class UserService
     public function findById(string $email): User
     {
         $user = $this->userRepository->findById($email);
-        if (is_null($user)) throw new ServiceException("User not found");
+        if (!$user) {
+            throw new ServiceException("User not found");
+        }
 
         return $user;
     }
@@ -62,21 +69,26 @@ class UserService
      * @return UserResponse     The user selected
      * @throws RepositoryException
      * @throws ServiceException If no user is found
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public function findByCredentials(string $email, string $password): UserResponse
     {
         $user = $this->userRepository->findByCredentials($email, $password);
-        if (is_null($user)) throw new ServiceException("Wrong credentials");
+
+        if (!$user) {
+            throw new ServiceException("Wrong credentials");
+        }
 
         return $user;
     }
 
     /**
      * Select all Users
-     * @param int|null $page
-     * @param int|null $itemsPerPage
+     *
+     * @param int|null    $page
+     * @param int|null    $itemsPerPage
      * @param string|null $query
+     *
      * @return FetchableData|array All the users
      * @throws ServiceException If no results
      * @throws RepositoryException
@@ -100,9 +112,9 @@ class UserService
                 totalPages: $users->getTotalPages(),
                 data: array_map(
                     fn(User $u) => [
-                        "email" => $u->email,
+                        "email"     => $u->email,
                         "firstname" => $u->firstname,
-                        "lastname" => $u->lastname,
+                        "lastname"  => $u->lastname,
                         "privilege" => $u->privilege
                     ],
                     $users->getData()
@@ -115,14 +127,16 @@ class UserService
 
     /**
      * Update a user
+     *
      * @param User $u The user to update
+     *
      * @throws ServiceException If the user is not found
      * @throws RepositoryException
      */
     public function update(User $u): void
     {
         $user = $this->userRepository->findById($u->email);
-        if (is_null($user)) {
+        if (!$user) {
             throw new ServiceException("User not found!");
         }
 
@@ -135,14 +149,16 @@ class UserService
 
     /**
      * Delete a User by email
+     *
      * @param string $email The email to delete
+     *
      * @throws ServiceException If the user is not found
      * @throws RepositoryException
      */
     public function delete(string $email): void
     {
         $user = $this->userRepository->findById($email);
-        if (is_null($user)) {
+        if (!$user) {
             throw new ServiceException("User not found!");
         }
 

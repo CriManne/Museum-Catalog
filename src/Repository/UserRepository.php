@@ -11,6 +11,9 @@ use App\DataModels\User\UserResponse;
 use App\Models\User;
 use App\Util\ORM;
 
+/**
+ * @method User|null findById($id)
+ */
 class UserRepository extends AbstractRepository
 {
     public static function getModel(): string

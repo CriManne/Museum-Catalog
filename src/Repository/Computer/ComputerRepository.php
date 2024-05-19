@@ -8,6 +8,9 @@ use AbstractRepo\Repository\AbstractRepository;
 
 use App\Models\Computer\Computer;
 
+/**
+ * @method Computer|null findById($id)
+ */
 class ComputerRepository extends AbstractRepository
 {
     /**
