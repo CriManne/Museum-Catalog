@@ -23,7 +23,7 @@ class AuthorService implements IComponentService
      *
      * @param Author $a The author to save
      *
-     * @throws RepositoryException If the save fails         *
+     * @throws RepositoryException If the save fails
      */
     public function save(Author $a): void
     {
