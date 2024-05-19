@@ -60,7 +60,7 @@ class DeleteBaseController extends BaseController implements ControllerInterface
                     try {
                         $this->componentService = DIC::getComponentServiceByName($genericCategory, $category);
 
-                        $this->componentService->delete($id);
+                        $this->componentService->delete(intval($id));
 
                         $message = "{$category} deleted successfully!";
                         $this->apiLogger->info($message, [__CLASS__, $userEmail]);

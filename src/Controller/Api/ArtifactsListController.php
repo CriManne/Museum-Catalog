@@ -12,13 +12,19 @@ use SimpleMVC\Controller\ControllerInterface;
 
 class ArtifactsListController implements ControllerInterface
 {
+    public const string COMPUTER   = 'Computer';
+    public const string PERIPHERAL = 'Peripheral';
+    public const string BOOK       = 'Book';
+    public const string MAGAZINE   = 'Magazine';
+    public const string SOFTWARE   = 'Software';
+
     public const array CATEGORIES
         = [
-            'Computer',
-            'Peripheral',
-            'Book',
-            'Magazine',
-            'Software'
+            self::COMPUTER,
+            self::PERIPHERAL,
+            self::BOOK,
+            self::MAGAZINE,
+            self:: SOFTWARE
         ];
 
     public function execute(ServerRequestInterface $request, ResponseInterface $response): ResponseInterface

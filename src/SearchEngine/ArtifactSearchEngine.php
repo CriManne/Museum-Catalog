@@ -12,31 +12,13 @@ use App\Models\Computer\Computer;
 use App\Models\Magazine\Magazine;
 use App\Models\Peripheral\Peripheral;
 use App\Models\Software\Software;
-use DI\Container;
-use DI\ContainerBuilder;
+use App\Plugins\Injection\DIC;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
 
 class ArtifactSearchEngine
 {
-
-    private Container $container;
-    private array     $categories;
-
-    /**
-     * @throws Exception
-     */
-    public function __construct(
-        string $containerPath = "config/container.php"
-    )
-    {
-        $builder = new ContainerBuilder();
-        $builder->addDefinitions($containerPath);
-        $this->container  = $builder->build();
-        $this->categories = ArtifactsListController::CATEGORIES;
-    }
-
     /**
      * Select specific object by id and category
      *
@@ -49,9 +31,7 @@ class ArtifactSearchEngine
     public function selectSpecificByIdAndCategory(string $objectId, string $category): object
     {
         try {
-            $artifactServicePath = "App\\Service\\$category\\$category" . "Service";
-
-            $artifactService = $this->container->get($artifactServicePath);
+            $artifactService = DIC::getArtifactServiceByName($category);
 
             return $artifactService->findById($objectId);
         } catch (Exception|ServiceException) {
@@ -72,11 +52,8 @@ class ArtifactSearchEngine
      */
     public function selectGenericById(string $objectId): GenericArtifactResponse
     {
-        foreach ($this->categories as $categoryName) {
-
-            $artifactServicePath = "App\\Service\\$categoryName\\$categoryName" . "Service";
-
-            $artifactService = $this->container->get($artifactServicePath);
+        foreach (ArtifactsListController::CATEGORIES as $categoryName) {
+            $artifactService = DIC::getArtifactServiceByName($categoryName);
 
             try {
                 $result = $artifactService->findById($objectId);
@@ -102,15 +79,13 @@ class ArtifactSearchEngine
     {
         $result = [];
 
-        foreach ($this->categories as $categoryName) {
+        foreach (ArtifactsListController::CATEGORIES as $categoryName) {
             if ($category && $categoryName !== $category) {
                 continue;
             }
 
-            $artifactServicePath = "App\\Service\\$categoryName\\$categoryName" . "Service";
+            $artifactService = DIC::getArtifactServiceByName($categoryName);
 
-            $artifactService = $this->container->get($artifactServicePath);
-            
             $unmappedResult = null;
             if ($query) {
                 $unmappedResult = $artifactService->findByQuery($query);
@@ -158,7 +133,7 @@ class ArtifactSearchEngine
                 'Pages'     => $obj->pages ?? "-",
                 'Authors'   => count($authors) > 0 ? implode(", ", $authors) : "Unknown"
             ],
-            category: "Book",
+            category: ArtifactsListController::BOOK,
             note: $obj->genericObject->note,
             url: $obj->genericObject->url,
             tag: $obj->genericObject->tag
@@ -174,7 +149,6 @@ class ArtifactSearchEngine
      */
     public function Computer(Computer $obj): GenericArtifactResponse
     {
-
         $description = [
             'Year' => $obj->year,
             'Cpu'  => $obj->cpu->modelName . ' ' . $obj->cpu->speed,
@@ -193,7 +167,7 @@ class ArtifactSearchEngine
             objectId: $obj->genericObject->id,
             title: $obj->modelName,
             descriptors: $description,
-            category: "Computer",
+            category: ArtifactsListController::COMPUTER,
             note: $obj->genericObject->note,
             url: $obj->genericObject->url,
             tag: $obj->genericObject->tag
@@ -217,7 +191,7 @@ class ArtifactSearchEngine
                 'Publisher'       => $obj->publisher->name,
                 'Year'            => $obj->year
             ],
-            category: "Magazine",
+            category: ArtifactsListController::MAGAZINE,
             note: $obj->genericObject->note,
             url: $obj->genericObject->url,
             tag: $obj->genericObject->tag
@@ -239,7 +213,7 @@ class ArtifactSearchEngine
             descriptors: [
                 'Peripheral type' => $obj->peripheralType->name
             ],
-            category: "Peripheral",
+            category: ArtifactsListController::PERIPHERAL,
             note: $obj->genericObject->note,
             url: $obj->genericObject->url,
             tag: $obj->genericObject->tag
@@ -263,7 +237,7 @@ class ArtifactSearchEngine
                 'Software Type' => $obj->softwareType->name,
                 'Support Type'  => $obj->supportType->name
             ],
-            category: "Software",
+            category: ArtifactsListController::SOFTWARE,
             note: $obj->genericObject->note,
             url: $obj->genericObject->url,
             tag: $obj->genericObject->tag

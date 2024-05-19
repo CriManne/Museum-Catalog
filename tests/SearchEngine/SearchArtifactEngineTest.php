@@ -5,9 +5,11 @@ declare(strict_types=1);
 namespace App\Test\SearchEngine;
 
 use App\Models\GenericObject;
+use App\Plugins\Injection\DIC;
 use App\Repository\GenericObjectRepository;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
+use PHPUnit\Framework\MockObject\MockMethod;
 use PHPUnit\Framework\TestCase;
 use App\SearchEngine\ArtifactSearchEngine;
 use App\Exception\ServiceException;
@@ -50,17 +52,13 @@ final class SearchArtifactEngineTest extends TestCase
     public static function setUpBeforeClass(): void
     {
         self::$pdo = RepositoryTestUtil::getTestPdo();
-
         self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
         self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
 
-        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$genericObjectRepository = new GenericObjectRepository();
 
         self::$softwareRepository = new SoftwareRepository(
-            self::$pdo,
-            new SoftwareTypeRepository(self::$pdo),
-            new SupportTypeRepository(self::$pdo),
-            new OsRepository(self::$pdo)
+            self::$pdo
         );
 
         self::$cpuRepository = new CpuRepository(self::$pdo);
@@ -68,28 +66,19 @@ final class SearchArtifactEngineTest extends TestCase
         self::$osRepository = new OsRepository(self::$pdo);
 
         self::$computerRepository = new ComputerRepository(
-            self::$pdo,
-            self::$cpuRepository,
-            self::$ramRepository,
-            self::$osRepository
+            self::$pdo
         );
 
         self::$bookRepository = new BookRepository(
-            self::$pdo,
-            new PublisherRepository(self::$pdo),
-            new AuthorRepository(self::$pdo),
-            new BookHasAuthorRepository(self::$pdo)
+            self::$pdo
         );
 
         $publisherRepository = new PublisherRepository(self::$pdo);
         self::$magazineRepository = new MagazineRepository(
-            self::$pdo,
-            $publisherRepository
+            self::$pdo
         );
 
         self::$peripheralRepository = new PeripheralRepository(
-            self::$pdo,
-            new PeripheralTypeRepository(self::$pdo)
         );
 
         self::$artifactSearchEngine = new ArtifactSearchEngine(

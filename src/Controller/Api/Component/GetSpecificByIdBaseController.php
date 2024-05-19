@@ -68,7 +68,7 @@ class GetSpecificByIdBaseController extends BaseController implements Controller
                             name: $category
                         );
 
-                        $object = $this->componentService->findById($id);
+                        $object = $this->componentService->findById(intval($id));
 
                         $this->apiLogger->info("Successful get of specific component by id", [__CLASS__, $userEmail]);
 
