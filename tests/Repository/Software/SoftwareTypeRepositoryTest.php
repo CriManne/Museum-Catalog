@@ -3,26 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Software;
 
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
-use PDO;
-use PHPUnit\Framework\TestCase;
 use App\Repository\Software\SoftwareTypeRepository;
 use App\Models\Software\SoftwareType;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
-final class SoftwareTypeRepositoryTest extends TestCase
+final class SoftwareTypeRepositoryTest extends BaseRepositoryTest
 {
     public static SoftwareTypeRepository $softwareTypeRepository;
-    public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$softwareTypeRepository = new SoftwareTypeRepository(self::$pdo);          
+        parent::setUpBeforeClass();
+        self::$softwareTypeRepository = new SoftwareTypeRepository();
     }
 
     public function setUp():void{
@@ -105,9 +99,4 @@ final class SoftwareTypeRepositoryTest extends TestCase
         
         $this->assertNull(self::$softwareTypeRepository->findById(1));
     }
-    
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
 }

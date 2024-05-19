@@ -6,6 +6,7 @@ namespace App\Test\SearchEngine;
 
 use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -27,56 +28,40 @@ use App\Repository\Magazine\MagazineRepository;
 use App\Repository\Peripheral\PeripheralRepository;
 use App\Repository\Software\SoftwareRepository;
 
-final class SearchArtifactEngineTest extends TestCase
+final class SearchArtifactEngineTest extends BaseRepositoryTest
 {
     public static GenericObjectRepository $genericObjectRepository;
-    public static ArtifactSearchEngine $artifactSearchEngine;
-    public static SoftwareRepository $softwareRepository;
-    public static ComputerRepository $computerRepository;
-    public static BookRepository $bookRepository;
-    public static MagazineRepository $magazineRepository;
-    public static OsRepository $osRepository;
-    public static CpuRepository $cpuRepository;
-    public static RamRepository $ramRepository;
-    public static PeripheralRepository $peripheralRepository;
-
-    public static ?PDO $pdo;
+    public static ArtifactSearchEngine    $artifactSearchEngine;
+    public static SoftwareRepository      $softwareRepository;
+    public static ComputerRepository      $computerRepository;
+    public static BookRepository          $bookRepository;
+    public static MagazineRepository      $magazineRepository;
+    public static OsRepository            $osRepository;
+    public static CpuRepository           $cpuRepository;
+    public static RamRepository           $ramRepository;
+    public static PeripheralRepository    $peripheralRepository;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
+        parent::setUpBeforeClass();
 
         self::$genericObjectRepository = new GenericObjectRepository();
+        self::$softwareRepository      = new SoftwareRepository();
 
-        self::$softwareRepository = new SoftwareRepository(
-            self::$pdo
-        );
+        self::$cpuRepository = new CpuRepository();
+        self::$ramRepository = new RamRepository();
+        self::$osRepository  = new OsRepository();
 
-        self::$cpuRepository = new CpuRepository(self::$pdo);
-        self::$ramRepository = new RamRepository(self::$pdo);
-        self::$osRepository = new OsRepository(self::$pdo);
+        self::$computerRepository = new ComputerRepository();
 
-        self::$computerRepository = new ComputerRepository(
-            self::$pdo
-        );
+        self::$bookRepository = new BookRepository();
 
-        self::$bookRepository = new BookRepository(
-            self::$pdo
-        );
+        $publisherRepository      = new PublisherRepository();
+        self::$magazineRepository = new MagazineRepository();
 
-        $publisherRepository = new PublisherRepository(self::$pdo);
-        self::$magazineRepository = new MagazineRepository(
-            self::$pdo
-        );
+        self::$peripheralRepository = new PeripheralRepository();
 
-        self::$peripheralRepository = new PeripheralRepository(
-        );
-
-        self::$artifactSearchEngine = new ArtifactSearchEngine(
-            "config/test_container.php"
-        );
+        self::$artifactSearchEngine = new ArtifactSearchEngine();
 
         $genericObject1 = new GenericObject(
             id: 'OBJ1',
@@ -92,9 +77,9 @@ final class SearchArtifactEngineTest extends TestCase
             tag: null
         );
 
-        $cpu = new Cpu("I7", "4GHZ", 1);
-        $ram = new Ram("Ram 1", "64GB", 1);
-        $os = new Os("Windows 10", 1);
+        $cpu       = new Cpu("I7", "4GHZ", 1);
+        $ram       = new Ram("Ram 1", "64GB", 1);
+        $os        = new Os("Windows 10", 1);
         $publisher = new Publisher("Einaudi", 1);
 
         self::$cpuRepository->save($cpu);
@@ -131,11 +116,11 @@ final class SearchArtifactEngineTest extends TestCase
         $obj = self::$artifactSearchEngine->selectGenericById("OBJ1");
         $this->assertEquals(
             [
-                "Year" => 2018,
+                "Year"     => 2018,
                 "Hdd size" => "1TB",
-                "Cpu" => "I7 4GHZ",
-                "Ram" => "Ram 1 64GB",
-                "Os" => "Windows 10"
+                "Cpu"      => "I7 4GHZ",
+                "Ram"      => "Ram 1 64GB",
+                "Os"       => "Windows 10"
             ],
             $obj->descriptors
         );
@@ -151,21 +136,21 @@ final class SearchArtifactEngineTest extends TestCase
 
     public function testGoodSelectSpecificByIdAndCategory(): void
     {
-        $obj = self::$artifactSearchEngine->selectSpecificByIdAndCategory("OBJ1","Computer");
-        $this->assertEquals(2018,$obj->year);
+        $obj = self::$artifactSearchEngine->selectSpecificByIdAndCategory("OBJ1", "Computer");
+        $this->assertEquals(2018, $obj->year);
         $this->assertEquals("Computer1", $obj->modelName);
     }
 
     public function testBadSelectSpecificByIdAndCategory(): void
     {
         $this->expectException(ServiceException::class);
-        self::$artifactSearchEngine->selectSpecificByIdAndCategory("OBJ1","wrong-category");
+        self::$artifactSearchEngine->selectSpecificByIdAndCategory("OBJ1", "wrong-category");
     }
 
     public function testBadSelectSpecificByIdAndCategory2(): void
     {
         $this->expectException(ServiceException::class);
-        self::$artifactSearchEngine->selectSpecificByIdAndCategory("wrong","Computer");
+        self::$artifactSearchEngine->selectSpecificByIdAndCategory("wrong", "Computer");
     }
 
     public function testGoodSelectAll(): void
@@ -195,11 +180,5 @@ final class SearchArtifactEngineTest extends TestCase
     {
         $result = self::$artifactSearchEngine->selectGenerics("magazine", "comp");
         $this->assertEquals(0, count($result));
-    }
-
-    public static function tearDownAfterClass(): void
-    {
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = null;
     }
 }

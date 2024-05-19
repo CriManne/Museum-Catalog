@@ -3,25 +3,19 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Computer;
 
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
-use PDO;
-use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\RamRepository;
 use App\Models\Computer\Ram;
 
-final class RamRepositoryTest extends TestCase
+final class RamRepositoryTest extends BaseRepositoryTest
 {
     public static RamRepository $ramRepository;
-    public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$ramRepository = new RamRepository(self::$pdo);          
+        parent::setUpBeforeClass();
+        self::$ramRepository = new RamRepository();
     }
 
     public function setUp():void{
@@ -101,9 +95,4 @@ final class RamRepositoryTest extends TestCase
         
         $this->assertNull(self::$ramRepository->findById(1));
     }
-    
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
 }

@@ -3,25 +3,19 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Computer;
 
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
-use PDO;
-use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\OsRepository;
 use App\Models\Computer\Os;
 
-final class OsRepositoryTest extends TestCase
+final class OsRepositoryTest extends BaseRepositoryTest
 {
     public static OsRepository $osRepository;
-    public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$osRepository = new OsRepository(self::$pdo);          
+        parent::setUpBeforeClass();
+        self::$osRepository = new OsRepository();
     }
 
     public function setUp():void{
@@ -106,9 +100,4 @@ final class OsRepositoryTest extends TestCase
         
         $this->assertNull(self::$osRepository->findById(1));
     }
-    
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
 }

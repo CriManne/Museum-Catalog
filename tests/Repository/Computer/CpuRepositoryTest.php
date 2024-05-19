@@ -3,25 +3,19 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Computer;
 
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
-use PDO;
-use PHPUnit\Framework\TestCase;
 use App\Repository\Computer\CpuRepository;
 use App\Models\Computer\Cpu;
 
-final class CpuRepositoryTest extends TestCase
+final class CpuRepositoryTest extends BaseRepositoryTest
 {
     public static CpuRepository $cpuRepository;
-    public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$cpuRepository = new CpuRepository(self::$pdo);          
+        parent::setUpBeforeClass();
+        self::$cpuRepository = new CpuRepository();
     }
 
     public function setUp():void{
@@ -98,9 +92,4 @@ final class CpuRepositoryTest extends TestCase
         
         $this->assertNull(self::$cpuRepository->findById(1));
     }
-    
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
 }

@@ -34,18 +34,17 @@ final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
 
     /**
      * @return void
-     * @throws RepositoryException
      * @throws DependencyException
      * @throws NotFoundException
      */
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
-        self::$bookHasAuthorRepository = new BookHasAuthorRepository(self::$pdo);
-        self::$authorRepository        = new AuthorRepository(self::$pdo);
-        self::$publisherRepository     = new PublisherRepository(self::$pdo);
-        self::$bookRepository          = new BookRepository(self::$pdo, self::$publisherRepository, self::$authorRepository, self::$bookHasAuthorRepository);
+        self::$genericObjectRepository = new GenericObjectRepository();
+        self::$bookHasAuthorRepository = new BookHasAuthorRepository();
+        self::$authorRepository        = new AuthorRepository();
+        self::$publisherRepository     = new PublisherRepository();
+        self::$bookRepository          = new BookRepository();
 
         self::$sampleGenericObject = new GenericObject("OBJ1");
         self::$samplePublisher     = new Publisher("PUB");
@@ -101,7 +100,6 @@ final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
      */
     public function testGoodDeleteByBookAuthorID(): void
     {
-
         self::$bookHasAuthorRepository->delete(1);
 
         $this->assertNull(self::$bookHasAuthorRepository->findById(1));

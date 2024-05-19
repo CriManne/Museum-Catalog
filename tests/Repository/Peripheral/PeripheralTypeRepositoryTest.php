@@ -3,26 +3,20 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Peripheral;
 
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
-use PDO;
-use PHPUnit\Framework\TestCase;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Models\Peripheral\PeripheralType;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
-final class PeripheralTypeRepositoryTest extends TestCase
+final class PeripheralTypeRepositoryTest extends BaseRepositoryTest
 {
     public static PeripheralTypeRepository $peripheralTypeRepository;
-    public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$peripheralTypeRepository = new PeripheralTypeRepository(self::$pdo);          
+        parent::setUpBeforeClass();
+        self::$peripheralTypeRepository = new PeripheralTypeRepository();
     }
 
     public function setUp():void{
@@ -105,9 +99,4 @@ final class PeripheralTypeRepositoryTest extends TestCase
         
         $this->assertNull(self::$peripheralTypeRepository->findById(1));
     }
-    
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
 }

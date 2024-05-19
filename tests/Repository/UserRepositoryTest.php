@@ -10,34 +10,25 @@ use PHPUnit\Framework\TestCase;
 use App\Repository\UserRepository;
 use App\Models\User;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
+use ReflectionException;
+
 /**
  *
  */
-final class UserRepositoryTest extends TestCase
+final class UserRepositoryTest extends BaseRepositoryTest
 {
-    /**
-     * @var UserRepository
-     */
     public static UserRepository $userRepository;
-    /**
-     * @var PDO|null
-     */
-    public static ?PDO $pdo;
 
     /**
      * @return void
-     * @throws AbstractRepositoryException
      * @throws DependencyException
      * @throws NotFoundException
      */
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
+        parent::setUpBeforeClass();
 
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$userRepository = new UserRepository(self::$pdo);
+        self::$userRepository = new UserRepository();
     }
 
     /**
@@ -112,6 +103,7 @@ final class UserRepositoryTest extends TestCase
     /**
      * @return void
      * @throws AbstractRepositoryException
+     * @throws ReflectionException
      */
     public function testGoodSelectByCredentials(): void
     {
@@ -162,7 +154,7 @@ final class UserRepositoryTest extends TestCase
 
     /**
      * @return void
-     * @throws \AbstractRepo\Exceptions\AbstractRepositoryException
+     * @throws AbstractRepositoryException
      */
     public function testGoodUpdate(): void
     {
@@ -187,14 +179,4 @@ final class UserRepositoryTest extends TestCase
 
         $this->assertNull(self::$userRepository->findById("testemail@gmail.com"));
     }
-
-    /**
-     * @return void
-     */
-    public static function tearDownAfterClass(): void
-    {
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = null;
-    }
-
 }

@@ -5,6 +5,7 @@ namespace App\Test\Repository\Software;
 
 use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -18,9 +19,8 @@ use App\Repository\Software\SupportTypeRepository;
 use App\Repository\Computer\OsRepository;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
-final class SoftwareRepositoryTest extends TestCase
+final class SoftwareRepositoryTest extends BaseRepositoryTest
 {
-    public static ?PDO $pdo;
     public static GenericObject $sampleGenericObject;
     public static Software $sampleSoftware;
     public static SoftwareType $sampleSoftwareType;
@@ -35,20 +35,16 @@ final class SoftwareRepositoryTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
+        parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
-        self::$osRepository = new OsRepository(self::$pdo);
-        self::$softwareTypeRepository = new SoftwareTypeRepository(self::$pdo);
-        self::$supportTypeRepository = new SupportTypeRepository(self::$pdo);
+        self::$genericObjectRepository = new GenericObjectRepository();
+        self::$osRepository = new OsRepository();
+        self::$softwareTypeRepository = new SoftwareTypeRepository();
+        self::$supportTypeRepository = new SupportTypeRepository();
 
         // Repository to handle software
-        self::$softwareRepository = new SoftwareRepository(
-            self::$pdo
-        );
+        self::$softwareRepository = new SoftwareRepository();
 
         self::$sampleGenericObject = new GenericObject(
             id: "objID"
@@ -185,11 +181,5 @@ final class SoftwareRepositoryTest extends TestCase
         self::$softwareRepository->delete("objID");
 
         $this->assertNull(self::$softwareRepository->findById("objID"));
-    }
-
-    public static function tearDownAfterClass(): void
-    {
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = null;
     }
 }

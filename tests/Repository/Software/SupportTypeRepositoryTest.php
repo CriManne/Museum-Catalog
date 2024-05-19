@@ -3,6 +3,7 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Software;
 
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -10,19 +11,14 @@ use App\Repository\Software\SupportTypeRepository;
 use App\Models\Software\SupportType;
 use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
-final class SupportTypeRepositoryTest extends TestCase
+final class SupportTypeRepositoryTest extends BaseRepositoryTest
 {
     public static SupportTypeRepository $supportTypeRepository;
-    public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$supportTypeRepository = new SupportTypeRepository(self::$pdo);          
+        parent::setUpBeforeClass();
+        self::$supportTypeRepository = new SupportTypeRepository();
     }
 
     public function setUp():void{
@@ -104,9 +100,4 @@ final class SupportTypeRepositoryTest extends TestCase
         
         $this->assertNull(self::$supportTypeRepository->findById(1));
     }
-    
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
 }

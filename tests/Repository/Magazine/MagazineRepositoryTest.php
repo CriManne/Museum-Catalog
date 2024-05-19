@@ -3,8 +3,10 @@ declare(strict_types=1);
 
 namespace App\Test\Repository\Magazine;
 
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -14,32 +16,26 @@ use App\Models\Book\Publisher;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\Magazine\MagazineRepository;
 
-final class MagazineRepositoryTest extends TestCase
+final class MagazineRepositoryTest extends BaseRepositoryTest
 {
-    public static ?PDO $pdo;
-    public static Publisher $samplePublisher;
-    public static Magazine $sampleMagazine;
+    public static Publisher     $samplePublisher;
+    public static Magazine      $sampleMagazine;
     public static GenericObject $sampleGenericObject;
 
     public static GenericObjectRepository $genericObjectRepository;
-    public static PublisherRepository $publisherRepository;
-    public static MagazineRepository $magazineRepository;
+    public static PublisherRepository     $publisherRepository;
+    public static MagazineRepository      $magazineRepository;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
+        parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$publisherRepository = new PublisherRepository(self::$pdo);
-        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$publisherRepository     = new PublisherRepository();
+        self::$genericObjectRepository = new GenericObjectRepository();
 
         // Repository to handle magazine
-        self::$magazineRepository = new MagazineRepository(
-            self::$pdo,
-            self::$publisherRepository
-        );
+        self::$magazineRepository = new MagazineRepository();
 
         self::$sampleGenericObject = new GenericObject(
             "objID"
@@ -77,12 +73,12 @@ final class MagazineRepositoryTest extends TestCase
     //INSERT TESTS
     public function testGoodInsert(): void
     {
-        $magazine = clone self::$sampleMagazine;
+        $magazine      = clone self::$sampleMagazine;
         $genericObject = new GenericObject("objID2");
 
         self::$genericObjectRepository->save($genericObject);
         $magazine->genericObject = $genericObject;
-        $magazine->title = "Magazine 2";
+        $magazine->title         = "Magazine 2";
 
         self::$magazineRepository->save($magazine);
 
@@ -91,7 +87,7 @@ final class MagazineRepositoryTest extends TestCase
 
     public function testBadInsert(): void
     {
-        $this->expectException(\AbstractRepo\Exceptions\RepositoryException::class);
+        $this->expectException(RepositoryException::class);
         //Magazine already saved in the setUp() method
         self::$magazineRepository->save(self::$sampleMagazine);
     }
@@ -116,7 +112,7 @@ final class MagazineRepositoryTest extends TestCase
 
             self::$genericObjectRepository->save($genericObject);
 
-            $magazine = clone self::$sampleMagazine;
+            $magazine                = clone self::$sampleMagazine;
             $magazine->genericObject = $genericObject;
 
             self::$magazineRepository->save($magazine);
@@ -136,10 +132,10 @@ final class MagazineRepositoryTest extends TestCase
 
         self::$genericObjectRepository->save($genericObject);
 
-        $magazine = clone self::$sampleMagazine;
+        $magazine                = clone self::$sampleMagazine;
         $magazine->genericObject = $genericObject;
-        $magazine->title = "Magazine Test";
-        
+        $magazine->title         = "Magazine Test";
+
         self::$magazineRepository->save($magazine);
 
         $this->assertEquals(count(self::$magazineRepository->findByQuery("maGazIn")), 2);
@@ -153,7 +149,7 @@ final class MagazineRepositoryTest extends TestCase
     //UPDATE TESTS
     public function testGoodUpdate(): void
     {
-        $magazine = clone self::$sampleMagazine;
+        $magazine        = clone self::$sampleMagazine;
         $magazine->title = "NEW TITLE";
 
         self::$magazineRepository->update($magazine);
@@ -167,11 +163,5 @@ final class MagazineRepositoryTest extends TestCase
         self::$magazineRepository->delete("objID");
 
         $this->assertNull(self::$magazineRepository->findById("objID"));
-    }
-
-    public static function tearDownAfterClass(): void
-    {
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = null;
     }
 }

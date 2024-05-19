@@ -5,6 +5,7 @@ namespace App\Test\Repository\Peripheral;
 
 use App\Models\GenericObject;
 use App\Repository\GenericObjectRepository;
+use App\Test\Repository\BaseRepositoryTest;
 use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
@@ -14,9 +15,8 @@ use App\Models\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralRepository;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 
-final class PeripheralRepositoryTest extends TestCase
+final class PeripheralRepositoryTest extends BaseRepositoryTest
 {
-    public static ?PDO $pdo;
     public static GenericObject $sampleGenericObject;
     public static PeripheralType $samplePeripheralType;
     public static Peripheral $samplePeripheral;
@@ -27,13 +27,11 @@ final class PeripheralRepositoryTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
+        parent::setUpBeforeClass();
 
-        self::$peripheralTypeRepository = new PeripheralTypeRepository(self::$pdo);
-        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
-        self::$peripheralRepository = new PeripheralRepository(self::$pdo,);
+        self::$peripheralTypeRepository = new PeripheralTypeRepository();
+        self::$genericObjectRepository = new GenericObjectRepository();
+        self::$peripheralRepository = new PeripheralRepository();
 
         self::$sampleGenericObject = new GenericObject('objID');
 
@@ -153,11 +151,5 @@ final class PeripheralRepositoryTest extends TestCase
         self::$peripheralRepository->delete("objID");
 
         $this->assertNull(self::$peripheralRepository->findById("objID"));
-    }
-
-    public static function tearDownAfterClass(): void
-    {
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = null;
     }
 }

@@ -10,7 +10,7 @@ use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\Book\AuthorRepository;
 use App\Repository\Book\BookHasAuthorRepository;
-use AbstractRepo\Exceptions\RepositoryException AS AbstractRepositoryException;
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 use App\Models\Book\Author;
 use App\Models\Book\Book;
 use App\Models\Book\Publisher;
@@ -33,12 +33,11 @@ final class BookRepositoryTest extends BaseRepositoryTest
         parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
-        self::$authorRepository        = new AuthorRepository(self::$pdo);
-        self::$bookAuthorRepository    = new BookHasAuthorRepository(self::$pdo);
-        self::$publisherRepository     = new PublisherRepository(self::$pdo);
-        self::$bookRepository          = new BookRepository(self::$pdo);
-
+        self::$genericObjectRepository = new GenericObjectRepository();
+        self::$authorRepository        = new AuthorRepository();
+        self::$bookAuthorRepository    = new BookHasAuthorRepository();
+        self::$publisherRepository     = new PublisherRepository();
+        self::$bookRepository          = new BookRepository();
 
         self::$sampleGenericObject = new GenericObject("objID");
 
@@ -76,18 +75,24 @@ final class BookRepositoryTest extends BaseRepositoryTest
     public function tearDown(): void
     {
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Book; TRUNCATE TABLE GenericObject; TRUNCATE TABLE BookHasAuthor; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec(
+            "SET FOREIGN_KEY_CHECKS=0; 
+            TRUNCATE TABLE Book; 
+            TRUNCATE TABLE GenericObject; 
+            TRUNCATE TABLE BookHasAuthor; 
+            SET FOREIGN_KEY_CHECKS=1;"
+        );
     }
 
     //INSERT TESTS
     public function testGoodInsert(): void
     {
-        $genericObject = clone self::$sampleGenericObject;
+        $genericObject     = clone self::$sampleGenericObject;
         $genericObject->id = "objID2";
 
-        $book           = clone self::$sampleBook;
+        $book                = clone self::$sampleBook;
         $book->genericObject = $genericObject;
-        $book->title    = "2001";
+        $book->title         = "2001";
 
         self::$genericObjectRepository->save($genericObject);
         self::$bookRepository->save($book);
@@ -115,12 +120,12 @@ final class BookRepositoryTest extends BaseRepositoryTest
     public function testGoodSelectAll(): void
     {
         for ($i = 1; $i < 4; $i++) {
-            $genericObject = clone self::$sampleGenericObject;
+            $genericObject     = clone self::$sampleGenericObject;
             $genericObject->id = "objID" . $i;
 
-            $book           = clone self::$sampleBook;
+            $book                = clone self::$sampleBook;
             $book->genericObject = $genericObject;
-            $book->title    = "Test";
+            $book->title         = "Test";
 
             self::$genericObjectRepository->save($genericObject);
             self::$bookRepository->save($book);
@@ -133,17 +138,17 @@ final class BookRepositoryTest extends BaseRepositoryTest
 
     public function testGoodSelectByKey(): void
     {
-        $genericObject = clone self::$sampleGenericObject;
+        $genericObject     = clone self::$sampleGenericObject;
         $genericObject->id = "objID4";
 
-        $book           = clone self::$sampleBook;
+        $book                = clone self::$sampleBook;
         $book->genericObject = $genericObject;
-        $book->title    = "1984 Second edition";
+        $book->title         = "1984 Second edition";
 
         self::$genericObjectRepository->save($genericObject);
         self::$bookRepository->save($book);
 
-        $this->assertCount( 2, self::$bookRepository->findByQuery("84"));
+        $this->assertCount(2, self::$bookRepository->findByQuery("84"));
     }
 
     //UPDATE TESTS

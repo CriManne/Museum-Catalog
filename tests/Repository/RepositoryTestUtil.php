@@ -11,7 +11,6 @@ use PDO;
 
 class RepositoryTestUtil
 {
-
     /**
      * @return PDO
      * @throws DependencyException
@@ -22,7 +21,7 @@ class RepositoryTestUtil
     {
         $container = DIC::getContainer();
 
-        $dsn = $container->get('dsn');
+        $dsn      = $container->get('dsn');
         $username = $container->get('username');
         $password = $container->get('psw');
 
@@ -30,8 +29,9 @@ class RepositoryTestUtil
     }
 
     /**
-     * @param PDO $pdo
+     * @param PDO    $pdo
      * @param string $db_name
+     *
      * @return PDO
      * @throws DependencyException
      * @throws NotFoundException
@@ -39,7 +39,6 @@ class RepositoryTestUtil
      */
     public static function createTestDB(PDO $pdo, string $db_name = 'museum_test'): PDO
     {
-
         $container = DIC::getContainer();
 
         $query = "CREATE DATABASE $db_name;";
@@ -54,18 +53,17 @@ class RepositoryTestUtil
     }
 
     /**
-     * @param PDO $pdo
+     * @param PDO    $pdo
      * @param string $db_name
+     *
      * @return PDO
      */
     public static function dropTestDB(PDO $pdo, string $db_name = 'museum_test'): PDO
     {
-
         $query = "DROP DATABASE IF EXISTS $db_name;";
 
         $pdo->query($query);
 
         return $pdo;
     }
-
 }
