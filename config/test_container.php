@@ -7,16 +7,16 @@ use App\Plugins\Injection\DIC;
 use Psr\Container\ContainerInterface;
 
 return [
-    'dsn' => getenv('DB_DSN'),
-    'test_db' => getenv('DB_TEST'),
+    'dsn'      => getenv('DB_DSN'),
+    'test_db'  => getenv('DB_TEST'),
     'username' => getenv('DB_USERNAME'),
-    'psw' => getenv('DB_PASSWORD'),
-    'db_dump' => file_get_contents("./sql/create.sql"),
-    'PDO' => function (ContainerInterface $c) {
+    'psw'      => getenv('DB_PASSWORD'),
+    'db_dump'  => file_get_contents("./sql/create.sql"),
+    'PDO'      => function (ContainerInterface $c) {
         try {
             $pdo = DIC::getPdo();
 
-            if ($pdo)  {
+            if ($pdo) {
                 return $pdo;
             }
 
