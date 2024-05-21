@@ -16,7 +16,7 @@ final class SoftwareTypeRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$softwareTypeRepository = new SoftwareTypeRepository();
+        self::$softwareTypeRepository = new SoftwareTypeRepository(self::$pdo);
     }
 
     public function setUp():void{

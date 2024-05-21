@@ -38,13 +38,13 @@ final class SoftwareRepositoryTest extends BaseRepositoryTest
         parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$genericObjectRepository = new GenericObjectRepository();
-        self::$osRepository = new OsRepository();
-        self::$softwareTypeRepository = new SoftwareTypeRepository();
-        self::$supportTypeRepository = new SupportTypeRepository();
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$osRepository = new OsRepository(self::$pdo);
+        self::$softwareTypeRepository = new SoftwareTypeRepository(self::$pdo);
+        self::$supportTypeRepository = new SupportTypeRepository(self::$pdo);
 
         // Repository to handle software
-        self::$softwareRepository = new SoftwareRepository();
+        self::$softwareRepository = new SoftwareRepository(self::$pdo);
 
         self::$sampleGenericObject = new GenericObject(
             id: "objID"

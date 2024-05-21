@@ -16,7 +16,7 @@ final class PeripheralTypeRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$peripheralTypeRepository = new PeripheralTypeRepository();
+        self::$peripheralTypeRepository = new PeripheralTypeRepository(self::$pdo);
     }
 
     public function setUp():void{

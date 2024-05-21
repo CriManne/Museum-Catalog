@@ -15,7 +15,7 @@ final class CpuRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$cpuRepository = new CpuRepository();
+        self::$cpuRepository = new CpuRepository(self::$pdo);
     }
 
     public function setUp():void{

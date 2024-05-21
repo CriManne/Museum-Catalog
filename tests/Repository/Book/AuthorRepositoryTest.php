@@ -14,7 +14,7 @@ final class AuthorRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$authorRepository = new AuthorRepository();
+        self::$authorRepository = new AuthorRepository(self::$pdo);
     }
 
     public function setUp():void{

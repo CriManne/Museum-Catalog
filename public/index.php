@@ -14,16 +14,13 @@ use App\Plugins\Http\Responses\InternalServerError;
 use App\Plugins\Http\Responses\NotFound;
 use App\Plugins\Http\ResponseUtility;
 use App\Plugins\Injection\DIC;
-use DI\ContainerBuilder;
 use Monolog\Handler\StreamHandler;
 use Monolog\Logger;
 use SimpleMVC\App;
 use SimpleMVC\Emitter\SapiEmitter;
 
 try {
-    $builder = new ContainerBuilder();
-    $builder->addDefinitions('config/container.php');
-    $container = $builder->build();
+    $container = DIC::getContainer();
 
     // Store the configuration file in the container
     $config = require 'config/app.php';

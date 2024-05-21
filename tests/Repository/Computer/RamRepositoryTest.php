@@ -15,7 +15,7 @@ final class RamRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$ramRepository = new RamRepository();
+        self::$ramRepository = new RamRepository(self::$pdo);
     }
 
     public function setUp():void{

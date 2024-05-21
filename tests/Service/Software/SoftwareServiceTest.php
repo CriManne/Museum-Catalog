@@ -39,10 +39,10 @@ final class SoftwareServiceTest extends BaseServiceTest
 
         $this->softwareService = new SoftwareService(
             genericObjectRepository: $this->genericObjectRepository,
-            osRepository: $this->osRepository,
+            softwareRepository: $this->softwareRepository,
             softwareTypeRepository: $this->softwareTypeRepository,
             supportTypeRepository: $this->supportTypeRepository,
-            softwareRepository: $this->softwareRepository
+            osRepository: $this->osRepository
         );
 
         $this->sampleGenericObject = new GenericObject("objID");

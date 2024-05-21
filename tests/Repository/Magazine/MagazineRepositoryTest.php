@@ -31,11 +31,11 @@ final class MagazineRepositoryTest extends BaseRepositoryTest
         parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$publisherRepository     = new PublisherRepository();
-        self::$genericObjectRepository = new GenericObjectRepository();
+        self::$publisherRepository     = new PublisherRepository(self::$pdo);
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
 
         // Repository to handle magazine
-        self::$magazineRepository = new MagazineRepository();
+        self::$magazineRepository = new MagazineRepository(self::$pdo);
 
         self::$sampleGenericObject = new GenericObject(
             "objID"

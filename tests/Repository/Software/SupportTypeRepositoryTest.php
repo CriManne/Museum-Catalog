@@ -18,7 +18,7 @@ final class SupportTypeRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$supportTypeRepository = new SupportTypeRepository();
+        self::$supportTypeRepository = new SupportTypeRepository(self::$pdo);
     }
 
     public function setUp():void{

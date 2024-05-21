@@ -28,7 +28,7 @@ final class UserRepositoryTest extends BaseRepositoryTest
     {
         parent::setUpBeforeClass();
 
-        self::$userRepository = new UserRepository();
+        self::$userRepository = new UserRepository(self::$pdo);
     }
 
     /**

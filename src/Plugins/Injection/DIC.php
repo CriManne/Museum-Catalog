@@ -18,9 +18,12 @@ use PDO;
 
 class DIC
 {
+    public const string DEFAULT_CONTAINER_PATH = 'config/container.php';
+    public const string TEST_CONTAINER_PATH = 'config/test_container.php';
     public const string SERVICE_INITIAL_PATH = "App\\Service\\";
     public const string SERVICE_SUFFIX       = "Service";
 
+    private static string $containerPath = self::DEFAULT_CONTAINER_PATH;
     private static ?Container $container = null;
     private static ?Engine $platesEngine = null;
     private static ?PDO $pdo = null;
@@ -34,7 +37,7 @@ class DIC
     {
         if (!self::$container) {
             $builder = new ContainerBuilder();
-            $builder->addDefinitions('config/container.php');
+            $builder->addDefinitions(self::$containerPath);
             self::$container = $builder->build();
         }
 
@@ -133,19 +136,24 @@ class DIC
     }
 
     /**
-     * Returns the singleton plates engine
+     * Returns the pdo object
      *
-     * @return PDO
-     * @throws DependencyException
-     * @throws NotFoundException
-     * @throws Exception
+     * @return PDO|null
      */
-    public static function getPdo(): PDO
+    public static function getPdo(): ?PDO
     {
-        if (!self::$pdo) {
-            self::$pdo = self::getContainer()->get(PDO::class);
-        }
-
         return self::$pdo;
+    }
+
+    /**
+     * Set the pdo
+     *
+     * @param PDO $pdo
+     *
+     * @return void
+     */
+    public static function setPdo(PDO $pdo): void
+    {
+        self::$pdo = $pdo;
     }
 }

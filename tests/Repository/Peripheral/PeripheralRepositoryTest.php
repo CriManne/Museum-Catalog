@@ -29,9 +29,9 @@ final class PeripheralRepositoryTest extends BaseRepositoryTest
     {
         parent::setUpBeforeClass();
 
-        self::$peripheralTypeRepository = new PeripheralTypeRepository();
-        self::$genericObjectRepository = new GenericObjectRepository();
-        self::$peripheralRepository = new PeripheralRepository();
+        self::$peripheralTypeRepository = new PeripheralTypeRepository(self::$pdo);
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$peripheralRepository = new PeripheralRepository(self::$pdo);
 
         self::$sampleGenericObject = new GenericObject('objID');
 

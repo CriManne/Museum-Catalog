@@ -15,7 +15,7 @@ final class OsRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$osRepository = new OsRepository();
+        self::$osRepository = new OsRepository(self::$pdo);
     }
 
     public function setUp():void{

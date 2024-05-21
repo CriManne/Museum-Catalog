@@ -15,7 +15,7 @@ final class PublisherRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$publisherRepository = new PublisherRepository();
+        self::$publisherRepository = new PublisherRepository(self::$pdo);
     }
 
     public function setUp(): void

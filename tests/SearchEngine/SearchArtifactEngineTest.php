@@ -43,16 +43,16 @@ final class SearchArtifactEngineTest extends BaseRepositoryTest
     {
         parent::setUpBeforeClass();
 
-        self::$genericObjectRepository = new GenericObjectRepository();
-        self::$softwareRepository      = new SoftwareRepository();
-        self::$cpuRepository           = new CpuRepository();
-        self::$ramRepository           = new RamRepository();
-        self::$osRepository            = new OsRepository();
-        self::$computerRepository      = new ComputerRepository();
-        self::$bookRepository          = new BookRepository();
-        self::$publisherRepository     = new PublisherRepository();
-        self::$magazineRepository      = new MagazineRepository();
-        self::$peripheralRepository    = new PeripheralRepository();
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$softwareRepository      = new SoftwareRepository(self::$pdo);
+        self::$cpuRepository           = new CpuRepository(self::$pdo);
+        self::$ramRepository           = new RamRepository(self::$pdo);
+        self::$osRepository            = new OsRepository(self::$pdo);
+        self::$computerRepository      = new ComputerRepository(self::$pdo);
+        self::$bookRepository          = new BookRepository(self::$pdo);
+        self::$publisherRepository     = new PublisherRepository(self::$pdo);
+        self::$magazineRepository      = new MagazineRepository(self::$pdo);
+        self::$peripheralRepository    = new PeripheralRepository(self::$pdo);
 
         self::$artifactSearchEngine = new ArtifactSearchEngine();
 

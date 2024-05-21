@@ -33,11 +33,11 @@ final class BookRepositoryTest extends BaseRepositoryTest
         parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$genericObjectRepository = new GenericObjectRepository();
-        self::$authorRepository        = new AuthorRepository();
-        self::$bookAuthorRepository    = new BookHasAuthorRepository();
-        self::$publisherRepository     = new PublisherRepository();
-        self::$bookRepository          = new BookRepository();
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$authorRepository        = new AuthorRepository(self::$pdo);
+        self::$bookAuthorRepository    = new BookHasAuthorRepository(self::$pdo);
+        self::$publisherRepository     = new PublisherRepository(self::$pdo);
+        self::$bookRepository          = new BookRepository(self::$pdo);
 
         self::$sampleGenericObject = new GenericObject("objID");
 

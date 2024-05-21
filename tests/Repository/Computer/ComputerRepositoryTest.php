@@ -38,14 +38,14 @@ final class ComputerRepositoryTest extends BaseRepositoryTest
         parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$genericObjectRepository = new GenericObjectRepository();
-        self::$ramRepository           = new RamRepository();
-        self::$cpuRepository           = new CpuRepository();
-        self::$osRepository            = new OsRepository();
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$ramRepository           = new RamRepository(self::$pdo);
+        self::$cpuRepository           = new CpuRepository(self::$pdo);
+        self::$osRepository            = new OsRepository(self::$pdo);
 
 
         // Repository to handle computer
-        self::$computerRepository = new ComputerRepository();
+        self::$computerRepository = new ComputerRepository(self::$pdo);
 
         self::$sampleGenericObject = new GenericObject(
             'objID',

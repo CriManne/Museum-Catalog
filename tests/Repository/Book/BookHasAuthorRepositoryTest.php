@@ -40,11 +40,11 @@ final class BookHasAuthorRepositoryTest extends BaseRepositoryTest
     public static function setUpBeforeClass(): void
     {
         parent::setUpBeforeClass();
-        self::$genericObjectRepository = new GenericObjectRepository();
-        self::$bookHasAuthorRepository = new BookHasAuthorRepository();
-        self::$authorRepository        = new AuthorRepository();
-        self::$publisherRepository     = new PublisherRepository();
-        self::$bookRepository          = new BookRepository();
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$bookHasAuthorRepository = new BookHasAuthorRepository(self::$pdo);
+        self::$authorRepository        = new AuthorRepository(self::$pdo);
+        self::$publisherRepository     = new PublisherRepository(self::$pdo);
+        self::$bookRepository          = new BookRepository(self::$pdo);
 
         self::$sampleGenericObject = new GenericObject("OBJ1");
         self::$samplePublisher     = new Publisher("PUB");

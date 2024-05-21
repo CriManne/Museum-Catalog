@@ -4,6 +4,7 @@ namespace App\Plugins\DB;
 
 use App\Exception\DatabaseException;
 use App\Plugins\Injection\DIC;
+use PDO;
 use Throwable;
 
 class DB
@@ -16,12 +17,14 @@ class DB
      */
     public static function begin(): void
     {
+        $pdo = self::getPdoOrThrow();
+
         try {
-            if (DIC::getPdo()->inTransaction()) {
+            if ($pdo->inTransaction()) {
                 throw new DatabaseException("A transaction is already active!");
             }
-            DIC::getPdo()->beginTransaction();
-        }catch (Throwable $e) {
+            $pdo->beginTransaction();
+        } catch (Throwable $e) {
             throw new DatabaseException($e->getMessage());
         }
     }
@@ -33,12 +36,14 @@ class DB
      */
     public static function rollback(): void
     {
+        $pdo = self::getPdoOrThrow();
+
         try {
-            if (!DIC::getPdo()->inTransaction()) {
+            if (!$pdo->inTransaction()) {
                 throw new DatabaseException("No active transactions!");
             }
-            DIC::getPdo()->rollBack();
-        }catch (Throwable $e) {
+            $pdo->rollBack();
+        } catch (Throwable $e) {
             throw new DatabaseException($e->getMessage());
         }
     }
@@ -51,13 +56,31 @@ class DB
      */
     public static function commit(): void
     {
+        $pdo = self::getPdoOrThrow();
+
         try {
-            if (!DIC::getPdo()->inTransaction()) {
+            if (!$pdo->inTransaction()) {
                 throw new DatabaseException("No active transactions!");
             }
-            DIC::getPdo()->commit();
-        }catch (Throwable $e) {
+            $pdo->commit();
+        } catch (Throwable $e) {
             throw new DatabaseException($e->getMessage());
         }
+    }
+
+    /**
+     * Get the pdo or throw the Database exception if not found.
+     * @return PDO
+     * @throws DatabaseException
+     */
+    private static function getPdoOrThrow(): PDO
+    {
+        $pdo = DIC::getPdo();
+
+        if (!$pdo) {
+            throw new DatabaseException("No PDO object set by the container");
+        }
+
+        return $pdo;
     }
 }
