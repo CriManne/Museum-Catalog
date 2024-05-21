@@ -146,8 +146,8 @@ class PeripheralService implements IArtifactService
 
         DB::begin();
         try {
-            $this->genericObjectRepository->save($p->genericObject);
-            $this->peripheralRepository->save($p);
+            $this->genericObjectRepository->update($p->genericObject);
+            $this->peripheralRepository->update($p);
         } catch (Throwable $e) {
             DB::rollback();
             throw $e;

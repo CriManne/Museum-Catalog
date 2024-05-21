@@ -10,6 +10,7 @@ use App\Controller\BaseController;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
 use App\Plugins\Http\Responses\NoContent;
+use App\Plugins\Http\Responses\Ok;
 use App\Plugins\Injection\DIC;
 use App\SearchEngine\ArtifactSearchEngine;
 use App\Service\IArtifactService;
@@ -79,7 +80,7 @@ class UpdateBaseController extends BaseController implements ControllerInterface
                 $this->apiLogger->info($message, [__CLASS__, $userEmail]);
 
                 return ResponseFactory::createJson(
-                    new NoContent($message)
+                    new Ok($message)
                 );
             }
         );

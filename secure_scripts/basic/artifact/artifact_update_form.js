@@ -47,6 +47,14 @@ function fillUpdateForm() {
 
                 for (const item of innerObject) {
                     for (let propertyComponent in item) {
+
+                        let nestedElemInput = document.getElementById(property + "." + propertyComponent);
+                        if (nestedElemInput) {
+                            nestedElemInput.value = item[propertyComponent];
+                            nestedElemInput.setAttribute("defaultValue", item[propertyComponent]);
+                            continue;
+                        }
+
                         if (propertyComponent.includes("id")) {
                             let idSelector = property + "Id";
 

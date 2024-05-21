@@ -56,7 +56,7 @@ class GetBaseController extends BaseController implements ControllerInterface
 
                 $this->apiLogger->debug("Returned successfully " . count($new_arr) . " images!", [__CLASS__]);
 
-                return ResponseFactory::createJson(
+                return ResponseFactory::create(
                     new Ok(json_encode($new_arr))
                 );
             }
