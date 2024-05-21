@@ -3,7 +3,7 @@
     <h3 class="text-center">Choose the component's category</h3>
 
     <select id="component-category-select" class="form-select" aria-label="Choose the category">
-        <option selected hidden>Choose the category>
+        <option selected disabled>Choose the category</option>
     </select>
 </div>
 <?php $this->push('scripts') ?>
