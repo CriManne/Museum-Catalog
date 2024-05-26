@@ -19,6 +19,7 @@ class Magazine implements IArtifact
     public function __construct(
         #[PrimaryKey(autoIncrement: false)]
         #[OneToOne(columnName: 'objectId')]
+        #[Searchable]
         public GenericObject    $genericObject,
         #[Searchable]
         public string           $title,
