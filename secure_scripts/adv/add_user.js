@@ -11,10 +11,11 @@ $(document).ready(function () {
         let response = makeRequest(
             urlCreateUser,
             'POST',
-            headers = {
+            {
                 "mimeType": "multipart/form-data",
             },
-            params = formData);
+            formData
+        );
         createAlert(response);
     });
 

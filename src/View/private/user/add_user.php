@@ -26,7 +26,8 @@
         </div>
         <div class="form-outline mb-4">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" name="privilege" id="privilege">
+                <input type="hidden" name="privilege" value="0">
+                <input class="form-check-input" type="checkbox" name="privilege" id="privilege">
                 <label class="form-check-label" for="privilege">
                     Administrator
                 </label>

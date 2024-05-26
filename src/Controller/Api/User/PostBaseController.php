@@ -8,7 +8,7 @@ use App\Controller\BaseController;
 use App\Models\User;
 use App\Plugins\Http\ResponseFactory;
 use App\Plugins\Http\Responses\BadRequest;
-use App\Plugins\Http\Responses\NoContent;
+use App\Plugins\Http\Responses\Ok;
 use App\Service\UserService;
 use App\Util\ORM;
 use Psr\Http\Message\ResponseInterface;
@@ -56,7 +56,7 @@ class PostBaseController extends BaseController implements ControllerInterface
                 $message = 'User with email {' . $params['email'] . '} saved successfully!';
                 $this->apiLogger->info($message, [__CLASS__, $userEmail]);
                 return ResponseFactory::createJson(
-                    new NoContent($message)
+                    new Ok($message)
                 );
             }
         );
