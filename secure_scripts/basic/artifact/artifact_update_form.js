@@ -35,6 +35,7 @@ function fillUpdateForm() {
     if (object.status === "404") {
         createAlert(object);
     } else {
+        debugger;
         for (const property in object) {
             if (object[property] != null && typeof object[property] == 'object') {
                 let innerObject = object[property];

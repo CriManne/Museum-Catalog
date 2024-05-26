@@ -9,9 +9,12 @@ use AbstractRepo\Exceptions\RepositoryException;
 use App\Exception\DatabaseException;
 use App\Exception\ServiceException;
 use App\Models\Book\Book;
+use App\Models\Book\BookHasAuthor;
 use App\Models\GenericObject;
 use App\Models\IArtifact;
 use App\Plugins\DB\DB;
+use App\Repository\Book\AuthorRepository;
+use App\Repository\Book\BookHasAuthorRepository;
 use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\GenericObjectRepository;
@@ -23,7 +26,9 @@ class BookService implements IArtifactService
     public function __construct(
         protected BookRepository          $bookRepository,
         protected PublisherRepository     $publisherRepository,
-        protected GenericObjectRepository $genericObjectRepository
+        protected GenericObjectRepository $genericObjectRepository,
+        protected AuthorRepository        $authorRepository,
+        protected BookHasAuthorRepository $bookHasAuthorRepository
     )
     {
     }
@@ -63,6 +68,16 @@ class BookService implements IArtifactService
         try {
             $this->genericObjectRepository->save($b->genericObject);
             $this->bookRepository->save($b);
+
+            foreach ($b->authors AS $author) {
+                $this->bookHasAuthorRepository->save(
+                    new BookHasAuthor(
+                        book: $b,
+                        author: $author
+                    )
+                );
+            }
+
         } catch (Throwable $e) {
             DB::rollback();
             throw $e;
@@ -133,6 +148,29 @@ class BookService implements IArtifactService
         try {
             $this->genericObjectRepository->update($book->genericObject);
             $this->bookRepository->update($book);
+
+            $bookHasAuthors = $this->bookHasAuthorRepository->find(
+                new FetchParams(
+                    conditions: "bookId = :bookId",
+                    bind: [
+                        "bookId" => $book->genericObject->id
+                    ]
+                )
+            );
+
+            foreach ($bookHasAuthors as $bookHasAuthor){
+                $this->bookHasAuthorRepository->delete($bookHasAuthor->id);
+            }
+
+            foreach ($b->authors AS $author) {
+                $this->bookHasAuthorRepository->save(
+                    new BookHasAuthor(
+                        book: $b,
+                        author: $author
+                    )
+                );
+            }
+
         } catch (Throwable $e) {
             DB::rollBack();
             throw $e;
@@ -190,14 +228,26 @@ class BookService implements IArtifactService
             throw new ServiceException('Publisher not found');
         }
 
+        $authors = [];
+
+        foreach ($request['authors'] AS $authorId) {
+            $author = $this->authorRepository->findById($authorId);
+
+            if(!$author) {
+                throw new ServiceException('Author not found');
+            }
+
+            $authors[] = $author;
+        }
+
         return new Book(
             genericObject: $genericObject,
             title: $request["title"],
             publisher: $publisher,
-            year: $request["year"],
-            authors: [],
-            isbn: $request["isbn"],
-            pages: $request["pages"]
+            year: intval($request["year"]),
+            authors: $authors,
+            isbn: $request["ISBN"],
+            pages: intval($request["Pages"])
         );
     }
 }

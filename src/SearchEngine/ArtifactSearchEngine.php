@@ -4,15 +4,18 @@ declare(strict_types=1);
 
 namespace App\SearchEngine;
 
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Controller\Api\ArtifactsListController;
 use App\DataModels\Response\GenericArtifactResponse;
 use App\Exception\ServiceException;
 use App\Models\Book\Book;
+use App\Models\Book\BookHasAuthor;
 use App\Models\Computer\Computer;
 use App\Models\Magazine\Magazine;
 use App\Models\Peripheral\Peripheral;
 use App\Models\Software\Software;
 use App\Plugins\Injection\DIC;
+use App\Repository\Book\BookHasAuthorRepository;
 use DI\DependencyException;
 use DI\NotFoundException;
 use Exception;
@@ -113,15 +116,33 @@ class ArtifactSearchEngine
      * @param Book $obj The book object
      *
      * @return GenericArtifactResponse The object mapped
+     * @throws DependencyException
+     * @throws NotFoundException
+     * @throws ServiceException
+     * @throws RepositoryException
      */
     public function Book(Book $obj): GenericArtifactResponse
     {
         $authors = [];
-//        if ($obj->authors) {
-//            foreach ($obj->authors as $author) {
-//                $authors[] = $author->firstname[0] . " " . $author->lastname;
-//            }
-//        }
+        if ($obj->authors) {
+            /**
+             * @var BookHasAuthorRepository $bookHasAuthorRepository
+             */
+            $bookHasAuthorRepository = DIC::getContainer()->get(BookHasAuthorRepository::class);
+
+            $authors = array_map(
+                function ($bookHasAuthorId) use ($bookHasAuthorRepository) {
+                    $bookHasAuthor = $bookHasAuthorRepository->findById($bookHasAuthorId["id"]);
+
+                    if (!$bookHasAuthor) {
+                        throw new ServiceException('BookHasAuthor not found!');
+                    }
+
+                    return "{$bookHasAuthor->author->firstname[0]} {$bookHasAuthor->author->lastname}";
+                },
+                $obj->authors
+            );
+        }
 
         return new GenericArtifactResponse(
             objectId: $obj->genericObject->id,
