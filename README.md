@@ -22,7 +22,4 @@ The repository layer was almost entirely abstracted by the [AbstractRepo library
 #
 Copyright 2024 by [Cristian Mannella](https://cristianmannella.vercel.app/)
 
-[AbstractRepo](https://github.com/CriManne/AbstractRepo) by [Cristian Mannella](https://cristianmannella.vercel.app/) is licensed under [Creative Commons Attribution-NonCommercial-NoDerivatives 4.0 International](https://creativecommons.org/licenses/by-nc-nd/4.0/?ref=chooser-v1)
-
-![CC](https://mirrors.creativecommons.org/presskit/icons/cc.svg?ref=chooser-v1) ![BY](https://mirrors.creativecommons.org/presskit/icons/by.svg?ref=chooser-v1) ![NC](https://mirrors.creativecommons.org/presskit/icons/nc.svg?ref=chooser-v1) ![ND](https://mirrors.creativecommons.org/presskit/icons/nd.svg?ref=chooser-v1)
- 
+[AbstractRepo](https://github.com/CriManne/AbstractRepo) by [Cristian Mannella](https://cristianmannella.vercel.app/) is licensed under [MIT](LICENCE.md)
