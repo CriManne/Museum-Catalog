@@ -2,85 +2,77 @@
 
 declare(strict_types=1);
 
-namespace App\Test\Service;
+namespace App\Test\Service\Computer;
 
 use App\Exception\ServiceException;
-use App\Model\Computer\Os;
+use App\Models\Computer\Os;
 use App\Repository\Computer\OsRepository;
 use App\Service\Computer\OsService;
-use PHPUnit\Framework\TestCase;
-use PDO;
-use PDOStatement;
+use App\Test\Service\BaseServiceTest;
 
-final class OsServiceTest extends TestCase
+final class OsServiceTest extends BaseServiceTest
 {
     public OsService $osService;
-    
+    public OsRepository $osRepository;
+
     public function setUp(): void
-    {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->osRepository = new OsRepository($this->pdo);    
-        $this->osService = new OsService($this->osRepository);        
+    {
+        $this->osRepository = $this->createMock(OsRepository::class);
+        $this->osService = new OsService($this->osRepository);
 
-        $this->sampleObject = [
-            "OsID"=>1,
-            "Name"=>'Windows'
-        ];        
+        $this->sampleObject = new Os(
+            name: "Windows",
+            id: 1
+        );
     }
-    
+
     //INSERT TESTS
-    public function testGoodInsert():void{
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->osService->selectById(1)->Name,"Windows");        
-    }
-    
-    public function testBadInsert():void{
-        $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+    public function testGoodInsert(): void
+    {
+        $this->expectNotToPerformAssertions();
+        $this->osRepository->method('findFirst')->willReturn(null);
         $os = new Os('Windows');
-        $this->osService->insert($os);
+        $this->osService->save($os);
     }
 
-    
+    public function testBadInsert(): void
+    {
+        $this->expectException(ServiceException::class);
+        $this->osRepository->method('findFirst')->willReturn($this->sampleObject);
+        $os = new Os('Windows');
+        $this->osService->save($os);
+    }
+
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Windows",$this->osService->selectById(1)->Name);
+        $this->osRepository->method('findById')->willReturn($this->sampleObject);
+        $this->assertEquals("Windows", $this->osService->findById(1)->name);
     }
-    
+
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
-        $this->osService->selectById(2);
+        $this->osRepository->method('findById')->willReturn(null);
+        $this->osService->findById(2);
     }
-    
-    public function testBadSelectByName(): void
+
+    //UPDATE TESTS
+    public function testBadUpdate(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
-        $this->osService->selectByName("Windows");
-    }
-    
-    //UPDATE TESTS
-    public function testBadUpdate():void{
-        $this->expectException(ServiceException::class);
-        $os = new Os("Linux",1);
-        
-        $this->sth->method('fetch')->willReturn(null);
+        $os = new Os("Linux", 1);
+        $this->osRepository->method('findById')->willReturn(null);
         $this->osService->update($os);
     }
-    
+
     //DELETE TESTS
-    public function testBadDelete():void{
+    public function testBadDelete(): void
+    {
         $this->expectException(ServiceException::class);
-        
-        $this->sth->method('fetch')->willReturn(null);
-        
+
+        $this->osRepository->method('findById')->willReturn(null);
+
         $this->osService->delete(5);
-    }   
+    }
 }

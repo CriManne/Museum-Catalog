@@ -6,8 +6,7 @@
         max-width: 100vw;
         box-shadow: inset 0 0 5px rgba(150, 150, 150, 0.35);
         margin: auto;
-        padding: 0;
-        padding-top: 10px;
+        padding: 10px 0 0;
     }
 </style>
 <div class="container-fluid d-flex flex-column p-0 gap-2 align-items-center" id="loading-container">
@@ -15,7 +14,7 @@
 </div>
 <div id="main-container" class="d-none">
     <form id='component-search-form'>
-        <h3>Visualizza componenti</h3>
+        <h3>View components</h3>
         <div class="input-group mb-3">
             <select class="input-select" id="category-select"></select>
             <input type="text" class="form-control" placeholder="Search components" aria-label="Artifact's search" id="component-search">

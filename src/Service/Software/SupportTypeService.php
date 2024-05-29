@@ -4,41 +4,57 @@ declare(strict_types=1);
 
 namespace App\Service\Software;
 
+use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Exception\ServiceException;
-use App\Model\Software\SupportType;
+use App\Models\Software\SupportType;
 use App\Repository\Software\SupportTypeRepository;
+use App\Service\IComponentService;
 
-class SupportTypeService {
-
-    public SupportTypeRepository $supportTypeRepository;
-
-    public function __construct(SupportTypeRepository $supportTypeRepository) {
-        $this->supportTypeRepository = $supportTypeRepository;
+class SupportTypeService implements IComponentService
+{
+    public function __construct(
+        protected SupportTypeRepository $supportTypeRepository
+    )
+    {
     }
 
     /**
      * Insert SupportType
-     * @param SupportType $s The SupportType to insert
+     *
+     * @param SupportType $s The SupportType to save
+     *
      * @throws ServiceException If the name is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(SupportType $s): void {
-        $sType = $this->supportTypeRepository->selectByName($s->Name);
-        if ($sType)
-            throw new ServiceException("Support Type name already used!");
+    public function save(SupportType $s): void
+    {
+        $sType = $this->supportTypeRepository->findFirst(new FetchParams(
+            conditions: "name = :name",
+            bind: ["name" => $s->name]
+        ));
 
-        $this->supportTypeRepository->insert($s);
+        if ($sType) {
+            throw new ServiceException("Support Type name already used!");
+        }
+
+        $this->supportTypeRepository->save($s);
     }
 
     /**
      * Select by id
+     *
      * @param int $id The id to select
+     *
      * @return SupportType The SupportType selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
-    public function selectById(int $id): SupportType {
-        $supportType = $this->supportTypeRepository->selectById($id);
-        if (is_null($supportType)) {
+    public function findById(int $id): SupportType
+    {
+        $supportType = $this->supportTypeRepository->findById($id);
+
+        if (!$supportType) {
             throw new ServiceException("Support Type not found");
         }
 
@@ -47,13 +63,21 @@ class SupportTypeService {
 
     /**
      * Select by name
+     *
      * @param string $name The name to select
+     *
      * @return SupportType The SupportType selected
+     * @throws RepositoryException
      * @throws ServiceException If not found
      */
-    public function selectByName(string $name): SupportType {
-        $supportType = $this->supportTypeRepository->selectByName($name);
-        if (is_null($supportType)) {
+    public function findByName(string $name): SupportType
+    {
+        $supportType = $this->supportTypeRepository->findFirst(new FetchParams(
+            conditions: "name = :name",
+            bind: ["name" => $name]
+        ));
+
+        if (!$supportType) {
             throw new ServiceException("Support Type not found");
         }
 
@@ -62,30 +86,39 @@ class SupportTypeService {
 
     /**
      * Select by key
+     *
      * @param string $key The key to search
+     *
      * @return array The SupportTypes selected
+     * @throws RepositoryException
      */
-    public function selectByKey(string $key): array {
-        return $this->supportTypeRepository->selectByKey($key);
+    public function findByQuery(string $key): array
+    {
+        return $this->supportTypeRepository->findByQuery($key);
     }
 
     /**
      * Select all
-     * @return array All the supptype
+     * @return array All the support type
+     * @throws RepositoryException
      */
-    public function selectAll(): array {
-        return $this->supportTypeRepository->selectAll();
+    public function find(): array
+    {
+        return $this->supportTypeRepository->find();
     }
 
     /**
      * Update SupportType
+     *
      * @param SupportType $s The SupportType to update
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(SupportType $s): void {
-        $supT = $this->supportTypeRepository->selectById($s->SupportTypeID);
-        if (is_null($supT)) {
+    public function update(SupportType $s): void
+    {
+        $supT = $this->supportTypeRepository->findById($s->id);
+        if (!$supT) {
             throw new ServiceException("Support Type not found!");
         }
 
@@ -94,13 +127,16 @@ class SupportTypeService {
 
     /**
      * Delete SupportType
+     *
      * @param int $id The id to delete
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): void {
-        $supportType = $this->supportTypeRepository->selectById($id);
-        if (is_null($supportType)) {
+    public function delete(int $id): void
+    {
+        $supportType = $this->supportTypeRepository->findById($id);
+        if (!$supportType) {
             throw new ServiceException("Support Type not found!");
         }
 

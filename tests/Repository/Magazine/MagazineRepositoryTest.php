@@ -1,164 +1,167 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Magazine;
 
+use AbstractRepo\Exceptions\RepositoryException;
+use App\Models\GenericObject;
+use App\Repository\GenericObjectRepository;
+use App\Test\Repository\BaseRepositoryTest;
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
 
-use App\Exception\RepositoryException;
-use App\Model\Magazine\Magazine;
-use App\Model\Book\Publisher;
+use App\Models\Magazine\Magazine;
+use App\Models\Book\Publisher;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\Magazine\MagazineRepository;
 
-final class MagazineRepositoryTest extends TestCase
+final class MagazineRepositoryTest extends BaseRepositoryTest
 {
-    public static ?PDO $pdo;
-    public static Publisher $samplePublisher;
-    public static Magazine $sampleMagazine;
+    public static Publisher     $samplePublisher;
+    public static Magazine      $sampleMagazine;
+    public static GenericObject $sampleGenericObject;
 
-    public static PublisherRepository $publisherRepository;
-    public static MagazineRepository $magazineRepository;
+    public static GenericObjectRepository $genericObjectRepository;
+    public static PublisherRepository     $publisherRepository;
+    public static MagazineRepository      $magazineRepository;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
+        parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$publisherRepository = new PublisherRepository(self::$pdo);
+        self::$publisherRepository     = new PublisherRepository(self::$pdo);
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
 
         // Repository to handle magazine
-        self::$magazineRepository = new MagazineRepository(
-            self::$pdo,
-            self::$publisherRepository
-        );        
-        
-        self::$samplePublisher = new Publisher(            
+        self::$magazineRepository = new MagazineRepository(self::$pdo);
+
+        self::$sampleGenericObject = new GenericObject(
+            "objID"
+        );
+
+        self::$samplePublisher = new Publisher(
             "Einaudi",
-            1       
+            1
         );
 
         self::$sampleMagazine = new Magazine(
-            "objID",
-            null,
-            null,
-            null,
-            "Magazine 1.0",            
+            self::$sampleGenericObject,
+            "Magazine 1.0",
             2005,
             10492,
             self::$samplePublisher
         );
 
-        self::$publisherRepository->insert(self::$samplePublisher);
+        self::$publisherRepository->save(self::$samplePublisher);
     }
 
-    public function setUp():void{
-        //Magazine inserted to test duplicated supports errors
-        self::$magazineRepository->insert(self::$sampleMagazine);
+    public function setUp(): void
+    {
+        //Magazine saved to test duplicated supports errors
+        self::$genericObjectRepository->save(self::$sampleGenericObject);
+        self::$magazineRepository->save(self::$sampleMagazine);
     }
 
-    public function tearDown():void{
+    public function tearDown(): void
+    {
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE magazine; TRUNCATE TABLE genericobject; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Magazine; TRUNCATE TABLE GenericObject; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
-    public function testGoodInsert():void{                
-        $magazine = clone self::$sampleMagazine;
-        $magazine->ObjectID = "objID2";
-        $magazine->Title = "Magazine 2";
-        
-        self::$magazineRepository->insert($magazine);
+    public function testGoodInsert(): void
+    {
+        $magazine      = clone self::$sampleMagazine;
+        $genericObject = new GenericObject("objID2");
 
-        $this->assertEquals(self::$magazineRepository->selectById("objID2")->Title,"Magazine 2");
+        self::$genericObjectRepository->save($genericObject);
+        $magazine->genericObject = $genericObject;
+        $magazine->title         = "Magazine 2";
+
+        self::$magazineRepository->save($magazine);
+
+        $this->assertEquals(self::$magazineRepository->findById("objID2")->title, "Magazine 2");
     }
 
-    public function testBadInsert():void{        
+    public function testBadInsert(): void
+    {
         $this->expectException(RepositoryException::class);
-        //Magazine already inserted in the setUp() method  
-        self::$magazineRepository->insert(self::$sampleMagazine);
+        //Magazine already saved in the setUp() method
+        self::$magazineRepository->save(self::$sampleMagazine);
     }
-    
+
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$magazineRepository->selectById("objID"));
+        $this->assertNotNull(self::$magazineRepository->findById("objID"));
     }
-    
+
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$magazineRepository->selectById("WRONGID"));
-    }       
-    
-    public function testGoodSelectAll():void{
-        $magazine1 = clone self::$sampleMagazine;
-        $magazine1->ObjectID = "objID1";
-        
-        $magazine2 = clone self::$sampleMagazine;
-        $magazine2->ObjectID = "objID2";
-        
-        $magazine3 = clone self::$sampleMagazine;
-        $magazine3->ObjectID = "objID3";
-                
-        self::$magazineRepository->insert($magazine1);
-        self::$magazineRepository->insert($magazine2);
-        self::$magazineRepository->insert($magazine3);
-        
-        $magazines = self::$magazineRepository->selectAll();
-        
-        $this->assertEquals(count($magazines),4);
-        $this->assertNotNull($magazines[1]);       
-    } 
-    
-    public function testGoodSelectByTitle():void{
-
-        $magazine = clone self::$sampleMagazine;
-        $magazine->ObjectID = "objID2";
-        $magazine->Title = "Magazine Test";
-        
-        self::$magazineRepository->insert($magazine);
-
-        $this->assertEquals(self::$magazineRepository->selectByTitle("Magazine Test")->Title,"Magazine Test");
+        $this->assertNull(self::$magazineRepository->findById("WRONGID"));
     }
 
-    public function testGoodSelectByKey():void{
+    public function testGoodSelectAll(): void
+    {
+        for ($i = 1; $i < 4; $i++) {
+            $genericObject = clone self::$sampleGenericObject;
 
-        $magazine = clone self::$sampleMagazine;
-        $magazine->ObjectID = "objID2";
-        $magazine->Title = "Magazine Test";
-        
-        self::$magazineRepository->insert($magazine);
+            $genericObject->id = "objID" . $i;
 
-        $this->assertEquals(count(self::$magazineRepository->selectByKey("maGazIn")),2);
+            self::$genericObjectRepository->save($genericObject);
+
+            $magazine                = clone self::$sampleMagazine;
+            $magazine->genericObject = $genericObject;
+
+            self::$magazineRepository->save($magazine);
+        }
+
+        $magazines = self::$magazineRepository->find();
+
+        $this->assertEquals(count($magazines), 4);
+        $this->assertNotNull($magazines[1]);
     }
 
-    public function testBadSelectByKey():void{       
-        $this->assertEquals(self::$magazineRepository->selectByKey("wrongkey"),[]);
+    public function testGoodSelectByKey(): void
+    {
+        $genericObject = clone self::$sampleGenericObject;
+
+        $genericObject->id = "objID1";
+
+        self::$genericObjectRepository->save($genericObject);
+
+        $magazine                = clone self::$sampleMagazine;
+        $magazine->genericObject = $genericObject;
+        $magazine->title         = "Magazine Test";
+
+        self::$magazineRepository->save($magazine);
+
+        $this->assertEquals(count(self::$magazineRepository->findByQuery("maGazIn")), 2);
+    }
+
+    public function testBadSelectByKey(): void
+    {
+        $this->assertEquals(self::$magazineRepository->findByQuery("wrongkey"), []);
     }
 
     //UPDATE TESTS
-    public function testGoodUpdate():void{
-        $magazine = clone self::$sampleMagazine;
-        $magazine->Title = "NEW TITLE";
-        
+    public function testGoodUpdate(): void
+    {
+        $magazine        = clone self::$sampleMagazine;
+        $magazine->title = "NEW TITLE";
+
         self::$magazineRepository->update($magazine);
-        
-        $this->assertEquals("NEW TITLE",self::$magazineRepository->selectById("objID")->Title);
-    }
-    
-    //DELETE TESTS
-    public function testGoodDelete():void{       
-        
-        self::$magazineRepository->delete("objID");
-        
-        $this->assertNull(self::$magazineRepository->selectById("objID"));
+
+        $this->assertEquals("NEW TITLE", self::$magazineRepository->findById("objID")->title);
     }
 
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
+    //DELETE TESTS
+    public function testGoodDelete(): void
+    {
+        self::$magazineRepository->delete("objID");
+
+        $this->assertNull(self::$magazineRepository->findById("objID"));
+    }
 }

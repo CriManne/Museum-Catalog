@@ -1,26 +1,28 @@
-version: '3'
 services:
   webserver:
-    image: php:8.2-cli
+    image: php:8.3-apache
     ports:
       - "80:80"
     volumes:
-      - .:/app
+      - .:/var/www
     build:
       context: .
-      dockerfile: Dockerfile
-    command: bash -c "composer install; php -S 0.0.0.0:80 -t public"
+      dockerfile: apache/Dockerfile
+    env_file:
+      - .env
+    expose:
+      - 9000
 
   database:
     image: mysql
     environment:
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mupin
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}
+    command: --lower_case_table_names=0
     ports:
       - "3306:3306"
     volumes:
-      - ./sql/create_mupin.sql:/docker-entrypoint-initdb.d/create_mupin.sql
-      - ./my.cnf:/etc/mysql/my.cnf
+      - ./sql/create.sql:/docker-entrypoint-initdb.d/create.sql
 
   phpmyadmin:
     image: phpmyadmin/phpmyadmin
@@ -30,7 +32,7 @@ services:
       - "8080:80"
     environment:
       PMA_HOST: database
-      PMA_USER: root
-      PMA_PASSWORD: root
-      MYSQL_ROOT_PASSWORD: root
-      MYSQL_DATABASE: mupin
+      PMA_USER: ${DB_USERNAME}
+      PMA_PASSWORD: ${DB_PASSWORD}
+      MYSQL_ROOT_PASSWORD: ${DB_PASSWORD}
+      MYSQL_DATABASE: ${DB_NAME}

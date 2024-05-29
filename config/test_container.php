@@ -2,25 +2,36 @@
 
 declare(strict_types=1);
 
-use App\Exception\RepositoryException;
-use League\Plates\Engine;
+use App\Exception\DatabaseException;
+use App\Plugins\Injection\DIC;
 use Psr\Container\ContainerInterface;
 
 return [
-    'dsn' => 'mysql:host=localhost;',
-    'test_db' => 'dbname=mupin_test;',
-    'username' => 'root',
-    'psw' => '',
-    'PDO' => function (ContainerInterface $c) {
+    'dsn'      => getenv('DB_DSN'),
+    'test_db'  => getenv('DB_TEST'),
+    'username' => getenv('DB_USERNAME'),
+    'psw'      => getenv('DB_PASSWORD'),
+    'db_dump'  => file_get_contents("./sql/create.sql"),
+    'PDO'      => function (ContainerInterface $c) {
         try {
-            return new PDO(
+            $pdo = DIC::getPdo();
+
+            if ($pdo) {
+                return $pdo;
+            }
+
+            $pdo = new PDO(
                 $c->get('dsn') . $c->get('test_db'),
                 $c->get('username'),
                 $c->get('psw'),
                 array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
             );
+
+            DIC::setPdo($pdo);
+
+            return $pdo;
         } catch (PDOException) {
-            throw new RepositoryException("Cannot connect to database!");
+            throw new DatabaseException("Cannot connect to database!");
         }
     }
 ];

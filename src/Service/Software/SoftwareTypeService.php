@@ -4,41 +4,59 @@ declare(strict_types=1);
 
 namespace App\Service\Software;
 
+use AbstractRepo\DataModels\FetchParams;
+use AbstractRepo\Exceptions\RepositoryException;
 use App\Exception\ServiceException;
-use App\Model\Software\SoftwareType;
+use App\Models\Software\SoftwareType;
 use App\Repository\Software\SoftwareTypeRepository;
+use App\Service\IComponentService;
 
-class SoftwareTypeService {
-
-    public SoftwareTypeRepository $softwareTypeRepository;
-
-    public function __construct(SoftwareTypeRepository $softwareTypeRepository) {
-        $this->softwareTypeRepository = $softwareTypeRepository;
+class SoftwareTypeService implements IComponentService
+{
+    public function __construct(
+        protected SoftwareTypeRepository $softwareTypeRepository
+    )
+    {
     }
 
     /**
      * Insert SoftwareType
-     * @param SoftwareType $s The SoftwareType to insert
+     *
+     * @param SoftwareType $s The SoftwareType to save
+     *
      * @throws ServiceException If the name is already used
-     * @throws RepositoryException If the insert fails
+     * @throws RepositoryException If the save fails
      */
-    public function insert(SoftwareType $s): void {
-        $sType = $this->softwareTypeRepository->selectByName($s->Name);
-        if ($sType)
-            throw new ServiceException("Software Type name already used!");
+    public function save(SoftwareType $s): void
+    {
+        $softwareType = $this->softwareTypeRepository->findFirst(new FetchParams(
+            conditions: "name = :name",
+            bind: [
+                "name" => $s->name
+            ]
+        ));
 
-        $this->softwareTypeRepository->insert($s);
+        if ($softwareType) {
+            throw new ServiceException("Software Type name already used!");
+        }
+
+        $this->softwareTypeRepository->save($s);
     }
 
     /**
      * Select by id
+     *
      * @param int $id The id to select
+     *
      * @return SoftwareType The SoftwareType selected
      * @throws ServiceException If not found
+     * @throws RepositoryException
      */
-    public function selectById(int $id): SoftwareType {
-        $softwareType = $this->softwareTypeRepository->selectById($id);
-        if (is_null($softwareType)) {
+    public function findById(int $id): SoftwareType
+    {
+        $softwareType = $this->softwareTypeRepository->findById($id);
+
+        if (!$softwareType) {
             throw new ServiceException("Software Type not found");
         }
 
@@ -47,13 +65,23 @@ class SoftwareTypeService {
 
     /**
      * Select by name
+     *
      * @param string $name The name to select
+     *
      * @return SoftwareType The SoftwareType selected
-     * @throws ServiceException If not found
+     * @throws ServiceException
+     * @throws RepositoryException If not found
      */
-    public function selectByName(string $name): SoftwareType {
-        $softwareType = $this->softwareTypeRepository->selectByName($name);
-        if (is_null($softwareType)) {
+    public function findByName(string $name): SoftwareType
+    {
+        $softwareType = $this->softwareTypeRepository->findFirst(new FetchParams(
+            conditions: "name = :name",
+            bind: [
+                "name" => $name
+            ]
+        ));
+
+        if (!$softwareType) {
             throw new ServiceException("Software Type not found");
         }
 
@@ -62,30 +90,39 @@ class SoftwareTypeService {
 
     /**
      * Select by key
+     *
      * @param string $key The key to search
+     *
      * @return array The SoftwareTypes selected
+     * @throws RepositoryException
      */
-    public function selectByKey(string $key): array {
-        return $this->softwareTypeRepository->selectByKey($key);
+    public function findByQuery(string $key): array
+    {
+        return $this->softwareTypeRepository->findByQuery($key);
     }
 
     /**
      * Select all
-     * @return array All the softtype
+     * @return array All the software type
+     * @throws RepositoryException
      */
-    public function selectAll(): array {
-        return $this->softwareTypeRepository->selectAll();
+    public function find(): array
+    {
+        return $this->softwareTypeRepository->find();
     }
 
     /**
      * Update SoftwareType
+     *
      * @param SoftwareType $s The SoftwareType to update
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the update fails
      */
-    public function update(SoftwareType $s): void {
-        $softT = $this->softwareTypeRepository->selectById($s->SoftwareTypeID);
-        if (is_null($softT)) {
+    public function update(SoftwareType $s): void
+    {
+        $softT = $this->softwareTypeRepository->findById($s->id);
+        if (!$softT) {
             throw new ServiceException("Software Type not found!");
         }
 
@@ -94,13 +131,16 @@ class SoftwareTypeService {
 
     /**
      * Delete SoftwareType
+     *
      * @param int $id The id to delete
+     *
      * @throws ServiceException If not found
      * @throws RepositoryException If the delete fails
      */
-    public function delete(int $id): void {
-        $s = $this->softwareTypeRepository->selectById($id);
-        if (is_null($s)) {
+    public function delete(int $id): void
+    {
+        $s = $this->softwareTypeRepository->findById($id);
+        if (!$s) {
             throw new ServiceException("Software Type not found!");
         }
 

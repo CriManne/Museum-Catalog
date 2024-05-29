@@ -1,102 +1,94 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Service;
+namespace App\Test\Service\Book;
 
-use PHPUnit\Framework\TestCase;
+use App\Models\GenericObject;
+use App\Repository\Book\PublisherRepository;
+use App\Repository\GenericObjectRepository;
+use App\Test\Service\BaseServiceTest;
 use App\Exception\ServiceException;
-
-use App\Model\Book\Book;
-use App\Model\Book\Author;
-use App\Model\Book\BookAuthor;
-use App\Model\Book\Publisher;
+use App\Models\Book\Book;
+use App\Models\Book\Author;
+use App\Models\Book\Publisher;
 
 use App\Repository\Book\BookRepository;
 use App\Service\Book\BookService;
 
-final class BookServiceTest extends TestCase
+final class BookServiceTest extends BaseServiceTest
 {
-    public BookRepository $bookRepository;
-    public BookService $bookService;
-    
+    public GenericObjectRepository $genericObjectRepository;
+    public BookRepository          $bookRepository;
+    public PublisherRepository     $publisherRepository;
+    public BookService             $bookService;
+
 
     public function setUp(): void
-    {                
-        $this->bookRepository = $this->createMock(BookRepository::class);
+    {
+        $this->genericObjectRepository = $this->createMock(GenericObjectRepository::class);
+        $this->publisherRepository     = $this->createMock(PublisherRepository::class);
+        $this->bookRepository          = $this->createMock(BookRepository::class);
 
-        $this->bookService = new BookService($this->bookRepository);        
+        $this->bookService = new BookService(
+            bookRepository: $this->bookRepository,
+            publisherRepository: $this->publisherRepository,
+            genericObjectRepository: $this->genericObjectRepository
+        );
+
+        $this->sampleGenericObject = new GenericObject("objID");
 
         $this->sampleObject = new Book(
-            "objID",
-            null,
-            null,
-            null,
+            $this->sampleGenericObject,
             '1984',
-            new Publisher("Mondadori",1),
+            new Publisher("Mondadori", 1),
             1945,
+            [
+                new Author("George", "Orwell", 1)
+            ],
             "ALSKDI82SB",
             245,
-            [
-                new Author("George","Orwell",1)
-            ]
-        );    
-        
-        $this->sampleObjectRaw = [
-            'Title' => '1984',
-            'PublisherID' => 1,
-            'Year' => 1945,
-            'ISBN' => 'ALSKDI82SB',
-            'Pages' => 245,            
-            'ObjectID' => 'objID',
-            'Note' => null,
-            'Url' => null,
-            'Tag' => null,
-            'Active' => '1'
-        ];        
+        );
     }
-    
-    
+
+
     //INSERT TESTS
-    
-    public function testBadInsert():void{
+
+    public function testBadInsert(): void
+    {
         $this->expectException(ServiceException::class);
-        $this->bookRepository->method('selectByTitle')->willReturn($this->sampleObject);
-        $this->bookService->insert($this->sampleObject);
+        $this->bookRepository->method('findFirst')->willReturn($this->sampleObject);
+        $this->bookService->save($this->sampleObject);
     }
+
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->bookRepository->method('selectById')->willReturn($this->sampleObject);
-        $this->assertEquals("1984",$this->bookService->selectById("ObjID")->Title);
+        $this->bookRepository->method('findById')->willReturn($this->sampleObject);
+        $this->assertEquals("1984", $this->bookService->findById("ObjID")->title);
     }
-    
+
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->bookRepository->method('selectById')->willReturn(null);
-        $this->bookService->selectById("ObjID25");
+        $this->bookRepository->method('findById')->willReturn(null);
+        $this->bookService->findById("ObjID25");
     }
-    
-    public function testBadSelectByTitle(): void
+
+    //UPDATE TESTS
+    public function testBadUpdate(): void
     {
         $this->expectException(ServiceException::class);
-        $this->bookRepository->method('selectByTitle')->willReturn(null);
-        $this->bookService->selectByTitle("WRONG");
-    }
-    
-    //UPDATE TESTS
-    public function testBadUpdate():void{
-        $this->expectException(ServiceException::class);                
-        $this->bookRepository->method('selectById')->willReturn(null);
+        $this->bookRepository->method('findById')->willReturn(null);
         $this->bookService->update($this->sampleObject);
     }
-    
+
     //DELETE TESTS
-    public function testBadDelete():void{
+    public function testBadDelete(): void
+    {
         $this->expectException(ServiceException::class);
-        
-        $this->bookRepository->method('selectById')->willReturn(null);
-        
+
+        $this->bookRepository->method('findById')->willReturn(null);
+
         $this->bookService->delete("ObjID99");
-    }       
+    }
 }

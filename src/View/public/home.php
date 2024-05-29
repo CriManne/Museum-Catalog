@@ -48,13 +48,6 @@
                                 <div class="textwidget custom-html-widget">
                                     <hr>
                                     Associazione “Museo Piemontese dell’informatica – MuPIn” OdV<br>
-
-                                    C.F. 94064820015
-
-                                    <br><br>
-                                    Rinnovo tesseramento annuale e donazioni a mezzo bonifico:<br>
-                                    IBAN: IT 54 B 02008 01119 000105034382 <br>
-                                    Intestato a: Museo Piemontese dell'Informatica
                                 </div>
                             </section>
                         </aside>

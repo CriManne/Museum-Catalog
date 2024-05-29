@@ -2,84 +2,81 @@
 
 declare(strict_types=1);
 
-namespace App\Test\Service;
+namespace App\Test\Service\Peripheral;
 
 use App\Exception\ServiceException;
-use App\Model\Peripheral\PeripheralType;
+use App\Models\Peripheral\PeripheralType;
 use App\Repository\Peripheral\PeripheralTypeRepository;
 use App\Service\Peripheral\PeripheralTypeService;
-use PHPUnit\Framework\TestCase;
-use PDO;
-use PDOStatement;
+use App\Test\Service\BaseServiceTest;
 
-final class PeripheralTypeServiceTest extends TestCase
+final class PeripheralTypeServiceTest extends BaseServiceTest
 {
     public PeripheralTypeService $peripheralTypeService;
+    public PeripheralTypeRepository $peripheralTypeRepository;
     
     public function setUp(): void
     {        
-        $this->pdo = $this->createMock(PDO::class);
-        $this->sth = $this->createMock(PDOStatement::class);
-        $this->pdo->method('prepare')->willReturn($this->sth);
-        $this->sth->method('execute')->willReturn(true);
-        $this->peripheralTypeRepository = new PeripheralTypeRepository($this->pdo);    
+        $this->peripheralTypeRepository = $this->createMock(PeripheralTypeRepository::class);
         $this->peripheralTypeService = new PeripheralTypeService($this->peripheralTypeRepository);        
 
-        $this->sampleObject = [
-            "PeripheralTypeID"=>1,
-            "Name"=>'Mouse'
-        ];        
+        $this->sampleObject = new PeripheralType(
+            name: 'Mouse',
+            id: 1,
+        );
     }
     
     //INSERT TESTS
     public function testGoodInsert():void{
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals($this->peripheralTypeService->selectById(1)->Name,"Mouse");        
+        $this->expectNotToPerformAssertions();
+        $this->peripheralTypeRepository->method('findFirst')->willReturn(null);
+        $peripheralType = new PeripheralType('Mouse');
+        $this->peripheralTypeService->save($peripheralType);
     }
     
     public function testBadInsert():void{
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
+        $this->peripheralTypeRepository->method('findFirst')->willReturn($this->sampleObject);
         $peripheralType = new PeripheralType('Mouse');
-        $this->peripheralTypeService->insert($peripheralType);
+        $this->peripheralTypeService->save($peripheralType);
     }
 
     
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->sth->method('fetch')->willReturn($this->sampleObject);
-        $this->assertEquals("Mouse",$this->peripheralTypeService->selectById(1)->Name);
+        $this->peripheralTypeRepository->method('findById')->willReturn($this->sampleObject);
+        $this->assertEquals("Mouse",$this->peripheralTypeService->findById(1)->name);
     }
     
     public function testBadSelectById(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
-        $this->peripheralTypeService->selectById(2);
+        $this->peripheralTypeRepository->method('findById')->willReturn(null);
+        $this->peripheralTypeService->findById(2);
     }
     
     public function testBadSelectByName(): void
     {
         $this->expectException(ServiceException::class);
-        $this->sth->method('fetch')->willReturn(null);
-        $this->peripheralTypeService->selectByName("Mouse");
+        $this->peripheralTypeRepository->method('findById')->willReturn(null);
+        $this->peripheralTypeService->findByName("Mouse");
     }
     
     //UPDATE TESTS
     public function testBadUpdate():void{
         $this->expectException(ServiceException::class);
         $peripheralType = new PeripheralType("Keyboard",1);
-        
-        $this->sth->method('fetch')->willReturn(null);
+
+        $this->peripheralTypeRepository->method('findById')->willReturn(null);
         $this->peripheralTypeService->update($peripheralType);
     }
     
     //DELETE TESTS
     public function testBadDelete():void{
         $this->expectException(ServiceException::class);
-        
-        $this->sth->method('fetch')->willReturn(null);
+
+        $this->peripheralTypeRepository->method('findById')->willReturn(null);
         
         $this->peripheralTypeService->delete(5);
     }   

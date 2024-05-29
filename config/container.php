@@ -2,13 +2,17 @@
 
 declare(strict_types=1);
 
-use App\Exception\RepositoryException;
+use App\Exception\DatabaseException;
+use App\Plugins\Injection\DIC;
 use League\Plates\Engine;
 use Psr\Container\ContainerInterface;
 
 return [
-    'view_path' => 'src/View',
-    Engine::class => function (ContainerInterface $c) {
+    'view_path'        => 'src/View',
+    'artifactImages'   => '/public/assets/artifacts/',
+    'secureScriptPath' => '/secure_scripts/adv/',
+    'basicScriptPath'  => '/secure_scripts/basic/',
+    Engine::class      => function (ContainerInterface $c) {
         $engine = new Engine($c->get('view_path'));
         $engine->addFolder('layouts', $c->get('view_path') . '/layouts');
         $engine->addFolder('private', $c->get('view_path') . '/private');
@@ -24,25 +28,31 @@ return [
         $engine->addFolder('error', $c->get('view_path') . '/error');
         return $engine;
     },
-    'authentication' => [
-        'username' => 'test',
-        'password' => 'password'
-    ],
-    'dsn' => 'mysql:host=localhost;',
-    'production_db' => 'dbname=mupin;',
-    'username' => 'root',
-    'db_dump' => file_get_contents("./sql/create_mupin.sql"),
-    'psw' => '',
-    'PDO' => function (ContainerInterface $c) {
+    'dsn'              => getenv('DB_DSN'),
+    'db_name'          => getenv('DB_PROD'),
+    'username'         => getenv('DB_USERNAME'),
+    'psw'              => getenv('DB_PASSWORD'),
+    'db_dump'          => file_get_contents("./sql/create.sql"),
+    'PDO'              => function (ContainerInterface $c) {
         try {
-            return new PDO(
-                $c->get('dsn') . $c->get('production_db'),
+            $pdo = DIC::getPdo();
+
+            if ($pdo) {
+                return $pdo;
+            }
+
+            $pdo = new PDO(
+                $c->get('dsn') . $c->get('db_name'),
                 $c->get('username'),
                 $c->get('psw'),
                 array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION)
             );
+
+            DIC::setPdo($pdo);
+
+            return $pdo;
         } catch (PDOException) {
-            throw new RepositoryException("Cannot connect to database!");
+            throw new DatabaseException("Cannot connect to database!");
         }
     },
     /**
@@ -50,5 +60,5 @@ return [
      * LEVEL 0: minimum logging level, just employee operations and public failed operations (e.g.: artifact not found)
      * LEVEL 1: maximum logging level, every call to the controllers will be logged
      */
-    'logging_level'=>0
+    'logging_level'    => 1
 ];

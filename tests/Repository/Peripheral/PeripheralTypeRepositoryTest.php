@@ -1,86 +1,71 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Peripheral;
 
-use PDO;
-use PHPUnit\Framework\TestCase;
+use App\Test\Repository\BaseRepositoryTest;
+use App\Test\Repository\RepositoryTestUtil;
 use App\Repository\Peripheral\PeripheralTypeRepository;
-use App\Exception\RepositoryException;
-use App\Model\Peripheral\PeripheralType;
+use App\Models\Peripheral\PeripheralType;
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
-final class PeripheralTypeRepositoryTest extends TestCase
+final class PeripheralTypeRepositoryTest extends BaseRepositoryTest
 {
     public static PeripheralTypeRepository $peripheralTypeRepository;
-    public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$peripheralTypeRepository = new PeripheralTypeRepository(self::$pdo);          
+        parent::setUpBeforeClass();
+        self::$peripheralTypeRepository = new PeripheralTypeRepository(self::$pdo);
     }
 
     public function setUp():void{
-        //PeripheralType inserted to test duplicated os errors
+        //PeripheralType saved to test duplicated os errors
         $peripheralType = new PeripheralType('Mouse');
-        self::$peripheralTypeRepository->insert($peripheralType);
+        self::$peripheralTypeRepository->save($peripheralType);
     }
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE peripheraltype; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE PeripheralType; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
     public function testGoodInsert():void{                
         $peripheralType = new PeripheralType('Keyboard');
 
-        self::$peripheralTypeRepository->insert($peripheralType);
+        self::$peripheralTypeRepository->save($peripheralType);
 
-        $this->assertEquals(self::$peripheralTypeRepository->selectById(2)->Name,"Keyboard");
+        $this->assertEquals(self::$peripheralTypeRepository->findById(2)->name,"Keyboard");
     }
     public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);
+        $this->expectException(AbstractRepositoryException::class);
 
-        //PeripheralType already inserted in the setUp() method
+        //PeripheralType already saved in the setUp() method
         $peripheralType = new PeripheralType('Mouse');
 
-        self::$peripheralTypeRepository->insert($peripheralType);
+        self::$peripheralTypeRepository->save($peripheralType);
     }
     
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$peripheralTypeRepository->selectById(1));
+        $this->assertNotNull(self::$peripheralTypeRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$peripheralTypeRepository->selectById(3));
-    }
-    
-    public function testGoodSelectByName(): void
-    {
-        $this->assertNotNull(self::$peripheralTypeRepository->selectByName("Mouse"));
-    }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->assertNull(self::$peripheralTypeRepository->selectByName("WRONG-PERIPHERALTYPE-NAME"));
+        $this->assertNull(self::$peripheralTypeRepository->findById(3));
     }
 
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$peripheralTypeRepository->selectByKey("ous"));
+        $this->assertNotEmpty(self::$peripheralTypeRepository->findByQuery("ous"));
     }
     
     public function testBadSelectByKey(): void
     {
-        $this->assertEmpty(self::$peripheralTypeRepository->selectByKey("WRONG-PERIPHERALTYPE-NAME"));
+        $this->assertEmpty(self::$peripheralTypeRepository->findByQuery("WRONG-PERIPHERALTYPE-NAME"));
     }
     
     
@@ -88,11 +73,11 @@ final class PeripheralTypeRepositoryTest extends TestCase
         $peripheralType1 = new PeripheralType('PT1');
         $peripheralType2 = new PeripheralType('PT2');
         $peripheralType3 = new PeripheralType('PT3');
-        self::$peripheralTypeRepository->insert($peripheralType1);
-        self::$peripheralTypeRepository->insert($peripheralType2);
-        self::$peripheralTypeRepository->insert($peripheralType3);
+        self::$peripheralTypeRepository->save($peripheralType1);
+        self::$peripheralTypeRepository->save($peripheralType2);
+        self::$peripheralTypeRepository->save($peripheralType3);
         
-        $peripheralTypes = self::$peripheralTypeRepository->selectAll();
+        $peripheralTypes = self::$peripheralTypeRepository->find();
         
         $this->assertEquals(count($peripheralTypes),4);
         $this->assertNotNull($peripheralTypes[1]);       
@@ -104,7 +89,7 @@ final class PeripheralTypeRepositoryTest extends TestCase
         
         self::$peripheralTypeRepository->update($peripheralType);
         
-        $this->assertEquals("Keyboard",self::$peripheralTypeRepository->selectById(1)->Name);
+        $this->assertEquals("Keyboard",self::$peripheralTypeRepository->findById(1)->name);
     }
     
     //DELETE TESTS
@@ -112,11 +97,6 @@ final class PeripheralTypeRepositoryTest extends TestCase
         
         self::$peripheralTypeRepository->delete(1);
         
-        $this->assertNull(self::$peripheralTypeRepository->selectById(1));
+        $this->assertNull(self::$peripheralTypeRepository->findById(1));
     }
-    
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
 }

@@ -1,67 +1,61 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Book;
 
-use PDO;
-use PHPUnit\Framework\TestCase;
+use App\Test\Repository\BaseRepositoryTest;
 use App\Repository\Book\AuthorRepository;
-use App\Model\Book\Author;
+use App\Models\Book\Author;
 
-final class AuthorRepositoryTest extends TestCase
+final class AuthorRepositoryTest extends BaseRepositoryTest
 {
     public static AuthorRepository $authorRepository;
-    public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$authorRepository = new AuthorRepository(self::$pdo);          
+        parent::setUpBeforeClass();
+        self::$authorRepository = new AuthorRepository(self::$pdo);
     }
 
     public function setUp():void{
-        //Author inserted to test duplicated author errors
+        //Author saved to test duplicated author errors
         $author= new Author('Mario',"Rossi");
-        self::$authorRepository->insert($author);        
+        self::$authorRepository->save($author);        
     }
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE author; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Author; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
     public function testGoodInsert():void{                
         $author= new Author('Luca',"Verdi");
 
-        self::$authorRepository->insert($author);
+        self::$authorRepository->save($author);
 
-        $this->assertEquals(self::$authorRepository->selectById(2)->firstname,"Luca");
+        $this->assertEquals(self::$authorRepository->findById(2)->firstname,"Luca");
     }
     
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$authorRepository->selectById(1));
+        $this->assertNotNull(self::$authorRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$authorRepository->selectById(3));
+        $this->assertNull(self::$authorRepository->findById(3));
     }
     
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$authorRepository->selectByKey("mario ros"));
+        $this->assertNotEmpty(self::$authorRepository->findByQuery("mari"));
     }
     
     public function testBadSelectByFullName(): void
     {
-        $this->assertEmpty(self::$authorRepository->selectByKey("WRONG-AUTHOR-NAME"));
+        $this->assertEmpty(self::$authorRepository->findByQuery("WRONG-AUTHOR-NAME"));
     }
     
     
@@ -69,11 +63,11 @@ final class AuthorRepositoryTest extends TestCase
         $author1 = new Author('Sara',"Neri");
         $author2 = new Author('Tommaso',"Gialli");
         $author3 = new Author('Franco',"Verdi");
-        self::$authorRepository->insert($author1);
-        self::$authorRepository->insert($author2);
-        self::$authorRepository->insert($author3);
+        self::$authorRepository->save($author1);
+        self::$authorRepository->save($author2);
+        self::$authorRepository->save($author3);
         
-        $authors = self::$authorRepository->selectAll();
+        $authors = self::$authorRepository->find();
         
         $this->assertEquals(count($authors),4);
         $this->assertNotNull($authors[1]);       
@@ -85,7 +79,7 @@ final class AuthorRepositoryTest extends TestCase
         
         self::$authorRepository->update($author);
         
-        $this->assertEquals("Andrea",self::$authorRepository->selectById(1)->firstname);
+        $this->assertEquals("Andrea",self::$authorRepository->findById(1)->firstname);
     }
     
     //DELETE TESTS
@@ -93,11 +87,6 @@ final class AuthorRepositoryTest extends TestCase
         
         self::$authorRepository->delete(1);
         
-        $this->assertNull(self::$authorRepository->selectById(1));
+        $this->assertNull(self::$authorRepository->findById(1));
     }
-    
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
 }

@@ -2,7 +2,7 @@ const urlSearchComponents = '/api/generic/components';
 const urlSearchParams = new URLSearchParams(window.location.search);
 let category = Object.fromEntries(urlSearchParams.entries())['category'];
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $("#tb-container").hide();
     $("#error-alert").hide();
@@ -11,19 +11,18 @@ $(document).ready(function() {
 
     loadResult("");
 
-    $("#category-select").on('change', function() {
-        let value = this.value;
-        category = value;
-        loadResult("&q="+$("#component-search").val());
+    $("#category-select").on('change', function () {
+        category = this.value;
+        loadResult("&q=" + $("#component-search").val());
     })
 
-    $("#component-search-form").on('submit', function(e) {
+    $("#component-search-form").on('submit', function (e) {
         e.preventDefault();
         let q = $("#component-search").val();
 
         let search = "";
 
-        if (q != "") {
+        if (q !== "") {
             search = "&q=" + q;
         }
 
@@ -33,7 +32,7 @@ $(document).ready(function() {
 });
 
 function loadResult(search) {
-    var result = makeRequest(urlSearchComponents + "?category="+category+search);
+    var result = makeRequest(urlSearchComponents + "?category=" + category + search);
 
     $("#tb-container").empty();
     $("#error-alert").empty();
@@ -52,7 +51,7 @@ function loadResult(search) {
 function loadSelect() {
     let data = makeRequest(urlListComponents);
     if (data) {
-        data.forEach(function(elem) {
+        data.forEach(function (elem) {
             $("#category-select").append($('<option>', {
                 value: elem,
                 text: elem,

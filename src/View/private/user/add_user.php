@@ -7,12 +7,12 @@
     <div id="alert-container"></div>
     <form id='add-user-form'>
         <div class="form-outline mb-4">
-            <label class="form-label" for="Email">Email address</label>
-            <input type="email" name="Email" id="Email" class="form-control" required />
+            <label class="form-label" for="email">Email address</label>
+            <input type="email" name="email" id="email" class="form-control" required />
         </div>
         <div class="form-outline mb-4">
-            <label class="form-label" for="Password">Password</label>
-            <input type="password" name="Password" id="Password" class="form-control" required />
+            <label class="form-label" for="password">Password</label>
+            <input type="password" name="password" id="password" class="form-control" required />
             <input type="checkbox" id="show_psw" onclick="showPsw()">
             <label class="form-label" for="show_psw">Show password</label>
         </div>
@@ -26,8 +26,9 @@
         </div>
         <div class="form-outline mb-4">
             <div class="form-check">
-                <input class="form-check-input" type="checkbox" value="" name="Privilege" id="Privilege">
-                <label class="form-check-label" for="Privilege">
+                <input type="hidden" name="privilege" value="0">
+                <input class="form-check-input" type="checkbox" name="privilege" id="privilege">
+                <label class="form-check-label" for="privilege">
                     Administrator
                 </label>
             </div>

@@ -9,11 +9,11 @@ function createAlert(response, container = "#alert-container") {
         scrollTop: 0
     }, 50);
     $(container).prepend(
-        '<div class="alert alert-'+(response.status == "200" ? "success" : "danger")+' alert-dismissible fade show" role="alert" id="alert">' +
-        '<p><strong>' + (response.status == "200" ? "Success!" : "Error!") + '</strong></p>' + response.message +
+        '<div class="alert alert-' + (isError(response.status) ? "danger" : "success") + ' alert-dismissible fade show" role="alert" id="alert">' +
+        '<p><strong>' + (isError(response.status) ? "Error!" : "Success!") + '</strong></p>' + response.message +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
     );
-    $("#alert").fadeTo(3000, 0).slideUp(500, function() {
+    $("#alert").fadeTo(3000, 0).slideUp(500, function () {
         $(this).remove();
     });
 }
@@ -23,15 +23,15 @@ function createStaticAlert(response, container = "#alert-container") {
         scrollTop: 0
     }, 50);
     $(container).prepend(
-        '<div class="alert alert-'+(response.status == "200" ? "success" : "danger")+' alert-dismissible fade show" role="alert" id="alert">' +
-        '<p><strong>' + (response.status == "200" ? "Success!" : "Error!") + '</strong></p>' + response.message +
+        '<div class="alert alert-' + (isError(response.status) ? "danger" : "success") + ' alert-dismissible fade show" role="alert" id="alert">' +
+        '<p><strong>' + (isError(response.status) ? "Error!" : "Success!") + '</strong></p>' + response.message +
         '<button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button></div>'
     );
 }
 
 //Make a request and return a json response
-function makeRequest(url, method = 'GET', headers = [], params = [],dataType = "text") {
-    var returnData = {};
+function makeRequest(url, method = 'GET', headers = [], params = [], dataType = "text") {
+    let returnData = {};
     $.ajax({
         url: url,
         method: method,
@@ -40,17 +40,22 @@ function makeRequest(url, method = 'GET', headers = [], params = [],dataType = "
         data: params,
         processData: false,
         contentType: false,
-        dataType:dataType,
+        dataType: dataType,
         xhrFields: {
             withCredentials: true
         },
-        success: function(data, textStatus, xhr) {
+        success: function (data, textStatus, xhr) {
             returnData = JSON.parse(data);
+            returnData.status = xhr.status;
         },
-        error: function(xhr, status, error) {
+        error: function (xhr, status, error) {
             returnData.message = JSON.parse(xhr.responseText).message;
             returnData.status = xhr.status;
         }
     });
     return returnData;
+}
+
+function isError(status) {
+    return status >= 400 && status <= 599;
 }

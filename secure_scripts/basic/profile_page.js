@@ -1,15 +1,15 @@
 const urlUpdateUser = "/api/user/update";
 
-$(document).ready(function() {
+$(document).ready(function () {
 
     $("#loading-container").remove();
     $("#main-container").removeClass("d-none");
 
-    $("#add-user-form").on('submit', function(e) {
+    $("#add-user-form").on('submit', function (e) {
         e.preventDefault();
-        let formData = new FormData(this);       
+        let formData = new FormData(this);
 
-        if($("#Password").val() !== $("#Confirm_Password").val()){
+        if ($("#password").val() !== $("#confirm_password").val()) {
             alert("The two passwords aren't equal!");
             return;
         }
@@ -22,15 +22,15 @@ $(document).ready(function() {
             },
             params = formData);
 
-        if(response.status=="200"){
+        if (response.status === 200) {
             createAlert({
-                "message":"Profile updated successfully!",
-                "status":"200"
+                "message": "Profile updated successfully!",
+                "status": 200
             });
-        }else{
+        } else {
             createAlert({
-                "message":"Error while updating the profile!",
-                "status":"400"
+                "message": "Error while updating the profile!",
+                "status": 400
             });
         }
     });

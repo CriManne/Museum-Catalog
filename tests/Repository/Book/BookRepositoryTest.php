@@ -1,54 +1,47 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Book;
 
-use PDO;
-use PHPUnit\Framework\TestCase;
-
+use App\Models\GenericObject;
+use App\Repository\GenericObjectRepository;
+use App\Test\Repository\BaseRepositoryTest;
 use App\Repository\Book\BookRepository;
 use App\Repository\Book\PublisherRepository;
 use App\Repository\Book\AuthorRepository;
-use App\Repository\Book\BookAuthorRepository;
+use App\Repository\Book\BookHasAuthorRepository;
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
+use App\Models\Book\Author;
+use App\Models\Book\Book;
+use App\Models\Book\Publisher;
 
-use App\Exception\RepositoryException;
-use App\Model\Book\Author;
-use App\Model\Book\Book;
-use App\Model\Book\Publisher;
-
-final class BookRepositoryTest extends TestCase
+final class BookRepositoryTest extends BaseRepositoryTest
 {
-    public static ?PDO $pdo;
-    public static Author $sampleAuthor;
-    public static Book $sampleBook;
-    public static Publisher $samplePublisher;
+    public static GenericObject $sampleGenericObject;
+    public static Author        $sampleAuthor;
+    public static Book          $sampleBook;
+    public static Publisher     $samplePublisher;
 
-    public static PublisherRepository $publisherRepository;
-    public static AuthorRepository $authorRepository;
-    public static BookAuthorRepository $bookAuthorRepository;
-    public static BookRepository $bookRepository;
+    public static GenericObjectRepository $genericObjectRepository;
+    public static PublisherRepository     $publisherRepository;
+    public static AuthorRepository        $authorRepository;
+    public static BookHasAuthorRepository $bookAuthorRepository;
+    public static BookRepository          $bookRepository;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
+        parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$authorRepository = new AuthorRepository(self::$pdo);
-        self::$bookAuthorRepository = new BookAuthorRepository(self::$pdo);
-        self::$publisherRepository = new PublisherRepository(self::$pdo);
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$authorRepository        = new AuthorRepository(self::$pdo);
+        self::$bookAuthorRepository    = new BookHasAuthorRepository(self::$pdo);
+        self::$publisherRepository     = new PublisherRepository(self::$pdo);
+        self::$bookRepository          = new BookRepository(self::$pdo);
 
+        self::$sampleGenericObject = new GenericObject("objID");
 
-        // Repository to handle book
-        self::$bookRepository = new BookRepository(
-            self::$pdo,
-            self::$publisherRepository,            
-            self::$authorRepository,
-            self::$bookAuthorRepository
-        );        
-        
-        self::$sampleAuthor = new Author(            
+        self::$sampleAuthor = new Author(
             "George",
             "Orwell",
             1
@@ -57,124 +50,123 @@ final class BookRepositoryTest extends TestCase
         self::$samplePublisher = new Publisher(
             'Einaudi',
             1
-        );              
+        );
 
         self::$sampleBook = new Book(
-            "objID",
-            null,
-            null,
-            null,
+            self::$sampleGenericObject,
             "1984",
             self::$samplePublisher,
             1984,
+            null,
             "AAABBBCCC",
             95,
-            [self::$sampleAuthor]
         );
 
-        self::$authorRepository->insert(self::$sampleAuthor);
-        self::$publisherRepository->insert(self::$samplePublisher);
+        self::$authorRepository->save(self::$sampleAuthor);
+        self::$publisherRepository->save(self::$samplePublisher);
     }
 
-    public function setUp():void{
-        //Book inserted to test duplicated supports errors
-        self::$bookRepository->insert(self::$sampleBook);
+    public function setUp(): void
+    {
+        self::$genericObjectRepository->save(self::$sampleGenericObject);
+        self::$bookRepository->save(self::$sampleBook);
     }
 
-    public function tearDown():void{
+    public function tearDown(): void
+    {
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE book; TRUNCATE TABLE genericobject; TRUNCATE TABLE bookauthor; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec(
+            "SET FOREIGN_KEY_CHECKS=0; 
+            TRUNCATE TABLE Book; 
+            TRUNCATE TABLE GenericObject; 
+            TRUNCATE TABLE BookHasAuthor; 
+            SET FOREIGN_KEY_CHECKS=1;"
+        );
     }
 
     //INSERT TESTS
-    public function testGoodInsert():void{                
-        $book = clone self::$sampleBook;
-        $book->ObjectID = "objID2";
-        $book->Title = "2001";
-        
-        self::$bookRepository->insert($book);
+    public function testGoodInsert(): void
+    {
+        $genericObject     = clone self::$sampleGenericObject;
+        $genericObject->id = "objID2";
 
-        $this->assertEquals(self::$bookRepository->selectById("objID2")->Title,"2001");
+        $book                = clone self::$sampleBook;
+        $book->genericObject = $genericObject;
+        $book->title         = "2001";
+
+        self::$genericObjectRepository->save($genericObject);
+        self::$bookRepository->save($book);
+
+        $this->assertEquals(self::$bookRepository->findById("objID2")->title, "2001");
     }
-    public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);
-        //Book already inserted in the setUp() method  
-        self::$bookRepository->insert(self::$sampleBook);
+
+    public function testBadInsert(): void
+    {
+        $this->expectException(AbstractRepositoryException::class);
+        self::$bookRepository->save(self::$sampleBook);
     }
-    
+
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$bookRepository->selectById("objID"));
+        $this->assertNotNull(self::$bookRepository->findById("objID"));
     }
-    
+
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$bookRepository->selectById("WRONGID"));
-    }       
-    
-    public function testGoodSelectAll():void{
-        $book1 = clone self::$sampleBook;
-        $book1->ObjectID = "objID1";
-        
-        $book2 = clone self::$sampleBook;
-        $book2->ObjectID = "objID2";
-        
-        $book3 = clone self::$sampleBook;
-        $book3->ObjectID = "objID3";
-                
-        self::$bookRepository->insert($book1);
-        self::$bookRepository->insert($book2);
-        self::$bookRepository->insert($book3);
-        
-        $books = self::$bookRepository->selectAll();
-        
-        $this->assertEquals(count($books),4);
-        $this->assertNotNull($books[1]);       
-    } 
-    
-    public function testGoodSelectByTitle():void{
-
-        $book = clone self::$sampleBook;
-        $book->ObjectID = "objID2";
-        $book->Title = "Big Bang";
-        
-        self::$bookRepository->insert($book);
-
-        $this->assertEquals(self::$bookRepository->selectByTitle("Big Bang")->Title,"Big Bang");
+        $this->assertNull(self::$bookRepository->findById("WRONGID"));
     }
 
-    public function testGoodSelectByKey(): void {
+    public function testGoodSelectAll(): void
+    {
+        for ($i = 1; $i < 4; $i++) {
+            $genericObject     = clone self::$sampleGenericObject;
+            $genericObject->id = "objID" . $i;
 
-        $book = clone self::$sampleBook;
-        $book->ObjectID = "objID2";
-        $book->Title = "Big Bang";
+            $book                = clone self::$sampleBook;
+            $book->genericObject = $genericObject;
+            $book->title         = "Test";
 
-        self::$bookRepository->insert($book);
+            self::$genericObjectRepository->save($genericObject);
+            self::$bookRepository->save($book);
+        }
+        $books = self::$bookRepository->find();
 
-        $this->assertEquals(count(self::$bookRepository->selectByKey("gEoRge")),2);
+        $this->assertEquals(count($books), 4);
+    }
+
+
+    public function testGoodSelectByKey(): void
+    {
+        $genericObject     = clone self::$sampleGenericObject;
+        $genericObject->id = "objID4";
+
+        $book                = clone self::$sampleBook;
+        $book->genericObject = $genericObject;
+        $book->title         = "1984 Second edition";
+
+        self::$genericObjectRepository->save($genericObject);
+        self::$bookRepository->save($book);
+
+        $this->assertCount(2, self::$bookRepository->findByQuery("84"));
     }
 
     //UPDATE TESTS
-    public function testGoodUpdate():void{
-        $book = clone self::$sampleBook;
-        $book->Title = "NEW TITLE";
-        
+    public function testGoodUpdate(): void
+    {
+        $book        = clone self::$sampleBook;
+        $book->title = "NEW TITLE";
+
         self::$bookRepository->update($book);
-        
-        $this->assertEquals("NEW TITLE",self::$bookRepository->selectById("objID")->Title);
-    }
-    
-    //DELETE TESTS
-    public function testGoodDelete():void{       
-        
-        self::$bookRepository->delete("objID");
-        
-        $this->assertNull(self::$bookRepository->selectById("objID"));
+
+        $this->assertEquals("NEW TITLE", self::$bookRepository->findById("objID")->title);
     }
 
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
+    //DELETE TESTS
+    public function testGoodDelete(): void
+    {
+        self::$bookRepository->delete("objID");
+
+        $this->assertNull(self::$bookRepository->findById("objID"));
+    }
 }

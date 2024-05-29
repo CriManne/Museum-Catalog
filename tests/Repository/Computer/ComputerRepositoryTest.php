@@ -1,55 +1,60 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Computer;
 
+use App\Models\GenericObject;
+use App\Repository\GenericObjectRepository;
+use App\Test\Repository\BaseRepositoryTest;
+use App\Test\Repository\RepositoryTestUtil;
 use PDO;
 use PHPUnit\Framework\TestCase;
-
-use App\Exception\RepositoryException;
-use App\Model\Computer\Computer;
-use App\Model\Computer\Cpu;
-use App\Model\Computer\Os;
-use App\Model\Computer\Ram;
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
+use App\Models\Computer\Computer;
+use App\Models\Computer\Cpu;
+use App\Models\Computer\Os;
+use App\Models\Computer\Ram;
 use App\Repository\Computer\ComputerRepository;
 use App\Repository\Computer\CpuRepository;
 use App\Repository\Computer\OsRepository;
 use App\Repository\Computer\RamRepository;
 
-final class ComputerRepositoryTest extends TestCase
+final class ComputerRepositoryTest extends BaseRepositoryTest
 {
-    public static ?PDO $pdo;
-    public static Computer $sampleComputer;
-    public static Os $sampleOs;
-    public static Ram $sampleRam;
-    public static Cpu $sampleCpu;
+    public static Computer      $sampleComputer;
+    public static GenericObject $sampleGenericObject;
+    public static Os            $sampleOs;
+    public static Ram           $sampleRam;
+    public static Cpu           $sampleCpu;
 
-    public static RamRepository $ramRepository;
-    public static CpuRepository $cpuRepository;
-    public static OsRepository $osRepository;
-    public static ComputerRepository $computerRepository;
+    public static GenericObjectRepository $genericObjectRepository;
+    public static RamRepository           $ramRepository;
+    public static CpuRepository           $cpuRepository;
+    public static OsRepository            $osRepository;
+    public static ComputerRepository      $computerRepository;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
+        parent::setUpBeforeClass();
 
         // Repository to handle relations
-        self::$ramRepository = new RamRepository(self::$pdo);
-        self::$cpuRepository = new CpuRepository(self::$pdo);
-        self::$osRepository = new OsRepository(self::$pdo);
+        self::$genericObjectRepository = new GenericObjectRepository(self::$pdo);
+        self::$ramRepository           = new RamRepository(self::$pdo);
+        self::$cpuRepository           = new CpuRepository(self::$pdo);
+        self::$osRepository            = new OsRepository(self::$pdo);
 
 
         // Repository to handle computer
-        self::$computerRepository = new ComputerRepository(
-            self::$pdo,
-            self::$cpuRepository,
-            self::$ramRepository,            
-            self::$osRepository
-        );        
-        
-        self::$sampleOs = new Os(            
+        self::$computerRepository = new ComputerRepository(self::$pdo);
+
+        self::$sampleGenericObject = new GenericObject(
+            'objID',
+            null,
+            null,
+            null
+        );
+
+        self::$sampleOs = new Os(
             "Windows",
             1
         );
@@ -58,7 +63,7 @@ final class ComputerRepositoryTest extends TestCase
             'Cpu 1.0',
             "2GHZ",
             1
-        );              
+        );
 
         self::$sampleRam = new Ram(
             "RAM 1.0",
@@ -67,10 +72,7 @@ final class ComputerRepositoryTest extends TestCase
         );
 
         self::$sampleComputer = new Computer(
-            "objID",
-            null,
-            null,
-            null,
+            self::$sampleGenericObject,
             "Computer 1.0",
             2005,
             "1TB",
@@ -79,112 +81,125 @@ final class ComputerRepositoryTest extends TestCase
             self::$sampleOs
         );
 
-        self::$osRepository->insert(self::$sampleOs);
-        self::$cpuRepository->insert(self::$sampleCpu);
-        self::$ramRepository->insert(self::$sampleRam);
+        self::$osRepository->save(self::$sampleOs);
+        self::$cpuRepository->save(self::$sampleCpu);
+        self::$ramRepository->save(self::$sampleRam);
     }
 
-    public function setUp():void{
-        //Computer inserted to test duplicated supports errors
-        self::$computerRepository->insert(self::$sampleComputer);
+    public function setUp(): void
+    {
+        //Computer saved to test duplicated supports errors
+        self::$genericObjectRepository->save(self::$sampleGenericObject);
+        self::$computerRepository->save(self::$sampleComputer);
     }
 
-    public function tearDown():void{
+    public function tearDown(): void
+    {
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE computer; TRUNCATE TABLE genericobject; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE Computer; TRUNCATE TABLE GenericObject; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
-    public function testGoodInsert():void{                
-        $computer = clone self::$sampleComputer;
-        $computer->ObjectID = "objID2";
-        $computer->ModelName = "Computer 2";
-        
-        self::$computerRepository->insert($computer);
+    public function testGoodInsert(): void
+    {
+        $genericObject     = clone self::$sampleGenericObject;
+        $genericObject->id = "objID2";
 
-        $this->assertEquals(self::$computerRepository->selectById("objID2")->ModelName,"Computer 2");
+        $computer                = clone self::$sampleComputer;
+        $computer->genericObject = $genericObject;
+        $computer->modelName     = "Computer 2";
+
+        self::$genericObjectRepository->save($genericObject);
+        self::$computerRepository->save($computer);
+
+        $this->assertEquals(self::$computerRepository->findById("objID2")->modelName, "Computer 2");
     }
-    public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);
-        //Computer already inserted in the setUp() method  
-        self::$computerRepository->insert(self::$sampleComputer);
+
+    public function testBadInsert(): void
+    {
+        $this->expectException(AbstractRepositoryException::class);
+        //Computer already saved in the setUp() method
+        self::$computerRepository->save(self::$sampleComputer);
     }
-    
+
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$computerRepository->selectById("objID"));
+        $this->assertNotNull(self::$computerRepository->findById("objID"));
     }
-    
+
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$computerRepository->selectById("WRONGID"));
-    }     
-    
-    public function testGoodSelectByKey():void{
-        $newPc = clone self::$sampleComputer;
-        $newPc->ObjectID = "OBJ2";
-        $newPc->ModelName = "Computer 2";
-        self::$computerRepository->insert($newPc);
-
-        $this->assertEquals(count(self::$computerRepository->selectByKey("comp")),2);
+        $this->assertNull(self::$computerRepository->findById("WRONGID"));
     }
 
-    public function testBadSelectByKey():void{
-        $this->assertEquals(self::$computerRepository->selectByKey("wrongkey"),[]);
+    public function testGoodSelectByKey(): void
+    {
+        $genericObject     = clone self::$sampleGenericObject;
+        $genericObject->id = "OBJ2";
+
+        $computer                = clone self::$sampleComputer;
+        $computer->genericObject = $genericObject;
+        $computer->modelName     = "Computer 2";
+
+        self::$genericObjectRepository->save($genericObject);
+        self::$computerRepository->save($computer);
+
+        $this->assertEquals(count(self::$computerRepository->findByQuery("comp")), 2);
     }
-    
-    public function testGoodSelectAll():void{
-        $computer1 = clone self::$sampleComputer;
-        $computer1->ObjectID = "objID1";
-        
-        $computer2 = clone self::$sampleComputer;
-        $computer2->ObjectID = "objID2";
-        
-        $computer3 = clone self::$sampleComputer;
-        $computer3->ObjectID = "objID3";
-                
-        self::$computerRepository->insert($computer1);
-        self::$computerRepository->insert($computer2);
-        self::$computerRepository->insert($computer3);
-        
-        $computers = self::$computerRepository->selectAll();
-        
-        $this->assertEquals(count($computers),4);
-        $this->assertNotNull($computers[1]);       
-    } 
-    
-    public function testGoodSelectByModelName():void{
 
-        $computer = clone self::$sampleComputer;
-        $computer->ObjectID = "objID2";
-        $computer->ModelName = "Computer Test";
-        
-        self::$computerRepository->insert($computer);
+    public function testBadSelectByKey(): void
+    {
+        $this->assertEquals(self::$computerRepository->findByQuery("wrongkey"), []);
+    }
 
-        $this->assertEquals(self::$computerRepository->selectByModelName("Computer Test")->ModelName,"Computer Test");
+    public function testGoodSelectAll(): void
+    {
+        $genericObject1     = clone self::$sampleGenericObject;
+        $genericObject1->id = "objID1";
+        $genericObject2     = clone self::$sampleGenericObject;
+        $genericObject2->id = "objID2";
+        $genericObject3     = clone self::$sampleGenericObject;
+        $genericObject3->id = "objID3";
+
+        $computer1                = clone self::$sampleComputer;
+        $computer1->genericObject = $genericObject1;
+
+        $computer2                = clone self::$sampleComputer;
+        $computer2->genericObject = $genericObject2;
+
+        $computer3                = clone self::$sampleComputer;
+        $computer3->genericObject = $genericObject3;
+
+        self::$genericObjectRepository->save($genericObject1);
+        self::$genericObjectRepository->save($genericObject2);
+        self::$genericObjectRepository->save($genericObject3);
+        self::$computerRepository->save($computer1);
+        self::$computerRepository->save($computer2);
+        self::$computerRepository->save($computer3);
+
+        $computers = self::$computerRepository->find();
+
+        $this->assertEquals(count($computers), 4);
+        $this->assertNotNull($computers[1]);
     }
 
     //UPDATE TESTS
-    public function testGoodUpdate():void{
-        $computer = clone self::$sampleComputer;
-        $computer->ModelName = "NEW MODELNAME";
-        
+    public function testGoodUpdate(): void
+    {
+        $computer            = clone self::$sampleComputer;
+        $computer->modelName = "NEW MODELNAME";
+
         self::$computerRepository->update($computer);
-        
-        $this->assertEquals("NEW MODELNAME",self::$computerRepository->selectById("objID")->ModelName);
-    }
-    
-    //DELETE TESTS
-    public function testGoodDelete():void{       
-        
-        self::$computerRepository->delete("objID");
-        
-        $this->assertNull(self::$computerRepository->selectById("objID"));
+
+        $this->assertEquals("NEW MODELNAME", self::$computerRepository->findById("objID")->modelName);
     }
 
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
+    //DELETE TESTS
+    public function testGoodDelete(): void
+    {
+        self::$computerRepository->delete("objID");
+
+        $this->assertNull(self::$computerRepository->findById("objID"));
+    }
 }

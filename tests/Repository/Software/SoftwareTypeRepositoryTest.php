@@ -1,86 +1,71 @@
 <?php
 declare(strict_types=1);
 
-namespace App\Test\Repository;
+namespace App\Test\Repository\Software;
 
-use PDO;
-use PHPUnit\Framework\TestCase;
+use App\Test\Repository\BaseRepositoryTest;
+use App\Test\Repository\RepositoryTestUtil;
 use App\Repository\Software\SoftwareTypeRepository;
-use App\Exception\RepositoryException;
-use App\Model\Software\SoftwareType;
+use App\Models\Software\SoftwareType;
+use AbstractRepo\Exceptions\RepositoryException as AbstractRepositoryException;
 
-final class SoftwareTypeRepositoryTest extends TestCase
+final class SoftwareTypeRepositoryTest extends BaseRepositoryTest
 {
     public static SoftwareTypeRepository $softwareTypeRepository;
-    public static ?PDO $pdo;
 
     public static function setUpBeforeClass(): void
     {
-        self::$pdo = RepositoryTestUtil::getTestPdo();
-
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);
-        self::$pdo = RepositoryTestUtil::createTestDB(self::$pdo);
-
-        self::$softwareTypeRepository = new SoftwareTypeRepository(self::$pdo);          
+        parent::setUpBeforeClass();
+        self::$softwareTypeRepository = new SoftwareTypeRepository(self::$pdo);
     }
 
     public function setUp():void{
-        //Support inserted to test duplicated supports errors
+        //Support saved to test duplicated supports errors
         $softwareType = new SoftwareType('Office');
-        self::$softwareTypeRepository->insert($softwareType);
+        self::$softwareTypeRepository->save($softwareType);
     }
 
     public function tearDown():void{
         //Clear the table
-        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE softwaretype; SET FOREIGN_KEY_CHECKS=1;");
+        self::$pdo->exec("SET FOREIGN_KEY_CHECKS=0; TRUNCATE TABLE SoftwareType; SET FOREIGN_KEY_CHECKS=1;");
     }
 
     //INSERT TESTS
     public function testGoodInsert():void{                
         $softwareType = new SoftwareType('Game');
 
-        self::$softwareTypeRepository->insert($softwareType);
+        self::$softwareTypeRepository->save($softwareType);
 
-        $this->assertEquals(self::$softwareTypeRepository->selectById(2)->Name,"Game");
+        $this->assertEquals(self::$softwareTypeRepository->findById(2)->name,"Game");
     }
     public function testBadInsert():void{        
-        $this->expectException(RepositoryException::class);
+        $this->expectException(AbstractRepositoryException::class);
 
-        //SoftwareType already inserted in the setUp() method
+        //SoftwareType already saved in the setUp() method
         $softwareType = new SoftwareType('Office');
 
-        self::$softwareTypeRepository->insert($softwareType);
+        self::$softwareTypeRepository->save($softwareType);
     }
     
     //SELECT TESTS
     public function testGoodSelectById(): void
     {
-        $this->assertNotNull(self::$softwareTypeRepository->selectById(1));
+        $this->assertNotNull(self::$softwareTypeRepository->findById(1));
     }
     
     public function testBadSelectById(): void
     {
-        $this->assertNull(self::$softwareTypeRepository->selectById(3));
-    }
-    
-    public function testGoodSelectByName(): void
-    {
-        $this->assertNotNull(self::$softwareTypeRepository->selectByName("Office"));
-    }
-    
-    public function testBadSelectByName(): void
-    {
-        $this->assertNull(self::$softwareTypeRepository->selectByName("WRONG-SOFTWAERE-TYPE"));
+        $this->assertNull(self::$softwareTypeRepository->findById(3));
     }
 
     public function testGoodSelectByKey(): void
     {
-        $this->assertNotEmpty(self::$softwareTypeRepository->selectByKey("fice"));
+        $this->assertNotEmpty(self::$softwareTypeRepository->findByQuery("fice"));
     }
     
     public function testBadSelectByKey(): void
     {
-        $this->assertEmpty(self::$softwareTypeRepository->selectByKey("WRONG-SOFTWAERE-TYPE"));
+        $this->assertEmpty(self::$softwareTypeRepository->findByQuery("WRONG-SOFTWAERE-TYPE"));
     }
     
     
@@ -88,11 +73,11 @@ final class SoftwareTypeRepositoryTest extends TestCase
         $softwareType1 = new SoftwareType('S1');
         $softwareType2 = new SoftwareType('S2');
         $softwareType3 = new SoftwareType('S3');
-        self::$softwareTypeRepository->insert($softwareType1);
-        self::$softwareTypeRepository->insert($softwareType2);
-        self::$softwareTypeRepository->insert($softwareType3);
+        self::$softwareTypeRepository->save($softwareType1);
+        self::$softwareTypeRepository->save($softwareType2);
+        self::$softwareTypeRepository->save($softwareType3);
         
-        $softwareTypes = self::$softwareTypeRepository->selectAll();
+        $softwareTypes = self::$softwareTypeRepository->find();
         
         $this->assertEquals(count($softwareTypes),4);
         $this->assertNotNull($softwareTypes[1]);       
@@ -104,7 +89,7 @@ final class SoftwareTypeRepositoryTest extends TestCase
         
         self::$softwareTypeRepository->update($softwareType);
         
-        $this->assertEquals("Game",self::$softwareTypeRepository->selectById(1)->Name);
+        $this->assertEquals("Game",self::$softwareTypeRepository->findById(1)->name);
     }
     
     //DELETE TESTS
@@ -112,11 +97,6 @@ final class SoftwareTypeRepositoryTest extends TestCase
         
         self::$softwareTypeRepository->delete(1);
         
-        $this->assertNull(self::$softwareTypeRepository->selectById(1));
+        $this->assertNull(self::$softwareTypeRepository->findById(1));
     }
-    
-    public static function tearDownAfterClass():void{
-        self::$pdo = RepositoryTestUtil::dropTestDB(self::$pdo);        
-        self::$pdo = null;
-    }    
 }

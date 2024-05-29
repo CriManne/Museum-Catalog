@@ -7,17 +7,17 @@
     if (isset($_GET['id'])) {
     ?>
         <div class="form-outline mb-4">
-            <label class="form-label" for="CpuID">IDENTIFICATIVO COMPONENTE</label>
-            <input type="number" min="1" name="CpuID" id="CpuID" class="form-control" readonly="readonly" />
+            <label class="form-label" for="id">ID</label>
+            <input type="number" min="1" name="id" id="id" class="form-control" readonly="readonly" />
         </div>
     <?php } ?>
     <div class="form-outline mb-4">
-        <label class="form-label" for="ModelName">Nome modello</label>
-        <input type="text" name="ModelName" id="ModelName" class="form-control" required />
+        <label class="form-label" for="modelName">Model name</label>
+        <input type="text" name="modelName" id="modelName" class="form-control" required />
     </div>
     <div class="form-outline mb-4">
-        <label class="form-label" for="Speed">Velocita</label>
-        <input type="text" name="Speed" id="Speed" class="form-control" required />
+        <label class="form-label" for="speed">Speed</label>
+        <input type="text" name="speed" id="speed" class="form-control" required />
     </div>
     <input type='hidden' name='category' value='Cpu'>
     <input type='submit' class='btn btn-primary' id='btn-submit'>
